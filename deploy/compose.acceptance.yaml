@@ -1,0 +1,45 @@
+# Isolated local validation; supply a dedicated --project-name and ignored env file.
+services:
+  db:
+    image: postgres:18.6
+    environment:
+      POSTGRES_USER: ct_demo
+      POSTGRES_DB: perform_plus
+      POSTGRES_PASSWORD: ${CT_ACCEPTANCE_DB_PASSWORD:?Set acceptance password}
+    volumes:
+      - database:/var/lib/postgresql
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U ct_demo -d perform_plus']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  api:
+    image: perform-plus-api:0.1.0
+    environment:
+      DATABASE_URL: postgresql://ct_demo:${CT_ACCEPTANCE_DB_PASSWORD}@db:5432/perform_plus
+      CT_DEMO_PASSWORD: ${CT_ACCEPTANCE_PASSWORD:?Set acceptance password}
+      CT_ALLOWED_ORIGINS: http://localhost:3002,http://127.0.0.1:3002
+      CT_SECURE_COOKIE: 'false'
+      CT_DATA_DIR: /app/runtime/state
+    # Mirror a root-owned Kubernetes emptyDir with a writable fsGroup.
+    tmpfs:
+      - /app/runtime:uid=0,gid=10001,mode=0770
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/ready')"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  ui:
+    image: perform-plus-ui:0.1.0
+    environment:
+      API_INTERNAL_URL: http://api:8000
+    ports:
+      - '127.0.0.1:3002:3000'
+    depends_on:
+      api:
+        condition: service_healthy
+volumes:
+  database:

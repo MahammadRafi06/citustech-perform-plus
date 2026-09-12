@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: perform-plus-config
+data:
+  # Set to the real HTTPS origin before using an ingress.
+  CT_ALLOWED_ORIGINS: "http://localhost:3000,http://127.0.0.1:3000"
+  CT_SECURE_COOKIE: "false"
+  API_INTERNAL_URL: "http://api:8000"

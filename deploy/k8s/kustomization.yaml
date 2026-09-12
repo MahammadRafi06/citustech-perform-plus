@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: perform-plus
+resources:
+  - namespace.yaml
+  - config.yaml
+  - database.yaml
+  - api.yaml
+  - ui.yaml
+images:
+  - name: perform-plus-ui
+    newTag: 0.1.0
+  - name: perform-plus-api
+    newTag: 0.1.0

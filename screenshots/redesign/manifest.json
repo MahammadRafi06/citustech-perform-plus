@@ -1,0 +1,227 @@
+[
+  {
+    "file": "after/01-overview-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/02-registry-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/03-analytics-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/04-member-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/05-review-1280x800.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/05-review-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/05-review-1920x1080.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/06-campaign-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/07-intake-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/08-login-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/10-chase-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/11-providers-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/12-campaigns-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/13-scenarios-1280x800.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/13-scenarios-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/14-qa-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/15-data-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/16-audit-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/17-previsit-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/18-submissions-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/19-finding-drawer-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/20-campaign-intervention-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/21-review-queue-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/22-administration-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/23-member-directory-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/24-campaign-allocation-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/25-campaign-preview-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-coding-qa-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-conditions-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-data-ai-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-executive-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-financial-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-providers-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-retrieval-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-submissions-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "after/reports-suspecting-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/01-overview-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/02-registry-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/03-analytics-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/04-member-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/05-review-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/06-campaign-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/07-intake-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/08-login-1440x900.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  },
+  {
+    "file": "before/09-review-390x844.png",
+    "png_width": 65536,
+    "png_height": 4292542531
+  }
+]

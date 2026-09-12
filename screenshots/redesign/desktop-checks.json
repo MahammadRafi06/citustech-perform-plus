@@ -1,0 +1,342 @@
+[
+  {
+    "name": "08-login",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Sign in",
+    "url": "http://localhost:3002/login",
+    "width": 1440
+  },
+  {
+    "name": "05-review",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Jordan Ellis",
+    "url": "http://localhost:3002/reviews/MB-000001",
+    "width": 1440
+  },
+  {
+    "name": "05-review",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 800,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Jordan Ellis",
+    "url": "http://localhost:3002/reviews/MB-000001",
+    "width": 1280
+  },
+  {
+    "name": "05-review",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 1080,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Jordan Ellis",
+    "url": "http://localhost:3002/reviews/MB-000001",
+    "width": 1920
+  },
+  {
+    "name": "21-review-queue",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 212,
+    "title": "Chart review",
+    "url": "http://localhost:3002/reviews",
+    "width": 1440
+  },
+  {
+    "name": "07-intake",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Document intake",
+    "url": "http://localhost:3002/intake",
+    "width": 1440
+  },
+  {
+    "name": "10-chase",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 354,
+    "title": "Chart chase",
+    "url": "http://localhost:3002/chase",
+    "width": 1440
+  },
+  {
+    "name": "11-providers",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 220,
+    "title": "Provider portfolio",
+    "url": "http://localhost:3002/providers",
+    "width": 1440
+  },
+  {
+    "name": "15-data",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 368,
+    "title": "Data operations",
+    "url": "http://localhost:3002/data",
+    "width": 1440
+  },
+  {
+    "name": "14-qa",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 212,
+    "title": "Coding quality assurance",
+    "url": "http://localhost:3002/qa",
+    "width": 1440
+  },
+  {
+    "name": "16-audit",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Audit workspace",
+    "url": "http://localhost:3002/audit",
+    "width": 1440
+  },
+  {
+    "name": "17-previsit",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Pre-visit review",
+    "url": "http://localhost:3002/previsit",
+    "width": 1440
+  },
+  {
+    "name": "18-submissions",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 354,
+    "title": "Submission operations",
+    "url": "http://localhost:3002/submissions",
+    "width": 1440
+  },
+  {
+    "name": "22-administration",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 297,
+    "title": "Administration",
+    "url": "http://localhost:3002/admin",
+    "width": 1440
+  },
+  {
+    "name": "23-member-directory",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 323.5,
+    "title": "Member 360",
+    "url": "http://localhost:3002/members",
+    "width": 1440
+  },
+  {
+    "name": "03-analytics",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 292,
+    "title": "AI Impact",
+    "url": "http://localhost:3002/analytics",
+    "width": 1440
+  },
+  {
+    "name": "reports-executive",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 844,
+    "title": "Executive",
+    "url": "http://localhost:3002/analytics?view=Executive",
+    "width": 1440
+  },
+  {
+    "name": "reports-conditions",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 1132,
+    "title": "Risk & conditions",
+    "url": "http://localhost:3002/analytics?view=Risk+%26+conditions",
+    "width": 1440
+  },
+  {
+    "name": "reports-suspecting",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 844,
+    "title": "Suspecting",
+    "url": "http://localhost:3002/analytics?view=Suspecting",
+    "width": 1440
+  },
+  {
+    "name": "reports-providers",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 635,
+    "title": "Providers",
+    "url": "http://localhost:3002/analytics?view=Providers",
+    "width": 1440
+  },
+  {
+    "name": "reports-retrieval",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 844,
+    "title": "Retrieval",
+    "url": "http://localhost:3002/analytics?view=Retrieval",
+    "width": 1440
+  },
+  {
+    "name": "reports-coding-qa",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 828,
+    "title": "Coding & QA",
+    "url": "http://localhost:3002/analytics?view=Coding+%26+QA",
+    "width": 1440
+  },
+  {
+    "name": "reports-submissions",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 828,
+    "title": "Submissions",
+    "url": "http://localhost:3002/analytics?view=Submissions",
+    "width": 1440
+  },
+  {
+    "name": "reports-financial",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Financial scenarios",
+    "url": "http://localhost:3002/analytics?view=Financial+scenarios",
+    "width": 1440
+  },
+  {
+    "name": "reports-data-ai",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 635,
+    "title": "Data & AI operations",
+    "url": "http://localhost:3002/analytics?view=Data+%26+AI+operations",
+    "width": 1440
+  },
+  {
+    "name": "01-overview",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 368,
+    "title": "Program overview",
+    "url": "http://localhost:3002/overview",
+    "width": 1440
+  },
+  {
+    "name": "02-registry",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 279.5,
+    "title": "Suspect registry",
+    "url": "http://localhost:3002/suspects",
+    "width": 1440
+  },
+  {
+    "name": "13-scenarios",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 800,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Risk score scenarios",
+    "url": "http://localhost:3002/scenarios",
+    "width": 1280
+  },
+  {
+    "name": "20-campaign-intervention",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Create campaign",
+    "url": "http://localhost:3002/campaigns/new",
+    "width": 1440
+  },
+  {
+    "name": "24-campaign-allocation",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Create campaign",
+    "url": "http://localhost:3002/campaigns/new",
+    "width": 1440
+  },
+  {
+    "name": "25-campaign-preview",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "tableTop": 485.5,
+    "title": "Create campaign",
+    "url": "http://localhost:3002/campaigns/new",
+    "width": 1440
+  },
+  {
+    "name": "04-member",
+    "font": "\"IBM Plex Sans\", Arial, sans-serif",
+    "height": 900,
+    "overflow": 0,
+    "statusDots": 0,
+    "title": "Jordan Ellis",
+    "url": "http://localhost:3002/members/MB-000001",
+    "width": 1440
+  }
+]

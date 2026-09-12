@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  selector:
+    app: perform-plus-api
+  ports:
+    - port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: perform-plus-api
+  template:
+    metadata:
+      labels:
+        app: perform-plus-api
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 10001
+      containers:
+        - name: api
+          image: perform-plus-api:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: perform-plus-config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: perform-plus-secrets
+                  key: DATABASE_URL
+            - name: CT_DEMO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: perform-plus-secrets
+                  key: CT_DEMO_PASSWORD
+          volumeMounts:
+            - name: runtime
+              mountPath: /app/runtime
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          startupProbe:
+            httpGet: {path: /api/v1/ready, port: 8000}
+            periodSeconds: 3
+            failureThreshold: 60
+          livenessProbe:
+            httpGet: {path: /api/v1/live, port: 8000}
+            periodSeconds: 10
+          readinessProbe:
+            httpGet: {path: /api/v1/ready, port: 8000}
+            periodSeconds: 5
+          resources:
+            requests: {cpu: 250m, memory: 256Mi}
+            limits: {cpu: "2", memory: 1Gi}
+      volumes:
+        - name: runtime
+          emptyDir: {}

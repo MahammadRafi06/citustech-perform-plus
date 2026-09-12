@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui
+spec:
+  selector:
+    app: perform-plus-ui
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: perform-plus-ui
+  template:
+    metadata:
+      labels:
+        app: perform-plus-ui
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+      containers:
+        - name: ui
+          image: perform-plus-ui:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: perform-plus-config
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          startupProbe:
+            httpGet: {path: /health, port: 3000}
+            periodSeconds: 3
+            failureThreshold: 30
+          livenessProbe:
+            httpGet: {path: /health, port: 3000}
+            periodSeconds: 10
+          readinessProbe:
+            httpGet: {path: /health, port: 3000}
+            periodSeconds: 5
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: "1", memory: 512Mi}

@@ -1,0 +1,109 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./workspaces.css";
+@import "./workspace-design.css";
+@custom-variant dark (&:is(.dark *));
+:root {
+  --background: #f6f7f9;
+  --foreground: #17212e;
+  --card: #fff;
+  --card-foreground: #17212e;
+  --popover: #fff;
+  --popover-foreground: #17212e;
+  --primary: #175cd3;
+  --primary-foreground: #fff;
+  --secondary: #eef3fa;
+  --secondary-foreground: #475467;
+  --muted: #f2f5f9;
+  --muted-foreground: #667085;
+  --accent: #eaf2ff;
+  --accent-foreground: #175cd3;
+  --destructive: #be3e49;
+  --border: #e4e7ec;
+  --input: #7d899a;
+  --ring: #175cd3;
+  --radius: 0.5rem;
+}
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: "IBM Plex Sans", Arial, sans-serif;
+}
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: "IBM Plex Sans", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    outline-offset: 3px;
+  }
+  button:not(:disabled),
+  a,
+  select {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: default;
+  }
+  button,
+  a {
+    transition:
+      background 0.14s,
+      color 0.14s,
+      box-shadow 0.14s;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+  button[data-slot="button"] {
+    font-size: 13px;
+    font-weight: 500;
+    gap: 8px;
+  }
+  input[data-slot="input"] {
+    background: #fff;
+    font-size: 14px;
+    box-shadow: none;
+  }
+  ::selection {
+    background: #dbe9ff;
+  }
+}
