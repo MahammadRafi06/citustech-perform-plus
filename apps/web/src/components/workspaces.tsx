@@ -1345,11 +1345,18 @@ function MemberWorkspace({
                   {can(user, "qa") && (
                     <div className="qa-actions">
                       <Notice>
-                        Independent QA preserves the first reviewer’s decision
-                        and history.
+                        {o?.reviewer === user.id || o?.reviewer === user.email
+                          ? "A different reviewer must perform independent QA."
+                          : o?.qa_status !== "awaiting_qa"
+                            ? "A completed review must be sent to QA first."
+                            : "Independent QA preserves the first reviewer’s decision and history."}
                       </Notice>
                       <Button
-                        disabled={o?.qa_status !== "awaiting_qa"}
+                        disabled={
+                          o?.qa_status !== "awaiting_qa" ||
+                          o?.reviewer === user.id ||
+                          o?.reviewer === user.email
+                        }
                         onClick={() =>
                           actionSafe(act, { action: "qa", id, value: "passed" })
                         }
@@ -1359,7 +1366,11 @@ function MemberWorkspace({
                       </Button>
                       <Button
                         variant="outline"
-                        disabled={o?.qa_status !== "awaiting_qa"}
+                        disabled={
+                          o?.qa_status !== "awaiting_qa" ||
+                          o?.reviewer === user.id ||
+                          o?.reviewer === user.email
+                        }
                         onClick={() =>
                           actionSafe(act, {
                             action: "qa",

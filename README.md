@@ -28,8 +28,13 @@ The first start generates local passwords in **`.local/demo-accounts.json`** (ig
 | `provider2` … `provider6` | Separate providers for PR-002 … PR-006 |
 | `submission` | Submission analyst — simulated outcomes and corrections |
 | `admin` | Administrator — users, roles, operations and reset |
+| `superuser` | Superuser — all pages, action permissions and member records |
 
-Accounts have one role each. Provider users only receive their practice's records. Clinical actions remain unavailable to administrators. Sign out and sign back in to switch accounts; role changes revoke the affected user's sessions.
+Accounts have one role each. Provider users only receive their practice's records. Clinical actions remain unavailable to administrators. The separate superuser can access every workspace and action, while source eligibility and independent QA still apply. Sign out and sign back in to switch accounts; role changes revoke the affected user's sessions.
+
+On first startup, including upgrades of an existing local database, the API creates `superuser@perform.test` if no superuser account exists. Its generated password is saved in `.local/superuser-account.json` (or `CT_DATA_DIR/superuser-account.json` in a container), with file mode 0600 and outside Git. Set `CT_SUPERUSER_PASSWORD` before that first startup to choose the initial password. Subsequent startups preserve existing accounts and passwords; changing the environment variable does not reset them.
+
+The example container runtime directory is temporary. Save the generated superuser credential file in protected local storage before recreating the API container, or provide the initial password through your deployment's secret configuration. The database retains the account even when that temporary file disappears.
 
 ## Stack and layout
 

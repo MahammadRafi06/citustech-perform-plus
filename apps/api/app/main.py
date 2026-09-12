@@ -43,7 +43,8 @@ ROLES = {
  'submission_analyst': {'screens':['members','submissions','audit'], 'actions':['prepare','receiver','correction','export','open_evidence']},
  'administrator': {'screens':['overview','analytics','members','data','admin'], 'actions':['reset','users','retry','export','open_evidence']},
 }
-ROLE_NAMES = {'executive':'Executive','risk_analyst':'Risk analyst','retrieval_coordinator':'Retrieval coordinator','coder':'Coder','qa_reviewer':'QA reviewer','provider':'Provider','submission_analyst':'Submission analyst','administrator':'Administrator'}
+ROLES['superuser'] = {'screens':ALL_SCREENS.copy(), 'actions':list(dict.fromkeys(action for role in ROLES.values() for action in role['actions']))}
+ROLE_NAMES = {'executive':'Executive','risk_analyst':'Risk analyst','retrieval_coordinator':'Retrieval coordinator','coder':'Coder','qa_reviewer':'QA reviewer','provider':'Provider','submission_analyst':'Submission analyst','administrator':'Administrator','superuser':'Superuser'}
 EMAILS = {'executive':'executive','risk_analyst':'analyst','retrieval_coordinator':'retrieval','coder':'coder','qa_reviewer':'qa','provider':'provider','submission_analyst':'submission','administrator':'admin'}
 
 class Database:
@@ -73,6 +74,20 @@ def get_state(conn, lock=False):
     return state
 def save_state(conn, state): conn.execute('UPDATE state SET body=? WHERE id=1',(json.dumps(state),))
 
+def ensure_superuser(conn):
+    # Never overwrite an existing account, password, or intentional access change.
+    if conn.execute('SELECT id FROM users WHERE role=? OR id=?',('superuser','superuser')).fetchone():
+        return
+    password = os.getenv('CT_SUPERUSER_PASSWORD') or secrets.token_urlsafe(24)
+    email = 'superuser.demo@example.test'
+    credentials = LOCAL / 'superuser-account.json'
+    descriptor = os.open(credentials, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(descriptor, 'w') as saved:
+        os.fchmod(saved.fileno(), 0o600)
+        json.dump({'email':'superuser@perform.test','password':password,'role':'superuser'}, saved, indent=2)
+        saved.write('\n')
+    conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',('superuser',email,'Superuser','superuser',PASSWORD_HASHER.hash(password),''))
+
 def initialize():
     LOCAL.mkdir(parents=True, exist_ok=True)
     os.chmod(LOCAL, 0o700)
@@ -87,6 +102,7 @@ def initialize():
             password = os.getenv('CT_DEMO_PASSWORD') or secrets.token_urlsafe(14)
             accounts=[]
             for role in ROLES:
+                if role == 'superuser': continue
                 email=f'{EMAILS[role]}.demo@example.test'
                 scope='PR-001' if role=='provider' else ''
                 conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',(role,email,ROLE_NAMES[role]+' demo',role,PASSWORD_HASHER.hash(password),scope))
@@ -106,6 +122,7 @@ def initialize():
                     conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',(account_id,email,f'Practice {number} provider','provider',PASSWORD_HASHER.hash(password),f'PR-{number:03}'))
                     saved.append({'role':'provider','email':email,'password':password})
             credentials.write_text(json.dumps(saved,indent=2));os.chmod(credentials,0o600)
+        ensure_superuser(conn)
         if not conn.execute('SELECT id FROM state').fetchone():
             if not SEED.exists(): raise RuntimeError('Missing seed/demo.json. Run setup first.')
             initial=json.loads(SEED.read_text())
@@ -242,7 +259,7 @@ def bootstrap(u=Depends(user)):
         ids={m['id'] for m in ms}
         lookup={m['id']:m for m in ms}
         opps=[o|{'name':lookup[o['member_id']]['name'],'initials':lookup[o['member_id']]['initials'],'provider':lookup[o['member_id']]['provider']} for o in rows_for(s,u,'opportunities')]
-        events=[dict(r) for r in conn.execute('SELECT * FROM events ORDER BY id DESC LIMIT 100').fetchall() if r['resource'] in ids or (u['role'] in ('executive','risk_analyst','administrator') and not str(r['resource']).startswith('MB-'))]
+        events=[dict(r) for r in conn.execute('SELECT * FROM events ORDER BY id DESC LIMIT 100').fetchall() if r['resource'] in ids or (u['role'] in ('executive','risk_analyst','administrator','superuser') and not str(r['resource']).startswith('MB-'))]
         counts=Counter(o['status'] for o in opps)
         screens=ROLES[u['role']]['screens']
         data={'members':ms[:30],'population_count':len(ms),'opportunities':opps,'counts':dict(counts),'events':events,'tour_started':s.get('tour_started'), 'runs':s.get('runs',[]) if 'data' in screens or 'suspects' in screens else [],'tasks':[t for t in s.get('tasks',[]) if t.get('member_id') in ids]}
@@ -508,7 +525,7 @@ class UserUpdate(BaseModel):
 def update_user(id:str,body:UserUpdate,u=Depends(user)):
     permit(u,'users')
     if body.role not in ROLES:fail('VALIDATION','Unknown role.')
-    if id==u['id'] and (body.role!='administrator' or not body.active):fail('VALIDATION','Keep your active administrator account enabled.')
+    if id==u['id'] and (body.role!=u['role'] or not body.active):fail('VALIDATION','Keep your current account role and active access enabled.')
     with db() as conn:
         if not conn.execute('SELECT id FROM users WHERE id=?',(id,)).fetchone():fail('RESOURCE_NOT_FOUND','User not found.',404)
         conn.execute('UPDATE users SET role=?,active=?,provider_id=? WHERE id=?',(body.role,int(body.active),'PR-001' if body.role=='provider' else '',id))

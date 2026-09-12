@@ -19,6 +19,7 @@ SCHEMA = 'ct_test_' + uuid.uuid4().hex[:12]
 TEMP = tempfile.TemporaryDirectory(prefix='ct-tests-')
 os.environ['CT_DATA_DIR'] = TEMP.name
 os.environ['CT_DEMO_PASSWORD'] = 'Synthetic-test-password-8!'
+os.environ['CT_SUPERUSER_PASSWORD'] = 'Synthetic-superuser-password-9!'
 os.environ['DATABASE_URL'] = make_conninfo(BASE_URL, options=f'-c search_path={SCHEMA}')
 from apps.api.app import main
 
@@ -44,7 +45,8 @@ def baseline(database):
 
 def login(role='analyst'):
     client=TestClient(main.app)
-    result=client.post('/api/v1/auth/login',json={'email':f'{role}@perform.test','password':os.environ['CT_DEMO_PASSWORD']})
+    password=os.environ['CT_SUPERUSER_PASSWORD' if role=='superuser' else 'CT_DEMO_PASSWORD']
+    result=client.post('/api/v1/auth/login',json={'email':f'{role}@perform.test','password':password})
     assert result.status_code==200, result.text
     client.headers['x-csrf-token']=result.json()['csrf_token']
     return client
@@ -80,6 +82,58 @@ def test_role_and_practice_scope():
     assert provider.get('/api/v1/evidence/DOC-0001').status_code==404
     assert provider.post('/api/v1/downloads',json={'kind':'audit'}).status_code==403
     assert all(m['provider_id']=='PR-002' for m in provider.get('/api/v1/members').json()['items'])
+
+
+def test_superuser_backfills_existing_database_without_resetting_accounts(monkeypatch):
+    with main.db() as conn:
+        admin_before=dict(conn.execute('SELECT * FROM users WHERE id=?',('administrator',)).fetchone())
+        state_before=main.get_state(conn)
+        conn.execute('DELETE FROM users WHERE id=?',('superuser',))
+    main.initialize()
+    credentials=main.LOCAL/'superuser-account.json'
+    assert credentials.stat().st_mode & 0o777 == 0o600
+    assert json.loads(credentials.read_text())['email']=='superuser@perform.test'
+    client=login('superuser')
+    assert client.get('/api/v1/auth/session').json()['role']=='superuser'
+    with main.db() as conn:
+        first=dict(conn.execute('SELECT * FROM users WHERE id=?',('superuser',)).fetchone())
+        assert dict(conn.execute('SELECT * FROM users WHERE id=?',('administrator',)).fetchone())==admin_before
+        assert main.get_state(conn)==state_before
+    monkeypatch.setenv('CT_SUPERUSER_PASSWORD','Changed-env-must-not-reset-the-account')
+    main.initialize()
+    with main.db() as conn:
+        assert dict(conn.execute('SELECT * FROM users WHERE id=?',('superuser',)).fetchone())==first
+        assert conn.execute('SELECT count(*) AS count FROM users WHERE role=?',('superuser',)).fetchone()['count']==1
+
+
+def test_superuser_full_workspace_and_action_access():
+    client=login('superuser')
+    account=client.get('/api/v1/auth/session').json()
+    assert set(account['screens'])==set(main.ALL_SCREENS)
+    assert set(account['permissions'])=={a for name,role in main.ROLES.items() if name!='superuser' for a in role['actions']}
+    assert client.get('/api/v1/bootstrap').json()['population_count']==10000
+    assert client.get('/api/v1/members/MB-001500').status_code==200
+    assert client.get('/api/v1/admin/users').status_code==200
+    assert action(client,'campaign',name='Superuser cohort',member_ids=['MB-000031'],owner='Coding team').status_code==200
+    assert action(client,'receive',id='CH-0001',value='partially_received').status_code==200
+    assert action(client,'respond',id='MB-000002',value='needs_information').status_code==200
+    assert action(client,'prepare',id='SUB-0003').status_code==200
+    assert any(e['action']=='campaign' for e in client.get('/api/v1/bootstrap').json()['events'])
+    assert client.patch('/api/v1/admin/users/superuser',json={'role':'administrator','active':True}).status_code==400
+    assert client.patch('/api/v1/admin/users/superuser',json={'role':'superuser','active':False}).status_code==400
+    assert action(login('admin'),'review',id='MB-000001',value='resolved_supported',note='source').status_code==403
+
+
+def test_superuser_preserves_clinical_and_independent_qa_gates():
+    client=login('superuser')
+    for mid in ('MB-000002','MB-000003','MB-000006'):
+        response=action(client,'review',id=mid,value='resolved_supported',note='Current source is still required.')
+        assert response.status_code==400 and response.json()['error']['code']=='EVIDENCE_REQUIRED'
+    assert action(client,'review',id='MB-000001',value='resolved_supported',note='Signed current assessment inspected.').status_code==200
+    assert action(client,'qa',id='MB-000001',value='passed').status_code==403
+    assert action(login('qa'),'qa',id='MB-000001',value='passed').status_code==200
+    assert action(login('coder'),'review',id='MB-000005',value='resolved_supported',note='Source reviewed independently.').status_code==200
+    assert action(client,'qa',id='MB-000005',value='passed').status_code==200
 
 
 def test_campaign_dedup_and_frozen_comparison():

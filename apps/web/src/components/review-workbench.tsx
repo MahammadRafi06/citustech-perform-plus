@@ -358,7 +358,7 @@ export function ReviewWorkbench({
             )}
           </div>
           <footer className="decision-footer">
-            {editable ? (
+            {editable && (
               <>
                 <p aria-live="polite">
                   {saveReason ||
@@ -384,29 +384,35 @@ export function ReviewWorkbench({
                   Complete without a supported finding
                 </Button>
               </>
-            ) : qa ? (
+            )}
+            {qa && (
               <>
                 <p>
                   {qaReason ||
                     "Review the source and the first reviewer's rationale."}
                 </p>
-                <Button
-                  disabled={!!qaReason || busy}
-                  onClick={() => run("qa", "passed", "")}
-                >
-                  Pass QA
-                </Button>
-                <Button
-                  variant="outline"
-                  disabled={!!qaReason || busy}
-                  onClick={() =>
-                    run("qa", "rework", "Returned for clarification")
-                  }
-                >
-                  Return for rework
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    className="flex-1"
+                    disabled={!!qaReason || busy}
+                    onClick={() => run("qa", "passed", "")}
+                  >
+                    Pass QA
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    variant="outline"
+                    disabled={!!qaReason || busy}
+                    onClick={() =>
+                      run("qa", "rework", "Returned for clarification")
+                    }
+                  >
+                    Return for rework
+                  </Button>
+                </div>
               </>
-            ) : (
+            )}
+            {!editable && !qa && (
               <p>Your role has read-only access to this review.</p>
             )}
           </footer>
