@@ -11,7 +11,7 @@ Implementation: [palette and reporting rules](../../docs/REPORTING_DESIGN.md).
 - [x] Correct operational exports to include the selected report's records and respect export permissions.
 - [x] Pass TypeScript and the production Next.js build.
 - [x] Finish desktop browser checks and final screenshots.
-- [ ] Publish and verify the automatic EKS release.
+- [x] Publish and verify the automatic EKS release.
 
 ## Browser verification
 
@@ -30,3 +30,21 @@ The financial comparison uses an existing complete result with baseline $7,932.6
 | [Financial sensitivity](after/financial-sensitivity.jpg) | Retained baseline/scenario and assumption comparison |
 
 TypeScript, the production Next.js build and four existing release-boundary tests passed. No API code or clinical calculation rules changed.
+
+## Public release
+
+Published source: `8f40dbb187ff333ba2d78b9ee1db30a71e752bf4`.
+[GitHub Actions run 34768643755](https://github.com/MahammadRafi06/citustech-perform-plus/actions/runs/34768643755) completed successfully, including both image builds, digest-pinned deployment and public HTTPS checks.
+
+Both `ui` and `api` deployments in `meshalloc-control-plane` / `perform-plus` reported one updated, ready replica and the expected source annotation. Their digests match the corresponding immutable source tags in ECR:
+
+- UI: `sha256:b71a3b4c828d6f95d11439088c215ac085e5ec7f6ad607a2642bcb8752888411`
+- API: `sha256:ffa8767394ece18f153e4f92d4d713f48f78992da95564844b54e17879d88f0b`
+
+An authenticated browser on [the public app](https://performplus.idaibhealth.com) showed the new ten-tab report navigation, comparison plot, outcome matrix and unchanged frozen evaluation totals. Public registry and chart review were also visually inspected; the decision controls stayed disabled until their existing gates were satisfied. No review was submitted during this check.
+
+- [Live AI Impact](after/public-ai-impact.jpg)
+- [Live Suspect registry](after/public-registry.jpg)
+- [Live Chart review](after/public-chart-review.jpg)
+
+The local preview remains available at `http://localhost:3000`; runtime details and credentials remain in ignored `.local` files.
