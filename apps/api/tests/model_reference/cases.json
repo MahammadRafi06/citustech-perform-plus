@@ -1,0 +1,1443 @@
+[
+  {
+    "id": "v28_2026_demographic",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_hf",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_acute_hf",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5023"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_suppressed_hf",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "I5023"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_diabetes_hf",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E1165",
+      "I5022"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_diabetes_ckd",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E1122",
+      "E119",
+      "N184"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_partial_aged",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_PBA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_full_aged",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_FBA",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_disabled",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_ND",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_partial_disabled",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_PBD",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_full_disabled",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_FBD",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_institution",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "INSTITUTIONAL",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_new_enrollee",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "NEW_ENROLLEE",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_snp_new_enrollee",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 1
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "SNP_NEW_ENROLLEE",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2027_demographic",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_hf",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_acute_hf",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5023"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_suppressed_hf",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "I5023"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_diabetes_hf",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E1165",
+      "I5022"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_diabetes_ckd",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E1122",
+      "E119",
+      "N184"
+    ],
+    "segment": "COMMUNITY_NA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_partial_aged",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_PBA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_full_aged",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_FBA",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_disabled",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_ND",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_partial_disabled",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_PBD",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_full_disabled",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "E119"
+    ],
+    "segment": "COMMUNITY_FBD",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_institution",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 1,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "INSTITUTIONAL",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_new_enrollee",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "NEW_ENROLLEE",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_snp_new_enrollee",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 1
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "SNP_NEW_ENROLLEE",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_aged",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_NonLowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_disabled",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 1,
+      "OREC": 1,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_NonLowNonAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_lis_aged",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_LowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_lis_disabled",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 1,
+      "OREC": 1,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_LowNonAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_institution",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_LTI",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_new",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_NonLowCommunity",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_lis_new",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_LowCommunity",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_institution_new",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_LTI",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_esrd_new",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 2,
+      "ESRD": 1
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_NonLowCommunity",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_demographic",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [],
+    "segment": "CE_NonLowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_mapd_hiv",
+    "package": "rx_2027_mapd",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "B20"
+    ],
+    "segment": "CE_NonLowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_aged",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_NonLowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_disabled",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 1,
+      "OREC": 1,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_NonLowNonAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_lis_aged",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_LowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_lis_disabled",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1972-04-01",
+      "SEX": 1,
+      "OREC": 1,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_LowNonAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_institution",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "CE_LTI",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_new",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_NonLowCommunity",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_lis_new",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_LowCommunity",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_institution_new",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_LTI",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_esrd_new",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 2,
+      "ESRD": 1
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "NE_NonLowCommunity",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_demographic",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [],
+    "segment": "CE_NonLowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "rx_2027_pdp_hiv",
+    "package": "rx_2027_pdp",
+    "year": 2027,
+    "person": {
+      "DOB": "1955-05-20",
+      "SEX": 1,
+      "OREC": 0,
+      "ESRD": 0
+    },
+    "diagnoses": [
+      "B20"
+    ],
+    "segment": "CE_NonLowAged",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "hhs_2026_adult_P",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "P",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "E119",
+      "I5022"
+    ],
+    "segment": "ADULT_PLATINUM",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_adult_G",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "G",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "E119",
+      "I5022"
+    ],
+    "segment": "ADULT_GOLD",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_adult_S",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "E119",
+      "I5022"
+    ],
+    "segment": "ADULT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_adult_B",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "B",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "E119",
+      "I5022"
+    ],
+    "segment": "ADULT_BRONZE",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_adult_C",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "C",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "E119",
+      "I5022"
+    ],
+    "segment": "ADULT_CATASTROPHIC",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_child_P",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2012-04-01",
+      "SEX": 1,
+      "AGE_LAST": 14,
+      "METAL": "P",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "J45909"
+    ],
+    "segment": "CHILD_PLATINUM",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_child_G",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2012-04-01",
+      "SEX": 1,
+      "AGE_LAST": 14,
+      "METAL": "G",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "J45909"
+    ],
+    "segment": "CHILD_GOLD",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_child_S",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2012-04-01",
+      "SEX": 1,
+      "AGE_LAST": 14,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "J45909"
+    ],
+    "segment": "CHILD_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_child_B",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2012-04-01",
+      "SEX": 1,
+      "AGE_LAST": 14,
+      "METAL": "B",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "J45909"
+    ],
+    "segment": "CHILD_BRONZE",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_child_C",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2012-04-01",
+      "SEX": 1,
+      "AGE_LAST": 14,
+      "METAL": "C",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "J45909"
+    ],
+    "segment": "CHILD_CATASTROPHIC",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_infant_P",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2026-02-01",
+      "SEX": 1,
+      "AGE_LAST": 0,
+      "METAL": "P",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "P0721"
+    ],
+    "segment": "INFANT_PLATINUM",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_infant_G",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2026-02-01",
+      "SEX": 1,
+      "AGE_LAST": 0,
+      "METAL": "G",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "P0721"
+    ],
+    "segment": "INFANT_GOLD",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_infant_S",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2026-02-01",
+      "SEX": 1,
+      "AGE_LAST": 0,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "P0721"
+    ],
+    "segment": "INFANT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_infant_B",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2026-02-01",
+      "SEX": 1,
+      "AGE_LAST": 0,
+      "METAL": "B",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "P0721"
+    ],
+    "segment": "INFANT_BRONZE",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_infant_C",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2026-02-01",
+      "SEX": 1,
+      "AGE_LAST": 0,
+      "METAL": "C",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "P0721"
+    ],
+    "segment": "INFANT_CATASTROPHIC",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_csr",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "S",
+      "CSR_INDICATOR": 3,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "E119",
+      "I5022"
+    ],
+    "segment": "ADULT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_duration",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 3
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "ADULT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_acf",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [],
+    "segment": "ADULT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [
+      "49702023803"
+    ],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_rxc",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [
+      "B20"
+    ],
+    "segment": "ADULT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [
+      "00003196401"
+    ],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_hcpcs_acf",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1980-05-20",
+      "SEX": 1,
+      "AGE_LAST": 46,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [],
+    "segment": "ADULT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": [
+      "J0739"
+    ]
+  },
+  {
+    "id": "hhs_2026_age21",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2005-09-30",
+      "SEX": 1,
+      "AGE_LAST": 21,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [],
+    "segment": "ADULT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_age20",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2005-10-01",
+      "SEX": 1,
+      "AGE_LAST": 20,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [],
+    "segment": "CHILD_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_age2",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2024-09-30",
+      "SEX": 1,
+      "AGE_LAST": 2,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [],
+    "segment": "CHILD_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_age1",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2024-10-01",
+      "SEX": 1,
+      "AGE_LAST": 1,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 9
+    },
+    "diagnoses": [],
+    "segment": "INFANT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "hhs_2026_infant_no_newborn",
+    "package": "hhs_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "2026-02-01",
+      "SEX": 1,
+      "AGE_LAST": 0,
+      "METAL": "S",
+      "CSR_INDICATOR": 1,
+      "ENROLDURATION": 8
+    },
+    "diagnoses": [],
+    "segment": "INFANT_SILVER",
+    "service_date": "2026-06-01",
+    "last_enrollment_date": "2026-09-30",
+    "ndc": [],
+    "hcpcs": []
+  },
+  {
+    "id": "v28_2026_institution_no_medicaid",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "INSTITUTIONAL",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2026_new_enrollee_medicaid",
+    "package": "v28_2026",
+    "year": 2026,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 1
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "NEW_ENROLLEE",
+    "service_date": "2025-05-01"
+  },
+  {
+    "id": "v28_2027_institution_no_medicaid",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1954-04-01",
+      "SEX": 2,
+      "OREC": 1,
+      "LTIMCAID": 0,
+      "NEMCAID": 0
+    },
+    "diagnoses": [
+      "I5022",
+      "E119"
+    ],
+    "segment": "INSTITUTIONAL",
+    "service_date": "2026-05-01"
+  },
+  {
+    "id": "v28_2027_new_enrollee_medicaid",
+    "package": "v28_2027",
+    "year": 2027,
+    "person": {
+      "DOB": "1961-06-01",
+      "SEX": 1,
+      "OREC": 0,
+      "LTIMCAID": 1,
+      "NEMCAID": 1
+    },
+    "diagnoses": [
+      "I5022"
+    ],
+    "segment": "NEW_ENROLLEE",
+    "service_date": "2026-05-01"
+  }
+]

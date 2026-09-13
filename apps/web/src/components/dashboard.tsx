@@ -47,6 +47,9 @@ import {
 import { num, label, download } from "@/lib/api";
 import type { Snapshot, User, Opportunity } from "@/lib/types";
 import { toast } from "sonner";
+import { RiskAnalytics } from "./risk-analytics-ui";
+import { RiskFinancial } from "./risk-financial-ui";
+import { RiskOverview, RiskRecapture, useRiskContext } from "./risk-ui";
 
 const domainTabs = [
   "AI Impact",
@@ -70,6 +73,7 @@ export function Dashboard({
   analytics?: boolean;
 }) {
   const router = useRouter();
+  const risk = useRiskContext();
   const pathname = usePathname();
   const suffix = pathname?.split("/")[2];
   const initialReport =
@@ -111,19 +115,19 @@ export function Dashboard({
         description={
           analytics && domain === "AI Impact"
             ? "Synthetic comparison · 100 charts per arm · September 2026"
-            : "Service year 2026 · Payment year 2027"
+            : `${risk.configuration?.name || "Program loading"} · ${risk.basis.replaceAll("_", " ")}`
         }
       >
-        <Button variant="outline" onClick={exportReport}>
+        {!["Executive", "Risk & conditions", "Financial scenarios"].includes(domain) && <Button variant="outline" onClick={exportReport}>
           <ArrowDownToLine size={16} />
           {analytics ? "Export comparison" : "Export report"}
-        </Button>
-        {analytics ? (
+        </Button>}
+        {analytics && !["Executive", "Risk & conditions", "Financial scenarios"].includes(domain) ? (
           <Button variant="outline" onClick={() => setMethod(true)}>
             <Info size={16} />
             Methodology
           </Button>
-        ) : user.screens.includes("suspects") ? (
+        ) : !analytics && user.screens.includes("suspects") ? (
           <Button asChild>
             <Link href="/suspects">
               Open worklist <ArrowRight size={16} />
@@ -159,7 +163,7 @@ export function Dashboard({
           </span>
         </div>
       )}
-      {analytics && domain !== "AI Impact" ? (
+      {analytics && domain === "Executive" ? <RiskOverview user={user} embedded /> : analytics && domain === "Risk & conditions" ? <RiskAnalytics user={user} /> : analytics && domain === "Financial scenarios" ? <RiskFinancial user={user} /> : analytics && domain !== "AI Impact" ? (
         <DomainView
           domain={domain}
           data={data}

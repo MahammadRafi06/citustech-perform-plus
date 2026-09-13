@@ -1,0 +1,182 @@
+{
+  "runtime": "http://localhost:3005",
+  "screenshots": [
+    {
+      "route": "overview",
+      "file": "screenshots/v2/routes/overview-1440x900.png",
+      "url": "http://localhost:3005/overview?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:20:41.740Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Risk overview\n\nCalculated risk, supporting evidence and the work that changes it.\n\nExport results\nOpen model lab\nCalculate population\nRaw RAF\n0.841\nCaptured baseline\nAdjusted portfolio score\n0.733\nEligible member-month weighted internal portfolio measure\nSuccessfully scored\n10,000\n10,000 expected sc"
+    },
+    {
+      "route": "analytics",
+      "file": "screenshots/v2/routes/analytics-1440x900.png",
+      "url": "http://localhost:3005/analytics?config=ma_v28_py2027_forecast&basis=captured_baseline&view=Risk+%26+conditions",
+      "captured_at": "2026-09-13T03:20:47.292Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Risk & conditions\n\nCMS-HCC V28 · 2027 later-run forecast · captured baseline\n\nOpen worklist\nReport\nAI Impact\nExecutive\nRisk & conditions\nSuspecting\nProviders\nRetrieval\nCoding & QA\nSubmissions\nFinancial scenarios\nData & AI operations\nCurrent workspace snapshot\nRisk and stage movement\nCondition preval"
+    },
+    {
+      "route": "scenarios",
+      "file": "screenshots/v2/routes/scenarios-1440x900.png",
+      "url": "http://localhost:3005/scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:20:51.587Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "RAF & model lab\n\nChange the complete input set and inspect the model's result.\n\nCalculate comparison\nMember risk profile\nComparison inputs\n\nHypothetical changes leave clinical and submitted records intact.\n\nMember ID\nComparison mode\nChange coding inputs\nCompare model versions\nScenario name\nCandidate"
+    },
+    {
+      "route": "suspects",
+      "file": "screenshots/v2/routes/suspects-1440x900.png",
+      "url": "http://localhost:3005/suspects?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:20:54.797Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Suspect registry\nCreate campaign\nRun analysis\nSuspects 3\nIntegrity 1\nSource issues 1\nScenarios 1\nAll work 6\nRanking\nOperational priority\nRecapture urgency\nMarginal score effect\nAccuracy correction\nCalculate effect\nWork scope\nActionable cases\nPopulation findings\nSaved view\nAll records\nOpen review / Q"
+    },
+    {
+      "route": "reviews",
+      "file": "screenshots/v2/routes/reviews-1440x900.png",
+      "url": "http://localhost:3005/reviews?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:20:58.298Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Chart review\n\nYour review queue, with source evidence at the center.\n\nCreate campaign\nRun analysis\nRanking\nOperational priority\nRecapture urgency\nMarginal score effect\nAccuracy correction\nCalculate effect\nWork scope\nActionable cases\nPopulation findings\nSaved view\nAll records\nOpen review / QA\nQA-appr"
+    },
+    {
+      "route": "qa",
+      "file": "screenshots/v2/routes/qa-1440x900.png",
+      "url": "http://localhost:3005/qa?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:21:46.336Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Coding quality assurance\n\nIndependent review, clear feedback and traceable decisions.\n\nCreate campaign\nRun analysis\nRanking\nOperational priority\nRecapture urgency\nMarginal score effect\nAccuracy correction\nCalculate effect\nWork scope\nActionable cases\nPopulation findings\nSaved view\nAll records\nOpen re"
+    },
+    {
+      "route": "campaigns",
+      "file": "screenshots/v2/routes/campaigns-1440x900.png",
+      "url": "http://localhost:3005/campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:21:49.949Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Campaign planner\n\nTarget the right cohort, allocate the work and follow its progress.\n\nCreate campaign\nActive campaigns\n3\nShared program work\nCampaign members\n101\nDistinct frozen cohort members\nCampaign tasks\n0\nSaved campaign task records\nRow density\nComfortable\nCompact\nCampaign\tMembers\tOwner\tDue da"
+    },
+    {
+      "route": "chase",
+      "file": "screenshots/v2/routes/chase-1440x900.png",
+      "url": "http://localhost:3005/chase?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:21:53.600Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Chart chase\n\nCoordinate retrieval, record follow-up and track usable documentation.\n\nOpen intake\nChart requests\n30\nRequests in your access scope\nAwaiting documents\n16\nReceipt is distinct from usability\nUsable evidence\n5\nValidated and published sources\nPractice\nAll practices\nNorthbrook Family Care\nLa"
+    },
+    {
+      "route": "intake",
+      "file": "screenshots/v2/routes/intake-1440x900.png",
+      "url": "http://localhost:3005/intake?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:21:57.504Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Document intake\n\nReview source identity and eligibility before publishing.\n\nBack to Rowan Cameron\nPrepared source queue\nPrimary care note · signature missing\nDOC-0009 · 2026-08-30 · Remediation required\nSample intake · signed primary care note\nDOC-0010 · 2026-08-27 · Ready to publish\nSample intake ·"
+    },
+    {
+      "route": "members",
+      "file": "screenshots/v2/routes/members-1440x900.png",
+      "url": "http://localhost:3005/members?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:01.843Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Member risk profiles\n\nCalculated scores, input readiness and clinical evidence in one member record.\n\nAll providers\nNorthbrook Family Care\nLakeside Medical Group\nCedar Grove Primary Care\nWesthaven Clinical Partners\nMaple Ridge Health\nBrookfield Community Care\nWillow Creek Family Practice\nSilver Birc"
+    },
+    {
+      "route": "providers",
+      "file": "screenshots/v2/routes/providers-1440x900.png",
+      "url": "http://localhost:3005/providers?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:05.003Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Provider portfolio\n\nA shared view of practices, documentation and open work.\n\nRow density\nComfortable\nCompact\nPractice\tCity\tCounty\tResponse turnaround\tWork items\tContact\nNorthbrook Family Care\nPR-001\n\tNorthbrook\tNorth County\t2 days\t50\tintake-01@practice.example\nLakeside Medical Group\nPR-002\n\tLakesid"
+    },
+    {
+      "route": "previsit",
+      "file": "screenshots/v2/routes/previsit-1440x900.png",
+      "url": "http://localhost:3005/previsit?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:53.580Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Pre-visit review\n\nRelevant context. Neutral questions. A clear next step.\n\nUpcoming member reviews\n10000 matching members · showing up to 100\nJE\nJordan Ellis\n2026-09-22\nMR\nMorgan Reed\n2026-09-18\nAB\nAvery Brooks\n2026-09-24\nTQ\nTaylor Quinn\n2026-09-28\nCM\nCasey Morgan\n2026-10-02\nRP\nRiley Parker\n2026-09-"
+    },
+    {
+      "route": "submissions",
+      "file": "screenshots/v2/routes/submissions-1440x900.png",
+      "url": "http://localhost:3005/submissions?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:57.216Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Submission operations\n\nPrepare approved records, retain each attempt and follow the simulated receiver.\n\nExport records\nSubmission attempts\n13\nOriginal records and linked attempts\nReceiver accepted\n4\nAcceptance is separate from payment\nReceiver rejected\n3\nRejected attempts remain retained\nPrepared c"
+    },
+    {
+      "route": "audit",
+      "file": "screenshots/v2/routes/audit-1440x900.png",
+      "url": "http://localhost:3005/audit?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:01.607Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Audit workspace\n\nTrace the selected case from original evidence through each recorded outcome.\n\nGenerate evidence package\nSelect case records\n\nThe package includes only selected members and their linked history.\n\nJE\nJordan Ellis\nMB-000001 · Chronic systolic heart failure\nStrong\nMR\nMorgan Reed\nMB-000"
+    },
+    {
+      "route": "data",
+      "file": "screenshots/v2/routes/data-1440x900.png",
+      "url": "http://localhost:3005/data?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:04.871Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Models & data\n\nInspect model scope, calculation evidence and source readiness.\n\nModel inventory\nCode explorer\nScoring coverage\nCalculation runs\nExternal scores\nSource operations\nConfigured model inventory\n\nAvailability, execution and independent validation are separate states.\n\nCMS-HCC V28 · 2026 Mi"
+    },
+    {
+      "route": "admin",
+      "file": "screenshots/v2/routes/admin-1440x900.png",
+      "url": "http://localhost:3005/admin?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:09.123Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visible_text_start": "Administration\n\nManage access and workspace settings.\n\nUsers & access\nProgram configuration\nAI settings\nWorkspace settings\nWorkspace accounts\n\nManage roles and account access. Changes sign the account out of active sessions.\n\nUSER\tROLE\tACCOUNT STATE\tACTION\n\nExecutive\nexecutive@perform.test\n\t\nExecuti"
+    }
+  ],
+  "page_errors": []
+}

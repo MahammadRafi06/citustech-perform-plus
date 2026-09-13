@@ -287,9 +287,9 @@ export function IntakeWorkspace({
                           <small>{c.detail}</small>
                         </div>
                       ))
-                    ) : (
-                      <Notice>{sample?.published_at ? "Published and available for a fresh review. Previous decisions remain in the case history." : "Review needed · Validate member matching, signature and current-period eligibility."}</Notice>
-                    )}
+                    ) : sample?.published_at ? (
+                      <p className="body-copy">Published and available for a fresh review. Previous decisions remain in the case history.</p>
+                    ) : null}
                   </div>
                   {(sample?.published_at || !sample || (currentValidation && !currentValidation.valid)) && member.data && <CaseNextSteps member={member.data} user={user} accounts={data.assignment_options} />}
                 </>

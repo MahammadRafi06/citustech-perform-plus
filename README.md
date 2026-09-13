@@ -2,6 +2,8 @@
 
 A desktop risk-adjustment workspace with real local accounts, local role-based access and connected review workflows. All member information is synthetic. Analysis, authored source transitions and receiver outcomes use prepared records rather than external services.
 
+The active V2 branch adds actual versioned MA, Part D and ACA calculations, full-member scenarios, source-linked score stages, Medicaid external-score imports and financial sensitivities. Use the [V2 local run guide](docs/V2_LOCAL_RUN.md) for the isolated preview on **http://localhost:3005**. [Verification and remaining requirements](docs/V2_VERIFICATION.md) record the delivered scope; expanded V2 acceptance is still in progress.
+
 ## Run locally
 
 Requirements: Node.js 24+, Python 3.13, `uv`, and PostgreSQL 18. This workstation already has the dependencies and an isolated database initialized.

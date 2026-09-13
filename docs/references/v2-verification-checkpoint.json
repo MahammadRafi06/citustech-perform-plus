@@ -1,0 +1,33 @@
+{
+  "recorded_at": "2026-09-13T03:31:56.646544+00:00",
+  "branch": "codex/business-requirements-v2",
+  "base_commit": "9b77300232c1834eb0816069dd18c40a7e37d628",
+  "working_source_sha256": "c91d011299faccd6c851e728d5f96c251c186ab1be30f0f9bfd5a7bf0b9cf930",
+  "integrated_suite": {
+    "command": "CT_MODEL_ASSETS=\"$PWD/.local/model-assets\" CT_MODEL_PYTHON=\"$PWD/.venv/bin/python\" .venv/bin/python -m pytest apps/api/tests --ignore=apps/api/tests/test_risk_models.py -q",
+    "passed": 86,
+    "failed": 0,
+    "warnings": 4,
+    "seconds": 308.17,
+    "output_sha256": "77a764df52ca7ebf207324e8bbe2b041e289167bdcbdba80f72c2e10ed899961"
+  },
+  "numerical_suite": {
+    "passed": 98,
+    "independent_reference_cases": 79,
+    "receipt": "apps/api/app/risk_models/validation-receipt.json",
+    "receipt_sha256": "2eb69895685f6649d3242c84b260181e0595715dbf46e3fb6f30e78d75f5e980"
+  },
+  "frontend": {
+    "typecheck": "passed",
+    "production_build": "passed",
+    "separate_container_build": "passed",
+    "container_smoke_receipt": "docs/references/v2-ui-container-result.json"
+  },
+  "population_receipts": [
+    "docs/references/v2-population-engine.json",
+    "docs/references/v2-population-persisted.json",
+    "docs/references/v2-persisted-input-identity.json"
+  ],
+  "performance_receipt": "docs/references/v2-api-performance.json",
+  "acceptance_status": "Partial V2 delivery. Historical V24 comparison, AI-origin attribution and expanded acceptance gates remain open in TODO.md. No published commit or cluster deployment."
+}

@@ -1,0 +1,15 @@
+{
+  "shots": [
+    {
+      "file": "screenshots/v2/desktop/financial-result-1920x1080.png",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "captured_at": "2026-09-13T03:31:03.873Z",
+      "scroll_y": 0
+    }
+  ],
+  "errors": []
+}

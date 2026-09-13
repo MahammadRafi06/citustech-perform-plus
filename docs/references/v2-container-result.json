@@ -1,0 +1,151 @@
+{
+  "python": "3.13.15",
+  "dependencies": {
+    "numpy": "2.4.2",
+    "pandas": "2.3.3",
+    "PyYAML": "6.0.3"
+  },
+  "adapter_sha256": "426e247b4e9210629b2046982511895bae8bf36a810dc0ac23b711887318c630",
+  "receipt_sha256": "2eb69895685f6649d3242c84b260181e0595715dbf46e3fb6f30e78d75f5e980",
+  "input_helper_sha256": "d25d8a13ef0df84e1c33a1c670b19406f5d71422a106b882194534e011f2015f",
+  "input_artifact_sha256": "841653fd6e7c9c36adb65c1c3f3f1db2d1993a23d2aa00dce2e45fd36c5e8602",
+  "catalog_status": {
+    "ma_v28_py2026": "validated for declared scope",
+    "ma_v28_py2027_initial": "validated for declared scope",
+    "ma_v28_py2027_forecast": "validated for declared scope",
+    "hhs_v08_by2026": "validated for declared scope",
+    "ma_v24_py2025": "awaiting_reference",
+    "rxhcc_py2027_mapd_initial": "validated for declared scope",
+    "rxhcc_py2027_mapd_forecast": "validated for declared scope",
+    "rxhcc_py2027_pdp_initial": "validated for declared scope",
+    "rxhcc_py2027_pdp_forecast": "validated for declared scope"
+  },
+  "rows": [
+    {
+      "config_id": "ma_v28_py2026",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 12.787,
+      "result_inventory_sha256": "ec86c512761e9d45658ac38819ef98b929260474e30ee3304cac28b4c621c915",
+      "status_counts": {
+        "completed": 34,
+        "failed": 1
+      },
+      "expected_eligibility_exclusions": [
+        {
+          "member_id": "MB-000025",
+          "exclusions": [
+            {
+              "reason": "The authored aged-only member reaches 65 in 2027; no prior 2026 Medicare entitlement or eligible months are established.",
+              "code": "BEFORE_AGED_ENTITLEMENT"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config_id": "ma_v28_py2027_initial",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 14.291,
+      "result_inventory_sha256": "dcd5063d9ff93c2a67c569a393d3d34fcfd33e9c0b9b5c71fd473015308ff95f",
+      "status_counts": {
+        "completed": 35
+      },
+      "expected_eligibility_exclusions": []
+    },
+    {
+      "config_id": "ma_v28_py2027_forecast",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 0.03,
+      "result_inventory_sha256": "dcd5063d9ff93c2a67c569a393d3d34fcfd33e9c0b9b5c71fd473015308ff95f",
+      "status_counts": {
+        "completed": 35
+      },
+      "expected_eligibility_exclusions": []
+    },
+    {
+      "config_id": "hhs_v08_by2026",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 3.849,
+      "result_inventory_sha256": "af6767b2d6c939a41df444f0ab335c9ee40ef620e2f8a2db406a9c02921d95de",
+      "status_counts": {
+        "completed": 35
+      },
+      "expected_eligibility_exclusions": []
+    },
+    {
+      "config_id": "rxhcc_py2027_mapd_initial",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 2.042,
+      "result_inventory_sha256": "28152abd76dc0798e55f1fa832940f16a4a56dc68cea7b2269cabcdf4b74bf44",
+      "status_counts": {
+        "completed": 35
+      },
+      "expected_eligibility_exclusions": []
+    },
+    {
+      "config_id": "rxhcc_py2027_mapd_forecast",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 0.016,
+      "result_inventory_sha256": "28152abd76dc0798e55f1fa832940f16a4a56dc68cea7b2269cabcdf4b74bf44",
+      "status_counts": {
+        "completed": 35
+      },
+      "expected_eligibility_exclusions": []
+    },
+    {
+      "config_id": "rxhcc_py2027_pdp_initial",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 1.867,
+      "result_inventory_sha256": "e1a4208d7b2219886bacf1fcea0230d10a0042c12aa4f1b8143e7dcaeabf402d",
+      "status_counts": {
+        "completed": 35
+      },
+      "expected_eligibility_exclusions": []
+    },
+    {
+      "config_id": "rxhcc_py2027_pdp_forecast",
+      "members": 35,
+      "passed": true,
+      "input_helper_equal": true,
+      "differences": [],
+      "seconds": 0.017,
+      "result_inventory_sha256": "e1a4208d7b2219886bacf1fcea0230d10a0042c12aa4f1b8143e7dcaeabf402d",
+      "status_counts": {
+        "completed": 35
+      },
+      "expected_eligibility_exclusions": []
+    }
+  ],
+  "elapsed_seconds": 35.015,
+  "scope": "Ephemeral read-only container, network none, no database, per-run temporary output only.",
+  "image_id": "sha256:49638ad02e6eb0546a6493e3dc10b27b2e901f05b4613e80ecea53bd80815bf1",
+  "image_tag_at_request": "perform-plus-api:v2-local",
+  "acceptance_status": "passed",
+  "verified_at": "2026-09-13T03:20:51.105196+00:00",
+  "valid_scores": 279,
+  "expected_eligibility_exclusions": 1,
+  "total_paths": 280,
+  "previous_passed_image_id": "sha256:8daaff30bbf229aec278dc3ae6709bc4564c3a6cc29e9c40500126603887363c",
+  "previous_passed_receipt": "model-container-verification-before-orchestration-refresh.json"
+}

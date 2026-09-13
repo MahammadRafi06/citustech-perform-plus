@@ -79,7 +79,9 @@ import type {
   Submission,
   Provider,
   Evidence,
+  Task,
 } from "@/lib/types";
+import { formatRiskScore } from "@/lib/risk-client";
 import { api, label, num, download } from "@/lib/api";
 import { toast } from "sonner";
 import {
@@ -93,6 +95,8 @@ import { ReviewWorkbench } from "./review-workbench";
 import { SourceDocument } from "./source-document";
 import { AssessmentSubmissions } from "./assessment-submissions";
 import { IntakeWorkspace } from "./intake-workspace";
+import { RiskSourceAnalysis } from "./risk-ai-ui";
+import { MemberRiskProfile, RiskModelLab, RiskModelsData, RiskReconciliation, RiskInputSnapshot, RiskMemberDirectory, RiskImpactSummary, type RiskImpactResult, useRiskContext } from "./risk-ui";
 import { EligibilityContext, PreparedClaims, NextSteps, CaseHistory } from "./assessment-workspaces";
 export type WorkspaceProps = {
   route: string;
@@ -125,7 +129,7 @@ export function Workspaces(props: WorkspaceProps) {
     return <MemberWorkspace key={path} {...props} id={path.split("/")[2]} />;
   if (route === "reviews" && path.split("/")[2])
     return <ReviewWorkbench key={path} {...props} id={path.split("/")[2]} />;
-  if (route === "members") return <MemberDirectory {...props} />;
+  if (route === "members") return <RiskMemberDirectory user={props.user} providers={props.data.providers} />;
   if (route === "suspects" || route === "reviews" || route === "qa")
     return <Registry {...props} />;
   if (route === "campaigns") return <CampaignPlanner {...props} />;
@@ -135,12 +139,19 @@ export function Workspaces(props: WorkspaceProps) {
     return <IntakeWorkspace {...props} />;
   if (route === "submissions" || route === "audit")
     return <AssessmentSubmissions {...props} />;
-  if (route === "scenarios") return <Scenarios {...props} />;
+  if (route === "scenarios") return <RiskModelLab user={props.user} />;
+  if (route === "data") return <RiskModelsData user={props.user} sources={<Operations {...props} />} />;
   if (route === "admin" || route === "data") return <Operations {...props} />;
   return <Empty title="Workspace not found" />;
 }
 function Registry({ data, user, route, act }: WorkspaceProps) {
   const router = useRouter();
+  const risk = useRiskContext();
+  const queryClient = useQueryClient();
+  const [ranking, setRanking] = useUrlState("ranking", "operational_priority");
+  const [impact, setImpact] = useState<RiskImpactResult | null>(null);
+  const [impactBusy, setImpactBusy] = useState(false);
+  const marginal = useQuery({ queryKey: ["risk", "opportunities", user.id, risk.configId, ranking], queryFn: () => api<{ items: { finding_id: string; delta: number | null; ranking_reason: string; stale?: boolean }[] }>(`/risk/opportunities?config_id=${encodeURIComponent(risk.configId)}&mode=${ranking}`), enabled: !!risk.configId });
   const params = useSearchParams();
   const [status, setStatus] = useUrlState("status", "all");
   const [memberFilter, setMemberFilter] = useUrlState("member", "");
@@ -162,8 +173,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   const detail = data.opportunities.find((item) => item.id === detailId) || null;
   const setDetail = (item: Opportunity | null) => setDetailId(item?.id || "");
   const detailRecord = useQuery({
-    queryKey: ["member", detail?.member_id, user.id],
-    queryFn: () => api<Member>(`/members/${detail?.member_id}`),
+    queryKey: ["member", detail?.member_id, user.id, detail?.id],
+    queryFn: () => api<Member>(`/members/${detail?.member_id}?finding=${detail?.id}`),
     enabled: !!detail,
   });
   const [busy, setBusy] = useState(false);
@@ -171,9 +182,9 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   const [name, setName] = useState("");
   const [intervention, setIntervention] = useState("Retrospective review");
   const assignmentOptions = (data.assignment_options || []).filter((owner) =>
-    owner.interventions.includes("coding_review") && selected.every((id) => owner.member_ids.includes(id)),
+    owner.interventions.includes("coding_review") && selected.every((id) => owner.member_ids.includes(data.opportunities.find((o) => o.id === id)?.member_id || "")),
   );
-  const selectableIds = new Set(data.opportunities.filter((o) => o.eligibility?.reviewable).map((o) => o.member_id));
+  const selectableIds = new Set(data.opportunities.filter((o) => o.eligibility?.reviewable).map((o) => o.id));
   useEffect(() => {
     setSelected((current) => current.filter((id) => selectableIds.has(id)));
   }, [data.opportunities]);
@@ -209,6 +220,10 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       (evidence === "all" || o.evidence === evidence) &&
       (route !== "qa" || o.qa_status === "awaiting_qa"),
   );
+  const ranks = new Map((marginal.data?.items || []).map((item, index) => [item.finding_id, index]));
+  rows.sort((left, right) => (ranks.get(left.id) ?? Number.MAX_SAFE_INTEGER) - (ranks.get(right.id) ?? Number.MAX_SAFE_INTEGER));
+  const calculateImpact = async () => { setImpactBusy(true); try { const value = await api<RiskImpactResult>("/risk/opportunities/calculate", { method: "POST", body: JSON.stringify({ config_id: risk.configId, finding_ids: selected }) }, user.csrf_token); setImpact(value); await queryClient.invalidateQueries({ queryKey: ["risk", "opportunities"] }); } catch (error) { toast.error((error as Error).message); } finally { setImpactBusy(false); } };
+  useEffect(() => setImpact(null), [selected, risk.configId]);
   const columns: ColumnDef<Opportunity, unknown>[] = [
     {
       id: "select",
@@ -219,12 +234,12 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           <Checkbox
             aria-label={`Select ${row.original.member_id}`}
             disabled={!row.original.eligibility?.reviewable}
-            checked={selected.includes(row.original.member_id)}
+            checked={selected.includes(row.original.id)}
             onCheckedChange={(v) =>
               setSelected((s) =>
                 v
-                  ? [...s, row.original.member_id]
-                  : s.filter((id) => id !== row.original.member_id),
+                  ? [...s, row.original.id]
+                  : s.filter((id) => id !== row.original.id),
               )
             }
           />
@@ -272,6 +287,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       header: "Status",
       cell: ({ getValue }) => <Status value={String(getValue())} />,
     },
+    { id: "marginal", header: "Marginal score effect", cell: ({ row }) => { const value = marginal.data?.items.find((item) => item.finding_id === row.original.id); return <span>{formatRiskScore(value?.delta, 3, true)}<small>{value?.stale ? "Inputs changed · recalculate" : value?.delta == null ? "Not calculated" : "Complete-member scenario"}</small></span>; } },
     { accessorKey: "owner", header: "Owner" },
     {
       accessorKey: "due_date",
@@ -296,7 +312,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
     try {
       await act({
         action: "analyze",
-        member_ids: selected,
+        member_ids: [...new Set(data.opportunities.filter((o) => selected.includes(o.id)).map((o) => o.member_id))],
+        finding_ids: selected,
       });
     } catch {
     } finally {
@@ -308,7 +325,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
     try {
       await act({
         action: "campaign",
-        member_ids: selected,
+        member_ids: [...new Set(data.opportunities.filter((o) => selected.includes(o.id)).map((o) => o.member_id))],
+        finding_ids: selected,
         name,
         value: intervention,
       });
@@ -422,7 +440,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           <span>
             {(() => {
               const r = data.runs.find((r) => r.mode === "fixture")!;
-              return `${new Date(r.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · ${r.members} ${r.members === 1 ? "member" : "members"} analyzed`;
+              return `${new Date(r.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · ${r.members} ${r.members === 1 ? "finding" : "findings"} analyzed`;
             })()}
           </span>
           <button onClick={() => setAnalysisDetails(true)}>
@@ -472,7 +490,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                   {r.id} · {new Date(r.created_at).toLocaleString()}
                 </span>
                 <strong>
-                  {r.members} {r.members === 1 ? "member" : "members"} ·{" "}
+                  {r.members} {r.members === 1 ? "finding" : "findings"} ·{" "}
                   {label(r.status)}
                 </strong>
                 <p>{r.stages.join(" → ")}</p>
@@ -486,10 +504,10 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       {selected.length > 0 && (
         <div className="selection-bar">
           <strong>
-            {selected.length} {selected.length === 1 ? "member" : "members"}{" "}
+            {selected.length} {selected.length === 1 ? "finding" : "findings"}{" "}
             selected ·{" "}
             {
-              selected.filter((id) => !rows.some((o) => o.member_id === id))
+              selected.filter((id) => !rows.some((o) => o.id === id))
                 .length
             }{" "}
             outside current filters
@@ -516,6 +534,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           </Button>
         </div>
       )}
+      {impact && <RiskImpactSummary result={impact} />}
       <Panel>
         <DataGrid
           rows={rows}
@@ -524,10 +543,12 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           searchLabel="Search members, conditions or owners…"
           pageSize={25}
           selectedIds={data.opportunities
-            .filter((o) => selected.includes(o.member_id))
+            .filter((o) => selected.includes(o.id))
             .map((o) => o.id)}
           toolbar={
             <>
+              <SelectField label="Ranking" value={ranking} onChange={setRanking} options={[["operational_priority", "Operational priority"], ["recapture_urgency", "Recapture urgency"], ["marginal_score_effect", "Marginal score effect"], ["accuracy_correction", "Accuracy correction"]].map(([value, label]) => ({ value, label }))} />
+              {user.permissions.includes("risk_scenario") && <Button variant="outline" disabled={impactBusy || !selected.length} onClick={calculateImpact}>{impactBusy ? "Calculating…" : "Calculate effect"}</Button>}
               <SelectField
                 label="Work scope"
                 value={scope}
@@ -724,7 +745,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               <Button asChild>
                 <Link
                   href={returnLink(
-                    `/${user.screens.includes("reviews") ? "reviews" : "members"}/${detail.member_id}`,
+                    `/${user.screens.includes("reviews") ? "reviews" : "members"}/${detail.member_id}?finding=${detail.id}`,
                   )}
                 >
                   Open source and next action
@@ -793,7 +814,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             try {
               await act({
                 action: bulk,
-                member_ids: selected,
+                member_ids: [...new Set(data.opportunities.filter((o) => selected.includes(o.id)).map((o) => o.member_id))],
+        finding_ids: selected,
                 value: allocation,
                 note: bulkNote,
               });
@@ -996,24 +1018,29 @@ function MemberWorkspace({
   review = false,
 }: WorkspaceProps & { id: string; review?: boolean }) {
   const params = useSearchParams();
-  const [tab, setTab] = useUrlState("tab", "Overview");
+  const [tab, setTab] = useUrlState("tab", "Risk profile");
+  const risk = useRiskContext();
+  const [findingId, setFindingId] = useUrlState("finding", "");
   const [docId, setDocId] = useUrlState("document", "");
   const [zoom, setZoom] = useState(100);
-  const [decision, setDecision] = useDraft(`review-${id}-decision`, "");
-  const [note, setNote] = useDraft(`review-${id}-note`, "");
-  const [qaNote, setQaNote] = useDraft(`qa-${id}-note`, "");
+  const [decision, setDecision] = useDraft(`review-${id}-${findingId || "single"}-decision`, "");
+  const [note, setNote] = useDraft(`review-${id}-${findingId || "single"}-note`, "");
+  const [closingTask, setClosingTask] = useState<Task | null>(null);
+  const [closure, setClosure] = useState("unable_to_obtain");
+  const [closureNote, setClosureNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [queryOpen, setQueryOpen] = useState(false);
   const [draft, setDraft] = useDraft(
-    `query-${id}`,
+    `query-${id}-${findingId || "single"}`,
     "Please review the available history and document your current clinical assessment, including if this condition is not supported.",
   );
   const result = useQuery({
-    queryKey: ["member", id, user.id],
-    queryFn: () => api<Member>(`/members/${id}`),
+    queryKey: ["member", id, user.id, findingId],
+    queryFn: () => api<Member>(`/members/${id}${findingId ? `?finding=${encodeURIComponent(findingId)}` : ""}`),
   });
   const m = result.data;
-  const o = m?.opportunities?.[0];
+  const o = m?.opportunities?.find((item) => item.id === m.selected_finding_id) || (m?.opportunities?.length === 1 ? m.opportunities[0] : undefined);
+  const [qaNote, setQaNote] = useDraft(`qa-${id}-${o?.id || findingId || "single"}-${o?.current_decision_id || "no-decision"}-note`, "");
   const currentSourceIds = m?.eligibility?.source_ids || o?.eligibility?.source_ids || [];
   const doc = m?.documents?.find((d) => d.id === docId)
     || m?.documents?.find((d) => currentSourceIds.includes(d.id))
@@ -1030,7 +1057,7 @@ function MemberWorkspace({
   const save = async () => {
     setBusy(true);
     try {
-      await act({ action: "review", id, value: decision, note });
+      await act({ action: "review", id, finding_id: o?.id, value: decision, note });
       setNote("");
       setDecision("");
       await result.refetch();
@@ -1083,7 +1110,7 @@ function MemberWorkspace({
           {can(user, "analyze") && m.eligibility?.reviewable && (
             <Button
               onClick={() =>
-                actionSafe(act, { action: "analyze", member_ids: [id] })
+                actionSafe(act, { action: "analyze", member_ids: [id], finding_ids: o ? [o.id] : undefined })
               }
             >
               <Sparkles size={16} />
@@ -1103,21 +1130,26 @@ function MemberWorkspace({
         </span>
         <span>
           <ShieldCheck size={14} />
-          {data.program_context?.program || "MA Part C"} · {data.program_context?.service_year || 2026} / {data.program_context?.payment_year || 2027}
+          Clinical workflow · {data.program_context?.program || "MA"} · {data.program_context?.payment_year || 2027}
         </span>
         <Status value={o?.status || m.status} />
         {m.scenario && <span title="Scenario dates are staged; saved actions retain their actual timestamps.">Scenario date: {m.scenario.date}</span>}
       </div>
+      {(m.opportunities?.length || 0) > 1 && <div className="risk-finding-select"><SelectField label="Clinical finding" value={o?.id || ""} onChange={setFindingId} options={[{ value: "", label: "Select a finding for clinical actions" }, ...(m.opportunities || []).map((item) => ({ value: item.id, label: `${item.condition} · ${item.id}` }))]} /></div>}
       {!m.eligibility?.reviewable && <EligibilityContext eligibility={m.eligibility} />}
       <Tabs value={tab} onValueChange={setTab} className="member-tabs">
         <TabsList>
           {[
+            "Risk profile",
+            "Scoring inputs",
+            "Source analysis",
             "Overview",
             "Evidence & documents",
             "Opportunities",
             "Timeline",
             "Tasks",
             "Risk scenarios",
+            "Score reconciliation",
             "Submissions",
           ].map((t) => (
             <TabsTrigger key={t} value={t}>
@@ -1126,7 +1158,7 @@ function MemberWorkspace({
           ))}
         </TabsList>
       </Tabs>
-      {["Overview", "Evidence & documents"].includes(tab) ? (
+      {tab === "Risk profile" ? <MemberRiskProfile memberId={id} user={user} /> : tab === "Source analysis" ? <RiskSourceAnalysis memberId={id} user={user} /> : tab === "Scoring inputs" ? <RiskInputSnapshot memberId={id} user={user} /> : ["Overview", "Evidence & documents"].includes(tab) ? (
         <>
           {tab === "Overview" && (
             <div className="member-summary">
@@ -1154,6 +1186,8 @@ function MemberWorkspace({
                 actionSafe(act, {
                   action: "open_evidence",
                   id,
+                  finding_id: o?.id,
+                  document_id: doc?.id,
                   note: `Inspected ${doc?.id}`,
                 })
               }
@@ -1252,6 +1286,7 @@ function MemberWorkspace({
                             await act({
                               action: "complete_review",
                               id,
+                              finding_id: o?.id,
                               value: "no_finding",
                               note,
                             });
@@ -1272,6 +1307,7 @@ function MemberWorkspace({
                                   ? "start_review"
                                   : "pause_review",
                               id,
+                              finding_id: o?.id,
                               note,
                             })
                           }
@@ -1287,6 +1323,7 @@ function MemberWorkspace({
                             actionSafe(act, {
                               action: "defer",
                               id,
+                              finding_id: o?.id,
                               note: "Deferred for documentation",
                             })
                           }
@@ -1342,15 +1379,16 @@ function MemberWorkspace({
                             ? "A completed review must be sent to QA first."
                             : "Independent QA preserves the first reviewer’s decision and history."}
                       </Notice>
-                      <div className="form-field"><Label htmlFor="member-qa-note">QA note · required for rework</Label><textarea id="member-qa-note" rows={3} value={qaNote} onChange={(e) => setQaNote(e.target.value)} placeholder="Explain what the reviewer needs to revisit…" /></div>
+                      <div className="form-field"><Label htmlFor="member-qa-note">QA rationale · required</Label><textarea id="member-qa-note" rows={3} value={qaNote} onChange={(e) => setQaNote(e.target.value)} placeholder="Explain your independent assessment of the source and decision…" /></div>
                       <Button
                         disabled={
+                          !qaNote.trim() ||
                           o?.qa_status !== "awaiting_qa" ||
                           o?.reviewer === user.id ||
                           o?.reviewer === user.email
                         }
                         onClick={() =>
-                          act({ action: "qa", id, value: "passed", note: qaNote }).then(() => setQaNote("")).catch(() => undefined)
+                          act({ action: "qa", id, finding_id: o?.id, decision_id: o?.current_decision_id, value: "passed", note: qaNote }).then(() => setQaNote("")).catch(() => undefined)
                         }
                       >
                         <ShieldCheck size={15} />
@@ -1368,6 +1406,8 @@ function MemberWorkspace({
                           act({
                             action: "qa",
                             id,
+                            finding_id: o?.id,
+                            decision_id: o?.current_decision_id,
                             value: "rework",
                             note: qaNote,
                           }).then(() => setQaNote("")).catch(() => undefined)
@@ -1379,7 +1419,7 @@ function MemberWorkspace({
                   )}
                 </div>
               </Panel>
-              {!!m.next_steps?.length && <Panel title="Next step"><NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={id} act={act} /></Panel>}
+              {!!m.next_steps?.length && <Panel title="Next step"><NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={id} findingId={o?.id} act={act} /></Panel>}
               <Panel title="Connected work">
                 <div className="connected-links">
                   {user.screens.includes("previsit") && (
@@ -1467,6 +1507,7 @@ function MemberWorkspace({
                 { accessorKey: "title", header: "Task" },
                 { accessorKey: "type", header: "Type", cell: ({ getValue }) => label(String(getValue())) },
                 { accessorKey: "owner", header: "Owner" },
+                { id: "closure", header: "Disposition", cell: ({ row }) => row.original.closure_reason ? <span>{label(row.original.closure_disposition || "closed")}<small>{row.original.closure_reason}</small></span> : user.permissions.includes("close_task") && !row.original.completion?.complete && (["query", "request_evidence"].includes(row.original.type) || ["pre_visit", "source_remediation"].includes(row.original.intervention || "")) ? <Button variant="ghost" size="sm" onClick={() => setClosingTask(row.original)}>Close with reason</Button> : "—" },
                 { id: "completion", header: "Completion basis", cell: ({ row }) => row.original.completion?.reason || "Awaiting workflow outcome" },
                 {
                   accessorKey: "status",
@@ -1486,6 +1527,7 @@ function MemberWorkspace({
         <Panel title="Linked opportunities">
           <DataGrid
             rows={m.opportunities || []}
+            onRow={(finding) => { setFindingId(finding.id); setTab("Overview"); }}
             columns={[
               { accessorKey: "condition", header: "Condition" },
               { accessorKey: "type", header: "Type" },
@@ -1497,10 +1539,10 @@ function MemberWorkspace({
             ]}
           />
         </Panel>
-      ) : tab === "Risk scenarios" ? (
-        <Panel title="Risk scenario context" subtitle={id === "MB-000005" ? "Prepared hierarchy comparison" : "Scoring model not configured"}>
-          <div className="padded"><p className="body-copy">{id === "MB-000005" ? "Compare the retained baseline and combined condition set. Numeric scores remain unavailable until an independently checked reference is installed." : "No configured numeric scenario is available for this member. The Casey comparison explains the full-member input approach."}</p>
-          {user.screens.includes("scenarios") && <Button asChild variant="outline"><Link href={`/scenarios?member=${id}`}>Open risk scenarios<ArrowRight size={15} /></Link></Button>}</div>
+      ) : tab === "Score reconciliation" ? <RiskReconciliation memberId={id} user={user} /> : tab === "Risk scenarios" ? (
+        <Panel title="Complete-member scenario comparison" subtitle="Inspect retained inputs and the effect of changing the complete condition set.">
+          <div className="padded"><p className="body-copy">The model lab calculates hypothetical coding changes separately from clinical approval, submitted records and reported outcomes.</p>
+          {user.screens.includes("scenarios") && <Button asChild variant="outline"><Link href={risk.href(`/scenarios?member=${id}`)}>Open RAF & model lab<ArrowRight size={15} /></Link></Button>}</div>
         </Panel>
       ) : (
         <Panel title="Linked submission records" subtitle="Receiver outcomes are separate from review approval and payment reconciliation.">
@@ -1508,6 +1550,12 @@ function MemberWorkspace({
           <div className="padded">{user.screens.includes("submissions") ? <Button asChild variant="outline"><Link href={`/submissions?member=${id}`}>Open submission operations<ArrowRight size={15} /></Link></Button> : <p className="body-copy">A submission analyst continues after independent QA approval.</p>}</div>
         </Panel>
       )}
+      <Modal open={!!closingTask} onOpenChange={(open) => !open && setClosingTask(null)} title="Close follow-up task" description={closingTask?.title}>
+        <div className="form-field"><Label>Disposition</Label><select value={closure} onChange={(event) => setClosure(event.target.value)}><option value="unable_to_obtain">Unable to obtain</option><option value="not_supported">Not supported</option><option value="not_current">Not current</option></select></div>
+        <div className="form-field"><Label>Reason</Label><textarea rows={4} value={closureNote} onChange={(event) => setClosureNote(event.target.value)} /></div>
+        <p className="body-copy">This closes the selected follow-up task. Source publication and clinical decisions retain their own gates.</p>
+        <Button disabled={busy || !closureNote.trim() || !closingTask} onClick={async () => { setBusy(true); try { await act({ action: "close_task", id, task_id: closingTask!.id, value: closure, note: closureNote }); setClosingTask(null); setClosureNote(""); await result.refetch(); } catch {} finally { setBusy(false); } }}>Save closure</Button>
+      </Modal>
       <Modal
         open={queryOpen}
         onOpenChange={setQueryOpen}
@@ -1532,7 +1580,7 @@ function MemberWorkspace({
           disabled={!draft.trim()}
           onClick={async () => {
             try {
-              await act({ action: "query", id, note: draft });
+              await act({ action: "query", id, finding_id: o?.id, note: draft });
               setQueryOpen(false);
             } catch {}
           }}
@@ -1547,6 +1595,7 @@ function MemberWorkspace({
 function Providers({ data, user, route, act }: WorkspaceProps) {
   const [detail, setDetail] = useState<Provider | null>(null);
   const [chosen, setChosen] = useUrlState("member", data.members[0]?.id || "");
+  const [taskId, setTaskId] = useUrlState("task", "");
   const [providerSearch, setProviderSearch] = useUrlState("q", "");
   const [memberSearch, setMemberSearch] = useUrlState("member_q", "");
   const directory = useQuery({
@@ -1572,6 +1621,8 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
     chosenRecord.data ||
     data.members.find((m) => m.id === chosen) ||
     data.members[0];
+  const responseTasks = (m?.tasks || []).filter((task) => (["query", "provider_response", "pre_visit"].includes(task.type) || task.intervention === "pre_visit") && !["closed", "completed", "responded"].includes(task.status));
+  const responseTask = responseTasks.find((task) => task.id === taskId) || (responseTasks.length === 1 ? responseTasks[0] : undefined);
   if (route === "previsit" && chosenRecord.isError)
     return (
       <Empty
@@ -1627,7 +1678,7 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
                   <p>{m.summary}</p>
                 </div>
                 <EligibilityContext eligibility={m.eligibility} />
-                <h3 className="section-title">Question for this encounter</h3>
+                <div className="form-field"><Label>Response task</Label><select aria-label="Provider response task" value={responseTask?.id || ""} onChange={(e) => setTaskId(e.target.value)}><option value="">{responseTasks.length ? "Choose the task to respond to" : "No pending provider task"}</option>{responseTasks.map((task) => <option key={task.id} value={task.id}>{task.title} · {task.id}</option>)}</select></div><h3 className="section-title">Question for this encounter</h3>
                 <p className="body-copy">
                   Please review the available context for{" "}
                   {m.condition.toLowerCase()} and document your current
@@ -1666,13 +1717,15 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
                 </div>
                 <div className="button-row">
                   <Button
-                    disabled={busy || !m.eligibility?.reviewable}
+                    disabled={busy || !responseTask || !note.trim()}
                     onClick={async () => {
                       setBusy(true);
                       try {
                         await act({
                           action: "respond",
                           id: m.id,
+                          task_id: responseTask?.id,
+                          finding_id: responseTask?.finding_id,
                           value: response,
                           note,
                         });
@@ -1883,8 +1936,8 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
         {data.import_summary && <Panel title={data.import_summary.name} subtitle={`${data.import_summary.id} · ${data.import_summary.total} prepared ${data.import_summary.unit}`}>
           <div className="registry-summary padded">
             <div><strong>{data.import_summary.received} / {data.import_summary.total}</strong><span>documents received</span></div>
-            <div><strong>{data.import_summary.matched} / {data.import_summary.received}</strong><span>received documents matched</span></div>
-            <div><strong>{data.import_summary.quarantined}</strong><span>documents quarantined</span></div>
+            <div><strong>{data.import_summary.matched} / {data.import_summary.received}</strong><span>accepted for processing</span></div>
+            <div><strong>{data.import_summary.quarantined}</strong><span>documents quarantined</span></div><div><strong>{data.import_summary.unmatched_pending ?? "—"}</strong><span>unmatched / pending</span></div>
             <div><strong>{data.import_summary.published}</strong><span>usable documents published</span></div>
           </div>
           <DataGrid rows={data.import_summary.rows.map((row) => ({ ...row, id: row.document_id }))} columns={[

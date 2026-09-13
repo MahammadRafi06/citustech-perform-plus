@@ -1,0 +1,323 @@
+{
+  "prior_runs": [
+    {
+      "member_id": "MB-000001",
+      "run_id": "RUN-270c44591b2d4ed4a2dcb7a823b9e0d6",
+      "raw_score": 0.396
+    },
+    {
+      "member_id": "MB-000002",
+      "run_id": "RUN-16bf5bbde8934b34a1930ddb5b873fcf",
+      "raw_score": 0.649
+    },
+    {
+      "member_id": "MB-000003",
+      "run_id": "RUN-3f5f745d3b9145a6ab49bcbfd439287e",
+      "raw_score": 0.395
+    },
+    {
+      "member_id": "MB-000004",
+      "run_id": "RUN-b79365fd5b6c4fb9ad073ce52bd8a884",
+      "raw_score": 0.692
+    },
+    {
+      "member_id": "MB-000005",
+      "run_id": "RUN-edf49feeaab14cf28be0b744bb4573cb",
+      "raw_score": 0.758
+    },
+    {
+      "member_id": "MB-000006",
+      "run_id": "RUN-192c4355037845d29bfa58e432aee1f8",
+      "raw_score": 0.332
+    }
+  ],
+  "hypothetical_impacts": [
+    {
+      "items": [
+        {
+          "member_id": "MB-000001",
+          "finding_ids": [
+            "OP-0001"
+          ],
+          "baseline_run_id": "RUN-04d582189d2245439649c003d6e718f3",
+          "scenario_run_id": "RUN-4e13b08a3b3542c9876cf769cfacbdf2",
+          "config_id": "ma_v28_py2027_forecast",
+          "delta": 0.0,
+          "baseline_score": 0.756,
+          "scenario_score": 0.756,
+          "member_months": 12,
+          "label": "If supported",
+          "status": "completed",
+          "overlap_method": "Full member recalculation of the selected input union once",
+          "errors": [],
+          "actor_id": "superuser"
+        }
+      ],
+      "config_id": "ma_v28_py2027_forecast",
+      "finding_count": 1,
+      "member_count": 1,
+      "combined_member_score_point_change": 0.0,
+      "selected_cohort_weighted_delta": 0.0,
+      "denominator_member_months": 12,
+      "basis": "Hypothetical union by member; selected-cohort member-month weighting. No guaranteed clinical, receiver or financial outcome."
+    },
+    {
+      "items": [
+        {
+          "member_id": "MB-000002",
+          "finding_ids": [
+            "OP-0002"
+          ],
+          "baseline_run_id": "RUN-646dcb3c4c8e4c8f83f141df5e69aa85",
+          "scenario_run_id": "RUN-31e8db322e4e4700a79d3bd9709f18bf",
+          "config_id": "ma_v28_py2027_forecast",
+          "delta": 0.319,
+          "baseline_score": 0.33,
+          "scenario_score": 0.649,
+          "member_months": 12,
+          "label": "If supported",
+          "status": "completed",
+          "overlap_method": "Full member recalculation of the selected input union once",
+          "errors": [],
+          "actor_id": "superuser"
+        }
+      ],
+      "config_id": "ma_v28_py2027_forecast",
+      "finding_count": 1,
+      "member_count": 1,
+      "combined_member_score_point_change": 0.319,
+      "selected_cohort_weighted_delta": 0.319,
+      "denominator_member_months": 12,
+      "basis": "Hypothetical union by member; selected-cohort member-month weighting. No guaranteed clinical, receiver or financial outcome."
+    },
+    {
+      "items": [
+        {
+          "member_id": "MB-000003",
+          "finding_ids": [
+            "OP-0003"
+          ],
+          "baseline_run_id": "RUN-97af39db71ce4eb8a4022a6ba37bee76",
+          "scenario_run_id": "RUN-5f231d7324234abc8273eb55176e2576",
+          "config_id": "ma_v28_py2027_forecast",
+          "delta": 0.166,
+          "baseline_score": 0.395,
+          "scenario_score": 0.561,
+          "member_months": 12,
+          "label": "If supported",
+          "status": "completed",
+          "overlap_method": "Full member recalculation of the selected input union once",
+          "errors": [],
+          "actor_id": "superuser"
+        }
+      ],
+      "config_id": "ma_v28_py2027_forecast",
+      "finding_count": 1,
+      "member_count": 1,
+      "combined_member_score_point_change": 0.166,
+      "selected_cohort_weighted_delta": 0.166,
+      "denominator_member_months": 12,
+      "basis": "Hypothetical union by member; selected-cohort member-month weighting. No guaranteed clinical, receiver or financial outcome."
+    },
+    {
+      "items": [
+        {
+          "member_id": "MB-000004",
+          "finding_ids": [
+            "OP-0004"
+          ],
+          "baseline_run_id": "RUN-8a64fb40f9d34342a950222fcd507da1",
+          "scenario_run_id": "RUN-397b77cf9be744f19c84bde4656bed2a",
+          "config_id": "ma_v28_py2027_forecast",
+          "delta": -0.36,
+          "baseline_score": 0.756,
+          "scenario_score": 0.396,
+          "member_months": 12,
+          "label": "If supported",
+          "status": "completed",
+          "overlap_method": "Full member recalculation of the selected input union once",
+          "errors": [],
+          "actor_id": "superuser"
+        }
+      ],
+      "config_id": "ma_v28_py2027_forecast",
+      "finding_count": 1,
+      "member_count": 1,
+      "combined_member_score_point_change": -0.36,
+      "selected_cohort_weighted_delta": -0.36,
+      "denominator_member_months": 12,
+      "basis": "Hypothetical union by member; selected-cohort member-month weighting. No guaranteed clinical, receiver or financial outcome."
+    },
+    {
+      "items": [
+        {
+          "member_id": "MB-000005",
+          "finding_ids": [
+            "OP-0005"
+          ],
+          "baseline_run_id": "RUN-1937055894e743c89e7384775021f582",
+          "scenario_run_id": "RUN-8c36814c9ac04fb39c68e3747b733e03",
+          "config_id": "ma_v28_py2027_forecast",
+          "delta": 0.0,
+          "baseline_score": 0.758,
+          "scenario_score": 0.758,
+          "member_months": 12,
+          "label": "If supported",
+          "status": "completed",
+          "overlap_method": "Full member recalculation of the selected input union once",
+          "errors": [],
+          "actor_id": "superuser"
+        }
+      ],
+      "config_id": "ma_v28_py2027_forecast",
+      "finding_count": 1,
+      "member_count": 1,
+      "combined_member_score_point_change": 0.0,
+      "selected_cohort_weighted_delta": 0.0,
+      "denominator_member_months": 12,
+      "basis": "Hypothetical union by member; selected-cohort member-month weighting. No guaranteed clinical, receiver or financial outcome."
+    },
+    {
+      "items": [
+        {
+          "member_id": "MB-000006",
+          "finding_ids": [
+            "OP-0006"
+          ],
+          "baseline_run_id": "RUN-380df59e0d854a4b890d18d89ecf123f",
+          "scenario_run_id": "RUN-8f3aa3bd5bc945dd9654db3863f0db52",
+          "config_id": "ma_v28_py2027_forecast",
+          "delta": 0.319,
+          "baseline_score": 0.332,
+          "scenario_score": 0.651,
+          "member_months": 12,
+          "label": "If supported",
+          "status": "completed",
+          "overlap_method": "Full member recalculation of the selected input union once",
+          "errors": [],
+          "actor_id": "superuser"
+        }
+      ],
+      "config_id": "ma_v28_py2027_forecast",
+      "finding_count": 1,
+      "member_count": 1,
+      "combined_member_score_point_change": 0.319,
+      "selected_cohort_weighted_delta": 0.319,
+      "denominator_member_months": 12,
+      "basis": "Hypothetical union by member; selected-cohort member-month weighting. No guaranteed clinical, receiver or financial outcome."
+    }
+  ],
+  "clinical_changes": false,
+  "recapture": {
+    "items": [
+      {
+        "id": "RECAPTURE-MB-000004-HCC226",
+        "member_id": "MB-000004",
+        "member_name": "Taylor Quinn",
+        "category": "HCC226",
+        "condition": "HCC226",
+        "code": "I509",
+        "prior_config_id": "ma_v28_py2026",
+        "config_id": "ma_v28_py2027_forecast",
+        "prior_run_id": "RUN-b79365fd5b6c4fb9ad073ce52bd8a884",
+        "current_run_id": "RUN-8a64fb40f9d34342a950222fcd507da1",
+        "prior_period": "2025-01-01 / 2025-12-31",
+        "current_period": "2026-01-01 / 2026-09-30",
+        "source_ids": [
+          "CLAIM-MB-000004-1"
+        ],
+        "state": "coded_pending_downstream",
+        "clinical_recaptured": false,
+        "receiver_eligible_recaptured": false,
+        "denominator_eligible": true,
+        "exclusion_reason": null,
+        "comparability": "Same named model definition with actual mapped prior/current outputs; different model families are excluded."
+      },
+      {
+        "id": "RECAPTURE-MB-000005-HCC38",
+        "member_id": "MB-000005",
+        "member_name": "Casey Morgan",
+        "category": "HCC38",
+        "condition": "HCC38",
+        "code": "E119",
+        "prior_config_id": "ma_v28_py2026",
+        "config_id": "ma_v28_py2027_forecast",
+        "prior_run_id": "RUN-edf49feeaab14cf28be0b744bb4573cb",
+        "current_run_id": "RUN-1937055894e743c89e7384775021f582",
+        "prior_period": "2025-01-01 / 2025-12-31",
+        "current_period": "2026-01-01 / 2026-09-30",
+        "source_ids": [
+          "CLAIM-MB-000005-1"
+        ],
+        "state": "coded_pending_downstream",
+        "clinical_recaptured": false,
+        "receiver_eligible_recaptured": false,
+        "denominator_eligible": true,
+        "exclusion_reason": null,
+        "comparability": "Same named model definition with actual mapped prior/current outputs; different model families are excluded."
+      },
+      {
+        "id": "RECAPTURE-MB-000005-HCC328",
+        "member_id": "MB-000005",
+        "member_name": "Casey Morgan",
+        "category": "HCC328",
+        "condition": "HCC328",
+        "code": "N1832",
+        "prior_config_id": "ma_v28_py2026",
+        "config_id": "ma_v28_py2027_forecast",
+        "prior_run_id": "RUN-edf49feeaab14cf28be0b744bb4573cb",
+        "current_run_id": "RUN-1937055894e743c89e7384775021f582",
+        "prior_period": "2025-01-01 / 2025-12-31",
+        "current_period": "2026-01-01 / 2026-09-30",
+        "source_ids": [
+          "CLAIM-MB-000005-2"
+        ],
+        "state": "coded_pending_downstream",
+        "clinical_recaptured": false,
+        "receiver_eligible_recaptured": false,
+        "denominator_eligible": true,
+        "exclusion_reason": null,
+        "comparability": "Same named model definition with actual mapped prior/current outputs; different model families are excluded."
+      },
+      {
+        "id": "RECAPTURE-MB-000002-HCC280",
+        "member_id": "MB-000002",
+        "member_name": "Morgan Reed",
+        "category": "HCC280",
+        "condition": "HCC280",
+        "code": "J449",
+        "prior_config_id": "ma_v28_py2026",
+        "config_id": "ma_v28_py2027_forecast",
+        "prior_run_id": "RUN-16bf5bbde8934b34a1930ddb5b873fcf",
+        "current_run_id": "RUN-646dcb3c4c8e4c8f83f141df5e69aa85",
+        "prior_period": "2025-01-01 / 2025-12-31",
+        "current_period": "2026-01-01 / 2026-09-30",
+        "source_ids": [
+          "CLAIM-MB-000002-2"
+        ],
+        "state": "assessment_due",
+        "clinical_recaptured": false,
+        "receiver_eligible_recaptured": false,
+        "denominator_eligible": true,
+        "exclusion_reason": null,
+        "comparability": "Same named model definition with actual mapped prior/current outputs; different model families are excluded."
+      }
+    ],
+    "exclusions": [],
+    "config_id": "ma_v28_py2027_forecast",
+    "prior_config_id": "ma_v28_py2026",
+    "clinical": {
+      "numerator": 0,
+      "denominator": 4
+    },
+    "receiver_eligible": {
+      "numerator": 0,
+      "denominator": 4
+    },
+    "definition": "Distinct comparable member-category pairs; QA-supported and receiver-eligible stages are separate.",
+    "unit": "eligible member-category pairs",
+    "prior_scored_members": 6,
+    "current_scored_members": 10000,
+    "status": "available"
+  }
+}

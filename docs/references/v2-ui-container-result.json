@@ -1,0 +1,16 @@
+{
+  "verified_at": "2026-09-13T03:29:30.102497+00:00",
+  "ui_image_id": "sha256:215d8c5e1ca6f4d376e95ec4ae62f9f8428dbe38177c81c9d70d8a346f952796",
+  "ui_url": "http://localhost:3006",
+  "api_url": "http://localhost:8004",
+  "database": "perform_plus_v2",
+  "checks": {
+    "login_page": 200,
+    "real_cookie_login": 200,
+    "protected_bootstrap": 200,
+    "casey_completed_calculation": 200,
+    "protected_overview": 200
+  },
+  "member_run_id": "RUN-1937055894e743c89e7384775021f582",
+  "boundary": "Temporary production UI container to existing isolated development API and PostgreSQL. No Kubernetes deployment or new API container runtime integration claimed."
+}

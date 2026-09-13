@@ -16,6 +16,7 @@ from fastapi.testclient import TestClient
 ROOT = Path(__file__).resolve().parents[3]
 BASE_URL = os.environ.get('DATABASE_URL') or (ROOT / '.local/database-url').read_text().strip()
 SCHEMA = 'ct_test_' + uuid.uuid4().hex[:12]
+DATABASE_USERS = 0
 TEMP = tempfile.TemporaryDirectory(prefix='ct-tests-')
 os.environ['CT_DATA_DIR'] = TEMP.name
 os.environ['CT_DEMO_PASSWORD'] = 'Synthetic-test-password-8!'
@@ -25,19 +26,31 @@ from apps.api.app import main
 
 @pytest.fixture(scope='session', autouse=True)
 def database():
-    with psycopg.connect(BASE_URL, autocommit=True) as conn:
-        conn.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(SCHEMA)))
-    main.initialize()
-    yield
-    with psycopg.connect(BASE_URL, autocommit=True) as conn:
-        conn.execute(sql.SQL('DROP SCHEMA {} CASCADE').format(sql.Identifier(SCHEMA)))
-    TEMP.cleanup()
+    # Additional focused modules reuse this harness; pytest may register the
+    # imported fixture once per module, while they share this exact schema.
+    global DATABASE_USERS
+    if not DATABASE_USERS:
+        with psycopg.connect(BASE_URL, autocommit=True) as conn:
+            conn.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(SCHEMA)))
+        main.initialize()
+    DATABASE_USERS+=1
+    try:
+        yield
+    finally:
+        DATABASE_USERS-=1
+        if not DATABASE_USERS:
+            with psycopg.connect(BASE_URL, autocommit=True) as conn:
+                conn.execute(sql.SQL('DROP SCHEMA {} CASCADE').format(sql.Identifier(SCHEMA)))
+            TEMP.cleanup()
 
 @pytest.fixture(autouse=True)
 def baseline(database):
     with main.db() as conn:
         state=json.loads(main.SEED.read_text());state.update(tasks=[],runs=[],tour_started=main.now())
         main.save_state(conn,state)
+        # These tables exist only in this test's disposable schema. Keep saved
+        # calculations from one clinical example out of the next example.
+        conn.execute('TRUNCATE risk_stages, risk_runs, risk_inputs, risk_records, risk_batches')
         conn.execute('DELETE FROM events')
         conn.execute('DELETE FROM sessions')
         conn.execute('DELETE FROM login_attempts')
@@ -131,9 +144,9 @@ def test_superuser_preserves_clinical_and_independent_qa_gates():
         assert response.status_code==400 and response.json()['error']['code']=='EVIDENCE_REQUIRED'
     assert action(client,'review',id='MB-000001',value='resolved_supported',note='Signed current assessment inspected.').status_code==200
     assert action(client,'qa',id='MB-000001',value='passed').status_code==403
-    assert action(login('qa'),'qa',id='MB-000001',value='passed').status_code==200
+    assert action(login('qa'),'qa',id='MB-000001',value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
     assert action(login('coder'),'review',id='MB-000005',value='resolved_supported',note='Source reviewed independently.').status_code==200
-    assert action(client,'qa',id='MB-000005',value='passed').status_code==200
+    assert action(client,'qa',id='MB-000005',value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
 
 
 def test_campaign_dedup_and_frozen_comparison():
@@ -153,7 +166,7 @@ def test_review_qa_and_directory_persistence():
     coder=login('coder')
     assert action(coder,'review',id='MB-000001',value='resolved_supported',note='Current signed assessment inspected.').status_code==200
     qa=login('qa')
-    assert action(qa,'qa',id='MB-000001',value='passed').status_code==200
+    assert action(qa,'qa',id='MB-000001',value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
     case=coder.get('/api/v1/members/MB-000001').json()
     assert case['opportunities'][0]['qa_status']=='passed'
     assert case['opportunities'][0]['reviewer']=='coder'
@@ -192,7 +205,7 @@ def test_correction_preserves_original_and_receiver_history():
     client=login('submission')
     assert action(client,'correction',id='SUB-0002').status_code==400
     assert action(login('coder'),'review',id='MB-000004',value='resolved_unsupported',note='Current source contradicts the original condition.').status_code==200
-    assert action(login('qa'),'qa',id='MB-000004',value='passed').status_code==200
+    assert action(login('qa'),'qa',id='MB-000004',value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
     prepared=action(client,'prepare',id='MB-000004').json()['submission_id']
     assert action(client,'receiver',id=prepared,value='rejected').status_code==200
     retry_id=action(client,'correction',id=prepared).json()['submission_id']
@@ -467,7 +480,7 @@ def test_assessment_qa_completion_rework_and_new_source_reopen():
     assert case()['opportunities'][0]['qa_note']=='Specify the exact current encounter passage.'
     assert not case()['opportunities'][0]['completion']['complete']
     assert action(coder,'review',id=mid,value='resolved_supported',note='DOC-0001 assessment and plan reviewed.').status_code==200
-    assert action(qa,'qa',id=mid,value='passed').status_code==200
+    assert action(qa,'qa',id=mid,value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
     approved=case()['opportunities'][0]
     assert approved['completion']['complete'] and case()['tasks'][0]['status']=='completed'
     assert len(approved['decision_history'])==2 and len(approved['qa_history'])==2
@@ -537,7 +550,7 @@ def test_assessment_linked_addition_retry_report_and_complete_audit():
     assert action(submission,'prepare',id=mid).status_code==400
     assert action(coder,'review',id=mid,value='resolved_supported',note='Exact DOC-0001 assessment supports the prepared code.').status_code==200
     assert action(submission,'prepare',id=mid).status_code==400
-    assert action(qa,'qa',id=mid,value='passed').status_code==200
+    assert action(qa,'qa',id=mid,value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
     first=action(submission,'prepare',id=mid).json()['submission_id']
     assert action(submission,'prepare',id=mid).json()['submission_id']==first
     assert action(submission,'receiver',id=first,value='rejected',note='Prepared source reference rejection.').status_code==200

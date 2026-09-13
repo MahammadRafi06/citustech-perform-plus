@@ -1,8 +1,14 @@
 # CitusTech Perform+ demo implementation plan
 
-## Current increment — capability assessment
+## Current increment — business requirements V2, in development
 
-The active execution plan is [docs/DEMO_ASSESSMENT_PLAN.md](docs/DEMO_ASSESSMENT_PLAN.md), based on the complete [12 September assessment](Perform_Plus_Demo_Assessment.md) and checked against merged `main` at `40be7e2`. Track completed implementation and verification under [Assessment backlog in TODO.md](TODO.md#assessment-backlog--active).
+The active plan is [Business requirements V2](docs/BUSINESS_REQUIREMENTS_V2_PLAN.md), with the [active V2 backlog](TODO.md#active-increment--business-requirements-v2) and [170-requirement traceability matrix](docs/V2_REQUIREMENTS_MATRIX.json). It is based on `origin/main` at `9b77300` in the isolated `codex/business-requirements-v2` checkout.
+
+**The user approved development after reviewing the TODOs. Implementation is underway; see [current verification](docs/V2_VERIFICATION.md).** V2 requires actual MA, historical V24/V28, RxHCC and ACA calculation plus Medicaid external-score workflows. Earlier nonnumeric/precomputed fallback acceptance and deferred scoring statements below are historical and are superseded. Local authentication/RBAC, clinical/QA gates, desktop visual conventions, evidence provenance and separate UI/API/database components remain in scope.
+
+## Historical increment — capability assessment
+
+The previous execution plan is [docs/DEMO_ASSESSMENT_PLAN.md](docs/DEMO_ASSESSMENT_PLAN.md), based on the complete [12 September assessment](Perform_Plus_Demo_Assessment.md) and checked against merged `main` at `40be7e2`. Track its completed implementation and verification under [historical assessment backlog](TODO.md#historical-assessment-backlog--previous-increment).
 
 The assessment increment is **implemented and verified**, with [fresh verification evidence](docs/ASSESSMENT_VERIFICATION.md). Automated reset checks and two explicitly approved reset cycles of the isolated rehearsal passed; the shared preview was preserved. It connects review, independent QA and simulated submission; fixes evidence/assignment/progress gaps; updates prepared findings and source-linked explanations; adds scoring/trace explanations; and verifies the desktop presenter route. Local authentication/RBAC and separate UI/API/database components remain in scope. The new plan records the complete acceptance criteria and explicit fallback for scoring.
 
