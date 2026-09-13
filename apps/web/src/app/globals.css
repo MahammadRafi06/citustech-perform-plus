@@ -10,7 +10,7 @@
 --------------------------------------------------------------------------- */
 :root {
   /* Surfaces */
-  --background: #eef1f6;
+  --background: #f2f4f9;
   --foreground: #0b1220;
   --card: #ffffff;
   --card-foreground: #0b1220;
@@ -28,8 +28,8 @@
   --secondary-foreground: #3f4a5f;
   --muted: #f1f4f9;
   --muted-foreground: #5b6577;
-  --accent: #eef2ff;
-  --accent-foreground: #4338ca;
+  --accent: #e9edfd;
+  --accent-foreground: #3c46c4;
 
   /* Semantic */
   --destructive: #dc2626;
@@ -43,7 +43,7 @@
   --ring: #4f46e5;
 
   /* Shape + elevation */
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   --shadow-2xs: 0 1px 2px rgb(15 23 42 / 0.05);
   --shadow-xs: 0 1px 2px rgb(15 23 42 / 0.06);
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.05),

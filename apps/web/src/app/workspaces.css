@@ -885,3 +885,24 @@
 .mobile-nav {
   scrollbar-width: thin;
 }
+
+/* --- V3 enterprise polish (layered at end of cascade) ------------------- */
+.insight-card {
+  transition: box-shadow 0.18s var(--ease-out), transform 0.18s var(--ease-out);
+}
+.insight-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.member-avatar {
+  background: linear-gradient(135deg, #eef1fb, #e3e9f8);
+  color: #45538a;
+  font-weight: 600;
+}
+.member-tabs [role="tab"] {
+  color: var(--text-secondary);
+}
+.member-tabs [role="tab"]:hover {
+  color: var(--ink-strong);
+}
+
