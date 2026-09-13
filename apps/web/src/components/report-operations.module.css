@@ -1,0 +1,15 @@
+.heatmap { padding:24px; overflow-x:auto; }
+.matrix { min-width:430px; display:grid; gap:7px; align-items:stretch; }
+.row { display:contents; }
+.corner { font-size:11px; color:var(--text-muted); align-self:end; padding-bottom:12px; }
+.column { font-size:10px; color:var(--text-muted); text-align:center; align-self:end; padding:0 2px 12px; line-height:1.5; }
+.rowLabel { font-size:11px; color:var(--text-secondary); align-self:center; padding:4px 8px 4px 0; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+.cell { width:100%; min-height:41px; font-size:13px; font-weight:500; color:var(--primary); border:1px solid color-mix(in srgb,var(--chart-1) 12%,var(--border)); background:color-mix(in srgb,var(--chart-1) var(--heat),var(--card)); border-radius:4px; font-variant-numeric:tabular-nums; }
+.cell:hover,.cell[aria-pressed=true] { border-color:var(--primary); outline:1px solid var(--primary); }
+.heatLegend { display:flex; align-items:center; justify-content:flex-end; gap:9px; font-size:10px; color:var(--text-muted); margin-top:18px; }
+.heatLegend i { width:70px; height:6px; border-radius:2px; background:linear-gradient(90deg,var(--muted),var(--chart-1)); }
+.note { font-size:11px; color:var(--text-muted); margin:14px 0 0; line-height:1.6; min-height:32px; }
+.providerPlot { padding:20px 24px; }
+.providerPlot svg { width:100%; }
+.axis { fill:var(--text-muted); font-size:11px; }
+.pointLabel { fill:var(--chart-2); font-size:11px; font-weight:600; }

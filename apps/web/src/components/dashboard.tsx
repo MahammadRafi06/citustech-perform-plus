@@ -11,45 +11,30 @@ import {
   ScanLine,
   CheckCircle2,
   Clock3,
-  Sparkles,
   Info,
-  ShieldCheck,
   Activity,
-  Target,
-  TrendingUp,
-  FileCheck2,
 } from "lucide-react";
-import {
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   PageHeader,
   Panel,
   Metric,
   Status,
-  Avatar,
   Modal,
   Notice,
   Empty,
   DataGrid,
 } from "./shared";
+import { downloadRiskJson } from "@/lib/risk-client";
 import { num, label, download } from "@/lib/api";
 import type { Snapshot, User, Opportunity } from "@/lib/types";
 import { toast } from "sonner";
+import { ComparisonPlot, QualityMatrix, MetricSpotlight } from "./report-visuals";
+import { OperationalVisuals } from "./report-operations";
 import { RiskAnalytics } from "./risk-analytics-ui";
 import { RiskFinancial } from "./risk-financial-ui";
-import { RiskOverview, RiskRecapture, useRiskContext } from "./risk-ui";
+import { RiskOverview, useRiskContext } from "./risk-ui";
 
 const domainTabs = [
   "AI Impact",
@@ -84,7 +69,8 @@ export function Dashboard({
           .replace(/&/g, "and")
           .replace(/[^a-z0-9]+/g, "-") === suffix,
     ) || "AI Impact";
-  const [domain, setDomain] = useUrlState("view", initialReport);
+  const [report, setDomain] = useUrlState("view", initialReport);
+  const domain = domainTabs.includes(report) ? report : initialReport;
   const [method, setMethod] = useState(false),
     [records, setRecords] = useState(false);
   const metrics = data.comparison?.metrics || {};
@@ -104,25 +90,29 @@ export function Dashboard({
     .slice(0, 8);
   const caseLink = (o: Opportunity) =>
     `/${user.screens.includes("reviews") ? "reviews" : "members"}/${o.member_id}`;
-  const exportReport = () =>
-    download(analytics ? "comparison" : "members", user.csrf_token).catch((e) =>
-      toast.error(e.message),
-    );
+  const exportReport = () => {
+    if (!risk.permissions.includes("export")) return;
+    if (analytics && domain !== "AI Impact") {
+      downloadRiskJson({ report: domain, configuration: risk.configuration, score_basis: risk.basis, population_in_scope: data.population_count, records: operationalRows(data, domain).rows }, `perform-plus-${domain.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.json`);
+      return;
+    }
+    download(analytics ? "comparison" : "members", user.csrf_token).catch(error => toast.error(error.message));
+  };
   return (
-    <>
+    <Tabs value={domain} onValueChange={setDomain} className="report-workspace">
       <PageHeader
-        title={analytics ? domain : "Program overview"}
+        title={analytics ? "Risk analytics" : "Program overview"}
         description={
           analytics && domain === "AI Impact"
             ? "Synthetic comparison · 100 charts per arm · September 2026"
             : `${risk.configuration?.name || "Program loading"} · ${risk.basis.replaceAll("_", " ")}`
         }
       >
-        {!["Executive", "Risk & conditions", "Financial scenarios"].includes(domain) && <Button variant="outline" onClick={exportReport}>
+        {risk.permissions.includes("export") && !["Executive", "Risk & conditions", "Financial scenarios"].includes(domain) && <Button variant="outline" onClick={exportReport}>
           <ArrowDownToLine size={16} />
-          {analytics ? "Export comparison" : "Export report"}
+          {analytics && domain === "AI Impact" ? "Export comparison" : "Export report"}
         </Button>}
-        {analytics && !["Executive", "Risk & conditions", "Financial scenarios"].includes(domain) ? (
+        {analytics && domain === "AI Impact" ? (
           <Button variant="outline" onClick={() => setMethod(true)}>
             <Info size={16} />
             Methodology
@@ -136,39 +126,18 @@ export function Dashboard({
         ) : null}
       </PageHeader>
       {analytics && (
-        <div className="report-selector">
-          <label htmlFor="analytics-report">Report</label>
-          <select
-            id="analytics-report"
-            value={domain}
-            onChange={(e) => setDomain(e.target.value)}
-            className="report-select"
-          >
-            {[
-              ["Impact and program", domainTabs.slice(0, 3)],
-              ["Review operations", domainTabs.slice(3, 7)],
-              ["Governance", domainTabs.slice(7)],
-            ].map(([group, items]) => (
-              <optgroup key={String(group)} label={String(group)}>
-                {(items as string[]).map((t) => (
-                  <option key={t}>{t}</option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          <span className="subtle-tag">
-            {analytics && domain === "AI Impact"
-              ? comparison?.id
-              : "Current workspace snapshot"}
-          </span>
+        <div className="report-navigation">
+          <TabsList variant="line" className="report-tabs" aria-label="Reports">
+            {domainTabs.map(name => <TabsTrigger key={name} value={name}>{name === "Financial scenarios" ? "Financial" : name === "Data & AI operations" ? "Data & AI" : name}</TabsTrigger>)}
+          </TabsList>
         </div>
       )}
+      <TabsContent value={domain} className="report-content">
       {analytics && domain === "Executive" ? <RiskOverview user={user} embedded /> : analytics && domain === "Risk & conditions" ? <RiskAnalytics user={user} /> : analytics && domain === "Financial scenarios" ? <RiskFinancial user={user} /> : analytics && domain !== "AI Impact" ? (
         <DomainView
           domain={domain}
           data={data}
           user={user}
-          onMethod={() => setMethod(true)}
         />
       ) : !analytics ? (
         <>
@@ -325,11 +294,22 @@ export function Dashboard({
         </>
       ) : (
         <>
-          <div className="comparison-layout">
-            <Panel
-              title="Final review outcomes"
-              subtitle="Independent reference labels · Manual and AI-assisted review"
-            >
+          <MetricSpotlight items={[
+            { label: "Active review time reduction", value: pct("review_time_reduction"), note: `${val("manual_mean_minutes", " min")} manual → ${val("assisted_mean_minutes", " min")} assisted` },
+            { label: "Supported final findings", value: String(comparison?.summary?.assisted.tp ?? "—"), note: `${comparison?.summary?.manual.tp ?? "—"} manual · 120 reference-positive slots per arm` },
+            { label: "Assisted final precision", value: pct("assisted_precision"), note: `${pct("manual_precision")} manual · supported / final positive findings` },
+          ]} />
+          <div className="report-chart-grid">
+            <Panel title="Time to a completed review" subtitle="Mean active minutes per chart · grouped by recorded complexity">
+              <ComparisonPlot rows={comparisonRows(comparison?.evaluation_records || [])} unit=" min" />
+              <div className="risk-panel-foot"><span>100 charts per arm · frozen synthetic comparison</span><Button variant="ghost" size="sm" onClick={() => setRecords(true)}>Inspect chart records<ArrowUpRight size={13} /></Button></div>
+            </Panel>
+            <Panel title="What the AI flagged" subtitle="AI-stage outcomes against independent reference labels">
+              <div className="report-quality-head"><div><strong>{pct("ai_precision")}</strong><span>Precision</span></div><div><strong>{pct("ai_recall")}</strong><span>Recall</span></div><p>Before human review<br />1,000 evaluation slots</p></div>
+              <QualityMatrix values={comparison?.summary?.ai} />
+            </Panel>
+          </div>
+          <Panel title="Final review outcomes" subtitle="Human-confirmed results · independent reference labels">
               <div className="table-scroll">
                 <table className="comparison-table">
                   <thead>
@@ -369,91 +349,7 @@ export function Dashboard({
                   </tbody>
                 </table>
               </div>
-              <div className="time-bars">
-                <h3>
-                  Active review time{" "}
-                  <span className="subtle-tag">
-                    · {pct("review_time_reduction")} lower in the synthetic
-                    assisted arm
-                  </span>
-                </h3>
-                {[
-                  ["Manual", "manual_mean_minutes", ""],
-                  ["AI-assisted", "assisted_mean_minutes", "assisted"],
-                ].map(([name, key, cls]) => (
-                  <div className={`time-row ${cls}`} key={key}>
-                    <span>{name}</span>
-                    <div>
-                      <i
-                        style={{
-                          width: `${((metrics[key] ?? 0) / 40) * 100}%`,
-                        }}
-                      />
-                    </div>
-                    <strong>{val(key)}</strong>
-                  </div>
-                ))}
-                <div className="time-axis">
-                  <span>0</span>
-                  <span>10</span>
-                  <span>20</span>
-                  <span>30</span>
-                  <span>40 min</span>
-                </div>
-              </div>
-            </Panel>
-            <Panel
-              title="AI-stage quality"
-              subtitle="Flags before human review"
-            >
-              <div className="quality-summary">
-                <div>
-                  <strong>{pct("ai_precision")}</strong>
-                  <span>Precision · 108 / 135</span>
-                </div>
-                <div>
-                  <strong>{pct("ai_recall")}</strong>
-                  <span>Recall · 108 / 120</span>
-                </div>
-              </div>
-              <div className="table-scroll">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Reference</th>
-                      <th>Flagged</th>
-                      <th>Unflagged</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Positive</td>
-                      <td>TP {comparison?.summary?.ai.tp ?? "—"}</td>
-                      <td>FN {comparison?.summary?.ai.fn ?? "—"}</td>
-                    </tr>
-                    <tr>
-                      <td>Negative</td>
-                      <td>FP {comparison?.summary?.ai.fp ?? "—"}</td>
-                      <td>TN {comparison?.summary?.ai.tn ?? "—"}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="padded">
-                <p className="body-copy">
-                  1,000 condition-evaluation slots in the assisted arm. Human
-                  confirmation is recorded separately from AI accuracy.
-                </p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setMethod(true)}
-                >
-                  View definitions <ArrowRight size={14} />
-                </Button>
-              </div>
-            </Panel>
-          </div>
+          </Panel>
           <Panel
             title="Recent operational activity"
             subtitle="Latest 100 event records at most. Separate from the frozen synthetic comparison."
@@ -520,6 +416,7 @@ export function Dashboard({
           </Panel>
         </>
       )}
+      </TabsContent>
       <Modal
         open={method}
         onOpenChange={setMethod}
@@ -596,21 +493,19 @@ export function Dashboard({
           ]}
           searchLabel="Search evaluation charts"
         />
-        <Button onClick={exportReport}>Download all chart records</Button>
+        <Button disabled={!risk.permissions.includes("export")} onClick={exportReport}>Download all chart records</Button>
       </Modal>
-    </>
+    </Tabs>
   );
 }
 function DomainView({
   domain,
   data,
   user,
-  onMethod,
 }: {
   domain: string;
   data: Snapshot;
   user: User;
-  onMethod: () => void;
 }) {
   const returnLink = useReturnLink();
   if (domain === "Financial scenarios")
@@ -635,12 +530,95 @@ function DomainView({
         </div>
       </Panel>
     );
+  const { rows, relevant } = operationalRows(data, domain);
+  const completed = ["Coding & QA", "Executive", "Risk & conditions", "Suspecting"].includes(domain)
+    ? relevant.filter((o) => o.completion?.complete).length
+    : rows.filter((r) =>
+    [
+      "accepted",
+      "resolved_supported",
+      "resolved_unsupported",
+      "passed",
+      "succeeded",
+      "usable",
+    ].includes(r.status),
+  ).length;
+  return (
+    <>
+      <div className="metric-grid three">
+        <Metric
+          label={`${domain} records`}
+          value={num(rows.length)}
+          note="Current workspace records"
+          icon={<Activity size={18} />}
+        />
+        <Metric
+          label={domain === "Providers" ? "Average response time" : ["Coding & QA", "Executive", "Risk & conditions", "Suspecting"].includes(domain) ? "QA-approved actionable reviews" : "Completed outcomes"}
+          value={domain === "Providers" ? `${data.providers.length ? (data.providers.reduce((sum, item) => sum + item.response_days, 0) / data.providers.length).toFixed(1) : "—"} days` : num(completed)}
+          note={domain === "Providers" ? "Mean recorded response days across practices" : domain === "Coding & QA" ? "Terminal review approved independently" : domain === "Retrieval" ? "Published usable source" : domain === "Submissions" ? "Accepted by the simulated receiver" : "Completion follows the selected workflow"}
+          icon={<CheckCircle2 size={18} />}
+          accent="teal"
+        />
+        <Metric
+          label="Program population"
+          value={num(data.population_count)}
+          note="Members in your access scope"
+          icon={<Users size={18} />}
+        />
+      </div>
+      <OperationalVisuals domain={domain} rows={rows} data={data} />
+      <Panel title={`${domain} records`}>
+        <DataGrid
+          rows={rows}
+          columns={[
+            {
+              accessorKey: "name",
+              header: domain === "Providers" ? "Practice" : "Record / member",
+              cell: ({ row }) =>
+                row.original.member_id ? (
+                  <Link href={returnLink(`/members/${row.original.member_id}`)}>
+                    {row.original.name}
+                  </Link>
+                ) : (
+                  row.original.name
+                ),
+            },
+            { accessorKey: "id", header: "Record ID" },
+            { accessorKey: "category", header: domain === "Providers" ? "Review workload" : "Context" },
+            ...(domain === "Providers" ? [{ accessorKey: "response_days", header: "Response time (days)" }] : []),
+            {
+              accessorKey: "status",
+              header: "Status",
+              cell: ({ getValue }) => <Status value={String(getValue())} />,
+            },
+          ]}
+        />
+      </Panel>
+    </>
+  );
+}
+
+function comparisonRows(records: Record<string, unknown>[]) {
+  const complexity = [...new Set(records.map(row => String(row.complexity)))];
+  const preferred = ["low", "medium", "moderate", "high"];
+  complexity.sort((a, b) => preferred.indexOf(a.toLowerCase()) - preferred.indexOf(b.toLowerCase()));
+  return complexity.map(name => {
+    const mean = (arm: string) => {
+      const values = records.filter(row => String(row.complexity) === name && row.arm === arm).map(row => Number(row.active_review_minutes)).filter(Number.isFinite);
+      return values.length ? values.reduce((a, b) => a + b, 0) / values.length : null;
+    };
+    return { name: label(name), before: mean("manual"), after: mean("assisted") };
+  });
+}
+
+function operationalRows(data: Snapshot, domain: string) {
   type DomainRow = {
     id: string;
     member_id?: string;
     name: string;
     category: string;
     status: string;
+    response_days?: number;
   };
   const relevant =
     domain === "Coding & QA"
@@ -690,6 +668,7 @@ function DomainView({
                 name: p.name,
                 category: `${data.opportunities.filter((o) => o.provider === p.name).length} work items`,
                 status: "active",
+                response_days: p.response_days,
               }))
             : relevant.map((o) => ({
                 id: o.id,
@@ -698,138 +677,5 @@ function DomainView({
                 category: o.condition,
                 status: o.qa_status || o.status,
               }));
-  const groupBy = domain === "Risk & conditions" ? "category" : "status";
-  const counts = rows.reduce<Record<string, number>>((result, row) => {
-    const key = row[groupBy];
-    result[key] = (result[key] || 0) + 1;
-    return result;
-  }, {});
-  const series = Object.entries(counts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 100)
-    .map(([name, value]) => ({ name: label(name), value }));
-  const completed = ["Coding & QA", "Executive", "Risk & conditions", "Suspecting"].includes(domain)
-    ? relevant.filter((o) => o.completion?.complete).length
-    : rows.filter((r) =>
-    [
-      "accepted",
-      "resolved_supported",
-      "resolved_unsupported",
-      "passed",
-      "succeeded",
-      "usable",
-    ].includes(r.status),
-  ).length;
-  return (
-    <>
-      <div className="metric-grid three">
-        <Metric
-          label={`${domain} records`}
-          value={num(rows.length)}
-          note="Current workspace records"
-          icon={<Activity size={18} />}
-        />
-        <Metric
-          label={["Coding & QA", "Executive", "Risk & conditions", "Suspecting"].includes(domain) ? "QA-approved actionable reviews" : "Completed outcomes"}
-          value={num(completed)}
-          note={domain === "Coding & QA" ? "Terminal review approved independently" : domain === "Retrieval" ? "Published usable source" : domain === "Submissions" ? "Accepted by the simulated receiver" : "Completion follows the selected workflow"}
-          icon={<CheckCircle2 size={18} />}
-          accent="teal"
-        />
-        <Metric
-          label="Program population"
-          value={num(data.population_count)}
-          note="Members in your access scope"
-          icon={<Users size={18} />}
-        />
-      </div>
-      <Panel
-        title={`${domain} · current work`}
-        subtitle="All categories; counts derive from the records below."
-      >
-        {rows.length && series.length === 1 ? (
-          <div className="padded">
-            <p className="body-copy">
-              {series[0].value} records · {series[0].name}. Browse the
-              individual records below.
-            </p>
-          </div>
-        ) : rows.length ? (
-          <div
-            className="chart-frame"
-            style={{ height: Math.max(260, series.length * 36 + 60) }}
-          >
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-              initialDimension={{ width: 600, height: 260 }}
-            >
-              <BarChart
-                data={series}
-                layout="vertical"
-                margin={{ left: 8, right: 30, bottom: 10 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                <XAxis
-                  type="number"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  allowDecimals={false}
-                />
-                <YAxis
-                  type="category"
-                  dataKey="name"
-                  width={280}
-                  interval={0}
-                  fontSize={13}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <Tooltip />
-                <Bar
-                  dataKey="value"
-                  name="Records"
-                  fill="#347de0"
-                  radius={[0, 4, 4, 0]}
-                  maxBarSize={26}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        ) : (
-          <Empty
-            title="No activity yet"
-            description="Run an analysis in Suspect registry to view results here."
-          />
-        )}
-      </Panel>
-      <Panel title={`${domain} records`}>
-        <DataGrid
-          rows={rows}
-          columns={[
-            {
-              accessorKey: "name",
-              header: domain === "Providers" ? "Practice" : "Record / member",
-              cell: ({ row }) =>
-                row.original.member_id ? (
-                  <Link href={returnLink(`/members/${row.original.member_id}`)}>
-                    {row.original.name}
-                  </Link>
-                ) : (
-                  row.original.name
-                ),
-            },
-            { accessorKey: "id", header: "Record ID" },
-            { accessorKey: "category", header: "Context" },
-            {
-              accessorKey: "status",
-              header: "Status",
-              cell: ({ getValue }) => <Status value={String(getValue())} />,
-            },
-          ]}
-        />
-      </Panel>
-    </>
-  );
+  return { rows, relevant };
 }

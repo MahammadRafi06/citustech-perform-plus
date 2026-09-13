@@ -2,14 +2,19 @@
   /* Surfaces */
   --card: #ffffff;
   --popover: #ffffff;
-  /* Brand (indigo) + signal (cyan) */
+  /* Cobalt actions + teal supporting data. Status labels stay neutral. */
   --primary-foreground: #ffffff;
-  /* Neutrals */
-  /* Semantic */
-  --destructive: #dc2626;
-  --success: #059669;
-  --warning: #d97706;
-  /* Lines + focus */
+  /* Semantic colors reserved for actionable errors, warnings and evidence. */
+  --destructive: #b84242;
+  --destructive-soft: #fdf1f1;
+  --destructive-border: #ebc9c9;
+  --success: #258582;
+  --success-soft: #edf6f4;
+  --success-border: #cfe3df;
+  --warning: #a76b21;
+  --warning-soft: #fcf5e8;
+  --warning-border: #e8d4ae;
+  --evidence-highlight: #fff1b8;
   /* Shape + elevation */
   --radius: 0.5rem;
   --shadow-2xs: 0 1px 2px rgb(15 23 42 / 0.05);
@@ -46,8 +51,20 @@
   --text-muted: #667284;
   --hover: #f5f7fa;
   --selected: #edf2fa;
-  --data-assisted: #3659ad;
-  --data-secondary: #258582;
+  --data-assisted: var(--signal);
+  --data-secondary: var(--signal);
+  /* One chart palette across every report. All values also have text labels. */
+  --chart-1: var(--primary);
+  --chart-2: var(--signal);
+  --chart-3: #b78639;
+  --chart-4: #8174a8;
+  --chart-5: #78a3bb;
+  --chart-6: #9ba6b5;
+  --surface-subtle: #f8fafc;
+  --icon-muted: #7b8797;
+  --placeholder: #8a96a6;
+  --scrollbar: #c7d0de;
+  --control-hover-border: #aab6ca;
   --shadow-sm: 0 1px 2px rgb(20 35 55 / 0.025);
   --text-page: 24px;
   --text-metric: 30px;

@@ -26,7 +26,7 @@
 
 .funnel-track {
   height: 5px;
-  background: #f1f4f8;
+  background: var(--muted);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -38,7 +38,7 @@
 }
 
 .funnel-foot {
-  border-top: 1px solid #edf0f5;
+  border-top: 1px solid var(--border);
   padding: 10px 0 13px;
   font-size: 13px;
   color: var(--text-secondary);
@@ -98,7 +98,7 @@
 }
 
 .timeline > div {
-  border-left: 1px solid #e2e9f2;
+  border-left: 1px solid var(--border);
   padding: 0 0 23px 26px;
   position: relative;
   margin-left: 9px;
@@ -114,7 +114,7 @@
   display: grid;
   place-items: center;
   background: var(--accent);
-  border: 1px solid #dde3fb;
+  border: 1px solid var(--border);
   color: var(--primary);
 }
 
@@ -157,13 +157,13 @@
 }
 
 .tour-list a:hover {
-  background: #f4f8fe;
+  background: var(--accent);
 }
 
 .tour-list span {
   font-size: 13px;
   color: var(--text-secondary);
-  background: #eef4fc;
+  background: var(--muted);
   border-radius: 4px;
   padding: 5px;
 }
@@ -200,7 +200,7 @@
 .insight-card {
   padding: 17px;
   margin: 20px 0;
-  background: #f7f9fb;
+  background: var(--muted);
   border: 1px solid var(--border);
   border-radius: 8px;
 }
@@ -225,8 +225,8 @@
 
 .history-card {
   padding: 12px;
-  background: #f8fafc;
-  border: 1px solid #e9eef5;
+  background: var(--muted);
+  border: 1px solid var(--border);
   border-radius: 6px;
   margin: 10px 0;
 }
@@ -354,7 +354,7 @@
 }
 
 .decision-options > label:hover {
-  border-color: #aab6ca;
+  border-color: var(--control-hover-border);
   box-shadow: var(--shadow-xs);
 }
 
@@ -393,8 +393,8 @@
 }
 
 .document-picker > button.active {
-  background: #f1f6ff;
-  border-color: #e1ebfa;
+  background: var(--accent);
+  border-color: var(--border);
   color: var(--text-secondary);
 }
 
@@ -447,8 +447,8 @@
 }
 
 .document-page .evidence-highlight {
-  background: #fefce8;
-  border-left: 3px solid #f59e0b;
+  background: var(--warning-soft);
+  border-left: 3px solid var(--warning);
   padding: 13px 15px;
   margin: 12px -15px;
   border-radius: 0 8px 8px 0;
@@ -467,7 +467,7 @@
   font-size: 13px;
   color: var(--text-secondary);
   text-align: center;
-  border-top: 1px solid #edf0f4;
+  border-top: 1px solid var(--border);
   margin-top: 25px;
   padding-top: 14px;
 }
@@ -476,8 +476,8 @@
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  background: #eef8f3;
-  border: 1px solid #def0e5;
+  background: var(--success-soft);
+  border: 1px solid var(--success-border);
   border-radius: 6px;
   padding: 13px;
   color: var(--text-secondary);
@@ -509,7 +509,7 @@
   width: 100%;
   font-size: 13px;
   color: var(--text-secondary);
-  border-bottom: 1px solid #f0f3f7;
+  border-bottom: 1px solid var(--border);
 }
 
 .connected-links svg:last-child {
@@ -549,7 +549,7 @@
   align-items: center;
   gap: 12px;
   padding: 13px 0;
-  border-bottom: 1px solid #eaf0f6;
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
 }
 
@@ -611,7 +611,7 @@
 }
 
 .previsit-list > button.active {
-  background: #edf4ff;
+  background: var(--accent);
 }
 
 .intake-grid,
@@ -641,7 +641,7 @@
 
 .scenario-context [data-slot="select-trigger"] {
   width: 290px;
-  background: #fff;
+  background: var(--card);
   font-size: 13px;
 }
 
@@ -655,8 +655,8 @@
 }
 
 .scenario-explainer > span {
-  background: #eef4fc;
-  border: 1px solid #e1eaf7;
+  background: var(--muted);
+  border: 1px solid var(--border);
   padding: 13px 17px;
   border-radius: 8px;
   color: var(--text-secondary);
@@ -688,7 +688,7 @@
 
 .assistant-trigger {
   color: var(--text-secondary);
-  border-color: #c4dfe4;
+  border-color: var(--success-border);
 }
 
 .assistant-prompts {
@@ -726,8 +726,8 @@
 }
 
 .assistant-proposal {
-  background: #eef8fa;
-  border: 1px solid #c9e5e9;
+  background: var(--success-soft);
+  border: 1px solid var(--success-border);
   border-radius: 10px;
   padding: 18px;
   margin-top: 20px;
@@ -743,8 +743,8 @@
 
 .qa-outcome {
   padding: 12px;
-  background: #eff8f4;
-  border: 1px solid #cfe9de;
+  background: var(--success-soft);
+  border: 1px solid var(--success-border);
   border-radius: 8px;
   margin: 12px 0;
 }
