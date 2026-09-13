@@ -47,10 +47,11 @@ export function PreparedClaims({ claims, summary }: { claims?: {
   ))}</details></div>;
 }
 
-export function NextSteps({ steps, user, memberId, act, assignments }: {
+export function NextSteps({ steps, user, memberId, findingId, act, assignments }: {
   steps?: { label: string; role: string; href?: string; action?: string; value?: string; reason?: string }[];
   user: User;
   memberId: string;
+  findingId?: string;
   act: (body: Command) => Promise<unknown>;
   assignments?: AssignmentOption[];
 }) {
@@ -66,7 +67,7 @@ export function NextSteps({ steps, user, memberId, act, assignments }: {
         <div><strong>{step.label}</strong><small>{accounts?.length ? accounts.map((account) => account.email).join(", ") : label(step.role)}{step.reason ? ` · ${step.reason}` : ""}</small></div>
         {canAct ? <Button size="sm" variant="outline" disabled={pending !== null} onClick={async () => {
           setPending(step.label);
-          try { await act({ action: step.action!, id: memberId, value: step.value }); } catch {} finally { setPending(null); }
+          try { await act({ action: step.action!, id: memberId, finding_id: findingId, value: step.value }); } catch {} finally { setPending(null); }
         }}>{pending === step.label ? <LoaderCircle size={14} className="animate-spin" /> : <ArrowRight size={14} />}Continue</Button> : canVisit ? <Button asChild size="sm" variant="outline"><Link href={step.href!}>Open<ArrowRight size={14} /></Link></Button> : <span className="assessment-handoff">Continue with {label(step.role).toLowerCase()}</span>}
       </div>;
     })}

@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "producer": "Prepared synthetic external-score feed",
+    "model_version": "Authored relative-score reference fixture 1.0; no licensed grouper execution",
+    "program": "MMA",
+    "rating_period": "2026-01-01/2026-12-31",
+    "normalization_basis": "Synthetic factor 1.10; normalized values supplied by this fixture",
+    "calculated_at": "2026-09-01T00:00:00Z",
+    "coverage_basis": "Six named synthetic members; valid matched scored rows contribute their supplied covered months",
+    "expected_member_ids": ["MB-000001", "MB-000002", "MB-000003", "MB-000004", "MB-000005", "MB-000006"],
+    "synthetic": true,
+    "source": "seed/risk/medicaid-external-example.json",
+    "source_note": "Authored import-contract test values, not an AHCA payment or clinical model claim.",
+    "unscored_policy": "Insufficient-history, newborn, dual, excluded and unresolved rows require producer-supplied coverage and explicit disposition; no imputation in this fixture.",
+    "state_payment_reproduction": false
+  },
+  "rows": [
+    {"member_id": "MB-000001", "rating_period": "2026-01-01/2026-12-31", "rate_cell": "MMA Adult", "coverage_months": 12, "raw_score": 1.25, "normalized_score": 1.136364, "state_factor": 1.0},
+    {"member_id": "MB-000002", "rating_period": "2026-01-01/2026-12-31", "rate_cell": "MMA Adult", "coverage_months": 12, "raw_score": 0.84, "normalized_score": 0.763636, "state_factor": 1.0},
+    {"member_id": "MB-000003", "rating_period": "2026-01-01/2026-12-31", "rate_cell": "MMA Adult", "coverage_months": 3, "raw_score": null, "unscored_reason": "Producer marked insufficient history; excluded from scored denominator, retained in coverage."},
+    {"member_id": "MB-000004", "rating_period": "2026-01-01/2026-12-31", "rate_cell": "MMA Dual", "coverage_months": 12, "raw_score": 1.48, "normalized_score": 1.345455, "state_factor": 1.0},
+    {"member_id": "MB-000005", "rating_period": "2026-01-01/2026-12-31", "rate_cell": "MMA Adult", "coverage_months": 12, "raw_score": 1.1, "normalized_score": 1.0},
+    {"member_id": "MB-000005", "rating_period": "2026-01-01/2026-12-31", "rate_cell": "MMA Adult", "coverage_months": 12, "raw_score": 1.2, "normalized_score": 1.090909},
+    {"member_id": "MB-000006", "rating_period": "2025-01-01/2025-12-31", "rate_cell": "MMA Adult", "coverage_months": 12, "raw_score": 0.9, "normalized_score": 0.818182}
+  ]
+}

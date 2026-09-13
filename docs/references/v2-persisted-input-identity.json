@@ -1,0 +1,39 @@
+{
+  "config_id": "ma_v28_py2027_forecast",
+  "checked": 10000,
+  "matches": 10000,
+  "mismatched_member_ids": [],
+  "scope": "Read-only transaction over retained current captured-baseline snapshots; no scores or workflow changes.",
+  "prior_inventory": {
+    "members": 10000,
+    "expected_scoreable": 9600,
+    "expected_excluded": 400,
+    "covered_months": 115200,
+    "exclusion_codes": [
+      "BEFORE_AGED_ENTITLEMENT"
+    ],
+    "manifest": {
+      "version": "scoring-inputs-2026.1",
+      "synthetic": true,
+      "expected_members": 10000,
+      "expected_scoreable_members": 9600,
+      "expected_member_months": 115200,
+      "eligibility_excluded_members": 400,
+      "eligibility_exclusion_policy": "Prior 2026 aged-only members who first reach 65 in 2027 have no invented earlier disability entitlement.",
+      "aca_expected_member_months": 90000,
+      "review_ready_members": 6,
+      "negative_fixture_count": 6,
+      "negative_fixtures": [
+        "missing_dual_status",
+        "outside_run",
+        "invalid_code",
+        "duplicate_occurrence",
+        "known_esrd",
+        "unknown_pace"
+      ],
+      "population_hash": "0ae287738cc2b98fb22c7b17c54884aaae69835ef2627f9264fbd1abd4c6aae3",
+      "basis": "Expected normal population declared before execution; named validation examples are separate."
+    }
+  },
+  "input_helper_sha256": "d25d8a13ef0df84e1c33a1c670b19406f5d71422a106b882194534e011f2015f"
+}

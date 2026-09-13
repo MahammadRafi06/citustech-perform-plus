@@ -1,0 +1,50 @@
+{
+  "shots": [
+    {
+      "file": "screenshots/v2/journeys/03-jordan-independent-qa-1440x900.png",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:09:21.689Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/journeys/04-jordan-prepared-1440x900.png",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline&record=SUB-d90bec6a15",
+      "captured_at": "2026-09-13T03:09:31.180Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/journeys/05-jordan-accepted-1440x900.png",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline&record=SUB-d90bec6a15",
+      "captured_at": "2026-09-13T03:09:40.137Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/journeys/06-jordan-accepted-ineligible-1440x900.png",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:09:49.890Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/journeys/07-jordan-independent-report-1440x900.png",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:09:57.768Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    }
+  ],
+  "errors": []
+}

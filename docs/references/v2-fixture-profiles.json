@@ -1,0 +1,229 @@
+{
+  "adapter_sha256": "426e247b4e9210629b2046982511895bae8bf36a810dc0ac23b711887318c630",
+  "input_adapter_sha256": "d25d8a13ef0df84e1c33a1c670b19406f5d71422a106b882194534e011f2015f",
+  "rows": [
+    {
+      "config_id": "ma_v28_py2026",
+      "status": {
+        "completed": 34,
+        "failed": 1
+      },
+      "segments": {
+        "COMMUNITY_NA": 15,
+        "COMMUNITY_PBA": 8,
+        "COMMUNITY_FBA": 9,
+        "null": 1,
+        "INSTITUTIONAL": 1,
+        "NEW_ENROLLEE": 1
+      },
+      "seconds": 11.419,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [
+        {
+          "member_id": "MB-000025",
+          "reasons": [
+            {
+              "reason": "The authored aged-only member reaches 65 in 2027; no prior 2026 Medicare entitlement or eligible months are established.",
+              "code": "BEFORE_AGED_ENTITLEMENT"
+            }
+          ],
+          "engine_status": "failed",
+          "engine_errors": [
+            "Effective-dated enrollment months are required"
+          ]
+        }
+      ],
+      "expected_valid": 34,
+      "morgan": {
+        "dob": "1959-01-15",
+        "codes": [
+          "I10",
+          "J449"
+        ],
+        "raw_score": 0.649
+      },
+      "result_inventory_sha256": "ec86c512761e9d45658ac38819ef98b929260474e30ee3304cac28b4c621c915"
+    },
+    {
+      "config_id": "ma_v28_py2027_initial",
+      "status": {
+        "completed": 35
+      },
+      "segments": {
+        "COMMUNITY_NA": 15,
+        "COMMUNITY_PBA": 9,
+        "COMMUNITY_FBA": 9,
+        "INSTITUTIONAL": 1,
+        "NEW_ENROLLEE": 1
+      },
+      "seconds": 11.895,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [],
+      "expected_valid": 35,
+      "morgan": {
+        "dob": "1959-01-15",
+        "codes": [
+          "I10"
+        ],
+        "raw_score": 0.33
+      },
+      "result_inventory_sha256": "dcd5063d9ff93c2a67c569a393d3d34fcfd33e9c0b9b5c71fd473015308ff95f"
+    },
+    {
+      "config_id": "ma_v28_py2027_forecast",
+      "status": {
+        "completed": 35
+      },
+      "segments": {
+        "COMMUNITY_NA": 15,
+        "COMMUNITY_PBA": 9,
+        "COMMUNITY_FBA": 9,
+        "INSTITUTIONAL": 1,
+        "NEW_ENROLLEE": 1
+      },
+      "seconds": 0.018,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [],
+      "expected_valid": 35,
+      "morgan": {
+        "dob": "1959-01-15",
+        "codes": [
+          "I10"
+        ],
+        "raw_score": 0.33
+      },
+      "result_inventory_sha256": "dcd5063d9ff93c2a67c569a393d3d34fcfd33e9c0b9b5c71fd473015308ff95f"
+    },
+    {
+      "config_id": "hhs_v08_by2026",
+      "status": {
+        "completed": 35
+      },
+      "segments": {
+        "ADULT_SILVER": 3,
+        "CHILD_SILVER": 3,
+        "INFANT_BRONZE": 2,
+        "ADULT_CATASTROPHIC": 2,
+        "CHILD_PLATINUM": 3,
+        "CHILD_GOLD": 3,
+        "INFANT_SILVER": 2,
+        "ADULT_BRONZE": 2,
+        "CHILD_CATASTROPHIC": 3,
+        "INFANT_PLATINUM": 2,
+        "ADULT_GOLD": 1,
+        "CHILD_BRONZE": 3,
+        "INFANT_CATASTROPHIC": 2,
+        "ADULT_PLATINUM": 2,
+        "INFANT_GOLD": 2
+      },
+      "seconds": 2.572,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [],
+      "expected_valid": 35,
+      "morgan": {
+        "dob": "2009-01-15",
+        "codes": [
+          "I10"
+        ],
+        "raw_score": 0.136
+      },
+      "result_inventory_sha256": "af6767b2d6c939a41df444f0ab335c9ee40ef620e2f8a2db406a9c02921d95de"
+    },
+    {
+      "config_id": "rxhcc_py2027_mapd_initial",
+      "status": {
+        "completed": 35
+      },
+      "segments": {
+        "CE_NonLowAged": 15,
+        "CE_LowAged": 18,
+        "CE_LTI": 1,
+        "NE_LowCommunity": 1
+      },
+      "seconds": 1.039,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [],
+      "expected_valid": 35,
+      "morgan": {
+        "dob": "1959-01-15",
+        "codes": [
+          "I10"
+        ],
+        "raw_score": 0.159
+      },
+      "result_inventory_sha256": "28152abd76dc0798e55f1fa832940f16a4a56dc68cea7b2269cabcdf4b74bf44"
+    },
+    {
+      "config_id": "rxhcc_py2027_mapd_forecast",
+      "status": {
+        "completed": 35
+      },
+      "segments": {
+        "CE_NonLowAged": 15,
+        "CE_LowAged": 18,
+        "CE_LTI": 1,
+        "NE_LowCommunity": 1
+      },
+      "seconds": 0.013,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [],
+      "expected_valid": 35,
+      "morgan": {
+        "dob": "1959-01-15",
+        "codes": [
+          "I10"
+        ],
+        "raw_score": 0.159
+      },
+      "result_inventory_sha256": "28152abd76dc0798e55f1fa832940f16a4a56dc68cea7b2269cabcdf4b74bf44"
+    },
+    {
+      "config_id": "rxhcc_py2027_pdp_initial",
+      "status": {
+        "completed": 35
+      },
+      "segments": {
+        "CE_NonLowAged": 15,
+        "CE_LowAged": 18,
+        "CE_LTI": 1,
+        "NE_LowCommunity": 1
+      },
+      "seconds": 1.04,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [],
+      "expected_valid": 35,
+      "morgan": {
+        "dob": "1959-01-15",
+        "codes": [
+          "I10"
+        ],
+        "raw_score": 0.168
+      },
+      "result_inventory_sha256": "e1a4208d7b2219886bacf1fcea0230d10a0042c12aa4f1b8143e7dcaeabf402d"
+    },
+    {
+      "config_id": "rxhcc_py2027_pdp_forecast",
+      "status": {
+        "completed": 35
+      },
+      "segments": {
+        "CE_NonLowAged": 15,
+        "CE_LowAged": 18,
+        "CE_LTI": 1,
+        "NE_LowCommunity": 1
+      },
+      "seconds": 0.013,
+      "unexpected_errors": [],
+      "expected_eligibility_exclusions": [],
+      "expected_valid": 35,
+      "morgan": {
+        "dob": "1959-01-15",
+        "codes": [
+          "I10"
+        ],
+        "raw_score": 0.168
+      },
+      "result_inventory_sha256": "e1a4208d7b2219886bacf1fcea0230d10a0042c12aa4f1b8143e7dcaeabf402d"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 "use client";
 import "./assessment-workspaces.css";
+import "./risk-ui.css";
+import { RiskProvider, RiskContextBar, RiskOverview, useRiskContext } from "./risk-ui";
 import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
@@ -87,9 +89,9 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
   {
     group: "Monitoring",
     items: [
-      ["overview", "Overview", LayoutDashboard],
-      ["analytics", "Analytics", ChartNoAxesCombined],
-      ["scenarios", "Risk scenarios", Calculator],
+      ["overview", "Risk overview", LayoutDashboard],
+      ["analytics", "Risk analytics", ChartNoAxesCombined],
+      ["scenarios", "RAF & model lab", Calculator],
     ],
   },
   {
@@ -106,7 +108,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
   {
     group: "Members and providers",
     items: [
-      ["members", "Member 360", Users],
+      ["members", "Member risk profiles", Users],
       ["providers", "Provider portfolio", Building2],
       ["previsit", "Pre-visit", CalendarCheck],
     ],
@@ -116,7 +118,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
     items: [
       ["submissions", "Submissions", Send],
       ["audit", "Audit workspace", FolderCheck],
-      ["data", "Data operations", Database],
+      ["data", "Models & data", Database],
       ["admin", "Administration", Settings],
     ],
   },
@@ -140,6 +142,7 @@ function WorkspaceNavigation({
   route: string;
   onNavigate?: () => void;
 }) {
+  const risk = useRiskContext();
   return (
     <nav aria-label="Workspace navigation">
       {routes.map((group) => {
@@ -150,7 +153,7 @@ function WorkspaceNavigation({
             {items.map(([id, title, Icon]) => (
               <Link
                 key={id}
-                href={`/${id}`}
+                href={risk.href(`/${id}`)}
                 aria-current={route === id ? "page" : undefined}
                 className={`nav-link ${route === id ? "active" : ""}`}
                 onClick={onNavigate}
@@ -219,7 +222,7 @@ function Application() {
     queryFn: () => api<Snapshot>("/bootstrap"),
     enabled: !!user,
   });
-  const refresh = () => client.invalidateQueries({ queryKey: ["snapshot"] });
+  const refresh = () => Promise.all([client.invalidateQueries({ queryKey: ["snapshot"] }), client.invalidateQueries({ queryKey: ["risk"] })]);
   const act = async (body: Command) => {
     if (!user) return;
     try {
@@ -228,6 +231,7 @@ function Application() {
       await refresh();
       await client.invalidateQueries({ queryKey: ["member"] });
       await client.invalidateQueries({ queryKey: ["members"] });
+      await client.invalidateQueries({ queryKey: ["risk"] });
       return result;
     } catch (error) {
       toast.error((error as Error).message);
@@ -278,7 +282,7 @@ function Application() {
     "Overview";
   const actualRoute = route === "login" ? "overview" : route;
   return (
-    <div className={`app-layout ${collapsed ? "nav-collapsed" : ""}`}>
+    <RiskProvider user={user}><div className={`app-layout ${collapsed ? "nav-collapsed" : ""}`}>
       <aside className="sidebar">
         <Link
           aria-label="CitusTech Perform+ workspace"
@@ -386,10 +390,7 @@ function Application() {
             </DropdownMenu>
           </div>
         </header>
-        {snapshot.data?.program_context && <div className="assessment-scope" aria-label="Program and scenario context">
-          <span><strong>{snapshot.data.program_context.program}</strong> · Service {snapshot.data.program_context.service_year} / Payment {snapshot.data.program_context.payment_year}</span>
-          <span>{snapshot.data.program_context.basis} · Scenario {snapshot.data.program_context.scenario_date}</span>
-        </div>}
+        <RiskContextBar />
         <main
           className={`page-canvas route-${actualRoute} ${actualRoute === "reviews" && pathname.split("/")[2] ? "workbench-canvas" : ""}`}
         >
@@ -424,7 +425,7 @@ function Application() {
               </Button>
             </div>
           ) : snapshot.data ? (
-            actualRoute === "overview" || actualRoute === "analytics" ? (
+            actualRoute === "overview" ? <RiskOverview user={user} /> : actualRoute === "analytics" ? (
               <Dashboard
                 data={snapshot.data}
                 user={user}
@@ -527,11 +528,11 @@ function Application() {
           <span>
             <strong>About this workspace.</strong> Records and reference results
             are illustrative. Analysis uses prepared findings. External delivery
-            and live scoring are not configured.
+            is simulated. Model results use the selected configuration and retained input snapshots.
           </span>
         </Notice>
       </Modal>
-    </div>
+    </div></RiskProvider>
   );
 }
 function Login({

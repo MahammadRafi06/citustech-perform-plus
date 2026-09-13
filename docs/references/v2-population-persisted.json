@@ -1,0 +1,130 @@
+{
+  "id": "BATCH-e2d2840395e649b8ae065cbdde50705a",
+  "total": 10000,
+  "errors": [],
+  "failed": 0,
+  "status": "completed",
+  "actor_id": "superuser",
+  "config_id": "ma_v28_py2027_forecast",
+  "processed": 10000,
+  "succeeded": 10000,
+  "created_at": "2026-09-13T02:30:46.909109+00:00",
+  "updated_at": "2026-09-13T02:37:02.238252+00:00",
+  "fixture_version": "scoring-inputs-2026.1",
+  "configuration_snapshot": {
+    "id": "ma_v28_py2027_forecast",
+    "name": "CMS-HCC V28 \u00b7 2027 later-run forecast",
+    "year": 2027,
+    "errors": [],
+    "status": "validated for declared scope",
+    "package": "v28_2027",
+    "program": "MA",
+    "run_type": "forecast",
+    "warnings": [
+      "2027 Initial software applied to 2026 inputs through September. Not an official initial or midyear/final run; later code releases need a new validated package."
+    ],
+    "precision": {
+      "canonical_decimals": 3,
+      "component_tolerance": 1e-06,
+      "aggregation_decimals": 6
+    },
+    "source_url": "https://www.cms.gov/files/zip/2027-initial-model-software-python.zip",
+    "service_end": "2026-09-30",
+    "asset_sha256": "1a29ec3495884b706ac7b3324fdbe889dd75f24cee0456ef71bfbdf765029d2e",
+    "capabilities": {
+      "lookup": true,
+      "calculate": true,
+      "external_only": false
+    },
+    "model_version": "2024 CMS-HCC V28",
+    "service_start": "2026-01-01",
+    "adapter_sha256": "426e247b4e9210629b2046982511895bae8bf36a810dc0ac23b711887318c630",
+    "component_sha256": "b43f31fa6cda87bbeefca2a003d78669f92178fee648f3c1e87b495cafc9b66e",
+    "software_release": "CMS_HCC_v28_2027_T1_initial_package_v1",
+    "validation_status": "validated for declared scope",
+    "adjustment_profile": {
+      "label": "Application-transformed using CMS annual factors; not final payment",
+      "order": [
+        "divide_normalization",
+        "multiply_coding_pattern"
+      ],
+      "source_url": "https://www.cms.gov/files/document/2027-announcement.pdf",
+      "source_pages": "3, 5, 72, 75",
+      "normalization": 1.079,
+      "coding_pattern_multiplier": 0.941
+    },
+    "supported_segments": [
+      "COMMUNITY_NA",
+      "COMMUNITY_PBA",
+      "COMMUNITY_FBA",
+      "COMMUNITY_ND",
+      "COMMUNITY_PBD",
+      "COMMUNITY_FBD",
+      "INSTITUTIONAL",
+      "NEW_ENROLLEE",
+      "SNP_NEW_ENROLLEE"
+    ],
+    "validation_evidence": {
+      "scope": {
+        "run_type": "forecast",
+        "segments": [
+          "COMMUNITY_NA",
+          "COMMUNITY_PBA",
+          "COMMUNITY_FBA",
+          "COMMUNITY_ND",
+          "COMMUNITY_PBD",
+          "COMMUNITY_FBD",
+          "INSTITUTIONAL",
+          "NEW_ENROLLEE",
+          "SNP_NEW_ENROLLEE"
+        ],
+        "service_end": "2026-09-30",
+        "asset_sha256": "1a29ec3495884b706ac7b3324fdbe889dd75f24cee0456ef71bfbdf765029d2e",
+        "service_start": "2026-01-01",
+        "source_policy": "Explicit reviewed eligible-service metadata, date/modality/CRR switch filters; PACE unavailable and MA ESRD unavailable.",
+        "forecast_scope": "2027 Initial software applied to 2026 inputs through September. Not an official initial or midyear/final run; later code releases need a new validated package.",
+        "component_sha256": "b43f31fa6cda87bbeefca2a003d78669f92178fee648f3c1e87b495cafc9b66e",
+        "reference_case_ids": [
+          "v28_2027_demographic",
+          "v28_2027_hf",
+          "v28_2027_acute_hf",
+          "v28_2027_suppressed_hf",
+          "v28_2027_diabetes_hf",
+          "v28_2027_diabetes_ckd",
+          "v28_2027_partial_aged",
+          "v28_2027_full_aged",
+          "v28_2027_disabled",
+          "v28_2027_partial_disabled",
+          "v28_2027_full_disabled",
+          "v28_2027_institution",
+          "v28_2027_new_enrollee",
+          "v28_2027_snp_new_enrollee",
+          "v28_2027_institution_no_medicaid",
+          "v28_2027_new_enrollee_medicaid"
+        ]
+      },
+      "limits": [
+        "Numeric parity with separately executed unchanged official packages for the declared synthetic cases and all listed model segments; not exhaustive proof of every ICD code or clinical source classification.",
+        "Clinical eligibility must be supplied from reviewed source and encounter metadata; the scoring engine cannot establish a diagnosis.",
+        "Historical V24 remains unvalidated and unavailable. PACE and ordinary MA ESRD are not supported by these packages.",
+        "Forecasts use Initial software through September 2026 and are not official Initial or final payment runs.",
+        "HHS validation is July 2026 DIY release scope through September, not EDGE replication or actual transfers.",
+        "Annual MA and Part D adjustments are application transformations using the cited CMS factors; they are not final payment calculations."
+      ],
+      "status": "validated for declared scope",
+      "executed_at": "2026-09-13T02:26:26.342278+00:00",
+      "tests_passed": 98,
+      "adapter_sha256": "426e247b4e9210629b2046982511895bae8bf36a810dc0ac23b711887318c630",
+      "receipt_sha256": "2eb69895685f6649d3242c84b260181e0595715dbf46e3fb6f30e78d75f5e980",
+      "reference_cases": 16,
+      "reference_artifacts": {
+        "apps/api/tests/test_risk_models.py": "c6ec60759796317774790d77d4e8e06ddccb40b2445c3d6a0b7c4d83c721b0a7",
+        "apps/api/tests/model_reference/cases.json": "f73b5d9fa724ea0003ab9d40002fe8b8eebb10469e4ffc9ece326f7add4e39e8",
+        "apps/api/tests/model_reference/generate.py": "d2169f0cdc489368e792b26304a92ae45b9182944c44343693f70820c3ffaa6e",
+        "apps/api/tests/model_reference/validate.py": "28907a4e6f8366f9665afedb54fac22c0c617ddace563dbf6efc390527c86b78",
+        "apps/api/tests/model_reference/expected.json": "013fbd86a5b2f3f940f29e9223e3a1cce6965cad5e5885b062a440fba559df02"
+      }
+    },
+    "forecast_assumptions": "2027 Initial software applied to 2026 inputs through September. Not an official initial or midyear/final run; later code releases need a new validated package."
+  }
+}

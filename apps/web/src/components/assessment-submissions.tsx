@@ -13,6 +13,7 @@ import { api, download, label } from "@/lib/api";
 import type { Member, Submission } from "@/lib/types";
 import type { WorkspaceProps } from "./workspaces";
 import "./assessment-workspaces.css";
+import { RiskReconciliation } from "./risk-ui";
 
 function linkedAttempts(records: Submission[], selected: Submission) {
   const sameMember = records.filter((record) => record.member_id === selected.member_id);
@@ -46,10 +47,10 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
   const caseQueries = useQueries({ queries: selected.map((id) => ({ queryKey: ["member", id, user.id], queryFn: () => api<Member>(`/members/${id}`), enabled: route === "audit" })) });
   const approvalContext = useQuery({ queryKey: ["member", memberFilter, user.id], queryFn: () => api<Member>(`/members/${memberFilter}`), enabled: route === "submissions" && !!memberFilter });
   const exportRecords = (kind: string, ids: string[]) => download(kind, user.csrf_token, ids).then(() => toast.success("Package downloaded")).catch((error) => toast.error(error.message));
-  const run = async (action: string, id: string, value?: string) => {
+  const run = async (action: string, id: string, value?: string, findingId?: string) => {
     setBusy(true);
     try {
-      const result = await act({ action, id, value });
+      const result = await act({ action, id, finding_id: findingId, value });
       if (result && typeof result === "object" && "submission_id" in result && typeof result.submission_id === "string") setDetailId(result.submission_id);
       if (action === "receiver" && value === "acknowledged") setResponse("accepted");
       else if (action === "correction" || (action === "prepare" && value !== "reconcile")) setResponse("acknowledged");
@@ -82,7 +83,7 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
       <div className="button-row"><Button asChild variant="outline" size="sm"><Link href={`/members/${member.id}?tab=Timeline&returnTo=${encodeURIComponent("/audit")}`}>Inspect decision history<ArrowRight size={14} /></Link></Button>{user.screens.includes("submissions") && <Button asChild variant="outline" size="sm"><Link href={`/submissions?member=${member.id}`}>Inspect attempts<ArrowRight size={14} /></Link></Button>}</div></div>
     </Panel>; })}
   </>;
-  const preparedCases = data.opportunities.filter((opportunity) => opportunity.eligibility?.prepared_code && (!memberFilter || opportunity.member_id === memberFilter));
+  const preparedCases = data.opportunities.filter((opportunity) => opportunity.eligibility?.transmission_configured && opportunity.eligibility?.prepared_code && (!memberFilter || opportunity.member_id === memberFilter));
   return <>
     <PageHeader title="Submission operations" description="Prepare approved records, retain each attempt and follow the simulated receiver.">
       <Button variant="outline" onClick={() => exportRecords("submissions", records.map((record) => record.id))}><ArrowDownToLine size={16} />Export records</Button>
@@ -99,10 +100,11 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
         const code = opportunity.eligibility!.prepared_code!;
         const operation = code.operation || (opportunity.type === "integrity_review" ? "delete" : "add");
         const validDecision = operation === "add" ? opportunity.status === "resolved_supported" : opportunity.status === "resolved_unsupported";
-        return <div className="assessment-ready-row" key={opportunity.id}><div><strong>{data.members.find((member) => member.id === opportunity.member_id)?.name || opportunity.name || opportunity.member_id}</strong><small>{label(operation)} · {code.code} · {code.release}</small></div><div><Status value={opportunity.qa_status || "not_submitted"} /><small>{existing ? `Linked record ${existing.id}` : opportunity.completion?.reason || "Awaiting independent QA"}</small></div><div className="button-row"><Button asChild size="sm" variant="ghost"><Link href={`/members/${opportunity.member_id}?tab=Timeline&returnTo=${encodeURIComponent("/submissions")}`}>Review basis</Link></Button>{existing ? <Button size="sm" variant="outline" onClick={() => setDetailId(existing.id)}>Open record<ArrowRight size={14} /></Button> : <Button size="sm" disabled={busy || !user.permissions.includes("prepare") || !opportunity.completion?.complete || !validDecision} onClick={() => run("prepare", opportunity.member_id)}>Prepare {operation === "delete" ? "deletion" : "addition"}</Button>}</div></div>;
+        return <div className="assessment-ready-row" key={opportunity.id}><div><strong>{data.members.find((member) => member.id === opportunity.member_id)?.name || opportunity.name || opportunity.member_id}</strong><small>{label(operation)} · {code.code} · {code.release}</small></div><div><Status value={opportunity.qa_status || "not_submitted"} /><small>{existing ? `Linked record ${existing.id}` : opportunity.completion?.reason || "Awaiting independent QA"}</small></div><div className="button-row"><Button asChild size="sm" variant="ghost"><Link href={`/members/${opportunity.member_id}?tab=Timeline&returnTo=${encodeURIComponent("/submissions")}`}>Review basis</Link></Button>{existing ? <Button size="sm" variant="outline" onClick={() => setDetailId(existing.id)}>Open record<ArrowRight size={14} /></Button> : <Button size="sm" disabled={busy || !user.permissions.includes("prepare") || !opportunity.completion?.complete || !validDecision} onClick={() => run("prepare", opportunity.member_id, undefined, opportunity.id)}>Prepare {operation === "delete" ? "deletion" : "addition"}</Button>}</div></div>;
       })}
       {!preparedCases.length && <Empty title="No prepared record for this selection" description="The connected receiver workflow is configured for Jordan’s approved addition and Taylor’s approved deletion." />}
     </Panel>
+    {memberFilter && <RiskReconciliation memberId={memberFilter} user={user} submissionId={detail?.id} />}
     {memberFilter && approvalContext.data && <div className="assessment-context"><strong>{approvalContext.data.name} · current review context</strong><p>{approvalContext.data.eligibility?.reason}</p></div>}
     <Panel>
       <DataGrid<Submission> rows={records} onRow={(record) => setDetailId(record.id)} toolbar={<SelectField label="Submission member" value={memberFilter} onChange={setMemberFilter} options={[{ value: "", label: "All members" }, ...cases.map((member) => ({ value: member.id, label: member.name }))]} />} exportAction={(filtered) => exportRecords("submissions", filtered.map((record) => record.id))} columns={[
@@ -149,9 +151,9 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
           {detail.decision_id && user.permissions.includes("correction") && <Button variant="outline" disabled={busy} onClick={() => run("correction", detail.id)}><RotateCcw size={15} />Prepare retry</Button>}
         </>}
         {detail.status === "accepted" && <>
-          <h3 className="section-title">Receiver outcome retained</h3>
+          <h3 className="section-title">Receiver outcome retained</h3><Button variant="outline" onClick={() => { setMemberFilter(detail.member_id); setDetailId(""); }}>Open eligibility and report reconciliation<ArrowRight size={14} /></Button>
           <p className="body-copy">This attempt’s terminal acceptance remains linked to its receiver history.</p>
-          {detail.decision_id && !detail.report_comparison && user.permissions.includes("prepare") && <Button variant="outline" disabled={busy} onClick={() => run("prepare", detail.id, "reconcile")}><FileText size={15} />Compare prepared report</Button>}
+
         </>}
         {detail.report_comparison && <div className="assessment-context">
           <strong>{detail.report_comparison.name}</strong>

@@ -1,0 +1,255 @@
+{
+  "shots": [
+    {
+      "file": "screenshots/v2/after/02-casey-risk-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:26.080Z"
+    },
+    {
+      "file": "screenshots/v2/after/27-casey-factor-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 556,
+      "captured_at": "2026-09-13T03:25:27.772Z"
+    },
+    {
+      "file": "screenshots/v2/after/03-model-lab-1440x900.png",
+      "url": "http://localhost:3005/scenarios?member=MB-000005&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:31.568Z"
+    },
+    {
+      "file": "screenshots/v2/after/07-casey-combined-scenario-1440x900.png",
+      "url": "http://localhost:3005/scenarios?member=MB-000005&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:35.630Z"
+    },
+    {
+      "file": "screenshots/v2/after/11-financial-assumptions-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:39.761Z"
+    },
+    {
+      "file": "screenshots/v2/after/12-financial-result-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:46.094Z"
+    },
+    {
+      "file": "screenshots/v2/after/05-external-1440x900.png",
+      "url": "http://localhost:3005/data?riskTab=external&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:49.007Z"
+    },
+    {
+      "file": "screenshots/v2/after/08-medicaid-import-preview-1440x900.png",
+      "url": "http://localhost:3005/data?riskTab=external&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:50.676Z"
+    },
+    {
+      "file": "screenshots/v2/after/09-medicaid-import-result-1440x900.png",
+      "url": "http://localhost:3005/data?riskTab=external&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:25:57.509Z"
+    },
+    {
+      "file": "screenshots/v2/routes/intake-1440x900.png",
+      "url": "http://localhost:3005/intake?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:01.298Z"
+    },
+    {
+      "file": "screenshots/v2/after/28-intake-inspector-scroll-1440x900.png",
+      "url": "http://localhost:3005/intake?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:02.997Z"
+    },
+    {
+      "file": "screenshots/v2/after/06-review-1440x900.png",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:06.770Z"
+    },
+    {
+      "file": "screenshots/v2/routes/analytics-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:11.572Z"
+    },
+    {
+      "file": "screenshots/v2/after/20-rxhcc-mapd-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=rxhcc_py2027_mapd_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 525,
+      "captured_at": "2026-09-13T03:26:15.371Z"
+    },
+    {
+      "file": "screenshots/v2/after/21-aca-adult-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 531,
+      "captured_at": "2026-09-13T03:26:19.170Z"
+    },
+    {
+      "file": "screenshots/v2/after/22-aca-child-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000002?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 531,
+      "captured_at": "2026-09-13T03:26:22.935Z"
+    },
+    {
+      "file": "screenshots/v2/after/23-aca-infant-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000003?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 531,
+      "captured_at": "2026-09-13T03:26:26.689Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/intake-riley-1366x768.png",
+      "url": "http://localhost:3005/intake?member=MB-000006&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:30.039Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/registry-1366x768.png",
+      "url": "http://localhost:3005/suspects?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:32.906Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/model-lab-1366x768.png",
+      "url": "http://localhost:3005/scenarios?member=MB-000005&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:36.702Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/review-jordan-1366x768.png",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:39.991Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/overview-1920x1080.png",
+      "url": "http://localhost:3005/overview?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:44.810Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/casey-profile-1920x1080.png",
+      "url": "http://localhost:3005/members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:49.075Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/jordan-review-1920x1080.png",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:52.368Z"
+    },
+    {
+      "file": "screenshots/v2/desktop/registry-1920x1080.png",
+      "url": "http://localhost:3005/suspects?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:26:55.168Z"
+    }
+  ],
+  "errors": []
+}

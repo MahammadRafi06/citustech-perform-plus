@@ -1,0 +1,78 @@
+{
+  "runtime": "http://localhost:3005",
+  "screenshots": [
+    {
+      "file": "screenshots/v2/after/11-financial-assumptions-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:05.001Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/12-financial-result-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:07.731Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/13-risk-analytics-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:12.790Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/14-category-prevalence-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:14.750Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/15-recapture-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:17.478Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/16-source-analysis-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Source+analysis&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:21.897Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/17-member-directory-1440x900.png",
+      "url": "http://localhost:3005/members?riskStatus=completed&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:25.374Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/06-review-1440x900.png",
+      "url": "http://localhost:3005/reviews/MB-000001?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:03:28.803Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    }
+  ],
+  "page_errors": []
+}

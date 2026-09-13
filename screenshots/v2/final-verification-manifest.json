@@ -1,0 +1,158 @@
+{
+  "runtime": "http://localhost:3005",
+  "screenshots": [
+    {
+      "file": "screenshots/v2/after/19-exact-scoring-input-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000005?tab=Scoring+inputs&source=CLAIM-MB-000005-1&run=RUN-1937055894e743c89e7384775021f582&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:14.180Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/20-rxhcc-mapd-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=rxhcc_py2027_mapd_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:26.073Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/20-rxhcc-mapd-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=rxhcc_py2027_mapd_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:28.014Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/21-aca-adult-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:41.800Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/21-aca-adult-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:43.749Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/22-aca-child-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000002?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:56.669Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/22-aca-child-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000002?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:22:58.601Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/23-aca-infant-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000003?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:12.083Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/23-aca-infant-ledger-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000003?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:14.002Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/24-medicaid-coverage-1440x900.png",
+      "url": "http://localhost:3005/overview?config=medicaid_fl_external&basis=reported",
+      "captured_at": "2026-09-13T03:23:18.122Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/13-risk-analytics-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:23.763Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/25-actual-period-comparison-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:27.561Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/10-stage-reconciliation-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Score+reconciliation&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:31.563Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/26-independent-observations-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000001?tab=Score+reconciliation&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:33.476Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "file": "screenshots/v2/after/01-risk-overview-1440x900.png",
+      "url": "http://localhost:3005/overview?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "captured_at": "2026-09-13T03:23:41.246Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    }
+  ],
+  "downloads": [
+    {
+      "name": "retained risk analytics",
+      "filename": "risk-analytics-ma_v28_py2027_forecast-captured_baseline.json",
+      "bytes": 743313
+    },
+    {
+      "name": "selected case evidence ZIP",
+      "filename": "perform-plus-synthetic-audit.zip",
+      "bytes": 613895
+    },
+    {
+      "name": "retained overview",
+      "filename": "risk-overview-ma_v28_py2027_forecast-captured_baseline.json",
+      "bytes": 495211
+    }
+  ],
+  "errors": []
+}

@@ -29,6 +29,7 @@ export interface PreparedCode {
 export interface ReviewEligibility {
   reviewable: boolean;
   support_allowed: boolean;
+  transmission_configured?: boolean;
   allowed_decisions: string[];
   reason: string;
   source_ids: string[];
@@ -46,6 +47,7 @@ export interface Completion {
   reason: string;
 }
 export interface ReviewDecision {
+  risk_context?: { config_id?: string; baseline_run_id?: string; snapshot_id?: string };
   id: string;
   actor_id: string;
   actor: string;
@@ -132,6 +134,9 @@ export interface PreparedImportRow {
   href: string;
 }
 export interface PreparedImport {
+  accepted_for_processing?: number;
+  unmatched_pending?: number;
+  identity_matched?: number;
   id: string;
   name: string;
   unit: string;
@@ -178,6 +183,8 @@ export interface AuditTrace {
   formal_audit_readiness: boolean;
 }
 export interface Member {
+  selected_finding_id?: string | null;
+  finding_summary?: Record<string, unknown>;
   id: string;
   name: string;
   initials: string;
@@ -276,6 +283,11 @@ export interface Activity {
   created_at: string;
 }
 export interface Task {
+  finding_id?: string;
+  closure_disposition?: string;
+  closure_reason?: string;
+  closed_at?: string;
+  closed_by?: string;
   id: string;
   member_id: string;
   title: string;
@@ -290,6 +302,7 @@ export interface Task {
   due_date?: string;
 }
 export interface Campaign {
+  finding_ids?: string[];
   id: string;
   name: string;
   type: string;
@@ -438,6 +451,11 @@ export interface Snapshot {
   }[];
 }
 export interface Command {
+  finding_id?: string;
+  finding_ids?: string[];
+  task_id?: string;
+  decision_id?: string;
+  evidence_episode_id?: string;
   document_id?: string;
   page?: number;
   section?: string;

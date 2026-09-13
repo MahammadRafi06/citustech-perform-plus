@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, Check, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Empty, Status, Notice, Modal } from "./shared";
+import { useRiskContext } from "./risk-ui";
 import { SourceDocument, isAuthored } from "./source-document";
 import { api, label } from "@/lib/api";
 import type { Member } from "@/lib/types";
@@ -20,23 +21,28 @@ export function ReviewWorkbench({
   act,
 }: WorkspaceProps & { id: string }) {
   const params = useSearchParams();
+  const risk = useRiskContext();
+  const [findingId, setFindingId] = useUrlState("finding", "");
+  const [qaDisposition, setQaDisposition] = useState("passed");
   const [docId, setDocId] = useUrlState("document", "");
-  const [decision, setDecision] = useDraft(`review-${id}-decision`, "");
-  const [note, setNote] = useDraft(`review-${id}-note`, "");
+  const [decision, setDecision] = useDraft(`review-${id}-${findingId || "single"}-decision`, "");
+  const [note, setNote] = useDraft(`review-${id}-${findingId || "single"}-note`, "");
   const [busy, setBusy] = useState(false);
   const [queryOpen, setQueryOpen] = useState(false);
   const [qaOpen, setQaOpen] = useState(false);
-  const [qaNote, setQaNote] = useDraft(`review-${id}-qa-note`, "");
   const [query, setQuery] = useDraft(
-    `query-${id}`,
+    `query-${id}-${findingId || "single"}`,
     "Please review the available history and document your current clinical assessment, including if this condition is not supported.",
   );
   const result = useQuery({
-    queryKey: ["member", id, user.id],
-    queryFn: () => api<Member>(`/members/${id}`),
+    queryKey: ["member", id, user.id, findingId],
+    queryFn: () => api<Member>(`/members/${id}${findingId ? `?finding=${encodeURIComponent(findingId)}` : ""}`),
   });
   const m = result.data;
-  const o = m?.opportunities?.[0];
+  const o = m?.opportunities?.find((item) => item.id === m.selected_finding_id) || (m?.opportunities?.length === 1 ? m.opportunities[0] : undefined);
+  const [qaNote, setQaNote] = useDraft(`review-${id}-${o?.id || findingId || "single"}-${o?.current_decision_id || "no-decision"}-qa-note`, "");
+  const workflowConfigId = o?.decision_history?.find((decision) => decision.id === o.current_decision_id)?.risk_context?.config_id || "ma_v28_py2027_forecast";
+  const workflowConfig = risk.configurations.find((config) => config.id === workflowConfigId);
   const eligibility = o?.eligibility || m?.eligibility;
   const doc = m?.documents?.find((d) => d.id === docId) || m?.documents?.find((d) => eligibility?.source_ids.includes(d.id)) || m?.documents?.[0];
   const editable = user.permissions.includes("review");
@@ -53,7 +59,7 @@ export function ReviewWorkbench({
   const run = async (action: string, value = "", text = note) => {
     setBusy(true);
     try {
-      await act({ action, id, value, note: text });
+      await act({ action, id, finding_id: o?.id, decision_id: action === "qa" ? o?.current_decision_id : undefined, value, note: text });
       if (action === "review" || action === "complete_review") {
         setNote("");
         setDecision("");
@@ -124,7 +130,7 @@ export function ReviewWorkbench({
             {id} · {m.age} years · {m.sex} · {m.plan}
           </p>
         </div>
-        <p>Service year {data.program_context?.service_year || 2026} · Payment year {data.program_context?.payment_year || 2027}</p>
+        <p>Service year {data.program_context?.service_year || 2026} · Payment year {data.program_context?.payment_year || 2027}{risk.configId !== workflowConfigId && <><br /><small>Clinical scoring workflow: {workflowConfig?.name || workflowConfigId}</small></>}</p>
         <Status value={o?.status || m.status} />
       </div>
       <nav className="workbench-mobile-tabs" aria-label="Review sections">
@@ -138,6 +144,7 @@ export function ReviewWorkbench({
             <small>{m.opportunities?.length || 0} linked to this chart</small>
           </header>
           <div className="rail-body">
+            {(m.opportunities?.length || 0) > 1 && <label className="form-field">Finding<select aria-label="Select finding to review" value={o?.id || ""} onChange={(event) => setFindingId(event.target.value)}><option value="">Select a finding</option>{m.opportunities?.map((item) => <option key={item.id} value={item.id}>{item.condition} · {item.id}</option>)}</select></label>}
             <div className="finding-card">
               <h3>{m.condition}</h3>
               <p>{o?.evidence || m.evidence} evidence</p>
@@ -380,7 +387,7 @@ export function ReviewWorkbench({
             {editable && (
               <>
                 <p aria-live="polite">
-                  {saveReason ||
+                  {!decision && o?.current_decision_id && o.qa_status === "awaiting_qa" ? "Current review saved and awaiting independent QA. A revised decision will start a new review." : !decision && o?.qa_status === "passed" ? "Independent QA approved the current review. The next case step is available in the handoff above." : saveReason ||
                     "The saved decision will be available for independent QA."}
                 </p>
                 <Button
@@ -414,7 +421,7 @@ export function ReviewWorkbench({
                   <Button
                     className="flex-1"
                     disabled={!!qaReason || busy}
-                    onClick={() => run("qa", "passed", "")}
+                    onClick={() => { setQaDisposition("passed"); setQaOpen(true); }}
                   >
                     Pass QA
                   </Button>
@@ -422,7 +429,7 @@ export function ReviewWorkbench({
                     className="flex-1"
                     variant="outline"
                     disabled={!!qaReason || busy}
-                    onClick={() => setQaOpen(true)}
+                    onClick={() => { setQaDisposition("rework"); setQaOpen(true); }}
                   >
                     Return for rework
                   </Button>
@@ -435,9 +442,9 @@ export function ReviewWorkbench({
           </footer>
         </section>
       </div>
-      <Modal open={qaOpen} onOpenChange={setQaOpen} title="Return for rework" description="Explain what the reviewer needs to resolve. This feedback stays with the saved decision.">
-        <div className="form-field"><Label htmlFor="qa-rationale">Rework reason</Label><textarea id="qa-rationale" rows={4} value={qaNote} onChange={(e) => setQaNote(e.target.value)} placeholder="Identify the source or decision that needs correction…" /></div>
-        <Button disabled={!qaNote.trim() || busy || !!qaReason} onClick={async () => { if (await run("qa", "rework", qaNote)) { setQaOpen(false); setQaNote(""); } }}>Return to reviewer</Button>
+      <Modal open={qaOpen} onOpenChange={setQaOpen} title={qaDisposition === "passed" ? "Pass independent QA" : "Return for rework"} description="Record your independent assessment. This rationale stays with the exact reviewed decision.">
+        <div className="form-field"><Label htmlFor="qa-rationale">{qaDisposition === "passed" ? "QA rationale" : "Rework reason"}</Label><textarea id="qa-rationale" rows={4} value={qaNote} onChange={(e) => setQaNote(e.target.value)} placeholder={qaDisposition === "passed" ? "Explain why the reviewed source and decision are appropriate…" : "Identify the source or decision that needs correction…"} /></div>
+        <Button disabled={!qaNote.trim() || busy || !!qaReason} onClick={async () => { if (await run("qa", qaDisposition, qaNote)) { setQaOpen(false); setQaNote(""); } }}>{qaDisposition === "passed" ? "Pass QA" : "Return to reviewer"}</Button>
       </Modal>
       <Modal
         open={queryOpen}

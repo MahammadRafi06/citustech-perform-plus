@@ -33,10 +33,14 @@ import type { WorkspaceProps } from "./workspaces";
 import type { Snapshot, Command, User, Opportunity } from "@/lib/types";
 import { api, download, label } from "@/lib/api";
 import { toast } from "sonner";
+import { RiskImpactSummary, type RiskImpactResult, useRiskContext } from "./risk-ui";
 
 type Preview = {
+  risk?: RiskImpactResult;
+  riskReason?: string;
   versions: Record<string, number>;
   covered: string[];
+  memberCoverage: string[];
   ids: string[];
   at: string;
   name: string;
@@ -91,6 +95,7 @@ export function CampaignDialog({
   onOpenChange,
   selected,
   proposal,
+  data,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -117,7 +122,7 @@ export function CampaignDialog({
       JSON.stringify({
         ...previous,
         ...(proposal ? { name: proposal.name, intervention: proposal.intervention || "coding_review", owner: "" } : {}),
-        selected: selected.length ? selected : previous.selected,
+        selected: (selected.length ? selected : previous.selected).flatMap((id) => id.startsWith("OP-") ? [id] : data.opportunities.filter((o) => o.member_id === id && o.eligibility?.reviewable).map((o) => o.id)),
         excluded: selected.length ? [] : previous.excluded,
         step: 1,
         preview: null,
@@ -136,6 +141,7 @@ export function CampaignPlanner(props: WorkspaceProps) {
   );
 }
 function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
+  const riskContext = useRiskContext();
   const router = useRouter();
   const client = useQueryClient();
   const [draft, setDraft] = useState<CampaignDraft>(freshDraft);
@@ -145,7 +151,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem(draftKey(user.id));
-      if (saved) setDraft(restoreDraft(saved));
+      if (saved) { const value = restoreDraft(saved); setDraft({ ...value, selected: value.selected.flatMap((id) => id.startsWith("OP-") ? [id] : data.opportunities.filter((o) => o.member_id === id && o.eligibility?.reviewable).map((o) => o.id)), preview: null }); }
     } catch {}
     setReady(true);
   }, [user.id]);
@@ -165,32 +171,41 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
   const covered = new Set(
     data.campaigns
       .filter((c) => c.status === "active")
-      .flatMap((c) => c.member_ids),
+      .flatMap((c) => c.finding_ids || data.opportunities.filter((o) => c.member_ids.includes(o.member_id)).map((o) => o.id)),
   );
   const ids = draft.selected.filter((id) => !draft.excluded.includes(id));
-  const invalidIds = ids.filter((id) => !pool.some((opportunity) => opportunity.member_id === id));
-  const owners = (data.assignment_options || []).filter((owner) => owner.interventions.includes(draft.intervention) && ids.every((id) => owner.member_ids.includes(id)));
+  const invalidIds = ids.filter((id) => !pool.some((opportunity) => opportunity.id === id));
+  const owners = (data.assignment_options || []).filter((owner) => owner.interventions.includes(draft.intervention) && ids.every((id) => owner.member_ids.includes(pool.find((o) => o.id === id)?.member_id || "")));
   const selectedOwner = owners.find((owner) => owner.id === draft.owner);
-  const cohort = pool.filter((o) => ids.includes(o.member_id));
+  const cohort = pool.filter((o) => ids.includes(o.id));
   const freeze = async () => {
     setBusy(true);
     try {
       const latest = await api<Snapshot>("/bootstrap");
       const current = latest.opportunities.filter((o) =>
-        ids.includes(o.member_id) && o.eligibility?.reviewable,
+        ids.includes(o.id) && o.eligibility?.reviewable,
       );
       if (current.length !== ids.length)
         throw Error(
           "Only complete, actionable cases can be allocated. Remove browsing-only members from this cohort.",
         );
-      const owner = latest.assignment_options?.find((option) => option.id === draft.owner && option.interventions.includes(draft.intervention) && ids.every((id) => option.member_ids.includes(id)));
+      const owner = latest.assignment_options?.find((option) => option.id === draft.owner && option.interventions.includes(draft.intervention) && ids.every((id) => option.member_ids.includes(current.find((o) => o.id === id)?.member_id || "")));
       if (!owner) throw Error("Choose an eligible account that can open every selected member and source for this intervention.");
+      let impact: RiskImpactResult | undefined;
+      let riskReason = "This intervention has no proposed coding-input change.";
+      if (["coding_review", "integrity_review"].includes(draft.intervention) && user.permissions.includes("risk_scenario")) {
+        try { impact = await api<RiskImpactResult>("/risk/opportunities/calculate", { method: "POST", body: JSON.stringify({ config_id: riskContext.configId, finding_ids: ids }) }, user.csrf_token); }
+        catch (error) { riskReason = (error as Error).message; }
+      }
       const preview: Preview = {
+        risk: impact,
+        riskReason,
         versions: Object.fromEntries(current.map((o) => [o.id, o.version])),
+        memberCoverage: [...new Set(current.map((o) => o.member_id))].filter((id) => latest.campaigns.some((c) => c.status === "active" && c.member_ids.includes(id))).sort(),
         covered: ids
           .filter((id) =>
             latest.campaigns.some(
-              (c) => c.status === "active" && c.member_ids.includes(id),
+              (c) => c.status === "active" && (c.finding_ids || current.filter((o) => c.member_ids.includes(o.member_id)).map((o) => o.id)).includes(id),
             ),
           )
           .sort(),
@@ -220,9 +235,10 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
         owner: p.owner,
         due_date: p.due,
         value: p.intervention,
-        member_ids: p.ids,
+        member_ids: [...new Set(cohort.map((o) => o.member_id))],
+        finding_ids: p.ids,
         expected_versions: p.versions,
-        expected_covered: p.covered,
+        expected_covered: p.memberCoverage,
       });
       sessionStorage.removeItem(draftKey(user.id));
       client.setQueryData(["draft", user.id, "registry-suspects-selected"], []);
@@ -281,7 +297,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
               <strong>
                 {
                   draft.selected.filter(
-                    (id) => !rows.some((o) => o.member_id === id),
+                    (id) => !rows.some((o) => o.id === id),
                   ).length
                 }
               </strong>{" "}
@@ -304,7 +320,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
               rows={rows}
               pageSize={25}
               selectedIds={pool
-                .filter((o) => draft.selected.includes(o.member_id))
+                .filter((o) => draft.selected.includes(o.id))
                 .map((o) => o.id)}
               searchLabel="Search cohort members…"
               toolbar={
@@ -346,18 +362,18 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
                   cell: ({ row }) => (
                     <Checkbox
                       aria-label={`Include ${row.original.name || row.original.member_id}`}
-                      checked={draft.selected.includes(row.original.member_id)}
+                      checked={draft.selected.includes(row.original.id)}
                       onCheckedChange={(v) =>
                         update({
                           selected: v
                             ? Array.from(
                                 new Set([
                                   ...draft.selected,
-                                  row.original.member_id,
+                                  row.original.id,
                                 ]),
                               )
                             : draft.selected.filter(
-                                (id) => id !== row.original.member_id,
+                                (id) => id !== row.original.id,
                               ),
                         })
                       }
@@ -385,7 +401,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
                   id: "coverage",
                   header: "Campaign coverage",
                   cell: ({ row }) =>
-                    covered.has(row.original.member_id)
+                    covered.has(row.original.id)
                       ? "Already covered"
                       : "No active allocation",
                 },
@@ -422,7 +438,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
       ) : draft.step === 3 ? (
         <Panel
           title="Allocate the work"
-          subtitle={`${ids.length} ${ids.length === 1 ? "member" : "members"} in the selected cohort`}
+          subtitle={`${ids.length} ${ids.length === 1 ? "finding" : "findings"} in the selected cohort`}
         >
           <div className="padded workflow-form">
             <div className="form-field">
@@ -480,7 +496,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
                 })
               }
             >
-              Exclude already-covered members
+              Exclude already-covered findings
             </Button>
             {draft.excluded.length > 0 && (
               <Button variant="ghost" onClick={() => update({ excluded: [] })}>
@@ -514,6 +530,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
               columns={[
                 { accessorKey: "name", header: "Member" },
                 { accessorKey: "member_id", header: "Member ID" },
+                { accessorKey: "condition", header: "Selected finding" },
                 {
                   accessorKey: "version",
                   header: "Work revision",
@@ -529,13 +546,14 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
                   id: "covered",
                   header: "Existing coverage",
                   cell: ({ row }) =>
-                    draft.preview?.covered.includes(row.original.member_id)
+                    draft.preview?.covered.includes(row.original.id)
                       ? "Already covered"
                       : "New allocation",
                 },
               ]}
             />
           </Panel>
+          {draft.preview?.risk ? <RiskImpactSummary result={draft.preview.risk} /> : <Notice>{draft.preview?.riskReason || "Score effect has not been calculated for this selection."}</Notice>}
         </>
       )}
       {invalidIds.length > 0 && <Notice>{invalidIds.length} selected population records do not have a complete workflow. <Button variant="ghost" size="sm" onClick={() => update({ selected: draft.selected.filter((id) => !invalidIds.includes(id)), excluded: draft.excluded.filter((id) => !invalidIds.includes(id)) })}>Remove browsing-only records</Button></Notice>}
@@ -566,7 +584,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
         </Button>
         <span>
           Draft saved on this device · {ids.length}{" "}
-          {ids.length === 1 ? "member" : "members"}
+          {ids.length === 1 ? "finding" : "findings"}
         </span>
         {draft.step < 3 ? (
           <Button
@@ -721,7 +739,7 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
             <div className="linked-members">
               {(detail.actionable_member_ids || detail.member_ids).map((id) => (
                 <Link href={returnLink(`/members/${id}`)} key={id}>
-                  {data.opportunities.find((o) => o.member_id === id)?.name ||
+                  {data.opportunities.find((o) => o.id === id)?.name ||
                     id}
                   <ArrowRight size={14} />
                 </Link>

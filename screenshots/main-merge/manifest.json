@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "kind": "Combined V2 and enterprise styling verification",
+  "source_commit": "edb278e1d09adb3158796177494fd693943c6f20",
+  "runtime": "http://localhost:3005",
+  "api_runtime": "http://127.0.0.1:8004",
+  "rendering": "local Next.js development runtime; build result recorded separately",
+  "viewport_only": true,
+  "shots": [
+    {
+      "file": "01-overview-1440x900.png",
+      "url": "http://localhost:3005/overview?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:43:45.775Z",
+      "sha256": "933661198ae803aa373b1416dcb744634df5044e624e6e3d62c39cc16aef0727",
+      "bytes": 202462,
+      "document_width": 1440,
+      "visually_inspected": true
+    },
+    {
+      "file": "02-casey-profile-1440x900.png",
+      "url": "http://localhost:3005/members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:43:50.366Z",
+      "sha256": "b0e64402cd9d44813b8bafee05cd1b79695732b59f7bc384ba21cba11fb9202c",
+      "bytes": 219793,
+      "document_width": 1440,
+      "visually_inspected": true
+    },
+    {
+      "file": "03-model-lab-1440x900.png",
+      "url": "http://localhost:3005/scenarios?member=MB-000005&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:43:54.297Z",
+      "sha256": "efb6acf056269f3e75de8c4905c5d869008d9cb91902e5f8413a832e37fb0f69",
+      "bytes": 239215,
+      "document_width": 1440,
+      "visually_inspected": true
+    },
+    {
+      "file": "04-jordan-review-1440x900.png",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:43:58.239Z",
+      "sha256": "cb8f03e51991962ecc8cb4e29c9d65f3dfdff1c4905c5d370324626a7a217ed0",
+      "bytes": 277541,
+      "document_width": 1440,
+      "visually_inspected": true
+    },
+    {
+      "file": "05-intake-1440x900.png",
+      "url": "http://localhost:3005/intake?member=MB-000006&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:44:01.729Z",
+      "sha256": "4d4a994e00c05594f6ce09c2aa2dbd95ef3cee463498614e3b768ec8ad430f78",
+      "bytes": 250379,
+      "document_width": 1440,
+      "visually_inspected": true
+    },
+    {
+      "file": "06-financial-result-1440x900.png",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:44:06.155Z",
+      "sha256": "cb0ec681d167b28d1a474e3c2b39800aa2805ecddc13bb6b1c54c1c34cdec2e4",
+      "bytes": 207928,
+      "document_width": 1440,
+      "visually_inspected": true
+    },
+    {
+      "file": "07-jordan-review-1366x768.png",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "scroll_y": 0,
+      "captured_at": "2026-09-13T03:44:10.114Z",
+      "sha256": "1f909cd933e57bd43cc4049680b99f501fa9c349def36297efb0a02591c38ab8",
+      "bytes": 233041,
+      "document_width": 1366,
+      "visually_inspected": true
+    }
+  ],
+  "errors": [],
+  "merge_parents": [
+    "7c784088b062b6a86d957a114aac6365d9bfb460",
+    "e819e40978e04e46edf0364107cd32e6a0bed31a"
+  ],
+  "inspection": {
+    "method": "Each saved PNG directly opened and visually inspected",
+    "result": "All seven loaded renders; no critical defect identified",
+    "page_or_console_errors": [],
+    "document_horizontal_overflow": false,
+    "clinical_mutations": false,
+    "financial_mutations": false,
+    "source_edits_after_inspection": false,
+    "notes": [
+      "Primary review and intake controls visible.",
+      "Long page content and source/decision panels use normal scrolling.",
+      "Previously saved financial sensitivity result opened without recalculation."
+    ]
+  }
+}

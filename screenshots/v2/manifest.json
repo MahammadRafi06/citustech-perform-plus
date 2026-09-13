@@ -1,0 +1,1320 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-13T03:32:45.782797Z",
+  "description": "Authoritative inventory of the current saved V2 screenshots. Other capture manifests are chronological session logs and can refer to superseded bytes.",
+  "counts": {
+    "after": 32,
+    "before": 5,
+    "desktop": 9,
+    "journeys": 6,
+    "routes": 16
+  },
+  "runtimes": {
+    "before": {
+      "url": "http://localhost:3002",
+      "kind": "existing Docker runtime, freshly captured without mutations",
+      "git_commit": null,
+      "git_commit_note": "No commit label was present; image identity does not imply current main.",
+      "ui_image": "sha256:26a7441a890aa0a5430c6fb849c0db80b9419bacd76f4857051c0073536bf44b",
+      "ui_source_tree_sha256": "3f0b436f76c34c4d6d4b3dd7768acc81f1efa8d6b4ca60f74d02fea0d12d1c25",
+      "api_image": "sha256:b14e621a5677af9b166d289d9cbb222a04e6a0c637ede6c76399cb35cfdb23b9",
+      "api_source_tree_sha256": "ff59ca6032b45bf769ace2d87bc89ee0aebe9b089cfb6126448848d0784ef8a9"
+    },
+    "after": {
+      "url": "http://localhost:3005",
+      "api_url": "http://127.0.0.1:8004",
+      "kind": "local Next.js development server with separate persisted synthetic V2 API/database",
+      "branch": "codex/business-requirements-v2",
+      "base_commit": "9b77300232c1834eb0816069dd18c40a7e37d628",
+      "source_state": "uncommitted V2 implementation in isolated worktree",
+      "ui_source_frozen_at": "2026-09-13T03:23:53Z",
+      "source_note": "Captures span implementation and final polish. Latest file hashes and per-file times identify the saved evidence. Final local production build passed; these images are from the development runtime, not a deployed production container.",
+      "parallel_branch_note": "Original checkout enterprise CSS work was separately committed on ui/enterprise-v3 at e819e40. It was not merged into this V2 worktree."
+    }
+  },
+  "comparison_pairs": [
+    {
+      "before": "before/01-overview-1440x900.png",
+      "after": "after/01-risk-overview-1440x900.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scope": "same screen and viewport; application workflow/data state can differ"
+    },
+    {
+      "before": "before/02-casey-member-1440x900.png",
+      "after": "after/02-casey-risk-1440x900.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scope": "same screen and viewport; application workflow/data state can differ"
+    },
+    {
+      "before": "before/03-model-lab-1440x900.png",
+      "after": "after/03-model-lab-1440x900.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scope": "same screen and viewport; application workflow/data state can differ"
+    },
+    {
+      "before": "before/04-data-1440x900.png",
+      "after": "after/04-models-1440x900.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scope": "same screen and viewport; application workflow/data state can differ"
+    },
+    {
+      "before": "before/06-review-1440x900.png",
+      "after": "after/06-review-1440x900.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scope": "same screen and viewport; application workflow/data state can differ"
+    }
+  ],
+  "verification": {
+    "before": "All five fresh baseline files independently visually inspected and authenticated/painted.",
+    "routes": "All 16 primary routes captured at 1440x900 with loaded content; saved visual defects in filters, member wrapping, intake notices and financial sensitivity labels were corrected and affected captures replaced.",
+    "desktop": "1366x768 intake, registry, model lab, review; 1920x1080 overview, member profile, review, registry and financial result.",
+    "capture_method": "Headless Chromium via Playwright; waited for page-specific rendered selectors and a paint delay; no image composites or screenshots invented from DOM.",
+    "final_capture_errors": [],
+    "clinical_workflow": {
+      "member_id": "MB-000001",
+      "finding_id": "OP-0001",
+      "decision_id": "DEC-e28039ee47",
+      "qa_id": "QA-aeea6cc03f",
+      "submission_id": "SUB-d90bec6a15",
+      "roles": [
+        "coder",
+        "qa_reviewer",
+        "submission_analyst"
+      ],
+      "steps": [
+        "source passage inspected",
+        "supported review saved",
+        "separate QA account passed with rationale",
+        "exact approved addition prepared",
+        "acknowledgment and acceptance recorded",
+        "authored eligibility exception applied",
+        "independent missing-diagnosis report compared"
+      ],
+      "raw_score_stages": {
+        "captured_baseline": 0.396,
+        "qa_supported": 0.756,
+        "submitted": 0.756,
+        "accepted": 0.756,
+        "eligible": 0.396,
+        "reported": null
+      }
+    },
+    "financial_browser_scope": "MA only: explicit synthetic assumptions, saved Casey comparison 0.758 to 1.145; estimate 7932.66 to 11982.71 USD, difference 4050.05 USD; distinct low/high sensitivity labels inspected. ACA and Medicaid financial calculations were not browser verified in this pass.",
+    "exports": [
+      {
+        "filename": "FINANCIAL-e6d7943b0b804086984a024d45831371.json",
+        "bytes": 3594,
+        "sha256": "fdcd0e31eb4492e60a52e24cbf4f866b2b8f0f8fcbf127064d9bec2ebefd1a68",
+        "storage": "ignored local verification downloads; not included with screenshots"
+      },
+      {
+        "filename": "risk-analytics-ma_v28_py2027_forecast-captured_baseline.json",
+        "bytes": 743313,
+        "sha256": "8655bcccffe569a246f0238e1c4076bd0b8c1f3d4c39fb49b7da30fe79ae6c05",
+        "storage": "ignored local verification downloads; not included with screenshots"
+      },
+      {
+        "filename": "risk-overview-ma_v28_py2027_forecast-captured_baseline.json",
+        "bytes": 495211,
+        "sha256": "d788cccd43164ab9d467e5748d02fb17a80ab3ccf181e078b3ec7af31c9ae413",
+        "storage": "ignored local verification downloads; not included with screenshots"
+      },
+      {
+        "filename": "perform-plus-synthetic-audit.zip",
+        "bytes": 613895,
+        "sha256": "6e51947ffc8b2795601ad6f30fdb9eff4d584cff533a824aad86cc65f68f4dd5",
+        "storage": "ignored local verification downloads; not included with screenshots"
+      }
+    ],
+    "zip_inspection": {
+      "selected_members": [
+        "MB-000001",
+        "MB-000004"
+      ],
+      "entries": 266,
+      "integrity": "passed",
+      "content_checked": "selected-case source documents, retained risk inputs, runs and model configuration evidence"
+    },
+    "limitations": [
+      "Only five fresh before/after pairs; remaining primary routes have after captures only.",
+      "Screenshots show local synthetic data and do not establish production deployment, live payer acceptance, real payment reconciliation or live model inference.",
+      "Workflow screenshots preserve the actual state when the step occurred; later final route/desktop frames are the visual polish reference.",
+      "The requirement and acceptance status remains in docs/V2_VERIFICATION.md and TODO.md; this screenshot inventory does not close all D1/D2 gates."
+    ]
+  },
+  "files": [
+    {
+      "file": "after/01-risk-overview-1440x900.png",
+      "sha256": "a169b79d65cac70a5f02a6db3cc0b4cf49bbf953d03a8ca88ba54419eed363c6",
+      "bytes": 141127,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:41.245179Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:23:41.246Z",
+      "url": "http://localhost:3005/overview?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/02-casey-risk-1440x900.png",
+      "sha256": "a54e8887bfe9be67b3c86f60381ab092ece5343ce982c7ff294ebb8abbb7e35d",
+      "bytes": 158686,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:26.075052Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:26.080Z",
+      "url": "http://localhost:3005/members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/03-model-lab-1440x900.png",
+      "sha256": "e93a0218bbd805556812d4871d0181dd5446d6dafa16ff0af973bebfdc392ee4",
+      "bytes": 177613,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:31.563046Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:31.568Z",
+      "url": "http://localhost:3005/scenarios?member=MB-000005&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/04-models-1440x900.png",
+      "sha256": "346d8edb97fb32019791f9c5b384e97ba6680a75a07489cacdf68d8b4b3fc896",
+      "bytes": 188371,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T02:59:37.692940Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/05-external-1440x900.png",
+      "sha256": "8dcd8f7edbf094f995793f70e9b08e5c5d0dd39e6d91a1607ddf41e66ecd9929",
+      "bytes": 152197,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:49.003025Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:49.007Z",
+      "url": "http://localhost:3005/data?riskTab=external&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/06-review-1440x900.png",
+      "sha256": "7505c031aa132d12a4cf280f6b86c1299e59fcdb7ba232fab6257a9709b7c425",
+      "bytes": 216502,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:06.765003Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:06.770Z",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/07-casey-combined-scenario-1440x900.png",
+      "sha256": "29eef7c54324515b1927f9806fa4c693725f7ceffeef4d2afcf065b9f2475b87",
+      "bytes": 172397,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:35.627041Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:35.630Z",
+      "url": "http://localhost:3005/scenarios?member=MB-000005&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/08-medicaid-import-preview-1440x900.png",
+      "sha256": "8dcd8f7edbf094f995793f70e9b08e5c5d0dd39e6d91a1607ddf41e66ecd9929",
+      "bytes": 152197,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:50.672023Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:50.676Z",
+      "url": "http://localhost:3005/data?riskTab=external&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/09-medicaid-import-result-1440x900.png",
+      "sha256": "ef33025ed9918e81712528cd0660fa0d284cb57b3f5e515943812c40d1d15a86",
+      "bytes": 128705,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:57.505014Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:57.509Z",
+      "url": "http://localhost:3005/data?riskTab=external&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/10-stage-reconciliation-1440x900.png",
+      "sha256": "cc53b0232b3b9da0fa1366a8fde2147e6ef7fe3a6063425b802d8cd00093bcb6",
+      "bytes": 155709,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:31.562190Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:23:31.563Z",
+      "url": "http://localhost:3005/members/MB-000001?tab=Score+reconciliation&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/11-financial-assumptions-1440x900.png",
+      "sha256": "e5e8360ab073f5250bde9395e1286cb5316634c0d1325a03c7439c1f4f7a6558",
+      "bytes": 167051,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:39.757036Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:39.761Z",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/12-financial-result-1440x900.png",
+      "sha256": "7a16cc645cf0d2942234ef6ab2fd933e628338298ca047009af844068c127513",
+      "bytes": 146863,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:46.091028Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:46.094Z",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/13-risk-analytics-1440x900.png",
+      "sha256": "7e7cd11521fdaf1e0f36b242b8e13c54b0048b1b6a7fcfc3b8aaae1c8ff4c1a1",
+      "bytes": 127887,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:23.762200Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:23:23.763Z",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/14-category-prevalence-1440x900.png",
+      "sha256": "ca1ea9f41fe7ccb2bf748aab2c8979abaf1fe0708627f2aba7e43e433d265ef1",
+      "bytes": 149867,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:03:14.749696Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "after-capture-manifest.json",
+      "captured_at": "2026-09-13T03:03:14.750Z",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/15-recapture-1440x900.png",
+      "sha256": "3e4fe6dffffd80f44afe49f7ce0efe830216008c0374757257c57ad2ecbcbab9",
+      "bytes": 143627,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:03:17.477693Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "after-capture-manifest.json",
+      "captured_at": "2026-09-13T03:03:17.478Z",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/16-source-analysis-1440x900.png",
+      "sha256": "3d13a159fcb7241adc859aed0fc78ebc78768d723ea56aa14dfef924792ed7b0",
+      "bytes": 163964,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:20:06.362439Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "after-capture-manifest.json",
+      "url": "http://localhost:3005/members/MB-000001?tab=Source+analysis&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application",
+      "earlier_capture_log_at": "2026-09-13T03:03:21.897Z",
+      "captured_at": null,
+      "capture_log_note": "Earlier session metadata; current file identity and saved time take precedence."
+    },
+    {
+      "file": "after/17-member-directory-1440x900.png",
+      "sha256": "1889c4e31f6cec2475491d4c29a600d2d0e39e7de8b1cd551aef1d75a8c78287",
+      "bytes": 159650,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:03:25.373684Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "after-capture-manifest.json",
+      "captured_at": "2026-09-13T03:03:25.374Z",
+      "url": "http://localhost:3005/members?riskStatus=completed&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/18-ai-source-citation-1440x900.png",
+      "sha256": "8e32a372fb17919aeced9d81b3eb2de038b852e779517752078aa70d4ec2bb62",
+      "bytes": 178497,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:20:08.709436Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/19-exact-scoring-input-1440x900.png",
+      "sha256": "8df5cac0c6e41cebe087a4bdece32a58b66f195496b4b23bf58a8a6d0b9d4f06",
+      "bytes": 147944,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:14.179284Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:22:14.180Z",
+      "url": "http://localhost:3005/members/MB-000005?tab=Scoring+inputs&source=CLAIM-MB-000005-1&run=RUN-1937055894e743c89e7384775021f582&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/20-rxhcc-mapd-1440x900.png",
+      "sha256": "1a8d654c0e232e1f9c8d5e1da5286fbca10bd3a87479a9cb0b66407ec6472208",
+      "bytes": 160497,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:26.071270Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:22:26.073Z",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=rxhcc_py2027_mapd_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/20-rxhcc-mapd-ledger-1440x900.png",
+      "sha256": "03c0c65de8e2f849862eff17f4a297ba3cd4b2f23c6774a3ad48d26802132072",
+      "bytes": 125695,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:15.367993Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:15.371Z",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=rxhcc_py2027_mapd_forecast&basis=captured_baseline",
+      "scroll_y": 525,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/21-aca-adult-1440x900.png",
+      "sha256": "37ea1177911a9de64f13c81984cc25d09a82063f1e6f7b3746856bba3dc82b56",
+      "bytes": 163111,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:41.799250Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:22:41.800Z",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/21-aca-adult-ledger-1440x900.png",
+      "sha256": "203097569462704654761169b1874fddb56f18ca9632ca06c4c430c124639e5f",
+      "bytes": 125264,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:19.166988Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:19.170Z",
+      "url": "http://localhost:3005/members/MB-000001?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "scroll_y": 531,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/22-aca-child-1440x900.png",
+      "sha256": "d61b760e98d18a22420da0fce6bd12ba6f19ff5cad3c71995439478909b3d94a",
+      "bytes": 164609,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:56.668232Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:22:56.669Z",
+      "url": "http://localhost:3005/members/MB-000002?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/22-aca-child-ledger-1440x900.png",
+      "sha256": "0c6ce88092b42e6e2b164be3ca8c7fb4ce631a14e42949ed5e39cd2bdaa4da51",
+      "bytes": 125158,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:22.931984Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:22.935Z",
+      "url": "http://localhost:3005/members/MB-000002?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "scroll_y": 531,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/23-aca-infant-1440x900.png",
+      "sha256": "3deae90839029283fd29998fea9c189b7afeed44fc58b4ce734cb9782d08f943",
+      "bytes": 164491,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:12.082214Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:23:12.083Z",
+      "url": "http://localhost:3005/members/MB-000003?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/23-aca-infant-ledger-1440x900.png",
+      "sha256": "9b2ae01adc034277a96db1fd52f1a5790c5d404ea447ef58cee4ccc8339a9dc4",
+      "bytes": 126534,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:26.685979Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:26.689Z",
+      "url": "http://localhost:3005/members/MB-000003?tab=Risk+profile&config=hhs_v08_by2026&basis=captured_baseline",
+      "scroll_y": 531,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/24-medicaid-coverage-1440x900.png",
+      "sha256": "eff13fa3b5131c4c659fa200e7c07a7913f00d13e96b9a7580efcd64d3f0d4a1",
+      "bytes": 152677,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:18.121207Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:23:18.122Z",
+      "url": "http://localhost:3005/overview?config=medicaid_fl_external&basis=reported",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/25-actual-period-comparison-1440x900.png",
+      "sha256": "2658352397b08c773e0a53c951a581dc6d0c3563513c9e9e855f86850c6696f4",
+      "bytes": 137208,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:27.560195Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:23:27.561Z",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/26-independent-observations-1440x900.png",
+      "sha256": "5aba90f322335d14457af0f8c832d677c194ef857f4b1d9b09eed3449416e06c",
+      "bytes": 130540,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:33.475188Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "final-verification-manifest.json",
+      "captured_at": "2026-09-13T03:23:33.476Z",
+      "url": "http://localhost:3005/members/MB-000001?tab=Score+reconciliation&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/27-casey-factor-ledger-1440x900.png",
+      "sha256": "6286645f91657e23c9a61f51163cc6c041fd61387591b1e709b2eb24f0aa0038",
+      "bytes": 133203,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:25:27.770050Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:25:27.772Z",
+      "url": "http://localhost:3005/members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 556,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "after/28-intake-inspector-scroll-1440x900.png",
+      "sha256": "e774618749b284002e18ee735909d0c7d4744d67594e8f7f0a974ae34f5fb19b",
+      "bytes": 196573,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:02.994008Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:02.997Z",
+      "url": "http://localhost:3005/intake?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "before/01-overview-1440x900.png",
+      "sha256": "efcd571ad82858843a7d1807ad7c72536a92e12fbde8ac23a5dde13ab9f79361",
+      "bytes": 190638,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T02:49:31.408568Z",
+      "runtime": "before",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "before/02-casey-member-1440x900.png",
+      "sha256": "e10d956d668fc12034075136a9c8c9fdfc40be1e83633fe3f674b7717e44e80c",
+      "bytes": 173884,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T02:49:34.074566Z",
+      "runtime": "before",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "before/03-model-lab-1440x900.png",
+      "sha256": "0d5576010de70883401c4b048a8bd5088e907c563dd1704ad9216c065e717c27",
+      "bytes": 143159,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T02:49:36.739563Z",
+      "runtime": "before",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "before/04-data-1440x900.png",
+      "sha256": "622cdc5924827ba25220eb49849059dfb01d618e503f5f74a11789d8228600b9",
+      "bytes": 157870,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T02:49:39.405561Z",
+      "runtime": "before",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "before/06-review-1440x900.png",
+      "sha256": "99373acae469a4f4d91a0ee58fe365adcf345867a34c39f50a5409e55bab8db9",
+      "bytes": 216523,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T02:49:42.080558Z",
+      "runtime": "before",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/casey-profile-1920x1080.png",
+      "sha256": "6f94c915f90281fbd47c79f6533a89917cb722095dd109e71bdaf7e7090f3b7b",
+      "bytes": 176787,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "file_saved_at": "2026-09-13T03:26:49.070952Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:49.075Z",
+      "url": "http://localhost:3005/members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/financial-result-1920x1080.png",
+      "sha256": "adff2d9addf52f1bb04ff596821911a24107f401df3c030bdba5d110f815514e",
+      "bytes": 161835,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "file_saved_at": "2026-09-13T03:31:03.872646Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "financial-desktop-manifest.json",
+      "captured_at": "2026-09-13T03:31:03.873Z",
+      "url": "http://localhost:3005/analytics?view=Financial+scenarios&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/intake-riley-1366x768.png",
+      "sha256": "6438b492048f1870c892513bf573ba8d86c8d3bc3b350c18e97ceda51b42da7b",
+      "bytes": 149103,
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "file_saved_at": "2026-09-13T03:26:30.034975Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:30.039Z",
+      "url": "http://localhost:3005/intake?member=MB-000006&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/jordan-review-1920x1080.png",
+      "sha256": "908406686f213e185cce74e398d4abe85cdd5150797f305d3fca48d428e4f277",
+      "bytes": 240401,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "file_saved_at": "2026-09-13T03:26:52.363948Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:52.368Z",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/model-lab-1366x768.png",
+      "sha256": "193bf894ffa7cf8af7b132bf4911d7111340848cec4dd27430200b30d5060742",
+      "bytes": 149289,
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "file_saved_at": "2026-09-13T03:26:36.698967Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:36.702Z",
+      "url": "http://localhost:3005/scenarios?member=MB-000005&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/overview-1920x1080.png",
+      "sha256": "72f2343ce507d7bf7c2019c4a0e51623b23ae0a4f51e55e8781b26d461db8fd8",
+      "bytes": 159275,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "file_saved_at": "2026-09-13T03:26:44.805957Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:44.810Z",
+      "url": "http://localhost:3005/overview?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/registry-1366x768.png",
+      "sha256": "b986b5984a24d53aaa7f307c8aa30cde6b5d41a0cf4ca1370e59dc819f9b3385",
+      "bytes": 158054,
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "file_saved_at": "2026-09-13T03:26:32.902972Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:32.906Z",
+      "url": "http://localhost:3005/suspects?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/registry-1920x1080.png",
+      "sha256": "bfd334cde7d87ac858c249592527ae9912321fc80e5e82aa62984efbdf0a0714",
+      "bytes": 177971,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "file_saved_at": "2026-09-13T03:26:55.162945Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:55.168Z",
+      "url": "http://localhost:3005/suspects?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "desktop/review-jordan-1366x768.png",
+      "sha256": "a5d88bd7fef30439c35c399e273090434631d8178ba121d677ed72b2392ec121",
+      "bytes": 177523,
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "file_saved_at": "2026-09-13T03:26:39.986963Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:39.991Z",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "journeys/01-jordan-source-1440x900.png",
+      "sha256": "5600ac64d62cc36d0a4e4c166f82fb3795206cff5419e2ae63fe3569e78a1ce6",
+      "bytes": 177730,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:06:41.138438Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": null,
+      "captured_at": null,
+      "url": null,
+      "scroll_y": null,
+      "state": "recorded synthetic workflow step; may precede final cosmetic fixes"
+    },
+    {
+      "file": "journeys/03-jordan-independent-qa-1440x900.png",
+      "sha256": "8c46b69f666af6fbbef43337a0f59b17bb53b4e0cfeb1c404c893f20315d895f",
+      "bytes": 187022,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:09:21.688233Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "jordan-browser-manifest.json",
+      "captured_at": "2026-09-13T03:09:21.689Z",
+      "url": "http://localhost:3005/reviews/MB-000001?finding=OP-0001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "recorded synthetic workflow step; may precede final cosmetic fixes"
+    },
+    {
+      "file": "journeys/04-jordan-prepared-1440x900.png",
+      "sha256": "996ff5b109a5a3fc20a868d5771383a0e1b48900f8a49090205bbca4eb72efb4",
+      "bytes": 138756,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:09:31.179221Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "jordan-browser-manifest.json",
+      "captured_at": "2026-09-13T03:09:31.180Z",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline&record=SUB-d90bec6a15",
+      "scroll_y": null,
+      "state": "recorded synthetic workflow step; may precede final cosmetic fixes"
+    },
+    {
+      "file": "journeys/05-jordan-accepted-1440x900.png",
+      "sha256": "c0513ef5c52eff0d6d339da382f76da84b4f73ff2bd9c551de86afb4797a016b",
+      "bytes": 139597,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:09:40.135210Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "jordan-browser-manifest.json",
+      "captured_at": "2026-09-13T03:09:40.137Z",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline&record=SUB-d90bec6a15",
+      "scroll_y": null,
+      "state": "recorded synthetic workflow step; may precede final cosmetic fixes"
+    },
+    {
+      "file": "journeys/06-jordan-accepted-ineligible-1440x900.png",
+      "sha256": "4f769dc47c405d491e09d1b77ed5b1921a37ce10d3160da0b2ae631e171a60a8",
+      "bytes": 108828,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:09:49.889198Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "jordan-browser-manifest.json",
+      "captured_at": "2026-09-13T03:09:49.890Z",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "recorded synthetic workflow step; may precede final cosmetic fixes"
+    },
+    {
+      "file": "journeys/07-jordan-independent-report-1440x900.png",
+      "sha256": "c90ec3427c28f8d75bcba0200b365d1a7a635222a95e929abe7d1b77ae137b46",
+      "bytes": 104018,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:09:57.766188Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "jordan-browser-manifest.json",
+      "captured_at": "2026-09-13T03:09:57.768Z",
+      "url": "http://localhost:3005/submissions?member=MB-000001&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "recorded synthetic workflow step; may precede final cosmetic fixes"
+    },
+    {
+      "file": "routes/admin-1440x900.png",
+      "sha256": "6a1e76b718b79a970df2f0bcbeb9a249d8fd6ddac886de574ac2bd1a1b72e9d5",
+      "bytes": 162894,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:09.122217Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:23:09.123Z",
+      "url": "http://localhost:3005/admin?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/analytics-1440x900.png",
+      "sha256": "7e7cd11521fdaf1e0f36b242b8e13c54b0048b1b6a7fcfc3b8aaae1c8ff4c1a1",
+      "bytes": 127887,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:11.567997Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:11.572Z",
+      "url": "http://localhost:3005/analytics?view=Risk+%26+conditions&config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/audit-1440x900.png",
+      "sha256": "059f3294e43e1b88ff16c5d0c4a6b1b43f956fddb6446c478331429a732bd049",
+      "bytes": 166598,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:01.605227Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:23:01.607Z",
+      "url": "http://localhost:3005/audit?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/campaigns-1440x900.png",
+      "sha256": "a091b0f12798249d34236dede5d354aab222779e13ea30479ae47403bfdd7e39",
+      "bytes": 169413,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:21:49.948313Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:21:49.949Z",
+      "url": "http://localhost:3005/campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/chase-1440x900.png",
+      "sha256": "957ecab77239573cd169d7048ba6c68f8164c271fb0d0214712daabaa8c8e940",
+      "bytes": 157847,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:21:53.599309Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:21:53.600Z",
+      "url": "http://localhost:3005/chase?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/data-1440x900.png",
+      "sha256": "346d8edb97fb32019791f9c5b384e97ba6680a75a07489cacdf68d8b4b3fc896",
+      "bytes": 188371,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:23:04.870223Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:23:04.871Z",
+      "url": "http://localhost:3005/data?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/intake-1440x900.png",
+      "sha256": "43120875e005500a358cc82474be951f193c5159e3a8c5fbe02139c33b182275",
+      "bytes": 196680,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:26:01.294010Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "finishing-manifest.json",
+      "captured_at": "2026-09-13T03:26:01.298Z",
+      "url": "http://localhost:3005/intake?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": 0,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/members-1440x900.png",
+      "sha256": "8ecf5427fccbb9b7eee4db5852441d9f920f84826ac2aabbb0bf158092b24d2b",
+      "bytes": 159877,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:01.842299Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:22:01.843Z",
+      "url": "http://localhost:3005/members?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/overview-1440x900.png",
+      "sha256": "a169b79d65cac70a5f02a6db3cc0b4cf49bbf953d03a8ca88ba54419eed363c6",
+      "bytes": 141127,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:20:41.738396Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:20:41.740Z",
+      "url": "http://localhost:3005/overview?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/previsit-1440x900.png",
+      "sha256": "8577b3d6fd024a398a50fbb194a7ae03f4b5bebf0b98df1d6b9d8a403b6633cc",
+      "bytes": 197217,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:53.579236Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:22:53.580Z",
+      "url": "http://localhost:3005/previsit?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/providers-1440x900.png",
+      "sha256": "e27274185cc770e0baabc6ae10b7fe76980f404b65d9290f47115c1b6ad35961",
+      "bytes": 169458,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:05.002295Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:22:05.003Z",
+      "url": "http://localhost:3005/providers?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/qa-1440x900.png",
+      "sha256": "5f004c05339028e385f791c5f6e944995267c25bc91910f14edd834cb4470866",
+      "bytes": 141793,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:21:46.335318Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:21:46.336Z",
+      "url": "http://localhost:3005/qa?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated empty QA queue after independent approval; not a loading frame"
+    },
+    {
+      "file": "routes/reviews-1440x900.png",
+      "sha256": "14d7530e039cae3bcc34cbe65492df359712ceaa118b5bdc60001c5271ef18dc",
+      "bytes": 198947,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:20:58.297376Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:20:58.298Z",
+      "url": "http://localhost:3005/reviews?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/scenarios-1440x900.png",
+      "sha256": "e93a0218bbd805556812d4871d0181dd5446d6dafa16ff0af973bebfdc392ee4",
+      "bytes": 177613,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:20:51.586384Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:20:51.587Z",
+      "url": "http://localhost:3005/scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/submissions-1440x900.png",
+      "sha256": "2f0c5128c8cffaff968873063ef433e025487c2416215884db95a3a4c86ba476",
+      "bytes": 159558,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:22:57.215232Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:22:57.216Z",
+      "url": "http://localhost:3005/submissions?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    },
+    {
+      "file": "routes/suspects-1440x900.png",
+      "sha256": "14af95e11306d79261dfc4f7a21ba61e09ae89ed46f021971b6dce390e07a736",
+      "bytes": 178982,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "file_saved_at": "2026-09-13T03:20:54.795380Z",
+      "runtime": "after",
+      "capture_kind": "viewport",
+      "capture_log": "route-manifest.json",
+      "captured_at": "2026-09-13T03:20:54.797Z",
+      "url": "http://localhost:3005/suspects?config=ma_v28_py2027_forecast&basis=captured_baseline",
+      "scroll_y": null,
+      "state": "authenticated rendered application"
+    }
+  ]
+}
