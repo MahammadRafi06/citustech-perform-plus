@@ -2,7 +2,7 @@
 
 ## Active increment — business requirements V2
 
-**Development approved and underway.** Branch: `codex/business-requirements-v2`, from `origin/main` at `9b77300`, in `.local/worktrees/business-requirements-v2`. The original checkout and concurrent UI changes are preserved.
+**Development approved and underway.** Implementation branch: `codex/business-requirements-v2`, from `origin/main` at `9b77300`, in `.local/worktrees/business-requirements-v2`. The [main integration](docs/MAIN_MERGE_VERIFICATION.md) combines this increment with the separate enterprise UI changes. The remaining V2 acceptance items below stay open.
 
 Read the [V2 implementation plan](docs/BUSINESS_REQUIREMENTS_V2_PLAN.md), [complete requirement matrix](docs/V2_REQUIREMENTS_MATRIX.json) and [official model discovery](docs/references/v2-model-discovery.md). The matrix maps all 100 RA and 70 retained BR requirements to these tickets; task dependencies below govern delivery order. Every implementation item stays open until its acceptance evidence is recorded. Prior checked items below do not satisfy the expanded numerical gate.
 

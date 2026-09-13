@@ -1,5 +1,7 @@
 # V2 implementation and verification
 
+This is the retained pre-merge checkpoint. See [main integration verification](MAIN_MERGE_VERIFICATION.md) for the subsequent combination with enterprise styling, fresh build and browser evidence. Source fingerprints and image identities below retain their original scope.
+
 Implementation is active on `codex/business-requirements-v2`, based on `origin/main` at `9b77300232c1834eb0816069dd18c40a7e37d628`. The user approved development with “create new branch if not already done, and get started.” This is an isolated worktree; the original checkout, concurrent styles, local accounts and other previews remain preserved.
 
 The V2 preview is [localhost:3005](http://localhost:3005), with its own API at port 8004 and a separate `perform_plus_v2` PostgreSQL database. Credentials remain in ignored local runtime files. Nothing has been published or deployed to a Kubernetes cluster in this increment.
