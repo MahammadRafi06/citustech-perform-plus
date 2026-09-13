@@ -545,17 +545,25 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           selectedIds={data.opportunities
             .filter((o) => selected.includes(o.id))
             .map((o) => o.id)}
+          actions={
+            user.permissions.includes("risk_scenario") && (
+              <Button variant="outline" disabled={impactBusy || !selected.length} onClick={calculateImpact}>
+                {impactBusy ? "Calculating…" : "Calculate effect"}
+              </Button>
+            )
+          }
           toolbar={
-            <>
-              <SelectField label="Ranking" value={ranking} onChange={setRanking} options={[["operational_priority", "Operational priority"], ["recapture_urgency", "Recapture urgency"], ["marginal_score_effect", "Marginal score effect"], ["accuracy_correction", "Accuracy correction"]].map(([value, label]) => ({ value, label }))} />
-              {user.permissions.includes("risk_scenario") && <Button variant="outline" disabled={impactBusy || !selected.length} onClick={calculateImpact}>{impactBusy ? "Calculating…" : "Calculate effect"}</Button>}
+            <div className="registry-filters">
+              <SelectField showLabel label="Ranking" value={ranking} onChange={setRanking} options={[["operational_priority", "Operational priority"], ["recapture_urgency", "Recapture urgency"], ["marginal_score_effect", "Marginal score effect"], ["accuracy_correction", "Accuracy correction"]].map(([value, label]) => ({ value, label }))} />
               <SelectField
+                showLabel
                 label="Work scope"
                 value={scope}
                 onChange={setScope}
                 options={[{ value: "actionable", label: "Actionable cases" }, { value: "all", label: "Population findings" }]}
               />
               <SelectField
+                showLabel
                 label="Saved view"
                 value={savedView}
                 onChange={setSavedView}
@@ -570,6 +578,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               />
 
               <SelectField
+                showLabel
                 label="Status"
                 value={status}
                 onChange={(v) => {
@@ -586,6 +595,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                 ]}
               />
               <SelectField
+                showLabel
                 label="Priority"
                 value={priority}
                 onChange={(v) => {
@@ -600,6 +610,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                 ]}
               />
               <SelectField
+                showLabel
                 label="Evidence"
                 value={evidence}
                 onChange={(v) => {
@@ -610,7 +621,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                   label: v === "all" ? "All evidence" : v,
                 }))}
               />
-            </>
+            </div>
           }
           exportAction={(filtered) =>
             exportSafe(

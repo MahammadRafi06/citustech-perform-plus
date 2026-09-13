@@ -1,0 +1,60 @@
+:root {
+  /* Surfaces */
+  --card: #ffffff;
+  --popover: #ffffff;
+  /* Brand (indigo) + signal (cyan) */
+  --primary-foreground: #ffffff;
+  /* Neutrals */
+  /* Semantic */
+  --destructive: #dc2626;
+  --success: #059669;
+  --warning: #d97706;
+  /* Lines + focus */
+  /* Shape + elevation */
+  --radius: 0.5rem;
+  --shadow-2xs: 0 1px 2px rgb(15 23 42 / 0.05);
+  --shadow-xs: 0 1px 2px rgb(15 23 42 / 0.06);
+  --shadow-md: 0 4px 8px -2px rgb(15 23 42 / 0.06),
+    0 2px 4px -2px rgb(15 23 42 / 0.05);
+  --shadow-lg: 0 12px 24px -6px rgb(15 23 42 / 0.1),
+    0 4px 8px -4px rgb(15 23 42 / 0.06);
+  --shadow-xl: 0 24px 48px -12px rgb(15 23 42 / 0.18),
+    0 8px 16px -8px rgb(15 23 42 / 0.08);
+  /* Ink scale */
+  --data-manual: #64748b;
+  --ease-out: cubic-bezier(0.25, 0.6, 0.25, 1);
+  --background: #f6f7f9;
+  --foreground: #202b3b;
+  --card-foreground: #202b3b;
+  --popover-foreground: #202b3b;
+  --primary: #3659ad;
+  --primary-hover: #29488f;
+  --signal: #258582;
+  --secondary: #f0f2f5;
+  --secondary-foreground: #465264;
+  --muted: #f3f5f7;
+  --muted-foreground: #667284;
+  --accent: #edf2fa;
+  --accent-foreground: #2f519b;
+  --border: #e2e6ec;
+  --border-strong: #cbd2dc;
+  --input: #cbd2dc;
+  --ring: #3659ad;
+  --ink: #273345;
+  --ink-strong: #182536;
+  --text-secondary: #4b586a;
+  --text-muted: #667284;
+  --hover: #f5f7fa;
+  --selected: #edf2fa;
+  --data-assisted: #3659ad;
+  --data-secondary: #258582;
+  --shadow-sm: 0 1px 2px rgb(20 35 55 / 0.025);
+  --text-page: 24px;
+  --text-metric: 30px;
+  --text-body: 14px;
+  --text-label: 13px;
+  --text-meta: 12px;
+  --shell-topbar-height: 60px;
+  --shell-context-height: 76px;
+  --canvas-space: 28px;
+}

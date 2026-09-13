@@ -1,0 +1,75 @@
+{
+  "brandingWidth": 1344,
+  "heading": "Welcome back",
+  "images": [
+    {
+      "alt": "CitiusTech",
+      "loaded": true,
+      "src": "/brand/citiustech-wordmark.png"
+    },
+    {
+      "alt": "Microsoft Entra",
+      "loaded": true,
+      "src": "/identity/entra.svg"
+    },
+    {
+      "alt": "Okta",
+      "loaded": true,
+      "src": "/identity/okta-symbol.svg"
+    }
+  ],
+  "loginWidth": 576,
+  "overflow": false,
+  "viewport": {
+    "height": 993,
+    "width": 1920
+  },
+  "waitMinimumMs": 5000,
+  "signIn": {
+    "brandLoaded": true,
+    "heading": "Risk overview",
+    "rows": 100
+  },
+  "collapsedSidebar": {
+    "markLoaded": true,
+    "markWidth": 32,
+    "productHidden": true,
+    "sidebarWidth": 64
+  },
+  "screenshots": [
+    {
+      "file": "app-after.jpg",
+      "size": [
+        1910,
+        988
+      ],
+      "sha256": "540d96eee0436d01a713416e7a94e8ee34097294c8297a205ce39e034dc90fa2"
+    },
+    {
+      "file": "app-collapsed-after.jpg",
+      "size": [
+        1910,
+        988
+      ],
+      "sha256": "bbf840bb2ee5dac16f84ca7e413d0c5fd7caa28176a8ca0a523ea7f436c40fe7"
+    },
+    {
+      "file": "login-after.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "efbb20af3325f4801f0bf275cd7c3819de5698efbd93a47e0449fadc009d6f90"
+    },
+    {
+      "file": "login-before.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "0fa7968071df6de7995427657276f8c26a782fa142f7ce1715882de2b80b5456"
+    }
+  ],
+  "suppliedAssetsUnchanged": true,
+  "servedFavicon": "/brand/citiustech-mark.jpeg"
+}

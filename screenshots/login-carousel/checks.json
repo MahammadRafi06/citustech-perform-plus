@@ -1,0 +1,88 @@
+{
+  "controls": {
+    "nextWrap": "1 of 4: AI intelligence",
+    "previousWrap": "4 of 4: Risk insights",
+    "keyboard": "1 of 4: AI intelligence",
+    "pausedAfterManualNavigation": "1 of 4: AI intelligence",
+    "autoAdvance": "2 of 4: Clinical clarity",
+    "pausesWhileSigningIn": true,
+    "formValuesPreserved": true,
+    "formValueVerification": "Visually verified synthetic email and password after a slide change; read-only DOM input values are omitted by the browser tool."
+  },
+  "layouts": [
+    {
+      "carouselWidth": 956.1875,
+      "formWidth": 409.796875,
+      "scrollHeight": 900,
+      "scrollWidth": 1366,
+      "viewport": {
+        "height": 900,
+        "width": 1366
+      }
+    }
+  ],
+  "signIn": {
+    "heading": "Risk overview",
+    "rows": 100
+  },
+  "captureWaitMinimumMs": 5000,
+  "slideIntervalMs": 9000,
+  "screenshots": [
+    {
+      "file": "01-ai-intelligence.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "809de58fe4f80ec38b27bfe5edab9a508ee38cc3628de718f74fb2a62c9d4375"
+    },
+    {
+      "file": "02-clinical-clarity.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "e40a9a7ccead2859658576f2fce37184dbf87b380832298cab3e65e28b059415"
+    },
+    {
+      "file": "03-everyday-ease.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "9f01fae0b308a6e362847adbb82132ea555f894ddd2d642d636e9df7708f6bef"
+    },
+    {
+      "file": "04-risk-insights.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "2f3a18ac528ad7bf8b11e21ed7ec07c3bebce9413a18fe3c33555685a64968c3"
+    },
+    {
+      "file": "before.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "63d4fa982bdc36a758fed752d0b808a10e9d682f6bb0fed800ca2612adbe952b"
+    },
+    {
+      "file": "desktop-1366.jpg",
+      "size": [
+        1366,
+        900
+      ],
+      "sha256": "7ec0ca297c98945d91748ece4c80fb0b670df85a8e3085c2e9ac43ecf05cf34c"
+    },
+    {
+      "file": "verification-form-values.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "2ce6e6f6dbdd079e23fd54b682db981ef994b3fd82adaacabeda406752b84afc"
+    }
+  ]
+}

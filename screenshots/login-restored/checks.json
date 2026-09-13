@@ -1,0 +1,97 @@
+{
+  "wide": {
+    "background": "rgb(54, 89, 173)",
+    "document": [
+      1920,
+      993
+    ],
+    "headings": [
+      "Intelligence with context"
+    ],
+    "photos": 0,
+    "rightBackground": "rgb(255, 255, 255)",
+    "viewport": [
+      1920,
+      993
+    ]
+  },
+  "slides": [
+    {
+      "panel": "A connected review",
+      "paragraphs": [
+        "Evidence at your fingertips",
+        "Move from a potential gap to the source that supports it. Charts, evidence and review decisions stay connected, so your team can work with clarity.",
+        "Source to decision, in one view.",
+        "Perform+",
+        "Open the clinical context behind a finding.",
+        "Review evidence alongside the member story.",
+        "Retain decisions, notes and evidence links.",
+        "Clear context. Traceable decisions."
+      ],
+      "slide": "2 of 4: Clinical clarity"
+    },
+    {
+      "panel": "From queue to completion",
+      "paragraphs": [
+        "Designed for your day",
+        "Prioritize work, review charts and move cases through QA from one consistent workspace. Clear queues and familiar controls keep the next step in view.",
+        "One workspace. A smoother review flow.",
+        "Perform+",
+        "Find and filter the work that needs attention.",
+        "Coordinate reviews, campaigns and follow-up.",
+        "Follow each case through its review gates.",
+        "Less friction between each step."
+      ],
+      "slide": "3 of 4: Everyday ease"
+    },
+    {
+      "panel": "Insight at every level",
+      "slide": "4 of 4: Risk insights"
+    }
+  ],
+  "compact": {
+    "document": [
+      1366,
+      900
+    ],
+    "viewport": [
+      1366,
+      900
+    ]
+  },
+  "localLogin": {
+    "headings": [
+      "Risk overview"
+    ],
+    "path": "/overview",
+    "tableRows": 100
+  },
+  "localLoginNote": "Verified during the same session after simplifying the form; the form has not changed since this successful sign-in.",
+  "approvedRightSideComparison": {
+    "beforeSize": [
+      1920,
+      993
+    ],
+    "afterSize": [
+      1920,
+      993
+    ],
+    "region": [
+      1344,
+      0,
+      1920,
+      993
+    ],
+    "identicalPixels": true,
+    "meanChannelDifference": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "carouselRestoredExactly": {
+    "componentSha256": "d9d40c343e25e7f34440346053698fd3be3683bb27763007be54741988c9ba3d",
+    "cssSha256": "64ccd7182ca7bfb1afde96dcba0dd4313052c10e1ed9426e8de906f76d9f16ea"
+  },
+  "build": "Production Next.js UI build passed; only the UI container was recreated."
+}

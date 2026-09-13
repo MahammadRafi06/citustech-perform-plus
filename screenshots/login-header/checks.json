@@ -1,0 +1,42 @@
+{
+  "brandingWidth": 1344,
+  "headerText": "Perform+\nOrganization workspace\nNorthstar & Meridian",
+  "heading": "Welcome back",
+  "horizontalOverflow": false,
+  "loading": false,
+  "loginWidth": 576,
+  "providerImages": [
+    {
+      "alt": "Microsoft Entra",
+      "loaded": true
+    },
+    {
+      "alt": "Okta",
+      "loaded": true
+    }
+  ],
+  "providerLabel": "Sign in with",
+  "viewport": {
+    "height": 993,
+    "width": 1920
+  },
+  "waitMinimumMs": 5000,
+  "screenshots": [
+    {
+      "file": "after.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "63d4fa982bdc36a758fed752d0b808a10e9d682f6bb0fed800ca2612adbe952b"
+    },
+    {
+      "file": "before.jpg",
+      "size": [
+        1920,
+        993
+      ],
+      "sha256": "efbb20af3325f4801f0bf275cd7c3819de5698efbd93a47e0449fadc009d6f90"
+    }
+  ]
+}

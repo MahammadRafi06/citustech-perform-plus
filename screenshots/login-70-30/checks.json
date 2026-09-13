@@ -1,0 +1,28 @@
+{
+  "brandingWidth": 1344,
+  "heading": "Welcome back",
+  "horizontalOverflow": false,
+  "loading": false,
+  "loginWidth": 576,
+  "logos": [
+    {
+      "alt": "Microsoft Entra",
+      "complete": true,
+      "height": 30,
+      "naturalWidth": 18,
+      "width": 30
+    },
+    {
+      "alt": "Okta",
+      "complete": true,
+      "height": 30,
+      "naturalWidth": 150,
+      "width": 30
+    }
+  ],
+  "viewport": {
+    "height": 993,
+    "width": 1920
+  },
+  "waitMinimumMs": 5000
+}

@@ -1,0 +1,51 @@
+{
+  "brandingBackground": "rgb(54, 89, 173)",
+  "buttonBackground": "rgb(54, 89, 173)",
+  "heading": "Welcome back",
+  "horizontalOverflow": false,
+  "loading": false,
+  "logos": [
+    {
+      "alt": "Microsoft Entra",
+      "complete": true,
+      "naturalWidth": 18
+    },
+    {
+      "alt": "Okta",
+      "complete": true,
+      "naturalWidth": 300
+    },
+    {
+      "alt": "Keycloak",
+      "complete": true,
+      "naturalWidth": 730
+    }
+  ],
+  "oldAccessMessagePresent": false,
+  "primary": "#3659ad",
+  "viewport": {
+    "height": 993,
+    "width": 1920
+  },
+  "waitMinimumMs": 5000,
+  "localSignIn": {
+    "heading": "Risk overview",
+    "memberRows": 100,
+    "primary": "#3659ad",
+    "sidebarBackground": "rgb(255, 255, 255)"
+  },
+  "screenshots": [
+    {
+      "file": "before.jpg",
+      "width": 1920,
+      "height": 993,
+      "sha256": "90d89a0970c97a1fedc778b4fa3053b6f839c3ad6bea77507a7f54f1aba7b153"
+    },
+    {
+      "file": "after.jpg",
+      "width": 1920,
+      "height": 993,
+      "sha256": "c1af7c4e843777cb5cca57a63075230117ec61fd296ff06ffd3437742a2a2bb0"
+    }
+  ]
+}

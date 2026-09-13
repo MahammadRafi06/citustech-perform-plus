@@ -1,64 +1,19 @@
 @import "tailwindcss";
+
 @import "tw-animate-css";
-@import "./workspaces.css";
+
+@import "./tokens.css";
+
 @import "./workspace-design.css";
+
+@import "./workspaces.css";
+
+@import "../components/assessment-workspaces.css";
+
+@import "../components/risk-ui.css";
+
 @custom-variant dark (&:is(.dark *));
 
-/* ---------------------------------------------------------------------------
-   Perform+ design tokens (v2) — "upscale product" system
-   Cool-neutral surfaces, deep indigo accent, cyan signal color.
---------------------------------------------------------------------------- */
-:root {
-  /* Surfaces */
-  --background: #f2f4f9;
-  --foreground: #0b1220;
-  --card: #ffffff;
-  --card-foreground: #0b1220;
-  --popover: #ffffff;
-  --popover-foreground: #0b1220;
-
-  /* Brand (indigo) + signal (cyan) */
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-foreground: #ffffff;
-  --signal: #06b6d4;
-
-  /* Neutrals */
-  --secondary: #eef1f6;
-  --secondary-foreground: #3f4a5f;
-  --muted: #f1f4f9;
-  --muted-foreground: #5b6577;
-  --accent: #e9edfd;
-  --accent-foreground: #3c46c4;
-
-  /* Semantic */
-  --destructive: #dc2626;
-  --success: #059669;
-  --warning: #d97706;
-
-  /* Lines + focus */
-  --border: #e2e8f1;
-  --border-strong: #cbd5e3;
-  --input: #c3cbd9;
-  --ring: #4f46e5;
-
-  /* Shape + elevation */
-  --radius: 0.5rem;
-  --shadow-2xs: 0 1px 2px rgb(15 23 42 / 0.05);
-  --shadow-xs: 0 1px 2px rgb(15 23 42 / 0.06);
-  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.05),
-    0 1px 3px rgb(15 23 42 / 0.07);
-  --shadow-md: 0 4px 8px -2px rgb(15 23 42 / 0.06),
-    0 2px 4px -2px rgb(15 23 42 / 0.05);
-  --shadow-lg: 0 12px 24px -6px rgb(15 23 42 / 0.1),
-    0 4px 8px -4px rgb(15 23 42 / 0.06);
-  --shadow-xl: 0 24px 48px -12px rgb(15 23 42 / 0.18),
-    0 8px 16px -8px rgb(15 23 42 / 0.08);
-
-  /* Ink scale */
-  --ink: #0f172a;
-  --ink-strong: #0b1220;
-}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -91,9 +46,12 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
 }
+
 @layer base {
   * {
     border-color: var(--border);
+    scrollbar-width: thin;
+    scrollbar-color: #c7d0de transparent;
   }
   html {
     text-rendering: optimizeLegibility;
@@ -101,16 +59,14 @@
     -moz-osx-font-smoothing: grayscale;
   }
   body {
-    background:
-      radial-gradient(1200px 600px at 75% -10%,
-        color-mix(in srgb, var(--primary) 4%, transparent), transparent 60%),
-      var(--background);
+    background: var(--background);
     color: var(--foreground);
     font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     font-size: 14px;
     line-height: 1.5;
-    letter-spacing: -0.006em;
+    letter-spacing: 0;
     font-feature-settings: "cv11", "ss01", "tnum" 0;
+    min-width: 1200px;
   }
   button,
   a,
@@ -129,8 +85,7 @@
   }
   button,
   a {
-    transition:
-      background 0.15s ease,
+    transition: background 0.15s ease,
       color 0.15s ease,
       border-color 0.15s ease,
       box-shadow 0.15s ease,
@@ -154,22 +109,13 @@
     letter-spacing: -0.006em;
     gap: 8px;
   }
-  button[data-slot="button"]:not(:disabled):active {
-    transform: translateY(0.5px);
-  }
   button[data-slot="button"][data-variant="default"] {
-    background: linear-gradient(180deg, #5b52ee 0%, var(--primary) 100%);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.18),
-      0 1px 2px rgb(79 70 229 / 0.35),
-      0 4px 10px -2px rgb(79 70 229 / 0.3);
+    background: var(--primary);
+    box-shadow: none;
   }
   button[data-slot="button"][data-variant="default"]:hover {
-    background: linear-gradient(180deg, #524ae9 0%, var(--primary-hover) 100%);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.16),
-      0 2px 4px rgb(79 70 229 / 0.35),
-      0 6px 14px -2px rgb(79 70 229 / 0.35);
+    background: var(--primary-hover);
+    box-shadow: none;
   }
   button[data-slot="button"][data-variant="outline"] {
     background: #fff;
@@ -188,9 +134,8 @@
   input[data-slot="input"] {
     background: #fff;
     font-size: 14px;
-    box-shadow: var(--shadow-2xs);
-    transition:
-      border-color 0.15s ease,
+    box-shadow: none;
+    transition: border-color 0.15s ease,
       box-shadow 0.15s ease;
   }
   input[data-slot="input"]:hover:not(:focus-visible) {
@@ -202,11 +147,6 @@
   }
   ::placeholder {
     color: #98a3b6;
-  }
-  /* Slim, unobtrusive scrollbars match the premium chrome. */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #c7d0de transparent;
   }
   *::-webkit-scrollbar {
     width: 10px;

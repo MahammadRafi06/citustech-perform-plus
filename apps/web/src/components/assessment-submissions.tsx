@@ -12,7 +12,6 @@ import { useUrlState } from "@/hooks/workspace-state";
 import { api, download, label } from "@/lib/api";
 import type { Member, Submission } from "@/lib/types";
 import type { WorkspaceProps } from "./workspaces";
-import "./assessment-workspaces.css";
 import { RiskReconciliation } from "./risk-ui";
 
 function linkedAttempts(records: Submission[], selected: Submission) {

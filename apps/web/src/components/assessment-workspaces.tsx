@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { label } from "@/lib/api";
 import type { AssignmentOption, Command, User, Opportunity } from "@/lib/types";
-import "./assessment-workspaces.css";
 
 export function EligibilityContext({ eligibility }: { eligibility?: {
   reviewable: boolean;

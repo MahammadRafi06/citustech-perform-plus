@@ -1,0 +1,29 @@
+{
+  "login": "passed",
+  "passwordToggle": "passed",
+  "searchMatchingRows": 1,
+  "highPriorityRows": 2,
+  "selectionEnablesAction": true,
+  "sidebarCollapsedWidth": 64,
+  "saveGateDisabled": true,
+  "independentQaGateDisabled": true,
+  "sourceProvenancePresent": true,
+  "documentWidth": 1920,
+  "font": "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+  "sidebar": "rgb(255, 255, 255)",
+  "statuses": [
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "before": "none"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "before": "none"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "before": "none"
+    }
+  ],
+  "viewportWidth": 1920
+}

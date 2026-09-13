@@ -1,0 +1,191 @@
+.carousel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 40px 64px 36px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.stage {
+  display: grid;
+  align-items: center;
+  flex: 1;
+  padding-block: 48px 64px;
+}
+
+.slide {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 4vw, 80px);
+  animation: arrive 420ms ease-out both;
+}
+
+.copy { min-width: 0; }
+
+.eyebrow {
+  margin-bottom: 24px;
+  color: color-mix(in srgb, var(--primary-foreground) 78%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.copy h2 {
+  font-size: clamp(40px, 3.3vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  font-weight: 500;
+}
+
+.copy h2 span { display: block; }
+
+.description {
+  margin-top: 28px;
+  max-width: 33em;
+  color: color-mix(in srgb, var(--primary-foreground) 86%, transparent);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.takeaway {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.takeaway > span {
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+}
+
+.featurePanel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--primary-foreground) 24%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--primary-foreground) 7%, transparent);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 28px;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary-foreground) 18%, transparent);
+}
+
+.panelIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--primary);
+}
+
+.panelHeader p {
+  margin-bottom: 4px;
+  color: color-mix(in srgb, var(--primary-foreground) 76%, transparent);
+  font-size: 12px;
+}
+
+.panelHeader h3 { font-size: 19px; font-weight: 500; line-height: 1.35; }
+
+.features { display: grid; gap: 28px; padding: 32px 28px; }
+
+.feature { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; }
+
+.featureIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--primary-foreground) 22%, transparent);
+  border-radius: 8px;
+}
+
+.feature strong { font-size: 15px; font-weight: 500; line-height: 1.4; }
+
+.feature p {
+  margin-top: 5px;
+  color: color-mix(in srgb, var(--primary-foreground) 80%, transparent);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.panelFooter {
+  padding: 17px 28px;
+  border-top: 1px solid color-mix(in srgb, var(--primary-foreground) 18%, transparent);
+  color: color-mix(in srgb, var(--primary-foreground) 86%, transparent);
+  font-size: 12px;
+}
+
+.navigation { display: flex; align-items: center; gap: 32px; }
+.slideChoices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; flex: 1; }
+
+.slideChoices button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  border-top: 2px solid color-mix(in srgb, var(--primary-foreground) 24%, transparent);
+  color: color-mix(in srgb, var(--primary-foreground) 72%, transparent);
+  font-size: 12px;
+  text-align: left;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.slideChoices button[aria-current="true"] { color: var(--primary-foreground); border-color: currentColor; }
+.slideChoices button:hover { color: var(--primary-foreground); }
+.slideChoices button span { font-variant-numeric: tabular-nums; font-size: 11px; }
+.controls { display: flex; gap: 8px; }
+
+.controls button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid color-mix(in srgb, var(--primary-foreground) 28%, transparent);
+  border-radius: 50%;
+  color: var(--primary-foreground);
+  transition: background 160ms ease;
+}
+
+.controls button:hover { background: color-mix(in srgb, var(--primary-foreground) 12%, transparent); }
+.controls button:disabled { opacity: 0.5; cursor: default; }
+.carousel button:focus-visible { outline: 2px solid var(--primary-foreground); outline-offset: 5px; }
+.footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 26px; color: color-mix(in srgb, var(--primary-foreground) 76%, transparent); font-size: 12px; }
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateX(14px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 1500px) {
+  .carousel { padding-inline: 48px; }
+  .slide { gap: 32px; }
+  .description { font-size: 15px; }
+  .panelHeader { padding: 22px; gap: 12px; }
+  .panelHeader h3 { font-size: 17px; }
+  .features { padding: 26px 22px; gap: 24px; }
+  .feature { gap: 12px; }
+  .feature strong { font-size: 14px; }
+  .panelFooter { padding-inline: 22px; }
+  .slideChoices { gap: 12px; }
+  .slideChoices button { gap: 7px; font-size: 11px; }
+  .navigation { gap: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide { animation: none; }
+  .carousel button { transition: none; }
+}

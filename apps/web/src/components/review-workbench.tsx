@@ -133,10 +133,6 @@ export function ReviewWorkbench({
         <p>Service year {data.program_context?.service_year || 2026} · Payment year {data.program_context?.payment_year || 2027}{risk.configId !== workflowConfigId && <><br /><small>Clinical scoring workflow: {workflowConfig?.name || workflowConfigId}</small></>}</p>
         <Status value={o?.status || m.status} />
       </div>
-      <nav className="workbench-mobile-tabs" aria-label="Review sections">
-        <a href="#review-source">Source</a>
-        <a href="#review-decision">Finding and decision</a>
-      </nav>
       <div className="workbench-frame">
         <aside className="finding-rail">
           <header>

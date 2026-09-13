@@ -1,0 +1,38 @@
+[
+  {
+    "documentWidth": 1366,
+    "h": 900,
+    "heading": "RAF & model lab",
+    "loading": false,
+    "path": "/scenarios",
+    "sidebar": "rgb(255, 255, 255)",
+    "w": 1366
+  },
+  {
+    "documentWidth": 1366,
+    "h": 900,
+    "heading": "Suspect registry",
+    "loading": false,
+    "path": "/suspects",
+    "sidebar": "rgb(255, 255, 255)",
+    "w": 1366
+  },
+  {
+    "documentWidth": 1366,
+    "h": 900,
+    "heading": "Document intake",
+    "loading": false,
+    "path": "/intake",
+    "sidebar": "rgb(255, 255, 255)",
+    "w": 1366
+  },
+  {
+    "documentWidth": 1366,
+    "h": 900,
+    "heading": "Models & data",
+    "loading": false,
+    "path": "/data",
+    "sidebar": "rgb(255, 255, 255)",
+    "w": 1366
+  }
+]

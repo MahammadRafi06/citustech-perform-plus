@@ -278,6 +278,7 @@ export function DataGrid<T extends { id: string }>({
   onRow,
   searchLabel = "Search records...",
   toolbar,
+  actions,
   exportAction,
   pageSize: initialPageSize = 25,
   defaultSearch = "",
@@ -289,6 +290,7 @@ export function DataGrid<T extends { id: string }>({
   onRow?: (r: T) => void;
   searchLabel?: string;
   toolbar?: React.ReactNode;
+  actions?: React.ReactNode;
   exportAction?: (rows: T[]) => void;
   pageSize?: number;
   defaultSearch?: string;
@@ -354,7 +356,7 @@ export function DataGrid<T extends { id: string }>({
           />
         </div>
         <div className="table-tool-actions">
-          {toolbar}
+          {actions}
           <SelectField
             label="Row density"
             value={density}
@@ -390,6 +392,7 @@ export function DataGrid<T extends { id: string }>({
           )}
         </div>
       </div>
+      {toolbar && <div className="table-filters">{toolbar}</div>}
       <div
         className="table-scroll"
         role="region"

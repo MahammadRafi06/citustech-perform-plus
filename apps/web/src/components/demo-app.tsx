@@ -1,6 +1,6 @@
 "use client";
-import "./assessment-workspaces.css";
-import "./risk-ui.css";
+import signIn from "./sign-in.module.css";
+import { SignInCarousel } from "./sign-in-carousel";
 import { RiskProvider, RiskContextBar, RiskOverview, useRiskContext } from "./risk-ui";
 import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
@@ -123,11 +123,18 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
     ],
   },
 ];
-function Brand({ light = false }: { light?: boolean }) {
+function Brand({ full = false }: { full?: boolean }) {
   return (
-    <div className="brand">
-      <strong>CitusTech</strong>
-      <span>
+    <div className={`brand${full ? " brand-full" : ""}`}>
+      <span className={full ? "brand-wordmark" : "brand-mark"}>
+        <img
+          src={full ? "/brand/citiustech-wordmark.png" : "/brand/citiustech-mark.jpeg"}
+          alt="CitiusTech"
+          width={full ? 795 : 200}
+          height={full ? 251 : 200}
+        />
+      </span>
+      <span className="brand-product">
         Perform<span className="brand-plus">+</span>
       </span>
     </div>
@@ -199,7 +206,6 @@ function Application() {
   const [notifications, setNotifications] = useState(false);
   const [help, setHelp] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const [mobileMenu, setMobileMenu] = useState(false);
   const [globalSearch, setGlobalSearch] = useState("");
   const session = useQuery({
     queryKey: ["session"],
@@ -285,7 +291,7 @@ function Application() {
     <RiskProvider user={user}><div className={`app-layout ${collapsed ? "nav-collapsed" : ""}`}>
       <aside className="sidebar">
         <Link
-          aria-label="CitusTech Perform+ workspace"
+          aria-label="CitiusTech Perform+ workspace"
           href={
             user.screens.includes("overview")
               ? "/overview"
@@ -323,16 +329,6 @@ function Application() {
                 <PanelLeftClose size={18} />
               )}
             </Button>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="mobile-menu-trigger"
-              aria-label="Open navigation"
-              onClick={() => setMobileMenu(true)}
-            >
-              <PanelLeftOpen size={20} />
-            </Button>
-            <span className="mobile-brand">CitusTech Perform+</span>
             <span className="breadcrumb">{routeName}</span>
           </div>
           <div className="topbar-right">
@@ -367,7 +363,7 @@ function Application() {
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="profile">
+                <button className="profile" aria-label="Account menu">
                   <Avatar name={user.name.replace(/ demo$/i, "")} />
                   <ChevronDown size={13} />
                 </button>
@@ -444,24 +440,12 @@ function Application() {
           ) : null}
         </main>
         <footer className="app-footer">
-          <span>© 2026 CitusTech · Perform+</span>
+          <span>© 2026 CitiusTech · Perform+</span>
           <button onClick={() => setHelp(true)}>
             Workspace guide <ArrowUpRight size={12} />
           </button>
         </footer>
       </div>
-      <Drawer
-        open={mobileMenu}
-        onOpenChange={setMobileMenu}
-        title="CitusTech Perform+"
-        description={workspaceName}
-      >
-        <WorkspaceNavigation
-          user={user}
-          route={actualRoute}
-          onNavigate={() => setMobileMenu(false)}
-        />
-      </Drawer>
       <Drawer
         open={notifications}
         onOpenChange={setNotifications}
@@ -547,6 +531,7 @@ function Login({
   const [visible, setVisible] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [usingLogin, setUsingLogin] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -566,27 +551,49 @@ function Login({
     }
   };
   return (
-    <div className="login-page">
-      <section className="login-form-side">
-        <div className="login-form-wrap">
-          <Brand />
-          <h1>Sign in</h1>
-          <p>{workspaceName}</p>
+    <div className={signIn.page}>
+      <header className={signIn.masthead}>
+        <Brand full />
+        <div className={signIn.workspaceHeader}>
+          <div className={signIn.workspaceIdentity}>
+            <span className={signIn.workspaceIcon} aria-hidden="true"><Building2 size={20} /></span>
+            <div>
+              <span>Organization workspace</span>
+              <strong>{workspaceName}</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+      <SignInCarousel pauseForLogin={usingLogin} />
+      <section
+        className={signIn.formSide}
+        aria-labelledby="sign-in-heading"
+        onFocusCapture={() => setUsingLogin(true)}
+        onBlurCapture={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setUsingLogin(false);
+        }}
+      >
+        <div className={signIn.formWrap}>
+          <h1 id="sign-in-heading">Welcome back</h1>
+          <p className={signIn.intro}>Sign in to your Perform+ workspace.</p>
           <form onSubmit={submit}>
             <div className="form-field">
               <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="username"
-                required
-              />
+              <div className={signIn.inputField}>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="username"
+                  placeholder="you@organization.com"
+                  required
+                />
+              </div>
             </div>
             <div className="form-field">
               <Label htmlFor="password">Password</Label>
-              <div className="password-field">
+              <div className={`${signIn.inputField} ${signIn.passwordField}`}>
                 <Input
                   id="password"
                   type={visible ? "text" : "password"}
@@ -610,21 +617,23 @@ function Login({
                 {error || apiError}
               </div>
             )}
-            <Button type="submit" disabled={busy} className="login-submit">
+            <Button type="submit" disabled={busy} className={signIn.submit}>
               {busy ? (
                 <LoaderCircle className="animate-spin" size={18} />
               ) : (
-                <>
-                  Sign in
-                  <ArrowRight size={17} />
-                </>
+                "Sign in"
               )}
             </Button>
           </form>
+          <div className={signIn.providerPanel}>
+            <p className={signIn.providerLabel} id="identity-provider-heading">Sign in with</p>
+            <div className={signIn.identityProviders} role="group" aria-labelledby="identity-provider-heading">
+              <img src="/identity/entra.svg" alt="Microsoft Entra" width={32} height={32} />
+              <img src="/identity/okta-symbol.svg" alt="Okta" width={32} height={32} />
+            </div>
+          </div>
         </div>
-        <span className="login-footer">
-          Need access? Contact your workspace administrator.
-        </span>
+        <p className={signIn.help}><strong>Need access?</strong>Your workspace administrator can help.</p>
       </section>
     </div>
   );
