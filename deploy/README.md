@@ -2,6 +2,8 @@
 
 Application URL: **https://performplus.idaibhealth.com**. GitHub repository: **MahammadRafi06/citustech-perform-plus**, release branch **main**. AWS account **703671901662**, region **us-west-2**, cluster **meshalloc-control-plane**, namespace **perform-plus**.
 
+The September 13 deployment passed public sign-in, readiness and the initial 10,000-member baseline calculation. [Screenshots and release evidence](../screenshots/eks-deployment/README.md) record the exact published source and running image digests.
+
 ## Components
 
 - UI and API: separate ECR repositories, immutable full-commit tags, deployed using SHA-256 image digests.

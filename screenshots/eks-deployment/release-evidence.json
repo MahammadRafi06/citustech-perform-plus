@@ -1,0 +1,58 @@
+{
+  "source_sha": "99e87271af3418dc907b7d3a564b1f82fc5af98a",
+  "region": "us-west-2",
+  "cluster": "meshalloc-control-plane",
+  "namespace": "perform-plus",
+  "url": "https://performplus.idaibhealth.com",
+  "workflow_run": "https://github.com/MahammadRafi06/citustech-perform-plus/actions/runs/34765994514",
+  "components": {
+    "api": {
+      "image": "703671901662.dkr.ecr.us-west-2.amazonaws.com/perform-plus/api@sha256:64366907fe1306cef813aaa91ad595173a1e6c4778c0204663ba0e180aaeb00e",
+      "running_image_id": "703671901662.dkr.ecr.us-west-2.amazonaws.com/perform-plus/api@sha256:64366907fe1306cef813aaa91ad595173a1e6c4778c0204663ba0e180aaeb00e",
+      "available": true,
+      "node": "ip-10-32-0-158.us-west-2.compute.internal"
+    },
+    "ui": {
+      "image": "703671901662.dkr.ecr.us-west-2.amazonaws.com/perform-plus/ui@sha256:4680643a3fb3e58b2931b7ff5ae117f6e98ed25f07f34778b5f5e07e6ddb0a67",
+      "running_image_id": "703671901662.dkr.ecr.us-west-2.amazonaws.com/perform-plus/ui@sha256:4680643a3fb3e58b2931b7ff5ae117f6e98ed25f07f34778b5f5e07e6ddb0a67",
+      "available": true,
+      "node": "ip-10-32-0-158.us-west-2.compute.internal"
+    }
+  },
+  "access": {
+    "accounts_verified": 14,
+    "unauthenticated_bootstrap": 401,
+    "untrusted_origin": 403,
+    "superuser_bootstrap": {
+      "status": 200,
+      "population_count": 10000,
+      "members_returned": 30
+    }
+  },
+  "baseline_calculation": {
+    "batch": {
+      "id": "BATCH-0e9140c345d6419ca9e038ce6587d802",
+      "config_id": "ma_v28_py2027_forecast",
+      "status": "completed",
+      "total": 10000,
+      "processed": 10000,
+      "succeeded": 10000,
+      "failed": 0,
+      "last_error": null,
+      "created_at": "2026-09-13T15:39:03.171201+00:00",
+      "updated_at": "2026-09-13T15:47:21.175095+00:00"
+    },
+    "coverage": {
+      "enrolled_members": 10000,
+      "roster_scope_members": 10000,
+      "expected_scoreable": 10000,
+      "scored_members": 10000,
+      "failed_members": 0,
+      "excluded_members": 0,
+      "enrolled_member_months": 120000,
+      "scored_member_months": 120000,
+      "unscored_members": 0,
+      "stale_members": 0
+    }
+  }
+}

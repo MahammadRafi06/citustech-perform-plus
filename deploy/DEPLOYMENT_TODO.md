@@ -6,13 +6,15 @@ Target: https://performplus.idaibhealth.com, AWS account 703671901662, region us
 - [x] Commit and push the completed login branding to personal GitHub main.
 - [x] Create private UI/API ECR repositories and main-only GitHub OIDC publishing role.
 - [x] Prepare and inspect the Terraform plan; add dedicated app capacity, EBS storage and TLS.
-- [ ] Deploy separate UI, API and PostgreSQL workloads in perform-plus.
-- [ ] Configure public HTTPS ingress and Route 53 alias.
-- [ ] Provision manageable user passwords through private secret files; retain local RBAC.
-- [ ] Publish immutable image tags/digests from remote main using GitHub Actions.
-- [ ] Enable namespace-scoped automated deployment through the private EKS API.
-- [ ] Verify public TLS, sign-in, role access, readiness and the rendered login page.
-- [ ] Record the final release, DNS, images, credentials location and operating instructions.
+- [x] Deploy separate UI, API and PostgreSQL workloads in perform-plus.
+- [x] Configure public HTTPS ingress and Route 53 alias.
+- [x] Provision manageable user passwords through private secret files; retain local RBAC.
+- [x] Publish immutable image tags/digests from remote main using GitHub Actions.
+- [x] Enable namespace-scoped automated deployment through the private EKS API.
+- [x] Verify public TLS, sign-in, role access, readiness and the rendered login page.
+- [x] Record the final release, DNS, images, credentials location and operating instructions.
+
+Deployment and verification: [operating instructions](README.md) and [release evidence](../screenshots/eks-deployment/README.md).
 
 The existing cluster/network have Disposable=true and ExpiresOn=2026-09-15 tags. Their lifetime is a separate owner decision; this deployment does not alter those tags or existing workloads. New app resources are tracked separately in deploy/aws. The database volume uses Retain.
 
