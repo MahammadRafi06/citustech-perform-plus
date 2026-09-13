@@ -1,0 +1,68 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: perform-plus
+resources:
+  - ../k8s
+  - storage.yaml
+  - ingress.yaml
+  - release-rbac.yaml
+patches:
+  - target:
+      kind: ConfigMap
+      name: perform-plus-config
+    patch: |-
+      - op: replace
+        path: /data/CT_ALLOWED_ORIGINS
+        value: https://performplus.idaibhealth.com
+      - op: replace
+        path: /data/CT_SECURE_COOKIE
+        value: "true"
+  - target:
+      kind: Deployment
+      name: api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 2Gi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 512Mi
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CT_SUPERUSER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: perform-plus-secrets
+              key: CT_SUPERUSER_PASSWORD
+  - target:
+      kind: StatefulSet
+      name: db
+    patch: |-
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: perform-plus-gp3
+  - target:
+      kind: (Deployment|StatefulSet)
+    patch: |-
+      - op: add
+        path: /spec/template/spec/automountServiceAccountToken
+        value: false
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          workload: perform-plus
+      - op: add
+        path: /spec/template/spec/tolerations
+        value:
+          - key: workload
+            operator: Equal
+            value: perform-plus
+            effect: NoSchedule
+images:
+  - name: perform-plus-ui
+    newName: 703671901662.dkr.ecr.us-west-2.amazonaws.com/perform-plus/ui
+    newTag: REPLACE_WITH_RELEASE_SHA
+  - name: perform-plus-api
+    newName: 703671901662.dkr.ecr.us-west-2.amazonaws.com/perform-plus/api
+    newTag: REPLACE_WITH_RELEASE_SHA

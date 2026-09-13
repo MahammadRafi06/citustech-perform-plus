@@ -1,0 +1,27 @@
+clusterName: meshalloc-control-plane
+region: us-west-2
+vpcId: vpc-04b159c5e0b635819
+replicaCount: 1
+watchNamespace: perform-plus
+ingressClass: perform-plus-alb
+createIngressClassResource: true
+enableServiceMutatorWebhook: false
+serviceAccount:
+  create: true
+  name: aws-load-balancer-controller
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::703671901662:role/perform-plus-load-balancer-controller
+nodeSelector:
+  workload: perform-plus
+tolerations:
+  - key: workload
+    operator: Equal
+    value: perform-plus
+    effect: NoSchedule
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 384Mi

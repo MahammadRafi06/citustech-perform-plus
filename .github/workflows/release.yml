@@ -1,0 +1,91 @@
+name: Publish and deploy Perform Plus
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['screenshots/**', '**.md']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: perform-plus-main-release
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-west-2
+  ECR_REGISTRY: 703671901662.dkr.ecr.us-west-2.amazonaws.com
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        component: [ui, api]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Require current remote main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: test "$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)" = "$GITHUB_SHA"
+      - name: Check deployment boundaries
+        run: python -m unittest discover -s deploy/aws -p 'test_*.py' -v
+      - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+        with:
+          role-to-assume: arn:aws:iam::703671901662:role/perform-plus-github-main
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Build and push immutable component image
+        env:
+          COMPONENT: ${{ matrix.component }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          repository="perform-plus/$COMPONENT"
+          image="$ECR_REGISTRY/$repository:$GITHUB_SHA"
+          if aws ecr describe-images --repository-name "$repository" --image-ids imageTag="$GITHUB_SHA" > /dev/null 2>&1; then
+            echo "This immutable source image is already published."
+            exit 0
+          fi
+          aws ecr get-login-password | docker login --username AWS --password-stdin "$ECR_REGISTRY"
+          if [ "$COMPONENT" = ui ]; then dockerfile=apps/web/Dockerfile; else dockerfile=apps/api/Dockerfile; fi
+          docker build --file "$dockerfile" \
+            --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            --label "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" \
+            --tag "$image" .
+          docker push "$image"
+
+  deploy:
+    needs: publish
+    if: github.ref == 'refs/heads/main' && vars.PERFORM_PLUS_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Require current remote main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: test "$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)" = "$GITHUB_SHA"
+      - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+        with:
+          role-to-assume: arn:aws:iam::703671901662:role/perform-plus-github-main
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Deploy exact digests and wait for rollout
+        run: python scripts/release_eks.py
+      - name: Check public HTTPS
+        run: |
+          curl --fail --show-error --retry 5 --retry-delay 5 https://performplus.idaibhealth.com/health
+          curl --fail --show-error --retry 5 --retry-delay 5 https://performplus.idaibhealth.com/api/v1/ready
