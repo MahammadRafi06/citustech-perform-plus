@@ -1,0 +1,1544 @@
+{
+  "baseline_source": "40be7e2",
+  "baseline_images": {
+    "ui": "sha256:2768567d9d83cc2a07c8ae87faaa678d063a54da3a900861368963c8ec6b58d7",
+    "api": "sha256:46df2105d830ca84c2716119a49c37d0af695921dca8e96b8a7e07d5872eaece"
+  },
+  "captures": [
+    {
+      "key": "01-overview",
+      "phase": "before",
+      "overflow": false,
+      "title": "Program overview",
+      "url": "http://127.0.0.1:3002/overview",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/01-overview-1440x900.jpg",
+      "captured_at": "2026-09-12T22:18:50.359Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "role": "superuser",
+      "state": "Existing preview state; no reset. See rendered status and captured timestamp.",
+      "baseline_kind": "original",
+      "sha256": "ba7ce633bec4676b1dd143412c867f4cfcba59733dbc085965ada2e51b50af74",
+      "inspected": true
+    },
+    {
+      "key": "03-suspects",
+      "phase": "before",
+      "overflow": false,
+      "title": "Suspect registry",
+      "url": "http://127.0.0.1:3002/suspects",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/03-suspects-1440x900.jpg",
+      "captured_at": "2026-09-12T22:19:28.421Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "role": "superuser",
+      "state": "Existing preview state; no reset. See rendered status and captured timestamp.",
+      "baseline_kind": "original",
+      "sha256": "7f89d180787d7d14a0ab746b1d048fc735d4ffa09ba8f34205bf472db1cee2a7",
+      "inspected": true
+    },
+    {
+      "key": "08-review-jordan",
+      "phase": "before",
+      "overflow": false,
+      "title": "Jordan Ellis",
+      "url": "http://127.0.0.1:3002/reviews/MB-000001",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/08-review-jordan-1440x900.jpg",
+      "captured_at": "2026-09-12T22:19:53.162Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "role": "superuser",
+      "state": "Existing preview state; no reset. See rendered status and captured timestamp.",
+      "baseline_kind": "original",
+      "sha256": "5f4e9863a23f9452bb7c154747a2c48fd52cd4eb1560239a0f184e5f7f59dd16",
+      "inspected": true
+    },
+    {
+      "key": "00-login",
+      "phase": "before",
+      "overflow": false,
+      "title": "Sign in",
+      "url": "http://127.0.0.1:3002/login",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/00-login-1440x900.jpg",
+      "captured_at": "2026-09-12T22:30:10.962Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "role": "signed out",
+      "state": "Original shared preview before the assessment implementation.",
+      "baseline_kind": "original",
+      "sha256": "5a06a336b3f4de646e75a0bc54791d261b3da7180913766ebb5bb4b5b03be091",
+      "inspected": true
+    },
+    {
+      "key": "taylor-rework",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Taylor Quinn",
+      "url": "http://localhost:3003/reviews/MB-000004",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/taylor-rework-1440x900.jpg",
+      "role": "coder",
+      "state": "QA rationale visible to original reviewer; case reopened.",
+      "captured_at": "2026-09-12T22:50:23.450Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "3c56e98235dcdd498539e17cf5cbf6ced8b60aabb5050d54ebeafe38a3c68262",
+      "inspected": true
+    },
+    {
+      "key": "morgan-published-source",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Document intake",
+      "url": "http://localhost:3003/intake?member=MB-000002&document=DOC-0005",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/morgan-published-source-1440x900.jpg",
+      "role": "retrieval",
+      "state": "Matched signed September encounter published once; new review required.",
+      "captured_at": "2026-09-12T22:53:05.990Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "a14df7c922c2631149d2c3cdfc11ededf847453e5f72230d8fa591d667a9d516",
+      "inspected": true
+    },
+    {
+      "key": "avery-assessment-only",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Avery Brooks",
+      "url": "http://localhost:3003/reviews/MB-000003",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/avery-assessment-only-1440x900.jpg",
+      "role": "coder",
+      "state": "Indirect signals remain unsupported; assessment-only review saved.",
+      "captured_at": "2026-09-12T22:54:02.053Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "857ddcc8cc7e9a1842c15e7065cc0f4e18476cb6c17a270f4749de378f781a2a",
+      "inspected": true
+    },
+    {
+      "key": "riley-published-source",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Document intake",
+      "url": "http://localhost:3003/intake?member=MB-000006&document=DOC-RILEY-SIGNED",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/riley-published-source-1440x900.jpg",
+      "role": "retrieval",
+      "state": "Matching signed replacement published; original unsigned and mismatched documents retained.",
+      "captured_at": "2026-09-12T22:55:12.319Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "64d5977c19c33ecc1ac2ede2ef3d230d061f2117c3927604bd66abc7d5af5487",
+      "inspected": true
+    },
+    {
+      "key": "casey-nonnumeric-comparison",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Risk score scenarios",
+      "url": "http://localhost:3003/scenarios",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/casey-nonnumeric-comparison-1440x900.jpg",
+      "role": "superuser",
+      "state": "Full input sets, assumptions and missing numeric reference visible.",
+      "captured_at": "2026-09-12T22:56:47.060Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "710a285300b6942a7e706f338d10f8645944b60edf806529488185f551737fc6",
+      "inspected": true
+    },
+    {
+      "key": "review-riley",
+      "phase": "desktop",
+      "overflow": false,
+      "title": "Riley Parker",
+      "url": "http://localhost:3003/reviews/MB-000006",
+      "viewport": {
+        "height": 768,
+        "width": 1366
+      },
+      "path": "screenshots/assessment/desktop/review-riley-1366x768.jpg",
+      "role": "superuser",
+      "state": "Published replacement and QA pass, dense desktop layout.",
+      "captured_at": "2026-09-12T22:57:08.624Z",
+      "image": {
+        "width": 1366,
+        "height": 768,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "03c70163e9ea2e0b2421d7a6c9b263162635b237d5317786e6cf59794854b8bc",
+      "inspected": true
+    },
+    {
+      "key": "review-jordan",
+      "phase": "desktop",
+      "overflow": false,
+      "title": "Jordan Ellis",
+      "url": "http://localhost:3003/reviews/MB-000001",
+      "viewport": {
+        "height": 1080,
+        "width": 1920
+      },
+      "path": "screenshots/assessment/desktop/review-jordan-1920x1080.jpg",
+      "role": "superuser",
+      "state": "Approved Jordan source and review at wide desktop size.",
+      "captured_at": "2026-09-12T22:57:28.631Z",
+      "image": {
+        "width": 1920,
+        "height": 1080,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "1e4d5f1971a1b0dff42cfc8eb6fd420f92371d5aa4462c2f81d91dcabcba74a5",
+      "inspected": true
+    },
+    {
+      "key": "01-overview",
+      "phase": "after",
+      "overflow": false,
+      "title": "Program overview",
+      "url": "http://localhost:3002/overview",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/01-overview-1440x900.jpg",
+      "role": "superuser",
+      "state": "Preserved preview state after additive upgrade.",
+      "captured_at": "2026-09-12T23:01:27.207Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "dd5104cfb3abf3ac3fba9a973bcb8509aabe0226b41b44320a38e3a13c2a4a75",
+      "inspected": true
+    },
+    {
+      "key": "08-review-jordan",
+      "phase": "after",
+      "overflow": false,
+      "title": "Jordan Ellis",
+      "url": "http://localhost:3002/reviews/MB-000001",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/08-review-jordan-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:06:53.342Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "9b8176fe5572aca92d5c88ce5e9c04bc203e598c72118163e335f1890cea5a04",
+      "inspected": true
+    },
+    {
+      "key": "02-analytics",
+      "phase": "after",
+      "overflow": false,
+      "title": "AI Impact",
+      "url": "http://localhost:3002/analytics",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/02-analytics-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:06:55.609Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "33ea1c346934e758c0a9591883e5d53f2755048a249748d98538b75a67d2660b",
+      "inspected": true
+    },
+    {
+      "key": "04-campaigns",
+      "phase": "after",
+      "overflow": false,
+      "title": "Campaign planner",
+      "url": "http://localhost:3002/campaigns",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/04-campaigns-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:06:57.847Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "cc853c8711a0c05555ee4910e7b4a4f0ec1ffd7d39eb78f14bc52eb0b0ce4e9d",
+      "inspected": true
+    },
+    {
+      "key": "05-members",
+      "phase": "after",
+      "overflow": false,
+      "title": "Member 360",
+      "url": "http://localhost:3002/members",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/05-members-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:00.147Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "04011f68f4a9f4c609db3d005ed39f140981049cfa6648b77142a8716a58266b",
+      "inspected": true
+    },
+    {
+      "key": "06-chase",
+      "phase": "after",
+      "overflow": false,
+      "title": "Chart chase",
+      "url": "http://localhost:3002/chase",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/06-chase-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:02.369Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "b2c5913b90254ac113b226c6da9cdfe8e31b92985c08f2428ef7a63649984aae",
+      "inspected": true
+    },
+    {
+      "key": "10-providers",
+      "phase": "after",
+      "overflow": false,
+      "title": "Provider portfolio",
+      "url": "http://localhost:3002/providers",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/10-providers-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:17.273Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "03351e694b2a0598c106e0cc1614f3c9991341584fcd1244ff13bc00df3c78d6",
+      "inspected": true
+    },
+    {
+      "key": "11-previsit",
+      "phase": "after",
+      "overflow": false,
+      "title": "Pre-visit review",
+      "url": "http://localhost:3002/previsit",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/11-previsit-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:19.492Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "4e360f99fbd9afba269e035ace52014be6b6b62e1c9c729f485b9e61955200ca",
+      "inspected": true
+    },
+    {
+      "key": "13-submissions",
+      "phase": "after",
+      "overflow": false,
+      "title": "Submission operations",
+      "url": "http://localhost:3002/submissions",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/13-submissions-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:28.340Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "32f0b4d9704ebead04c59b30598ad5ed7f6bad596d17eb269ec94409083669a4",
+      "inspected": true
+    },
+    {
+      "key": "14-audit",
+      "phase": "after",
+      "overflow": false,
+      "title": "Audit workspace",
+      "url": "http://localhost:3002/audit",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/14-audit-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:30.432Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "7c5a8ccd8a3643f2f161851ea102224d1ca513bf1cb4d8c4608f80cd79818824",
+      "inspected": true
+    },
+    {
+      "key": "16-admin",
+      "phase": "after",
+      "overflow": false,
+      "title": "Administration",
+      "url": "http://localhost:3002/admin",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/16-admin-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:34.779Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "fdda628708e602bb413e85c0819e09cdb176571c426644b4320bd9c1ab9be4f7",
+      "inspected": true
+    },
+    {
+      "key": "05-member-morgan",
+      "phase": "after",
+      "overflow": false,
+      "title": "Morgan Reed",
+      "url": "http://localhost:3002/members/MB-000002",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/05-member-morgan-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:37.094Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "e2aac8644324b943a449fb37ecf3bfc4e4368b676512cfe1f48748c717d79b67",
+      "inspected": true
+    },
+    {
+      "key": "08-review-taylor",
+      "phase": "after",
+      "overflow": false,
+      "title": "Taylor Quinn",
+      "url": "http://localhost:3002/reviews/MB-000004",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/08-review-taylor-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final preview; existing data preserved; rendered frame inspected.",
+      "captured_at": "2026-09-12T23:07:39.434Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "27a0946a79f6181c4221b812feeb9af2621f48df47273da41a87c08be5481c75",
+      "inspected": true
+    },
+    {
+      "key": "analytics-risk-conditions",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Risk & conditions",
+      "url": "http://localhost:3002/analytics?view=Risk+%26+conditions",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-risk-conditions-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:08.492Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "0662b6dde5d4566bed4e51abe4e5248a630fa18ba70a1a97686532cf72b92902",
+      "inspected": true
+    },
+    {
+      "key": "analytics-suspecting",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Suspecting",
+      "url": "http://localhost:3002/analytics?view=Suspecting",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-suspecting-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:10.058Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "89bb93049a64b71f7eae4b313c5a42311c982d2b3c98195e5bfcdfa3ad22e0f6",
+      "inspected": true
+    },
+    {
+      "key": "analytics-providers",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Providers",
+      "url": "http://localhost:3002/analytics?view=Providers",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-providers-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:11.608Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "82d3d030c16581ef51e74fb6f235944e14bc0615616353fc84f4f952bd079c07",
+      "inspected": true
+    },
+    {
+      "key": "analytics-retrieval",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Retrieval",
+      "url": "http://localhost:3002/analytics?view=Retrieval",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-retrieval-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:13.161Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "fe0ae34d7713c35a8f825a33ee8e1f1e0f6cadea4766ba95b64f20d5960f8010",
+      "inspected": true
+    },
+    {
+      "key": "analytics-coding-qa",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Coding & QA",
+      "url": "http://localhost:3002/analytics?view=Coding+%26+QA",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-coding-qa-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:14.711Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "c53923fecd4cf0cac33fe7260c1b4421acf75db446fe6a5e870fecc0bca27703",
+      "inspected": true
+    },
+    {
+      "key": "analytics-submissions",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Submissions",
+      "url": "http://localhost:3002/analytics?view=Submissions",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-submissions-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:16.250Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "41fb4611f8306f5f9c1179d98fb7ed85ff37da153e3b9f04e9e4eafcdd3952c0",
+      "inspected": true
+    },
+    {
+      "key": "analytics-financial-scenarios",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Financial scenarios",
+      "url": "http://localhost:3002/analytics?view=Financial+scenarios",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-financial-scenarios-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:17.805Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "fe9cf5ee175ac338b30328fbd6d8e1932632b52307fbc3bd123fff7d2e321c39",
+      "inspected": true
+    },
+    {
+      "key": "analytics-data-ai-operations",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Data & AI operations",
+      "url": "http://localhost:3002/analytics?view=Data+%26+AI+operations",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-data-ai-operations-1440x900.jpg",
+      "role": "superuser",
+      "state": "Supporting analytics; frozen comparison definitions retained.",
+      "captured_at": "2026-09-12T23:08:19.351Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "9024a4b9899789271a4136493de87f0a554048f8722b35a3fa24c114818a352b",
+      "inspected": true
+    },
+    {
+      "key": "00-login",
+      "phase": "after",
+      "overflow": false,
+      "title": "Sign in",
+      "url": "http://localhost:3002/login",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/00-login-1440x900.jpg",
+      "role": "signed out",
+      "state": "Final preview login at matching route and viewport.",
+      "captured_at": "2026-09-12T23:08:42.521Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": null,
+      "sha256": "fa56ac816e77544b888517250ae6201fe2649a3a0bf71f95e836b97f516028d9",
+      "inspected": true
+    },
+    {
+      "key": "02-analytics",
+      "phase": "before",
+      "overflow": false,
+      "title": "AI Impact",
+      "url": "http://localhost:3004/analytics",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/02-analytics-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:08:55.039Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "935b32438ec02a1f992b1f3d37db4ce9004acac29554f17584cde6b26a43e893",
+      "inspected": true
+    },
+    {
+      "key": "04-campaigns",
+      "phase": "before",
+      "overflow": false,
+      "title": "Campaign planner",
+      "url": "http://localhost:3004/campaigns",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/04-campaigns-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:08:57.043Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "78c29904a38970421110e74b416a2b696d38a1151bb5e29e934d135906faaafb",
+      "inspected": true
+    },
+    {
+      "key": "05-members",
+      "phase": "before",
+      "overflow": false,
+      "title": "Member 360",
+      "url": "http://localhost:3004/members",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/05-members-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:08:59.065Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "a0e24e0f993a80dad97e042ccdac3a4abdfd8cad866d131fcdca68227f324b77",
+      "inspected": true
+    },
+    {
+      "key": "06-chase",
+      "phase": "before",
+      "overflow": false,
+      "title": "Chart chase",
+      "url": "http://localhost:3004/chase",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/06-chase-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:01.082Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "6c64ba34e3c5ea1e7de4336aab53893192f21b57067853ec1e0366a92b1598a4",
+      "inspected": true
+    },
+    {
+      "key": "07-intake",
+      "phase": "before",
+      "overflow": false,
+      "title": "Document intake",
+      "url": "http://localhost:3004/intake",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/07-intake-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:03.074Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "ed6f534d2d72895b720d8187edf8f23d4bd206eeef47be7b641db0e691608d89",
+      "inspected": true
+    },
+    {
+      "key": "08-reviews",
+      "phase": "before",
+      "overflow": false,
+      "title": "Chart review",
+      "url": "http://localhost:3004/reviews",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/08-reviews-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:05.142Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "12ad152234901742b94abb223cde2955ee4fb641ea8b4ee944fae334ecb168d3",
+      "inspected": true
+    },
+    {
+      "key": "09-qa",
+      "phase": "before",
+      "overflow": false,
+      "title": "Coding quality assurance",
+      "url": "http://localhost:3004/qa",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/09-qa-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:07.194Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "1e867362d71e0f1c88d7fdeb62c340f5fe3cc8d8ba6b3bc86ba9921d8c4efddc",
+      "inspected": true
+    },
+    {
+      "key": "10-providers",
+      "phase": "before",
+      "overflow": false,
+      "title": "Provider portfolio",
+      "url": "http://localhost:3004/providers",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/10-providers-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:09.222Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "37a88d03c13ea3ca340567db75240730290d10b1c4472cc17bb043fe1a504e03",
+      "inspected": true
+    },
+    {
+      "key": "11-previsit",
+      "phase": "before",
+      "overflow": false,
+      "title": "Pre-visit review",
+      "url": "http://localhost:3004/previsit",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/11-previsit-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:30.109Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "2d19f71565e37ad16663654ffeac26caa982155d777fcc4d73db81ff54c35ffe",
+      "inspected": true
+    },
+    {
+      "key": "12-scenarios",
+      "phase": "before",
+      "overflow": false,
+      "title": "Risk score scenarios",
+      "url": "http://localhost:3004/scenarios",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/12-scenarios-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:32.158Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "90438fd8337c0b2fca858b8859ba933f79b4a13ce21a5e12ed978c6af7812209",
+      "inspected": true
+    },
+    {
+      "key": "13-submissions",
+      "phase": "before",
+      "overflow": false,
+      "title": "Submission operations",
+      "url": "http://localhost:3004/submissions",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/13-submissions-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:34.216Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "23b5a8eb814ee2b9d9df2074003476b40cce80e9c88410cb99ab53d5aeb55869",
+      "inspected": true
+    },
+    {
+      "key": "14-audit",
+      "phase": "before",
+      "overflow": false,
+      "title": "Audit workspace",
+      "url": "http://localhost:3004/audit",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/14-audit-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:36.370Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "30980e8d9f70b1c0acd480148304f523c5117702833aa04e1c53fa9cc558b809",
+      "inspected": true
+    },
+    {
+      "key": "15-data",
+      "phase": "before",
+      "overflow": false,
+      "title": "Data operations",
+      "url": "http://localhost:3004/data",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/15-data-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:38.537Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "f2015b0a0fb5df3d8f9d83eda79a1c7c2ab471bd1e23eb89c2ae9000b4d39c27",
+      "inspected": true
+    },
+    {
+      "key": "16-admin",
+      "phase": "before",
+      "overflow": false,
+      "title": "Administration",
+      "url": "http://localhost:3004/admin",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/16-admin-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:40.594Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "d2f429077c362450f084a165f06fbb9574de54f8f35b96380e416571029bae29",
+      "inspected": true
+    },
+    {
+      "key": "05-member-morgan",
+      "phase": "before",
+      "overflow": false,
+      "title": "Morgan Reed",
+      "url": "http://localhost:3004/members/MB-000002",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/05-member-morgan-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:42.825Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "f215ec1941cf9706c01b8e7b025e0bfbcc2f8097f5b1d7169792a32ba9e916d2",
+      "inspected": true
+    },
+    {
+      "key": "08-review-taylor",
+      "phase": "before",
+      "overflow": false,
+      "title": "Taylor Quinn",
+      "url": "http://localhost:3004/reviews/MB-000004",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/before/08-review-taylor-1440x900.jpg",
+      "role": "superuser",
+      "state": "Reconstructed baseline: preserved original UI/API images with fresh synthetic data; original capture showed loading skeleton.",
+      "captured_at": "2026-09-12T23:09:45.097Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "baseline_kind": "reconstructed",
+      "sha256": "9377e82d89c9d69908aeb302bef0e1560ea5d86ff279ae7d88430cf744080cc6",
+      "inspected": true
+    },
+    {
+      "key": "riley-mismatch-blocked",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Document intake",
+      "url": "http://localhost:3003/intake?member=MB-000006&document=DOC-RILEY-MISMATCH",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/riley-mismatch-blocked-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final UI: actual source member MB-000007 differs from requested MB-000006; publication blocked.",
+      "captured_at": "2026-09-12T23:16:14.492Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "sha256": "20b381c1907591391c5fc82e47c0f75e43a4edba2580af1f213a96381a4d5e3c",
+      "inspected": true
+    },
+    {
+      "key": "jordan-linked-record",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Submission operations",
+      "url": "http://localhost:3003/submissions?member=MB-000001&record=SUB-bcd7b5fde7",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/jordan-linked-record-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final accepted-record layout with retained independent review and exact source.",
+      "captured_at": "2026-09-12T23:16:38.185Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "sha256": "877c7e61d02d67f794ebdd66255c61cccd9c901348aba1b991df30bc09ea0f69",
+      "inspected": true
+    },
+    {
+      "key": "jordan-linked-report",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Submission operations",
+      "url": "http://localhost:3003/submissions?member=MB-000001&record=SUB-bcd7b5fde7",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/jordan-linked-report-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final report layout: exact expected/reported addition with retained approval.",
+      "captured_at": "2026-09-12T23:17:06.539Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "sha256": "455f5e97ef9261b8f2311329bbf15bab818d38695c272c8543e953b907d548c3",
+      "inspected": true
+    },
+    {
+      "key": "taylor-retry-report",
+      "phase": "journeys",
+      "overflow": false,
+      "title": "Submission operations",
+      "url": "http://localhost:3003/submissions?member=MB-000004&record=SUB-9fd5b7899b",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/journeys/taylor-retry-report-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final report layout: retained deletion retry and expected record absence.",
+      "captured_at": "2026-09-12T23:17:21.220Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "sha256": "e7de8ce3d36044a31de6bb501a1d03dcb5f62e9329acfc6280285a48bee95b52",
+      "inspected": true
+    },
+    {
+      "key": "03-suspects",
+      "phase": "after",
+      "overflow": false,
+      "title": "Suspect registry",
+      "url": "http://localhost:3002/suspects",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/03-suspects-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final desktop filter layout; six actionable cases.",
+      "captured_at": "2026-09-12T23:17:34.762Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "sha256": "62cd0d7f70c5dd2c13252148f1e87c56d35751609140db26d218bc2f284df4d1",
+      "inspected": true
+    },
+    {
+      "key": "08-reviews",
+      "phase": "after",
+      "overflow": false,
+      "title": "Chart review",
+      "url": "http://localhost:3002/reviews",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/08-reviews-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final toolbar and evidence-link layout; preserved preview data.",
+      "captured_at": "2026-09-12T23:17:54.057Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "sha256": "0a8b67b240f2c897c1e9ed0ffd873122bdb289f1344b7d7f930e1a29ec811dad",
+      "inspected": true
+    },
+    {
+      "key": "09-qa",
+      "phase": "after",
+      "overflow": false,
+      "title": "Coding quality assurance",
+      "url": "http://localhost:3002/qa",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/09-qa-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final toolbar and evidence-link layout; preserved preview data.",
+      "captured_at": "2026-09-12T23:17:56.269Z",
+      "image": {
+        "width": 1440,
+        "height": 900,
+        "format": "JPEG"
+      },
+      "sha256": "9d3860ce33e3ebdcab0675316d9a72dd9c49c0fb103da23187b166816492d2e3",
+      "inspected": true
+    },
+    {
+      "key": "12-scenarios",
+      "phase": "after",
+      "overflow": false,
+      "title": "Risk score scenarios",
+      "url": "http://localhost:3002/scenarios",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/12-scenarios-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final toolbar and evidence-link layout; preserved preview data.",
+      "captured_at": "2026-09-12T23:17:58.502Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "sha256": "064cd648a615a17f71a6d476f5d45fd3574adc5a804edc9d4adc5b3ce548574f",
+      "inspected": true
+    },
+    {
+      "key": "15-data",
+      "phase": "after",
+      "overflow": false,
+      "title": "Data operations",
+      "url": "http://localhost:3002/data",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/15-data-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final toolbar and evidence-link layout; preserved preview data.",
+      "captured_at": "2026-09-12T23:18:00.594Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "sha256": "25e06aa61b5768409c08393603adaed77a2d50a4f5bc7989de2c529f4694462e",
+      "inspected": true
+    },
+    {
+      "key": "07-intake",
+      "phase": "after",
+      "overflow": false,
+      "title": "Document intake",
+      "url": "http://localhost:3002/intake",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/after/07-intake-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final intake layout, original preserved preview records.",
+      "captured_at": "2026-09-12T23:21:26.175Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "sha256": "60ffb80018e07d9663f2242d1ab203bdc9852c07b7292a02fb15b8ac368e74bb",
+      "inspected": true
+    },
+    {
+      "key": "registry",
+      "phase": "desktop",
+      "overflow": false,
+      "title": "Suspect registry",
+      "url": "http://localhost:3002/suspects",
+      "viewport": {
+        "height": 768,
+        "width": 1366
+      },
+      "path": "screenshots/assessment/desktop/registry-1366x768.jpg",
+      "role": "superuser",
+      "state": "Final compact desktop registry toolbar; full actionable-case scope label.",
+      "captured_at": "2026-09-12T23:21:28.366Z",
+      "image": {
+        "width": 1366,
+        "height": 768,
+        "format": "JPEG"
+      },
+      "sha256": "031640c902df2cf0bd1bf49fba31719b2505302da3b5cb94cbba899a0ca6e9df",
+      "inspected": true
+    },
+    {
+      "key": "analytics-executive",
+      "phase": "analytics",
+      "overflow": false,
+      "title": "Executive",
+      "url": "http://localhost:3002/analytics?view=Executive",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "path": "screenshots/assessment/analytics/analytics-executive-1440x900.jpg",
+      "role": "superuser",
+      "state": "Final rendered executive chart; exact inspected capture bytes saved.",
+      "captured_at": "2026-09-12T23:26:06.029Z",
+      "image": {
+        "width": 1430,
+        "height": 894,
+        "format": "JPEG"
+      },
+      "sha256": "81060ae53fcb495717ea87db1db98985600854d4d58ed70c563837c48146a047",
+      "inspected": true
+    },
+    {
+      "key": "intake-riley",
+      "phase": "desktop",
+      "overflow": false,
+      "title": "Document intake",
+      "url": "http://localhost:3003/intake?member=MB-000006&document=DOC-RILEY-SIGNED",
+      "viewport": {
+        "height": 768,
+        "width": 1366
+      },
+      "path": "screenshots/assessment/desktop/intake-riley-1366x768.jpg",
+      "role": "superuser",
+      "state": "Final compact layout: readable document strip, internally scrolling source and validation panels, visible footers; exact inspected capture bytes saved.",
+      "captured_at": "2026-09-12T23:26:47.193Z",
+      "image": {
+        "width": 1356,
+        "height": 762,
+        "format": "JPEG"
+      },
+      "sha256": "b9716c9ff0e2eea9f69d84698d6fbe5e0f4676b9b7fc22f0a9407bf5a4a49d07",
+      "inspected": true
+    }
+  ],
+  "capture_notes": "CSS viewport is recorded separately from native image pixel dimensions. Sixteen invalid loading-frame baselines were reconstructed from the preserved original UI/API images with fresh synthetic data on port 3004; four valid original preview baselines remain. No screenshot has been relabeled as a different runtime.",
+  "pairs": [
+    {
+      "key": "01-overview",
+      "before": "screenshots/assessment/before/01-overview-1440x900.jpg",
+      "after": "screenshots/assessment/after/01-overview-1440x900.jpg"
+    },
+    {
+      "key": "03-suspects",
+      "before": "screenshots/assessment/before/03-suspects-1440x900.jpg",
+      "after": "screenshots/assessment/after/03-suspects-1440x900.jpg"
+    },
+    {
+      "key": "08-review-jordan",
+      "before": "screenshots/assessment/before/08-review-jordan-1440x900.jpg",
+      "after": "screenshots/assessment/after/08-review-jordan-1440x900.jpg"
+    },
+    {
+      "key": "00-login",
+      "before": "screenshots/assessment/before/00-login-1440x900.jpg",
+      "after": "screenshots/assessment/after/00-login-1440x900.jpg"
+    },
+    {
+      "key": "02-analytics",
+      "before": "screenshots/assessment/before/02-analytics-1440x900.jpg",
+      "after": "screenshots/assessment/after/02-analytics-1440x900.jpg"
+    },
+    {
+      "key": "04-campaigns",
+      "before": "screenshots/assessment/before/04-campaigns-1440x900.jpg",
+      "after": "screenshots/assessment/after/04-campaigns-1440x900.jpg"
+    },
+    {
+      "key": "05-members",
+      "before": "screenshots/assessment/before/05-members-1440x900.jpg",
+      "after": "screenshots/assessment/after/05-members-1440x900.jpg"
+    },
+    {
+      "key": "06-chase",
+      "before": "screenshots/assessment/before/06-chase-1440x900.jpg",
+      "after": "screenshots/assessment/after/06-chase-1440x900.jpg"
+    },
+    {
+      "key": "07-intake",
+      "before": "screenshots/assessment/before/07-intake-1440x900.jpg",
+      "after": "screenshots/assessment/after/07-intake-1440x900.jpg"
+    },
+    {
+      "key": "08-reviews",
+      "before": "screenshots/assessment/before/08-reviews-1440x900.jpg",
+      "after": "screenshots/assessment/after/08-reviews-1440x900.jpg"
+    },
+    {
+      "key": "09-qa",
+      "before": "screenshots/assessment/before/09-qa-1440x900.jpg",
+      "after": "screenshots/assessment/after/09-qa-1440x900.jpg"
+    },
+    {
+      "key": "10-providers",
+      "before": "screenshots/assessment/before/10-providers-1440x900.jpg",
+      "after": "screenshots/assessment/after/10-providers-1440x900.jpg"
+    },
+    {
+      "key": "11-previsit",
+      "before": "screenshots/assessment/before/11-previsit-1440x900.jpg",
+      "after": "screenshots/assessment/after/11-previsit-1440x900.jpg"
+    },
+    {
+      "key": "12-scenarios",
+      "before": "screenshots/assessment/before/12-scenarios-1440x900.jpg",
+      "after": "screenshots/assessment/after/12-scenarios-1440x900.jpg"
+    },
+    {
+      "key": "13-submissions",
+      "before": "screenshots/assessment/before/13-submissions-1440x900.jpg",
+      "after": "screenshots/assessment/after/13-submissions-1440x900.jpg"
+    },
+    {
+      "key": "14-audit",
+      "before": "screenshots/assessment/before/14-audit-1440x900.jpg",
+      "after": "screenshots/assessment/after/14-audit-1440x900.jpg"
+    },
+    {
+      "key": "15-data",
+      "before": "screenshots/assessment/before/15-data-1440x900.jpg",
+      "after": "screenshots/assessment/after/15-data-1440x900.jpg"
+    },
+    {
+      "key": "16-admin",
+      "before": "screenshots/assessment/before/16-admin-1440x900.jpg",
+      "after": "screenshots/assessment/after/16-admin-1440x900.jpg"
+    },
+    {
+      "key": "05-member-morgan",
+      "before": "screenshots/assessment/before/05-member-morgan-1440x900.jpg",
+      "after": "screenshots/assessment/after/05-member-morgan-1440x900.jpg"
+    },
+    {
+      "key": "08-review-taylor",
+      "before": "screenshots/assessment/before/08-review-taylor-1440x900.jpg",
+      "after": "screenshots/assessment/after/08-review-taylor-1440x900.jpg"
+    }
+  ],
+  "runtime_identity_file": "runtime-images.json",
+  "implementation_capture_basis": "Implementation captures span successive verified UI builds during this increment. runtime-images.json identifies the final running build; historical screenshots are not relabeled as captures of that final binary. Matching captures preserve the route and CSS viewport, not an assertion of identical mutable state.",
+  "verification": {
+    "api_tests_passed": 28,
+    "five_browser_stories": "passed",
+    "horizontal_overflow": false,
+    "additional_completed_runtime_reset": "passed_two_cycles",
+    "numeric_scoring": "nonnumeric_fallback_delivered"
+  },
+  "reset_verification_file": "reset-verification.json",
+  "post_capture_runtime_reset": {
+    "verified_at": "2026-09-13T00:19:17.028558+00:00",
+    "project": "ct-assessment-20260912",
+    "port": 3003,
+    "cycles": 2,
+    "final_state": "starting_baseline",
+    "preview_3002_unchanged": true,
+    "existing_capture_records_unchanged": true
+  }
+}

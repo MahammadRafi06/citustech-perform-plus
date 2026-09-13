@@ -58,9 +58,9 @@ type CampaignDraft = {
 };
 const freshDraft: CampaignDraft = {
   name: "",
-  owner: "Coding team",
+  owner: "",
   due: "2026-09-30",
-  intervention: "Retrospective review",
+  intervention: "coding_review",
   selected: [],
   excluded: [],
   provider: "all",
@@ -68,13 +68,29 @@ const freshDraft: CampaignDraft = {
   step: 1,
   preview: null,
 };
+const interventions = [
+  { value: "coding_review", label: "Coding review", description: "Review current evidence, then obtain independent QA for a terminal decision." },
+  { value: "integrity_review", label: "Integrity review", description: "Resolve contradictory coding and independently approve the correction." },
+  { value: "pre_visit", label: "Pre-visit assessment", description: "Record the provider response. A response does not approve coding." },
+  { value: "source_remediation", label: "Source remediation", description: "Receive, validate and publish a usable source." },
+];
+const interventionLabel = (value: string) => interventions.find((item) => item.value === value)?.label || label(value);
 function draftKey(userId: string) {
   return `ct-campaign-${userId}`;
+}
+function restoreDraft(saved: string): CampaignDraft {
+  const previous = { ...freshDraft, ...JSON.parse(saved) };
+  const aliases: Record<string, string> = { "Retrospective review": "coding_review", "Pre-visit assessment": "pre_visit", "Chart retrieval": "source_remediation" };
+  const intervention = aliases[previous.intervention] || previous.intervention;
+  const normalized = interventions.some((item) => item.value === intervention) ? intervention : "coding_review";
+  const migrated = normalized !== previous.intervention;
+  return { ...previous, intervention: normalized, preview: migrated ? null : previous.preview, step: migrated ? Math.min(previous.step, 3) : previous.step };
 }
 export function CampaignDialog({
   open,
   onOpenChange,
   selected,
+  proposal,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -83,6 +99,7 @@ export function CampaignDialog({
   data: Snapshot;
   act: (c: Command) => Promise<unknown>;
   onComplete?: () => void;
+  proposal?: { name: string; intervention?: string };
 }) {
   const router = useRouter();
   const client = useQueryClient();
@@ -93,12 +110,13 @@ export function CampaignDialog({
     let previous = freshDraft;
     try {
       const saved = sessionStorage.getItem(draftKey(user.id));
-      if (saved) previous = JSON.parse(saved);
+      if (saved) previous = restoreDraft(saved);
     } catch {}
     sessionStorage.setItem(
       draftKey(user.id),
       JSON.stringify({
         ...previous,
+        ...(proposal ? { name: proposal.name, intervention: proposal.intervention || "coding_review", owner: "" } : {}),
         selected: selected.length ? selected : previous.selected,
         excluded: selected.length ? [] : previous.excluded,
         step: 1,
@@ -127,7 +145,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem(draftKey(user.id));
-      if (saved) setDraft({ ...freshDraft, ...JSON.parse(saved) });
+      if (saved) setDraft(restoreDraft(saved));
     } catch {}
     setReady(true);
   }, [user.id]);
@@ -138,7 +156,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
     setDraft((d) => ({ ...d, ...values, preview: null }));
     setStale("");
   };
-  const pool = data.opportunities;
+  const pool = data.opportunities.filter((opportunity) => opportunity.eligibility?.reviewable);
   const rows = pool.filter(
     (o) =>
       (draft.provider === "all" || o.provider === draft.provider) &&
@@ -150,18 +168,23 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
       .flatMap((c) => c.member_ids),
   );
   const ids = draft.selected.filter((id) => !draft.excluded.includes(id));
+  const invalidIds = ids.filter((id) => !pool.some((opportunity) => opportunity.member_id === id));
+  const owners = (data.assignment_options || []).filter((owner) => owner.interventions.includes(draft.intervention) && ids.every((id) => owner.member_ids.includes(id)));
+  const selectedOwner = owners.find((owner) => owner.id === draft.owner);
   const cohort = pool.filter((o) => ids.includes(o.member_id));
   const freeze = async () => {
     setBusy(true);
     try {
       const latest = await api<Snapshot>("/bootstrap");
       const current = latest.opportunities.filter((o) =>
-        ids.includes(o.member_id),
+        ids.includes(o.member_id) && o.eligibility?.reviewable,
       );
       if (current.length !== ids.length)
         throw Error(
-          "One or more selected members are no longer in the review work population. Update your cohort.",
+          "Only complete, actionable cases can be allocated. Remove browsing-only members from this cohort.",
         );
+      const owner = latest.assignment_options?.find((option) => option.id === draft.owner && option.interventions.includes(draft.intervention) && ids.every((id) => option.member_ids.includes(id)));
+      if (!owner) throw Error("Choose an eligible account that can open every selected member and source for this intervention.");
       const preview: Preview = {
         versions: Object.fromEntries(current.map((o) => [o.id, o.version])),
         covered: ids
@@ -273,8 +296,8 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
             </span>
           </div>
           <Panel
-            title="Review work population"
-            subtitle={`${pool.length} available members. Select explicit records; filtering does not change your selection.`}
+            title="Actionable cases"
+            subtitle={`${pool.length} complete cases are available for allocation. Population records remain available in the member directory.`}
           >
             <DataGrid
               stateKey="cohort"
@@ -370,7 +393,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
             />
           </Panel>
           <p className="body-copy">
-            Select 1–500 members. Existing campaign coverage is shown for review
+            Select from the available cases. Existing campaign coverage is shown for review
             and does not silently exclude members.
           </p>
         </>
@@ -380,27 +403,16 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
           subtitle="One work type will be applied to the explicit cohort."
         >
           <div className="padded workflow-form intervention-options">
-            {[
-              [
-                "Retrospective review",
-                "Inspect current documentation and record a coding decision.",
-              ],
-              [
-                "Pre-visit assessment",
-                "Request a current assessment ahead of the encounter.",
-              ],
-              ["Chart retrieval", "Obtain missing source documentation."],
-              ["Independent QA", "Allocate a separate quality review."],
-            ].map(([value, description]) => (
+            {interventions.map(({ value, label: title, description }) => (
               <label key={value}>
                 <input
                   type="radio"
                   name="intervention"
                   checked={draft.intervention === value}
-                  onChange={() => update({ intervention: value })}
+                  onChange={() => update({ intervention: value, owner: "" })}
                 />
                 <span>
-                  <strong>{value}</strong>
+                  <strong>{title}</strong>
                   <small>{description}</small>
                 </span>
               </label>
@@ -429,11 +441,9 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
                 value={draft.owner}
                 onChange={(owner) => update({ owner })}
                 options={[
-                  "Coding team",
-                  "QA team",
-                  "Retrieval team",
-                  "Provider practice",
-                ].map((v) => ({ value: v, label: v }))}
+                  { value: "", label: "Choose an eligible account" },
+                  ...owners.map((owner) => ({ value: owner.id, label: `${owner.name} · ${owner.email}` })),
+                ]}
               />
               <div className="form-field">
                 <Label htmlFor="campaign-due">Due date</Label>
@@ -448,13 +458,15 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
             <div className="definition-list">
               <div>
                 <span>Intervention</span>
-                <strong>{draft.intervention}</strong>
+                <strong>{interventionLabel(draft.intervention)}</strong>
               </div>
               <div>
                 <span>Already covered in an active campaign</span>
                 <strong>{ids.filter((id) => covered.has(id)).length}</strong>
               </div>
             </div>
+            {!owners.length && <Notice>No account can perform this intervention for the entire cohort. Narrow the cohort to one practice or select another intervention.</Notice>}
+            {selectedOwner && <p className="body-copy">{selectedOwner.email} can access all {ids.length} selected cases and their source documents.</p>}
             <Button
               variant="outline"
               onClick={() =>
@@ -488,13 +500,12 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
                 <span>
                   <strong>{draft.preview?.ids.length || 0}</strong> tasks
                 </span>
-                <span>{draft.preview?.intervention}</span>
-                <span>{draft.preview?.owner}</span>
+                <span>{interventionLabel(draft.preview?.intervention || "")}</span>
+                <span>{data.assignment_options?.find((owner) => owner.id === draft.preview?.owner)?.email || draft.preview?.owner}</span>
                 <span>Due {draft.preview?.due}</span>
               </div>
               <Notice>
-                Activation uses this exact cohort. Recommendation versions and
-                existing coverage are checked again in the same transaction.
+                Activation uses these exact members and this account. Access, current work state and existing coverage are checked again when work is created.
               </Notice>
             </div>
             <DataGrid
@@ -505,14 +516,14 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
                 { accessorKey: "member_id", header: "Member ID" },
                 {
                   accessorKey: "version",
-                  header: "Recommendation version",
+                  header: "Work revision",
                   cell: ({ row }) =>
                     draft.preview?.versions[row.original.id] ?? "—",
                 },
                 {
                   id: "owner",
                   header: "Owner",
-                  cell: () => draft.preview?.owner,
+                  cell: () => data.assignment_options?.find((owner) => owner.id === draft.preview?.owner)?.name || draft.preview?.owner,
                 },
                 {
                   id: "covered",
@@ -527,6 +538,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
           </Panel>
         </>
       )}
+      {invalidIds.length > 0 && <Notice>{invalidIds.length} selected population records do not have a complete workflow. <Button variant="ghost" size="sm" onClick={() => update({ selected: draft.selected.filter((id) => !invalidIds.includes(id)), excluded: draft.excluded.filter((id) => !invalidIds.includes(id)) })}>Remove browsing-only records</Button></Notice>}
       {stale && (
         <div className="form-error" role="alert">
           {stale}
@@ -558,7 +570,7 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
         </span>
         {draft.step < 3 ? (
           <Button
-            disabled={!ids.length || ids.length > 500}
+            disabled={!ids.length || !!invalidIds.length}
             onClick={() => update({ step: draft.step + 1 })}
           >
             Continue <ArrowRight size={15} />
@@ -569,7 +581,8 @@ function CampaignWorkflow({ data, user, act }: WorkspaceProps) {
               !draft.name.trim() ||
               !draft.due ||
               !ids.length ||
-              ids.length > 500 ||
+              !!invalidIds.length ||
+              !selectedOwner ||
               busy
             }
             onClick={freeze}
@@ -642,7 +655,7 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
               cell: ({ row }) => (
                 <>
                   <strong>{row.original.name}</strong>
-                  <small>{label(row.original.type)}</small>
+                  <small>{interventionLabel(row.original.intervention || row.original.type)}{row.original.population_illustration ? " · Population illustration" : ""}</small>
                 </>
               ),
             },
@@ -663,8 +676,8 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
             },
             {
               accessorKey: "progress",
-              header: "Reviewed",
-              cell: ({ getValue }) => `${getValue()}%`,
+              header: "Completed",
+              cell: ({ row }) => <><strong>{row.original.progress}%</strong><small>{row.original.completed_count || 0} / {row.original.completion_denominator ?? row.original.member_ids.length} actionable cases</small></>,
             },
             {
               accessorKey: "status",
@@ -679,13 +692,13 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
         open={!!detail}
         onOpenChange={(v) => !v && setDetailId("")}
         title={detail?.name || "Campaign"}
-        description="Frozen membership and current review progress"
+        description="Frozen membership and intervention completion"
       >
         {detail && (
           <>
             <div className="badge-row">
               <Status value={detail.status} />
-              <span>{detail.progress}% reviewed</span>
+              <span>{detail.progress}% complete</span>
             </div>
             <div className="definition-list">
               <div>
@@ -704,8 +717,9 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
                 </strong>
               </div>
             </div>
+            <Notice>{detail.population_illustration ? `${detail.member_ids.length} members form the retained population illustration. Completion below applies only to its ${detail.completion_denominator || 0} complete cases. ` : ""}{interventionLabel(detail.intervention || detail.type)} · {detail.completed_count || 0} of {detail.completion_denominator ?? detail.member_ids.length} eligible cases complete. {detail.intervention === "pre_visit" ? "Provider response is the milestone; it does not approve coding." : detail.intervention === "source_remediation" ? "Completion requires source usability, not receipt alone." : "Completion requires a terminal review and independent QA approval."}</Notice>
             <div className="linked-members">
-              {detail.member_ids.map((id) => (
+              {(detail.actionable_member_ids || detail.member_ids).map((id) => (
                 <Link href={returnLink(`/members/${id}`)} key={id}>
                   {data.opportunities.find((o) => o.member_id === id)?.name ||
                     id}
@@ -714,7 +728,7 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
               ))}
             </div>
             <div className="drawer-actions">
-              {detail.status === "draft" && (
+              {detail.status === "draft" && !detail.population_illustration && (
                 <Button
                   onClick={() =>
                     act({ action: "activate_campaign", id: detail.id }).catch(

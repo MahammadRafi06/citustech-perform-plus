@@ -1,0 +1,95 @@
+.assessment-context { padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; background: var(--card); }
+.assessment-context strong { display: block; font-size: 13px; font-weight: 600; }
+.assessment-context p { font-size: 13px; line-height: 1.55; color: var(--muted-foreground); margin: 5px 0 0; }
+.assessment-context a { display: inline-flex; align-items: center; gap: 7px; margin-top: 9px; font-size: 12px; }
+.assessment-claims { display: grid; gap: 12px; }
+.assessment-claims p { margin: 0; line-height: 1.6; }
+.assessment-claims details summary { font-size: 12px; color: var(--muted-foreground); cursor: pointer; }
+.assessment-claims details > div { padding: 10px 0 0; font-size: 13px; }
+.assessment-citation { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 4px; font-size: 11px; color: var(--muted-foreground); }
+.assessment-citation a { display: inline-flex; align-items: center; gap: 4px; text-decoration: underline; text-underline-offset: 3px; }
+.assessment-citation > span:first-child { font-weight: 600; }
+.assessment-next-steps { display: grid; gap: 0; }
+.assessment-next-step { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border-top: 1px solid var(--border); }
+.assessment-next-step:first-child { border-top: 0; }
+.assessment-next-step strong { display: block; font-size: 13px; }
+.assessment-next-step small { display: block; font-size: 11px; color: var(--muted-foreground); margin-top: 4px; line-height: 1.5; }
+.assessment-handoff { font-size: 11px; color: var(--muted-foreground); max-width: 150px; text-align: right; }
+.assessment-history { display: grid; gap: 12px; padding: 20px; }
+.assessment-history article { padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px; }
+.assessment-history article > header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 13px; }
+.assessment-history small, .assessment-history time { color: var(--muted-foreground); font-size: 11px; }
+.assessment-history p { font-size: 13px; line-height: 1.55; margin: 8px 0; }
+.assessment-history details { font-size: 12px; margin-top: 10px; }
+.assessment-history details summary { cursor: pointer; color: var(--muted-foreground); }
+.assessment-scope { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 24px; color: var(--muted-foreground); font-size: 11px; border-bottom: 1px solid var(--border); background: var(--card); }
+.assessment-scope strong { color: var(--foreground); font-weight: 500; }
+.assessment-scope span { white-space: nowrap; }
+.assessment-scope + .page-canvas .workbench-frame { height: calc(100dvh - 246px); }
+.assessment-scope + .page-canvas .intake-workspace { height: calc(100dvh - 204px); min-height: 520px; }
+.assessment-readiness { display: grid; gap: 12px; margin: 16px 0; }
+.assessment-readiness > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.assessment-ready-row { display: grid; grid-template-columns: minmax(160px, 1fr) minmax(140px, 1fr) auto; gap: 20px; align-items: center; padding: 16px 20px; border-top: 1px solid var(--border); }
+.assessment-ready-row:first-child { border-top: 0; }
+.assessment-ready-row strong { display: block; font-size: 13px; }
+.assessment-ready-row small { display: block; color: var(--muted-foreground); font-size: 11px; margin-top: 4px; }
+.assessment-inputs { width: 100%; font-size: 13px; }
+.assessment-inputs th, .assessment-inputs td { vertical-align: top; line-height: 1.55; padding: 15px 20px; }
+.assessment-inputs ul { margin: 0; padding-left: 17px; }
+.assessment-trace { display: grid; gap: 10px; margin: 14px 0; }
+.assessment-trace > div { border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.assessment-trace small { display: block; color: var(--muted-foreground); font-size: 11px; margin: 4px 0; }
+.assessment-trace strong { font-size: 13px; }
+.assessment-trace p { margin: 6px 0; font-size: 13px; line-height: 1.55; }
+.assessment-trace blockquote { border-left: 2px solid var(--border); padding-left: 12px; margin: 10px 0; font-size: 12px; line-height: 1.6; }
+.app-drawer:has(.assessment-submission-detail) { width: 640px; max-width: 640px; }
+.assessment-submission-detail .assessment-inputs th, .assessment-submission-detail .assessment-inputs td { padding: 10px 12px; white-space: normal; }
+.assessment-trace a { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; line-height: 1.55; }
+.assessment-submission-detail .assessment-readiness strong { text-align: right; max-width: 70%; }
+.decision-options label:has(input:disabled) { opacity: .5; cursor: not-allowed; }
+.assessment-review-state { margin: 10px 0; font-size: 12px; color: var(--muted-foreground); }
+
+:is(.route-suspects, .route-reviews, .route-qa) .data-grid > .table-tools {
+  display: grid;
+  grid-template-columns: 1.1fr 1.35fr 1.22fr .86fr .86fr .91fr;
+  column-gap: 8px;
+  row-gap: 10px;
+}
+:is(.route-suspects, .route-reviews, .route-qa) .data-grid > .table-tools > .search-field {
+  grid-column: 1 / 4;
+  grid-row: 1;
+  width: 100%;
+  max-width: 340px;
+  min-width: 0;
+}
+:is(.route-suspects, .route-reviews, .route-qa) .data-grid .table-tool-actions {
+  display: contents;
+}
+:is(.route-suspects, .route-reviews, .route-qa) .data-grid .table-tool-actions > .select-field {
+  grid-row: 2;
+  width: 100%;
+  min-width: 0;
+}
+:is(.route-suspects, .route-reviews, .route-qa) .data-grid .table-tool-actions .select-field select {
+  max-width: none;
+  min-width: 0;
+}
+:is(.route-suspects, .route-reviews, .route-qa) .data-grid .table-tool-actions > button {
+  grid-column: 5;
+  grid-row: 1;
+  justify-self: end;
+}
+:is(.route-suspects, .route-reviews, .route-qa) .data-grid .table-tool-actions > button:last-child {
+  grid-column: 6;
+}
+.assessment-inputs a,
+.route-data .data-grid td a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.assessment-inputs a svg,
+.route-data .data-grid td a svg {
+  flex-shrink: 0;
+}

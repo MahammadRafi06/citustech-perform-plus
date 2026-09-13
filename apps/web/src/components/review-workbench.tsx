@@ -12,8 +12,10 @@ import { api, label } from "@/lib/api";
 import type { Member } from "@/lib/types";
 import type { WorkspaceProps } from "./workspaces";
 import { useDraft, useUrlState, safeReturn } from "@/hooks/workspace-state";
+import { CaseClaims, CaseNextSteps, EligibilityNotice, ReviewHistory } from "./assessment-ui";
 export function ReviewWorkbench({
   id,
+  data,
   user,
   act,
 }: WorkspaceProps & { id: string }) {
@@ -23,6 +25,8 @@ export function ReviewWorkbench({
   const [note, setNote] = useDraft(`review-${id}-note`, "");
   const [busy, setBusy] = useState(false);
   const [queryOpen, setQueryOpen] = useState(false);
+  const [qaOpen, setQaOpen] = useState(false);
+  const [qaNote, setQaNote] = useDraft(`review-${id}-qa-note`, "");
   const [query, setQuery] = useDraft(
     `query-${id}`,
     "Please review the available history and document your current clinical assessment, including if this condition is not supported.",
@@ -33,7 +37,8 @@ export function ReviewWorkbench({
   });
   const m = result.data;
   const o = m?.opportunities?.[0];
-  const doc = m?.documents?.find((d) => d.id === docId) || m?.documents?.[0];
+  const eligibility = o?.eligibility || m?.eligibility;
+  const doc = m?.documents?.find((d) => d.id === docId) || m?.documents?.find((d) => eligibility?.source_ids.includes(d.id)) || m?.documents?.[0];
   const editable = user.permissions.includes("review");
   const qa = user.permissions.includes("qa");
   useEffect(() => {
@@ -72,19 +77,12 @@ export function ReviewWorkbench({
     return (
       <Empty title="Member unavailable" description={result.error?.message} />
     );
-  const blocked =
-    ["MB-000002", "MB-000003", "MB-000006"].includes(id) && !m.later_encounter;
-  const gate = blocked
-    ? id === "MB-000006"
-      ? "Signed, eligible encounter documentation is required before supported coding."
-      : id === "MB-000003"
-        ? "Indirect signals are not a diagnosis. A current assessment and a new source review are required."
-        : "Historical documentation needs a current assessment before supported coding."
-    : "";
-  const saveReason = !decision
+  const saveReason = !eligibility?.reviewable
+    ? eligibility?.reason || "Review eligibility is unavailable. Refresh this case before saving."
+    : !decision
     ? "Select a decision to continue."
-    : decision === "resolved_supported" && blocked
-      ? gate
+    : !eligibility.allowed_decisions.includes(decision)
+      ? eligibility.reason
       : !note.trim()
         ? "Add a rationale that references the reviewed source."
         : "";
@@ -93,11 +91,21 @@ export function ReviewWorkbench({
       p.sections.filter((s) => isAuthored(doc, s.heading)),
     ) || [];
   const qaReason =
-    o?.qa_status !== "awaiting_qa"
-      ? "A completed review must be sent to QA first."
-      : o?.reviewer === user.id || o?.reviewer === user.email
-        ? "A different reviewer must perform independent QA."
-        : "";
+    !o?.current_decision_id
+      ? o?.review_state === "fresh_review_required"
+        ? "The evidence changed. A fresh review is required before independent QA."
+        : "Save a current review before sending it to independent QA."
+      : o.qa_status === "passed"
+        ? o.completion?.complete
+          ? "Independent QA passed. The approved review is ready for the next case step."
+          : "Independent QA passed. The case still requires further assessment or follow-up."
+        : o.qa_status === "rework"
+          ? "Returned for rework. The reviewer must submit a revised decision before QA can continue."
+          : o.qa_status !== "awaiting_qa"
+            ? "Submit the current review to independent QA to continue."
+            : o.reviewer === user.id || o.reviewer === user.email
+              ? "A different reviewer must perform independent QA."
+              : "";
   return (
     <>
       <div className="back-link">
@@ -116,7 +124,7 @@ export function ReviewWorkbench({
             {id} · {m.age} years · {m.sex} · {m.plan}
           </p>
         </div>
-        <p>Service year 2026 · Payment year 2027</p>
+        <p>Service year {data.program_context?.service_year || 2026} · Payment year {data.program_context?.payment_year || 2027}</p>
         <Status value={o?.status || m.status} />
       </div>
       <nav className="workbench-mobile-tabs" aria-label="Review sections">
@@ -136,7 +144,7 @@ export function ReviewWorkbench({
               <Status value={o?.status || m.status} />
             </div>
             <small>
-              {o?.id} · Version {o?.version}
+              {o?.id} · Recommendation v{o?.recommendation_version || o?.version}
             </small>
             <div className="review-context-item">
               <strong>Assigned to</strong>
@@ -151,7 +159,6 @@ export function ReviewWorkbench({
           selected={doc}
           onSelect={(docId) => {
             setDocId(docId);
-            void run("open_evidence", "", `Inspected ${docId}`);
           }}
           onInspect={() => {
             void run("open_evidence", "", `Inspected ${doc?.id}`);
@@ -171,7 +178,7 @@ export function ReviewWorkbench({
                   : "Review context"}
             </h2>
             <small>
-              {o?.id} · Recommendation v{o?.version}
+              {o?.id} · Recommendation v{o?.recommendation_version || o?.version}
             </small>
           </header>
           <div
@@ -185,7 +192,19 @@ export function ReviewWorkbench({
               <span>{o?.evidence} evidence</span>
               <Status value={o?.status || m.status} />
             </div>
-            {gate && <Notice>{gate}</Notice>}
+            <EligibilityNotice eligibility={eligibility} />
+            {eligibility?.prepared_code && <div className="review-context-item">
+              <small>{eligibility.prepared_code.operation === "delete" ? "Prior code to remove" : "Prepared code output"}</small>
+              <strong>{eligibility.prepared_code.code} · {eligibility.prepared_code.description}</strong>
+              <small className="block">{eligibility.prepared_code.release}</small>
+              <a className="mt-1 inline-flex text-sm underline underline-offset-4" href={eligibility.prepared_code.reference_url} target="_blank" rel="noreferrer">Code reference</a>
+              {eligibility.prepared_code.basis && <details><summary>Code basis</summary><p>{eligibility.prepared_code.basis}</p></details>}
+            </div>}
+            {!!m.claims?.length && <details><summary>Finding-specific passages · {m.claims.length}</summary><CaseClaims claims={m.claims} /></details>}
+            {o?.qa_status === "rework" && <Notice>
+              <strong>Returned for rework</strong>
+              <p>{o.qa_history?.slice().reverse().find((q) => q.status === "rework")?.note || "Review the QA feedback before submitting a new decision."}</p>
+            </Notice>}
             {context.length > 0 && (
               <details>
                 <summary>Authored review context</summary>
@@ -201,7 +220,7 @@ export function ReviewWorkbench({
                 </p>
               </details>
             )}
-            {editable && (
+            {editable && eligibility?.reviewable && (
               <>
                 <fieldset className="decision-options">
                   <legend className="sr-only">Review decision</legend>
@@ -231,6 +250,7 @@ export function ReviewWorkbench({
                         name="review-decision"
                         value={value}
                         checked={decision === value}
+                        disabled={!eligibility.allowed_decisions.includes(value)}
                         onChange={() => setDecision(value)}
                       />
                       <span>
@@ -280,13 +300,9 @@ export function ReviewWorkbench({
                 </div>
               </>
             )}
-            {o?.decision_note && (
-              <details open>
-                <summary>Saved review</summary>
-                <p>{o.decision_note}</p>
-                {o.qa_status && <Status value={o.qa_status} />}
-              </details>
-            )}
+            {!!o?.decision_history?.length && <details open><summary>Saved reviews and QA</summary><ReviewHistory opportunity={o} /></details>}
+            {!o?.decision_history?.length && o?.decision_note && <details open><summary>Saved review</summary><p>{o.decision_note}</p>{o.qa_status && <Status value={o.qa_status} />}</details>}
+            <details open={o?.qa_status === "awaiting_qa" || o?.qa_status === "passed"}><summary>Next role and case steps</summary><CaseNextSteps member={m} user={user} accounts={data.assignment_options} busy={busy} onAction={(action, value) => void run(action, value)} /></details>
             <details>
               <summary>Evidence provenance</summary>
               <p>
@@ -297,7 +313,7 @@ export function ReviewWorkbench({
                 Signature: {doc?.signature_status || "Not supplied"}.
               </p>
               <p>
-                Precomputed demo recommendation · v{o?.version}. Source text is
+                Prepared analysis · v{o?.recommendation_version || o?.version}. Source text is
                 preserved. Linked citations identify supplied sections.
               </p>
               {doc?.superseded_by && <p>Superseded by {doc.superseded_by}</p>}
@@ -332,16 +348,19 @@ export function ReviewWorkbench({
                 </Link>
               </div>
             </details>
-            {user.permissions.includes("query") && (
+            {user.permissions.includes("query") && eligibility?.reviewable && (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setQueryOpen(true)}
+                onClick={() => {
+                  if (!query || query.startsWith("Please review the available history")) setQuery(`Please assess ${m.condition} in the current encounter. Available context: ${m.summary} Source: ${doc?.id || "not yet available"}, ${doc?.date || "date unavailable"}. Document whether the condition is supported, not supported, uncertain, or needs further information, with your clinical rationale.`);
+                  setQueryOpen(true);
+                }}
               >
                 Create clarification task
               </Button>
             )}
-            {user.permissions.includes("request_evidence") && (
+            {user.permissions.includes("request_evidence") && eligibility?.reviewable && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -378,7 +397,7 @@ export function ReviewWorkbench({
                 <Button
                   variant="ghost"
                   size="sm"
-                  disabled={!note.trim() || busy}
+                  disabled={!eligibility?.reviewable || !note.trim() || busy}
                   onClick={() => run("complete_review", "no_finding")}
                 >
                   Complete without a supported finding
@@ -403,9 +422,7 @@ export function ReviewWorkbench({
                     className="flex-1"
                     variant="outline"
                     disabled={!!qaReason || busy}
-                    onClick={() =>
-                      run("qa", "rework", "Returned for clarification")
-                    }
+                    onClick={() => setQaOpen(true)}
                   >
                     Return for rework
                   </Button>
@@ -418,6 +435,10 @@ export function ReviewWorkbench({
           </footer>
         </section>
       </div>
+      <Modal open={qaOpen} onOpenChange={setQaOpen} title="Return for rework" description="Explain what the reviewer needs to resolve. This feedback stays with the saved decision.">
+        <div className="form-field"><Label htmlFor="qa-rationale">Rework reason</Label><textarea id="qa-rationale" rows={4} value={qaNote} onChange={(e) => setQaNote(e.target.value)} placeholder="Identify the source or decision that needs correction…" /></div>
+        <Button disabled={!qaNote.trim() || busy || !!qaReason} onClick={async () => { if (await run("qa", "rework", qaNote)) { setQaOpen(false); setQaNote(""); } }}>Return to reviewer</Button>
+      </Modal>
       <Modal
         open={queryOpen}
         onOpenChange={setQueryOpen}

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
@@ -30,12 +31,21 @@ export function SourceDocument({
   selected,
   onSelect,
   onInspect,
+  initialPage,
+  initialSection,
 }: {
   documents: Evidence[];
   selected?: Evidence;
   onSelect?: (id: string) => void;
   onInspect?: () => void;
+  initialPage?: number;
+  initialSection?: string;
 }) {
+  const params = useSearchParams();
+  const linkedDocument = params?.get("document") || params?.get("sample");
+  const followsLink = !linkedDocument || linkedDocument === selected?.id;
+  const requestedPage = initialPage || (followsLink ? Number(params?.get("page")) : 0);
+  const requestedSection = initialSection || (followsLink ? params?.get("section") || "" : "");
   const [original, setOriginal] = useState(false);
   const [page, setPage] = useState(0),
     [zoom, setZoom] = useState(100),
@@ -43,10 +53,22 @@ export function SourceDocument({
     [query, setQuery] = useState("");
   const scroll = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    setPage(0);
+    const target = selected?.pages.findIndex((p) => p.number === requestedPage) ?? -1;
+    setPage(target >= 0 ? target : 0);
     setQuery("");
     scroll.current?.scrollTo({ top: 0 });
-  }, [selected?.id]);
+  }, [selected?.id, requestedPage]);
+  useEffect(() => {
+    if (!requestedSection) return;
+    const frame = requestAnimationFrame(() => {
+      const target = Array.from(scroll.current?.querySelectorAll<HTMLElement>("[data-section]") || [])
+        .find((node) => node.dataset.section === requestedSection);
+      if (target && scroll.current) {
+        scroll.current.scrollTo({ top: target.getBoundingClientRect().top - scroll.current.getBoundingClientRect().top + scroll.current.scrollTop - 28, behavior: "smooth" });
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [selected?.id, page, requestedSection]);
   if (!selected)
     return (
       <div className="source-viewer">
@@ -184,7 +206,9 @@ export function SourceDocument({
           {current?.sections
             .filter((s) => original || !isAuthored(selected, s.heading))
             .map((s, i) => (
-              <section key={i} data-citation={s.highlight ? "true" : undefined}>
+              <section key={i} data-section={s.heading} data-citation={s.highlight ? "true" : undefined}
+                aria-label={requestedSection === s.heading ? `Linked passage: ${s.heading}` : undefined}
+                style={requestedSection === s.heading ? { outline: "1px solid var(--border)", outlineOffset: "10px", borderRadius: "2px" } : undefined}>
                 <h3>{s.heading}</h3>
                 <p>{passage(s.text, s.highlight)}</p>
               </section>

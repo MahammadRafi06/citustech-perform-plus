@@ -1,0 +1,233 @@
+{
+  "verified_at": "2026-09-13T00:19:17.028558+00:00",
+  "authorization": "User explicitly approved the pending isolated reset and protected backup.",
+  "project": "ct-assessment-20260912",
+  "port": 3003,
+  "status": "passed",
+  "reset_cycles": 2,
+  "backup": {
+    "stored_in_ignored_local_directory": true,
+    "mode": "0600",
+    "bytes": 315673,
+    "archive_catalog_verified": true,
+    "restored": false
+  },
+  "account_count": 14,
+  "cycles": [
+    {
+      "cycle": 1,
+      "reset_status": 200,
+      "accounts_roles_scopes_passwords_unchanged": true,
+      "frozen_comparison_unchanged": true,
+      "source_text_unchanged": true,
+      "six_scenarios_restored": true,
+      "counts": {
+        "members": 10000,
+        "opportunities": 1500,
+        "tasks": 0,
+        "campaigns": 4,
+        "runs": 0,
+        "submissions": 12,
+        "events": 1,
+        "decisions": 0,
+        "qa_decisions": 0
+      },
+      "cases": [
+        {
+          "member_id": "MB-000001",
+          "status": "new",
+          "recommendation_version": 2,
+          "support_allowed": true,
+          "document_ids": [
+            "DOC-0001",
+            "DOC-0002"
+          ]
+        },
+        {
+          "member_id": "MB-000002",
+          "status": "awaiting_assessment",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0003",
+            "DOC-0004"
+          ]
+        },
+        {
+          "member_id": "MB-000003",
+          "status": "new",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0006"
+          ]
+        },
+        {
+          "member_id": "MB-000004",
+          "status": "in_review",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0007"
+          ]
+        },
+        {
+          "member_id": "MB-000005",
+          "status": "in_review",
+          "recommendation_version": 1,
+          "support_allowed": true,
+          "document_ids": [
+            "DOC-0008"
+          ]
+        },
+        {
+          "member_id": "MB-000006",
+          "status": "deferred",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0009"
+          ]
+        }
+      ],
+      "semantic_baseline_matches_previous": true
+    },
+    {
+      "cycle": 2,
+      "reset_status": 200,
+      "accounts_roles_scopes_passwords_unchanged": true,
+      "frozen_comparison_unchanged": true,
+      "source_text_unchanged": true,
+      "six_scenarios_restored": true,
+      "counts": {
+        "members": 10000,
+        "opportunities": 1500,
+        "tasks": 0,
+        "campaigns": 4,
+        "runs": 0,
+        "submissions": 12,
+        "events": 1,
+        "decisions": 0,
+        "qa_decisions": 0
+      },
+      "cases": [
+        {
+          "member_id": "MB-000001",
+          "status": "new",
+          "recommendation_version": 2,
+          "support_allowed": true,
+          "document_ids": [
+            "DOC-0001",
+            "DOC-0002"
+          ]
+        },
+        {
+          "member_id": "MB-000002",
+          "status": "awaiting_assessment",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0003",
+            "DOC-0004"
+          ]
+        },
+        {
+          "member_id": "MB-000003",
+          "status": "new",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0006"
+          ]
+        },
+        {
+          "member_id": "MB-000004",
+          "status": "in_review",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0007"
+          ]
+        },
+        {
+          "member_id": "MB-000005",
+          "status": "in_review",
+          "recommendation_version": 1,
+          "support_allowed": true,
+          "document_ids": [
+            "DOC-0008"
+          ]
+        },
+        {
+          "member_id": "MB-000006",
+          "status": "deferred",
+          "recommendation_version": 1,
+          "support_allowed": false,
+          "document_ids": [
+            "DOC-0009"
+          ]
+        }
+      ],
+      "semantic_baseline_matches_previous": true
+    }
+  ],
+  "fresh_logins": {
+    "coder": {
+      "login_status": 200,
+      "role": "coder",
+      "screens": 3
+    },
+    "qa": {
+      "login_status": 200,
+      "role": "qa_reviewer",
+      "screens": 5
+    },
+    "submission": {
+      "login_status": 200,
+      "role": "submission_analyst",
+      "screens": 3
+    },
+    "provider2": {
+      "login_status": 200,
+      "role": "provider",
+      "screens": 3,
+      "provider_id": "PR-002",
+      "own_member_status": 200,
+      "other_member_status": 404
+    },
+    "superuser": {
+      "login_status": 200,
+      "role": "superuser",
+      "screens": 16
+    }
+  },
+  "repeated_ordinary_action": {
+    "action": "analyze",
+    "member_id": "MB-000001",
+    "same_result": true,
+    "result": "no_change",
+    "recommendation_version": 2,
+    "recommendation_history_count": 2,
+    "followed_by_second_reset": true
+  },
+  "preview_3002_business_state_accounts_sources_events_unchanged": true,
+  "browser_verified_at": "2026-09-13T00:23:02.249109+00:00",
+  "browser_checks": [
+    {
+      "route": "/overview",
+      "role": "superuser",
+      "open_actionable_reviews": 6,
+      "qa_approved_reviews": 0,
+      "population": 10000
+    },
+    {
+      "route": "/reviews/MB-000006",
+      "role": "superuser",
+      "selected_source": "DOC-0009",
+      "source_signature": "missing",
+      "supported_decision_disabled": true
+    }
+  ],
+  "final_state": "Reset baseline, ready for rehearsal; completed progress not restored.",
+  "capture_note": "The existing 62 screenshots predate this reset and remain unchanged historical capture evidence."
+}

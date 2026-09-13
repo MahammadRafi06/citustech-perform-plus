@@ -1,5 +1,15 @@
 # CitusTech Perform+ demo implementation plan
 
+## Current increment — capability assessment
+
+The active execution plan is [docs/DEMO_ASSESSMENT_PLAN.md](docs/DEMO_ASSESSMENT_PLAN.md), based on the complete [12 September assessment](Perform_Plus_Demo_Assessment.md) and checked against merged `main` at `40be7e2`. Track completed implementation and verification under [Assessment backlog in TODO.md](TODO.md#assessment-backlog--active).
+
+The assessment increment is **implemented and verified**, with [fresh verification evidence](docs/ASSESSMENT_VERIFICATION.md). Automated reset checks and two explicitly approved reset cycles of the isolated rehearsal passed; the shared preview was preserved. It connects review, independent QA and simulated submission; fixes evidence/assignment/progress gaps; updates prepared findings and source-linked explanations; adds scoring/trace explanations; and verifies the desktop presenter route. Local authentication/RBAC and separate UI/API/database components remain in scope. The new plan records the complete acceptance criteria and explicit fallback for scoring.
+
+## Historical initial implementation plan
+
+The remainder records the original build plan and its earlier completion evidence. It does not supersede the assessment scope or the user's later desktop, typography and plain-status preferences. Its completion claims apply to that initial delivery; the assessment has separate verification and explicit deferred work.
+
 Updated 12 September 2026: **Next.js + Tailwind + shadcn/ui; separate Kubernetes UI, API and PostgreSQL components.** Following the user's clarifications: **prioritize UI cleanliness and working demo interactions, while keeping local user authentication and local role-based access control (RBAC).** Track delivery in [TODO.md](TODO.md).
 
 This direction replaces the previous backend-first M01–M13 execution order and pre-frontend backend gates for this demo. The [original specification](CitusTech_Perform_Plus_Coding_Spec.md) remains the reference for product content, visual direction and scenario meaning. Its full backend architecture and release suite are deferred where they exceed the needs below. The original document is preserved unchanged.
@@ -147,7 +157,7 @@ These remain later work, not blockers for the UI demo:
 
 A typed demo service keeps a later backend integration possible. Do not introduce an infrastructure subsystem unless a required demo interaction actually needs it. Publishing or real external delivery remains a separate action.
 
-## Current implementation
+## Initial implementation record — historical
 
 D01–D06 are delivered for the bounded demo. The remaining feature work includes exact campaign allocation previews, atomic bulk actions, validated source publication, chart contact history, a grounded fixture assistant, URL-based list/detail context, user-scoped draft retention and synchronized case outcomes. All sixteen screen families and nine supporting analytics views were exercised in the browser. Local authentication and RBAC remain enforced by the separate API.
 

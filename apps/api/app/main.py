@@ -1,6 +1,7 @@
 """Local-only Perform+ demo: protected fixtures, PostgreSQL state, real local RBAC."""
 from __future__ import annotations
-from . import display
+from . import display, assessment
+from copy import deepcopy
 import csv
 import io
 import json
@@ -67,12 +68,15 @@ def now(): return datetime.now(timezone.utc).isoformat()
 def fail(code, message, status=400): raise HTTPException(status_code=status, detail={'code':code,'message':message})
 def get_state(conn, lock=False):
     state=json.loads(conn.execute('SELECT body FROM state WHERE id=1' + (' FOR UPDATE' if lock else '')).fetchone()['body'])
+    assessment.upgrade(state)
     current={o['member_id']:o for o in state['opportunities']}
     for m in state['members']:
         if m['id'] in current:
             m.update({key:current[m['id']][key] for key in ('status','evidence','owner') if key in current[m['id']]})
     return state
-def save_state(conn, state): conn.execute('UPDATE state SET body=? WHERE id=1',(json.dumps(state),))
+def save_state(conn, state):
+    assessment.upgrade(state)
+    conn.execute('UPDATE state SET body=? WHERE id=1',(json.dumps(state),))
 
 def ensure_superuser(conn):
     # Never overwrite an existing account, password, or intentional access change.
@@ -129,7 +133,10 @@ def initialize():
             initial['runs']=[]
             initial['tasks']=[]
             initial['tour_started']=now()
+            assessment.upgrade(initial)
             conn.execute('INSERT INTO state VALUES (1,?)',(json.dumps(initial),))
+        else:
+            save_state(conn,get_state(conn,lock=True))
 
 
 app=FastAPI(title='CitusTech Perform+ local demo',version='0.1.0',docs_url='/api/docs',openapi_url='/api/openapi.json')
@@ -190,6 +197,79 @@ def event(conn,u,action,resource,detail):
 def rows_for(s,u,kind):
     ids={m['id'] for m in allowed_members(s,u)}
     return [r for r in s.get(kind,[]) if r.get('member_id') in ids]
+
+def scoped_eligibility(s,u,mid):
+    result=assessment.eligibility(s,mid)
+    example=next((m['id'] for m in allowed_members(s,u) if m['id'] in assessment.CASE_IDS),None)
+    result['example_href']=('/reviews/' if 'reviews' in ROLES[u['role']]['screens'] else '/members/')+example if example else '/members'
+    return result
+
+def assignment_options(conn,s,u):
+    visible={m['id'] for m in allowed_members(s,u)}
+    result=[]
+    for row in conn.execute('SELECT id,email,name,role,provider_id FROM users WHERE active=1 ORDER BY id'):
+        account=dict(row);actions=ROLES[account['role']]['actions'];interventions=[]
+        if 'review' in actions:interventions.extend(['coding_review','integrity_review'])
+        if 'qa' in actions:interventions.append('independent_qa')
+        if 'intake' in actions:interventions.append('source_remediation')
+        if 'respond' in actions:interventions.append('pre_visit')
+        if 'prepare' in actions:interventions.append('submission')
+        mids=[m['id'] for m in allowed_members(s,account) if m['id'] in assessment.CASE_IDS and m['id'] in visible]
+        if interventions and mids:result.append({'id':account['id'],'name':account['name'].removesuffix(' demo'),'email':account_email(account['email']),'role':account['role'],'provider_id':account['provider_id'],'member_ids':mids,'interventions':interventions})
+    return result
+
+def allocation(conn,s,u,ids,owner='',intervention='coding_review'):
+    intervention=assessment.normalize_intervention(intervention)
+    for mid in ids:
+        member(s,u,mid)
+        if mid not in assessment.CASE_IDS:fail('CASE_NOT_ACTIONABLE','Choose complete cases for actionable work. Population illustrations cannot be assigned.')
+    aliases={'Coding team':'coder','QA team':'qa_reviewer','Retrieval team':'retrieval_coordinator','Provider practice':'provider'}
+    chosen=aliases.get(owner,owner) or {'coding_review':'coder','integrity_review':'coder','independent_qa':'qa_reviewer','source_remediation':'retrieval_coordinator','pre_visit':'provider'}.get(intervention,'coder')
+    options=assignment_options(conn,s,u)
+    if not owner and intervention=='pre_visit':chosen=next((a['id'] for a in options if a['role']=='provider' and set(ids)<=set(a['member_ids'])),'')
+    assignee=next((a for a in options if a['id']==chosen or a['name']==chosen or a['email']==chosen),None)
+    if not assignee or intervention not in assignee['interventions'] or not set(ids)<=set(assignee['member_ids']):
+        fail('ASSIGNEE_SCOPE','Choose an active account with the required action and access to every selected member.')
+    return assignee,intervention
+
+def save_review(s,o,u,decision,note):
+    mid=o['member_id'];refs=assessment.source_refs(s,mid);finding=assessment.current_finding(s,mid)
+    refs=[r for r in refs if r['document_id'] in finding['source_ids']]
+    record={'id':'DEC-'+secrets.token_hex(5),'member_id':mid,'finding_id':o['id'],'actor':account_email(u['email']),'actor_id':u['id'],
+      'at':now(),'decision':decision,'note':note,'recommendation_version':o['recommendation_version'],
+      'basis_key':assessment.basis_key(s,mid),'source_refs':deepcopy(refs),'code':deepcopy(o.get('prepared_code')),
+      'recommendation_snapshot':deepcopy(o.get('recommendation_history',[])[-1] if o.get('recommendation_history') else {})}
+    o.setdefault('decision_history',[]).append(record)
+    o.update(review_state='completed',draft_note='',status=decision,reviewer=u['id'],decision_note=note,qa_status='awaiting_qa',review_completed_at=record['at'],current_decision_id=record['id'])
+    o.pop('qa_note',None);o.pop('qa_reviewer',None)
+    return record
+
+def approved_decision(s,mid):
+    o=assessment.opportunity(s,mid)
+    if not o or not assessment.completion(s,mid)['complete']:fail('APPROVAL_REQUIRED','Complete a terminal review and independent QA before preparing this record.')
+    review=next((r for r in o['decision_history'] if r['id']==o.get('current_decision_id')),None)
+    qa=next((q for q in reversed(o['qa_history']) if q['decision_id']==o.get('current_decision_id') and q['status']=='passed'),None)
+    if not review or not qa or review['actor_id']==qa['actor_id'] or review.get('basis_key')!=assessment.basis_key(s,mid):
+        fail('APPROVAL_REQUIRED','The exact current evidence requires a fresh independently approved decision.')
+    return o,review,qa
+
+def prepare_record(s,mid,u):
+    o,review,qa=approved_decision(s,mid)
+    operation='add' if mid=='MB-000001' and review['decision']=='resolved_supported' else 'delete' if mid=='MB-000004' and review['decision']=='resolved_unsupported' else None
+    if not operation:fail('PREPARED_RECORD_UNAVAILABLE','Prepared transmission is configured for Jordan’s approved addition and Taylor’s approved deletion only.')
+    existing=next((r for r in s['submissions'] if r.get('decision_id')==review['id'] and r.get('qa_id')==qa['id']),None)
+    if existing:return existing,False
+    if not o.get('prepared_code'):fail('CODE_REFERENCE_REQUIRED','The reviewed code reference is not configured.')
+    row={'id':'SUB-'+secrets.token_hex(5),'member_id':mid,'finding_id':o['id'],'type':'original' if operation=='add' else 'correction',
+      'operation':operation,'status':'prepared','receiver':'Simulated receiver · SYN-RECEIVER-2026','receiver_fixture_id':'SYN-RECEIVER-2026',
+      'original_id':'SUB-0001' if operation=='delete' else None,'reason':'Prepared from this exact independently approved review. No external transmission occurs.',
+      'code':o['prepared_code']['code'],'code_release':o['prepared_code']['release'],'code_reference':deepcopy(o['prepared_code']),
+      'condition':o['condition'],'corrected':False,'transport_status':'not_acknowledged','receiver_status':'not_processed','eligibility_status':'not_evaluated',
+      'reported_status':'not_compared','reconciliation_status':'unreconciled','history':[],'simulation':True,'synthetic':True,
+      'owner':account_email(u['email']),'created_at':now(),'decision_id':review['id'],'qa_id':qa['id'],
+      'recommendation_snapshot':deepcopy(review['recommendation_snapshot']),'review_snapshot':deepcopy(review),'qa_snapshot':deepcopy(qa),'source_refs':deepcopy(review['source_refs'])}
+    s['submissions'].append(row)
+    return row,True
 
 class Login(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -258,19 +338,27 @@ def bootstrap(u=Depends(user)):
         ms=allowed_members(s,u)
         ids={m['id'] for m in ms}
         lookup={m['id']:m for m in ms}
-        opps=[o|{'name':lookup[o['member_id']]['name'],'initials':lookup[o['member_id']]['initials'],'provider':lookup[o['member_id']]['provider']} for o in rows_for(s,u,'opportunities')]
+        example_id=next((m['id'] for m in ms if m['id'] in assessment.CASE_IDS),None)
+        example_href=(('/reviews/' if 'reviews' in ROLES[u['role']]['screens'] else '/members/')+example_id) if example_id else '/members'
+        opps=[o|{'eligibility':o['eligibility']|{'example_href':example_href},'name':lookup[o['member_id']]['name'],'initials':lookup[o['member_id']]['initials'],'provider':lookup[o['member_id']]['provider']} for o in rows_for(s,u,'opportunities')]
         events=[dict(r) for r in conn.execute('SELECT * FROM events ORDER BY id DESC LIMIT 100').fetchall() if r['resource'] in ids or (u['role'] in ('executive','risk_analyst','administrator','superuser') and not str(r['resource']).startswith('MB-'))]
         counts=Counter(o['status'] for o in opps)
         screens=ROLES[u['role']]['screens']
         data={'members':ms[:30],'population_count':len(ms),'opportunities':opps,'counts':dict(counts),'events':events,'tour_started':s.get('tour_started'), 'runs':s.get('runs',[]) if 'data' in screens or 'suspects' in screens else [],'tasks':[t for t in s.get('tasks',[]) if t.get('member_id') in ids]}
-        data['campaigns']=[c|{'member_ids':[i for i in c['member_ids'] if i in ids],'progress':round(100*sum(1 for o in s['opportunities'] if o['member_id'] in c['member_ids'] and o['status'].startswith('resolved_'))/max(len(c['member_ids']),1))} for c in s.get('campaigns',[]) if 'campaigns' in screens or 'overview' in screens]
+        data['campaigns']=[c|{'member_ids':[i for i in c['member_ids'] if i in ids]} for c in s.get('campaigns',[]) if 'campaigns' in screens or 'overview' in screens]
         data['chases']=rows_for(s,u,'chases') if 'chase' in screens or 'overview' in screens else []
         data['submissions']=rows_for(s,u,'submissions') if 'submissions' in screens or 'audit' in screens or 'overview' in screens else []
         pids={m['provider_id'] for m in ms}
         data['providers']=[p for p in s.get('providers',[]) if p['id'] in pids]
         data['comparison']=s.get('comparison',{}) if 'analytics' in screens else None
         data['issues']=source_issues(s,u) if 'data' in screens or 'intake' in screens else []
-        data['members']=[display.member(m) for m in data['members']]
+        data['program_context']=s['program_context']
+        data['assignment_options']=assignment_options(conn,s,u)
+        data['case_catalog']=[{'member_id':m['id'],'name':m['name'],'scenario_id':'CASE-'+m['id'],'transitions':assessment.scenario(s,m['id'])['transitions']} for m in ms if m['id'] in assessment.CASE_IDS]
+        data['import_summary']=assessment.import_summary(s,ids) if 'data' in screens or 'intake' in screens else None
+        data['scenarios']=[assessment.scoring_scenario()] if 'scenarios' in screens else []
+        data['completion_counts']={'eligible_cases':sum(o['member_id'] in assessment.CASE_IDS for o in opps),'qa_approved':sum(o['completion']['complete'] for o in opps),'awaiting_qa':sum(o.get('qa_status')=='awaiting_qa' for o in opps),'recorded_dispositions':sum(o['status'].startswith('resolved_') for o in opps)}
+        data['members']=[display.member(m)|{'eligibility':scoped_eligibility(s,u,m['id'])} for m in data['members']]
         data['submissions']=[display.submission(r) for r in data['submissions']]
         data['issues']=[r|{'title':display.text(r['title']),'reason':display.text(r['reason'])} for r in data['issues']]
         return data
@@ -278,18 +366,20 @@ def bootstrap(u=Depends(user)):
 @app.get('/api/v1/members')
 def members(q:str='',provider:str='',status:str='',page:int=1,size:int=25,u=Depends(user)):
     with db() as conn:
-        ms=allowed_members(get_state(conn),u)
+        state=get_state(conn);ms=allowed_members(state,u)
         if q: ms=[m for m in ms if q.lower() in json.dumps(m).lower()]
         if provider: ms=[m for m in ms if m['provider_id']==provider]
         if status: ms=[m for m in ms if m['status']==status]
         size=max(1,min(size,100)); page=max(page,1)
-        return {'items':[display.member(m) for m in ms[(page-1)*size:page*size]],'total':len(ms),'page':page}
+        return {'items':[display.member(m)|{'eligibility':scoped_eligibility(state,u,m['id'])} for m in ms[(page-1)*size:page*size]],'total':len(ms),'page':page}
 
 @app.get('/api/v1/members/{id}')
 def member_detail(id:str,u=Depends(user)):
     with db() as conn:
         s=get_state(conn);m=member(s,u,id)
-        return display.member(m)|{'documents':[display.document(d) for d in s.get('documents',[]) if d['member_id']==id and d.get('available',True) and d['source_status']!='not_loaded'], 'opportunities':[o for o in s['opportunities'] if o['member_id']==id], 'tasks':[t for t in s.get('tasks',[]) if t.get('member_id')==id], 'history':[dict(r) for r in conn.execute('SELECT * FROM events WHERE resource=? ORDER BY id DESC',(id,))]}
+        for o in s['opportunities']:
+            if o['member_id']==id:o['eligibility']=scoped_eligibility(s,u,id)
+        return display.member(m)|{'summary':assessment.current_finding(s,id)['summary'],'eligibility':scoped_eligibility(s,u,id),'claims':assessment.claims(s,id),'basis_key':assessment.basis_key(s,id),'next_steps':assessment.next_steps(s,id),'scenario':assessment.scenario(s,id),'audit_trace':assessment.audit_trace(s,id),'submissions':[display.submission(r) for r in s['submissions'] if r['member_id']==id],'documents':[display.document(d) for d in s.get('documents',[]) if d['member_id']==id and d.get('available',True) and d['source_status']!='not_loaded'], 'opportunities':[o for o in s['opportunities'] if o['member_id']==id], 'tasks':[t for t in s.get('tasks',[]) if t.get('member_id')==id], 'history':[dict(r) for r in conn.execute('SELECT * FROM events WHERE resource=? ORDER BY id DESC',(id,))]}
 
 @app.get('/api/v1/evidence/{id}')
 def evidence(id:str,u=Depends(user)):
@@ -309,6 +399,9 @@ class Action(BaseModel):
     note:str=Field(default='',max_length=2000)
     name:str=Field(default='',max_length=100)
     owner:str=Field(default='',max_length=100)
+    document_id:str=Field(default='',max_length=100)
+    page:int=Field(default=1,ge=1)
+    section:str=Field(default='',max_length=300)
     due_date:str=Field(default='',pattern=r'^(|20[0-9]{2}-[0-9]{2}-[0-9]{2})$')
 
 @app.post('/api/v1/actions')
@@ -321,14 +414,17 @@ def action(body:Action,u=Depends(user)):
             for id in ids:
                 member(s,u,id)
                 if not any(o['member_id']==id for o in s['opportunities']):fail('VALIDATION','Every selected member must have an opportunity.')
-            if body.action=='assign' and not body.value.strip():fail('VALIDATION','Choose an allocation owner.')
+            for id in ids:
+                if id not in assessment.CASE_IDS:fail('CASE_NOT_ACTIONABLE','Choose complete cases for actionable work.')
+            if body.action=='assign':assignee,_=allocation(conn,s,u,ids,body.value)
             if body.action in ('defer','suppress') and not body.note.strip():fail('VALIDATION','Add a reason for the selected work.')
             for id in ids:
                 record=member(s,u,id);finding=next(o for o in s['opportunities'] if o['member_id']==id)
-                if body.action=='assign':finding['owner']=body.value
+                if body.action=='assign':finding['owner']=assignee['name'];finding['owner_id']=assignee['id']
                 elif body.action=='request_evidence':
-                    if not any(t['member_id']==id and t['type']=='request_evidence' and t['status']=='open' for t in s['tasks']):
-                        s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':id,'title':body.note or 'Request current encounter documentation','type':'request_evidence','status':'open','owner':u['name']})
+                    receiver,_=allocation(conn,s,u,[id],'retrieval_coordinator','source_remediation')
+                    if not any(t['member_id']==id and t['type']=='request_evidence' and t['status'] in ('open','completed') for t in s['tasks']):
+                        s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':id,'title':body.note or 'Request current encounter documentation','type':'request_evidence','status':'open','owner':receiver['name'],'owner_id':receiver['id']})
                     finding['status']='awaiting_evidence'
                 else:finding['status']='deferred' if body.action=='defer' else 'suppressed';finding['disposition_note']=body.note
                 finding['version']=finding.get('version',1)+1;record['status']=finding['status']
@@ -341,71 +437,79 @@ def action(body:Action,u=Depends(user)):
         if mid: m=member(s,u,mid);resource=mid
         if body.action=='campaign':
             ids=list(dict.fromkeys(body.member_ids))
-            if not ids or not body.name.strip(): fail('VALIDATION','Choose members and name the campaign.')
-            for id in ids: member(s,u,id)
+            if not ids or not body.name.strip():fail('VALIDATION','Choose members and name the campaign.')
+            assignee,intervention=allocation(conn,s,u,ids,body.owner,body.value)
             prior=next((c for c in s['campaigns'] if c['name'].strip()==body.name.strip() and set(c['member_ids'])==set(ids)),None)
-            if prior and (prior['owner']!=(body.owner or 'Coding team') or prior['due_date']!=(body.due_date or '2026-09-30') or prior['type']!=(body.value or 'Retrospective review')):
+            if prior and (prior.get('owner_id')!=assignee['id'] or prior['due_date']!=(body.due_date or '2026-09-30') or prior.get('intervention')!=intervention):
                 fail('ALLOCATION_CONFLICT','This named cohort already exists with a different allocation. Use a new campaign name.',409)
             if not prior and body.expected_versions is not None:
                 actual={o['id']:o.get('version',1) for o in s['opportunities'] if o['member_id'] in ids}
                 covered=sorted(id for id in ids if any(c['status']=='active' and id in c['member_ids'] for c in s['campaigns']))
-                if actual != body.expected_versions or covered != sorted(body.expected_covered or []):
+                if actual!=body.expected_versions or covered!=sorted(body.expected_covered or []):
                     fail('STALE_PREVIEW','The selected cohort or campaign coverage changed. Refresh the preview before activating.',409)
             if not prior:
-                c={'id':'CP-'+secrets.token_hex(3),'name':body.name.strip(),'type':body.value or 'Retrospective review','owner':body.owner or 'Coding team','status':'active','member_ids':ids,'created_at':now(),'due_date':body.due_date or '2026-09-30','progress':0}
+                c={'id':'CP-'+secrets.token_hex(3),'name':body.name.strip(),'type':intervention,'intervention':intervention,'owner':assignee['name'],'owner_id':assignee['id'],'status':'active','member_ids':ids,'created_at':now(),'due_date':body.due_date or '2026-09-30','progress':0}
                 s['campaigns'].append(c)
-                for id in ids: s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':id,'title':body.name,'type':'campaign','status':'open','owner':c['owner'],'campaign_id':c['id'],'due_date':c['due_date']})
+                for id in ids:s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':id,'title':body.name,'type':'campaign','intervention':intervention,'status':'open','owner':c['owner'],'owner_id':assignee['id'],'campaign_id':c['id'],'due_date':c['due_date']})
             message=f'Campaign activated for {len(ids)} members.';resource=prior['id'] if prior else c['id']
         elif body.action=='activate_campaign':
             c=next((c for c in s['campaigns'] if c['id']==body.id),None)
             if not c:fail('RESOURCE_NOT_FOUND','Campaign not found.',404)
-            for id in c['member_ids']:member(s,u,id)
-            c['status']='active'
+            assignee,intervention=allocation(conn,s,u,c['member_ids'],body.owner or c.get('owner_id',''),c.get('intervention',c['type']))
+            c.update(status='active',owner=assignee['name'],owner_id=assignee['id'])
             for id in c['member_ids']:
-                if not any(t.get('campaign_id')==c['id'] and t['member_id']==id for t in s['tasks']):
-                    s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':id,'title':c['name'],'type':'campaign','status':'open','owner':c['owner'],'campaign_id':c['id'],'due_date':c['due_date']})
+                if not any(t.get('campaign_id')==c['id'] and t['member_id']==id for t in s['tasks']):s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':id,'title':c['name'],'type':'campaign','intervention':intervention,'status':'open','owner':c['owner'],'owner_id':assignee['id'],'campaign_id':c['id'],'due_date':c['due_date']})
             message=f'Campaign activated for {len(c["member_ids"])} members.'
         elif body.action=='analyze':
-            targets=body.member_ids or ([mid] if mid else [])
-            if not targets: fail('VALIDATION','Select at least one member.')
+            targets=list(dict.fromkeys(body.member_ids or ([mid] if mid else [])))
+            if not targets:fail('VALIDATION','Select at least one member.')
+            results=[]
             for id in targets:
-                member(s,u,id)
-                for item in s['opportunities']:
-                    if item['member_id']==id: item['version']=item.get('version',1)+1;item['last_analysis']='2026-09-12'
-            run={'id':'RUN-'+secrets.token_hex(3),'mode':'fixture','status':'succeeded','members':len(targets),'created_at':now(),'stages':['Selected sources','Loaded precomputed findings','Linked evidence','Saved recommendation version']}
-            s['runs'].insert(0,run);message=f'Precomputed analysis complete for {len(targets)} member(s).';resource=targets[0]
+                member(s,u,id);results.append(assessment.analyze(s,id))
+            run={'id':'RUN-'+secrets.token_hex(3),'mode':'prepared_analysis','status':'succeeded','members':len(targets),'created_at':now(),'results':results,'stages':['Read published sources','Evaluated named prepared transition','Retained changed or no-change result']}
+            s['runs'].insert(0,run)
+            changes=sum(r['result']=='changed' for r in results)
+            message=f'Prepared analysis: {changes} changed, {sum(r["result"]=="no_change" for r in results)} no change, {sum(r["result"]=="no_result" for r in results)} unavailable.';resource=targets[0]
         elif body.action in ('review','defer','suppress','assign','qa','start_review','pause_review','complete_review'):
-            if not o: fail('RESOURCE_NOT_FOUND','Open a finding to continue.',404)
+            if not o:fail('RESOURCE_NOT_FOUND','Open a finding to continue.',404)
+            eligible=assessment.eligibility(s,mid)
+            if not eligible['reviewable']:fail('CASE_NOT_ACTIONABLE',eligible['reason'])
             if body.action=='review':
-                if body.value not in ('resolved_supported','resolved_unsupported','awaiting_assessment'): fail('VALIDATION','Choose a review decision.')
-                if not body.note.strip(): fail('VALIDATION','Add a reason for the decision.')
-                if body.value=='resolved_supported' and (mid in ('MB-000002','MB-000003','MB-000006') and not m.get('later_encounter')): fail('EVIDENCE_REQUIRED','Eligible current documentation is required before supported coding.')
-                o['review_state']='completed';o['draft_note']='';o['status']=body.value;o['reviewer']=u['id'];o['decision_note']=body.note;o['qa_status']='awaiting_qa';o['review_completed_at']=now()
+                if body.value not in ('resolved_supported','resolved_unsupported','awaiting_assessment'):fail('VALIDATION','Choose a review decision.')
+                if not body.note.strip():fail('VALIDATION','Add a reason for the decision.')
+                if body.value not in eligible['allowed_decisions']:fail('EVIDENCE_REQUIRED',eligible['reason'])
+                if body.document_id:
+                    refs=assessment.source_refs(s,mid)
+                    if not any(r['document_id']==body.document_id and r['document_id'] in eligible['source_ids'] and r['page']==body.page and (not body.section or r['section']==body.section) for r in refs):fail('EVIDENCE_REQUIRED','Choose the exact prepared finding passage for this member.')
+                save_review(s,o,u,body.value,body.note)
             elif body.action=='qa':
-                if o.get('reviewer')==u['id']: fail('ACTION_FORBIDDEN','QA requires a separate reviewer.',403)
-                if o.get('qa_status')!='awaiting_qa': fail('VALIDATION','This case must be reviewed and submitted to QA first.')
-                if body.value not in ('passed','rework'): fail('VALIDATION','Choose pass or return for rework.')
-                o['qa_status']=body.value
-                if body.value=='rework':o['status']='in_review'
-            elif body.action=='assign':o['owner']=body.value or u['name']
-            elif body.action=='defer':o['status']='deferred'
-            elif body.action=='suppress':o['status']='suppressed'
+                if o.get('reviewer')==u['id']:fail('ACTION_FORBIDDEN','QA requires a separate reviewer.',403)
+                if o.get('qa_status')!='awaiting_qa' or not o.get('current_decision_id'):fail('VALIDATION','Submit a fresh current review to QA first.')
+                if body.value not in ('passed','rework'):fail('VALIDATION','Choose pass or return for rework.')
+                if body.value=='rework' and not body.note.strip():fail('VALIDATION','Add a reason so the coder can address the rework.')
+                record={'id':'QA-'+secrets.token_hex(5),'decision_id':o['current_decision_id'],'actor':account_email(u['email']),'actor_id':u['id'],'at':now(),'status':body.value,'note':body.note}
+                o.setdefault('qa_history',[]).append(record);o['qa_status']=body.value;o['qa_reviewer']=account_email(u['email']);o['qa_note']=body.note
+                if body.value=='rework':o['status']='in_review';o['review_state']='rework'
+            elif body.action=='assign':
+                assignee,_=allocation(conn,s,u,[mid],body.value);o['owner']=assignee['name'];o['owner_id']=assignee['id']
+            elif body.action in ('defer','suppress'):
+                if not body.note.strip():fail('VALIDATION','Add a reason for this disposition.')
+                o['status']='deferred' if body.action=='defer' else 'suppressed';o['disposition_note']=body.note
             elif body.action=='start_review':o['status']='in_review';o['review_state']='active';o['review_started_at']=now()
             elif body.action=='pause_review':o['review_state']='paused';o['draft_note']=body.note
             elif body.action=='complete_review':
                 if body.value!='no_finding' or not body.note.strip():fail('VALIDATION','Add a reason to complete without a supported finding.')
-                o.update({'review_state':'completed_no_finding','status':'resolved_unsupported','decision_note':body.note,'reviewer':u['id'],'qa_status':'awaiting_qa','review_completed_at':now()})
+                save_review(s,o,u,'resolved_unsupported',body.note);o['review_state']='completed_no_finding'
             m['status']=o['status'];o['version']=o.get('version',1)+1
-            for task in s['tasks']:
-                if task['member_id']==mid and task['type']=='campaign':task['status']='completed' if o['status'].startswith('resolved_') else 'open'
-            if body.action=='qa':o['qa_reviewer']=u['email'];o['qa_note']=body.note
-            message='Review saved.' if body.action=='review' else 'Workflow updated.'
+            message='Review saved; independent QA is the next step.' if body.action=='review' else 'Workflow updated.'
         elif body.action in ('query','request_evidence','respond','later_encounter','open_evidence'):
             if not mid: fail('VALIDATION','Choose a member.')
+            if body.action in ('query','request_evidence','respond') and mid not in assessment.CASE_IDS:fail('CASE_NOT_ACTIONABLE','Choose a complete case for the prepared follow-up workflow.')
             if body.action in ('query','request_evidence'):
-                title=body.note.strip() or ('Please review the current documentation and clarify the assessment.' if body.action=='query' else 'Request current encounter documentation')
-                duplicate=next((t for t in s['tasks'] if t['member_id']==mid and t['type']==body.action and t['status']=='open'),None)
-                if not duplicate:s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':mid,'title':title,'type':body.action,'status':'open','owner':u['name']})
+                title=body.note.strip() or (assessment.current_finding(s,mid)['next_action']+' Please document your findings, including no support, uncertainty or need for further information. No diagnosis is presumed.' if body.action=='query' else 'Request current encounter documentation')
+                receiver,_=allocation(conn,s,u,[mid],'','pre_visit' if body.action=='query' else 'source_remediation')
+                duplicate=next((t for t in s['tasks'] if t['member_id']==mid and t['type']==body.action and (t['status']=='open' or body.action=='request_evidence')),None)
+                if not duplicate:s['tasks'].append({'id':'TK-'+secrets.token_hex(3),'member_id':mid,'title':title,'type':body.action,'status':'open','owner':receiver['name'],'owner_id':receiver['id']})
                 if o:o['status']='awaiting_assessment' if body.action=='query' else 'awaiting_evidence'
                 message='Task created.'
             if body.action=='respond':
@@ -415,21 +519,16 @@ def action(body:Action,u=Depends(user)):
                     if t['member_id']==mid and t['type']=='query' and t['status']=='open':t['status']='responded';t['response']=body.value
                 message='Response saved. Coding awaits documentation and review.'
             if body.action=='later_encounter':
-                if not m.get('later_encounter'):
-                    m['later_encounter']=True
-                    prepared=next((d for d in s['documents'] if d['member_id']==mid and d['kind']=='later_encounter_example'),None)
-                    if prepared:
-                        prepared.update({'available':True,'source_status':'eligible','signature_status':'signed','kind':'current_encounter','later_example':True})
-                    else:
-                        prepared={'id':f'DOC-LATER-{mid}','member_id':mid,'title':'Later completed encounter · synthetic example','date':'2026-09-15','provider':m['provider'],'source_status':'eligible','signature_status':'signed','kind':'current_encounter','later_example':True,'synthetic':True,'pages':[{'number':1,'sections':[{'heading':'Current assessment','text':f'Synthetic later encounter. {m["name"]} was assessed at the visit. The clinician documents {m["condition"]} in the current assessment and records the follow-up plan.','highlight':True},{'heading':'Signature','text':'Electronically signed by the synthetic treating clinician at the completed encounter.'}]}]}
-                        s['documents'].append(prepared)
-                    if o:
-                        o['status']='in_review';o['evidence']='Strong';o['qa_status']='not_submitted';o['version']=o.get('version',1)+1
-                        o['document_ids']=list(dict.fromkeys(o.get('document_ids',[])+[prepared['id']]))
-                    for doc in s['documents']:
-                        if doc['member_id']==mid and doc['source_status']=='remediation_required':doc['superseded_by']=prepared['id']
-                    message='Follow-up encounter added. A new review is required.'
-                else:message='The later encounter is already available; the current review is unchanged.'
+                transitions=assessment.TRANSITIONS.get(mid,[])
+                transition=next((t for t in transitions if t['id']==body.value or t['document_id']==body.value),None) if body.value else next(iter(transitions),None)
+                if not transition:fail('PREPARED_SOURCE_UNAVAILABLE','No authored later encounter is configured for this case. A response or indirect signal cannot manufacture a diagnosis.')
+                prepared=assessment.document(s,transition['document_id'])
+                if prepared.get('available',True) and prepared['source_status']!='not_loaded':message='This prepared source is already received. Validate and publish it in Document Intake.'
+                else:
+                    prepared.update(available=True,source_status='quarantined' if prepared.get('evidence_relation')=='mismatch' else 'received',later_example=True,received_at=now())
+                    m['scenario_date']=max(m.get('scenario_date',assessment.PROGRAM['scenario_date']),transition['date'])
+                    m['later_encounter_received']=True
+                    message='Prepared source received. Intake validation and publication are required before a fresh coding review.'
             if o:m['status']=o['status']
             if body.action=='open_evidence':message='Evidence inspection recorded.'
         elif body.action in ('receive','intake','contact'):
@@ -447,26 +546,54 @@ def action(body:Action,u=Depends(user)):
                 message='Chart request updated. Receipt remains separate from document usability.'
         elif body.action in ('prepare','receiver','correction'):
             row=next((r for r in s['submissions'] if r['id']==body.id),None)
-            if not row:fail('RESOURCE_NOT_FOUND','Submission record not found.',404)
-            member(s,u,row['member_id']);resource=row['member_id']
-            if body.action=='prepare':
-                if row['status'] in ('accepted','rejected'):fail('VALIDATION','Preserve the terminal record; prepare a linked remediation attempt.')
-                row['status']='prepared'
-            elif body.action=='receiver':
-                if body.value not in ('acknowledged','accepted','rejected'):fail('VALIDATION','Choose a receiver response.')
-                if row['status'] in ('accepted','rejected'):fail('VALIDATION','A terminal response is retained. Prepare a linked remediation record to retry.')
-                row['status']=body.value
-                row['reason']={'acknowledged':'Transport receipt recorded. A terminal record response is still pending.','accepted':'Simulated receiver accepted this record. Payment reconciliation remains separate.','rejected':'Simulated receiver rejected this attempt. Preserve its history and prepare linked remediation.'}[body.value]
-                row.setdefault('history',[]).append({'stage':'transport' if body.value=='acknowledged' else 'record_processing','status':body.value,'at':now(),'terminal':body.value!='acknowledged'})
-                if body.value=='accepted' and row.get('original_id'):
-                    original=next((r for r in s['submissions'] if r['id']==row['original_id']),None)
-                    if original:original['corrected']=True
+            if body.action=='prepare' and mid:
+                row,created=prepare_record(s,mid,u);resource=mid
+                message='Approved record prepared for the simulated receiver.' if created else 'This approved decision already has a retained submission record.'
             else:
-                original_id=row.get('original_id') or row['id']
-                pending=next((r for r in s['submissions'] if r.get('original_id')==original_id and r['status'] in ('correction_pending','prepared','acknowledged')),None)
-                if not pending:
-                    s['submissions'].append({**row,'id':'SUB-'+secrets.token_hex(3),'type':'correction','operation':'delete','original_id':original_id,'status':'correction_pending','corrected':False,'history':[],'created_at':now(),'reason':'Linked remediation awaiting a simulated terminal response. Original record retained.'})
-            message='Response recorded.'
+                if not row:fail('RESOURCE_NOT_FOUND','Submission record not found.',404)
+                member(s,u,row['member_id']);resource=row['member_id']
+                if body.action=='prepare' and body.value=='reconcile':
+                    if not row.get('decision_id') or row['status']!='accepted':fail('VALIDATION','Compare an accepted linked record to the prepared report first.')
+                    row['report_comparison']={'id':'REPORT-'+row['id'],'report_fixture_id':'SYN-REPORTED-2026-09','name':'September prepared reported-record comparison',
+                       'basis':'Synthetic prepared report comparison; no external report was received.','at':now(),'submission_id':row['id'],'member_id':row['member_id'],'decision_id':row['decision_id'],'qa_id':row['qa_id'],
+                       'source_refs':deepcopy(row['source_refs']),'expected':{'code':row['code'],'operation':row['operation'],'record_presence':'present' if row['operation']=='add' else 'absent'},
+                       'reported':{'code':row['code'],'record_presence':'present' if row['operation']=='add' else 'absent'},'status':'matched',
+                       'explanation':'The prepared report contains the added record.' if row['operation']=='add' else 'The prepared report omits the deleted record; the original and rejected attempts remain retained.',
+                       'diagnosis_eligibility':'not_evaluated','payment_reconciliation':'unreconciled'}
+                    row['reported_status']='matched_prepared_report';message='Prepared report compared. Eligibility and payment remain separate and unevaluated.'
+                elif body.action=='prepare':
+                    if row['status'] in ('accepted','rejected'):fail('VALIDATION','Preserve the terminal record; prepare a linked remediation attempt.')
+                    row['status']='prepared';message='Prepared sample record retained; no external transmission occurs.'
+                elif body.action=='receiver':
+                    if body.value not in ('acknowledged','accepted','rejected'):fail('VALIDATION','Choose a receiver response.')
+                    if row['status'] in ('accepted','rejected'):fail('VALIDATION','A terminal response is retained. Prepare a linked remediation record to retry.')
+                    if row.get('decision_id'):
+                        _,review,qa=approved_decision(s,row['member_id'])
+                        if review['id']!=row['decision_id'] or qa['id']!=row['qa_id']:fail('APPROVAL_REQUIRED','This attempt belongs to a superseded decision. Prepare the current approved result.')
+                    row['status']=body.value
+                    row['reason']={'acknowledged':'Simulated transport receipt recorded. Terminal record processing is still pending.','accepted':'Simulated receiver accepted this record. Diagnosis eligibility, reported reconciliation and payment remain separate.','rejected':'Simulated receiver rejected this attempt. Preserve its history and prepare a linked retry.'}[body.value]
+                    row.setdefault('history',[]).append({'id':'ACK-'+secrets.token_hex(4),'stage':'transport' if body.value=='acknowledged' else 'record_processing','status':body.value,'at':now(),'terminal':body.value!='acknowledged','basis':'Simulated receiver','reason':body.note or row['reason']})
+                    if body.value=='acknowledged':row['transport_status']='acknowledged'
+                    else:row['receiver_status']=body.value
+                    if body.value=='accepted' and row.get('original_id') and row.get('operation')=='delete':
+                        original=next((r for r in s['submissions'] if r['id']==row['original_id']),None)
+                        if original:original['corrected']=True
+                    message='Simulated receiver response recorded.'
+                else:
+                    if row['status']!='rejected':fail('VALIDATION','A linked retry requires a rejected attempt. Prepare approved additions or deletions from the reviewed case.')
+                    if row['member_id'] in assessment.CASE_IDS:
+                        current,review,qa=approved_decision(s,row['member_id'])
+                        if row.get('decision_id')!=review['id'] or row.get('qa_id')!=qa['id']:
+                            prepared,created=prepare_record(s,row['member_id'],u)
+                            row=prepared
+                            message='Prepared the current approved result; the earlier attempt remains retained.'
+                        else:
+                            pending=next((r for r in s['submissions'] if r.get('retry_of')==row['id']),None)
+                            if not pending:
+                                pending=deepcopy(row);pending.update(id='SUB-'+secrets.token_hex(5),status='correction_pending',retry_of=row['id'],history=[],created_at=now(),corrected=False,transport_status='not_acknowledged',receiver_status='not_processed',reported_status='not_compared',reconciliation_status='unreconciled',reason='Linked retry preserves the approved decision and intended operation. The rejected attempt remains retained.')
+                                pending.pop('report_comparison',None);s['submissions'].append(pending)
+                            row=pending;message='Linked retry prepared with the original operation preserved.'
+                    else:fail('CASE_NOT_ACTIONABLE','This population sample has no linked approved decision. Open Jordan or Taylor for the connected preparation workflow.')
         elif body.action=='retry':
             issues=source_issues(s,u)
             run={'id':'CHECK-'+secrets.token_hex(3),'mode':'source_validation','status':'needs_attention' if issues else 'succeeded','members':len({i['member_id'] for i in issues}),'created_at':now(),'stages':['Checked sample member matching','Checked signature metadata',f'{len(issues)} source issues remain']}
@@ -474,7 +601,10 @@ def action(body:Action,u=Depends(user)):
             message=f'Sources rechecked. {len(issues)} issue(s) still need attention; no duplicate rows created.'
         else:fail('INVALID_ACTION','Use the dedicated endpoint for this action.')
         save_state(conn,s);event(conn,u,body.action,resource,body.note or message)
-        return {'ok':True,'message':message}
+        result={'ok':True,'message':message}
+        if body.action in ('prepare','receiver','correction'):result['submission_id']=row['id']
+        if body.action=='analyze':result['results']=results
+        return result
 
 class Export(BaseModel):
     kind:str='members'
@@ -492,12 +622,21 @@ def downloads(body:Export,u=Depends(user)):
         if kind not in required or required[kind] not in ROLES[u['role']]['screens']:fail('ACTION_FORBIDDEN','This export is unavailable to your role.',403)
         if kind=='comparison':return Response(json.dumps(s['comparison'],indent=2),media_type='application/json',headers={'Content-Disposition':'attachment; filename="perform-plus-synthetic-comparison.json"'})
         if kind=='audit':
-            ids=body.ids or [m['id'] for m in allowed_members(s,u)[:6]]
+            ids=list(dict.fromkeys(body.ids or [m['id'] for m in allowed_members(s,u) if m['id'] in assessment.CASE_IDS]))
             for id in ids:member(s,u,id)
             docs=[d for d in s['documents'] if d['member_id'] in ids and d.get('available',True) and d['source_status']!='not_loaded']
+            traces=[assessment.audit_trace(s,id) for id in ids]
+            manifest={'synthetic':True,'basis':'Prepared synthetic case trace; not formal audit readiness.','program_context':s['program_context'],'members':ids,'documents':[d['id'] for d in docs],'created_at':now(),
+              'decisions':[o for o in s['opportunities'] if o['member_id'] in ids],'case_traces':traces,'history':[dict(r) for r in conn.execute('SELECT * FROM events ORDER BY id') if r['resource'] in ids]}
+            lines=['Perform+ selected-case evidence package','',manifest['basis'],f"Program: {s['program_context']['program']}; service {s['program_context']['service_year']}; payment {s['program_context']['payment_year']}.",'Source quotations are retained exactly in evidence/*.json. Actual action times differ from each staged scenario date.','']
+            for trace in traces:
+                lines.extend([trace['member_id']+': '+trace['readiness'],'Unavailable stages: '+(', '.join(trace['missing_links']) or 'None'),
+                  f"Retained recommendations: {len(trace['recommendations'])}; reviews: {len(trace['decisions'])}; QA: {len(trace['qa'])}; submissions and attempts: {len(trace['submissions'])}."])
+                for row in trace['submissions']:lines.append(f"  {row['id']} | {row.get('operation','unavailable')} | {row['status']} | decision {row.get('decision_id','unavailable')} | eligibility {row.get('eligibility_status','unknown')} | payment {row.get('reconciliation_status','unreconciled')}")
             buffer=io.BytesIO()
             with zipfile.ZipFile(buffer,'w',zipfile.ZIP_DEFLATED) as archive:
-                archive.writestr('manifest.json',json.dumps({'synthetic':True,'members':ids,'documents':[d['id'] for d in docs],'created_at':now(),'decisions':[o for o in s['opportunities'] if o['member_id'] in ids],'history':[dict(r) for r in conn.execute('SELECT * FROM events ORDER BY id') if r['resource'] in ids]},indent=2))
+                archive.writestr('manifest.json',json.dumps(manifest,indent=2));archive.writestr('README.txt','\n'.join(lines))
+                for trace in traces:archive.writestr('cases/'+trace['member_id']+'.json',json.dumps(trace,indent=2))
                 for doc in docs:archive.writestr(f'evidence/{doc["id"]}.json',json.dumps(doc,indent=2))
             return Response(buffer.getvalue(),media_type='application/zip',headers={'Content-Disposition':'attachment; filename="perform-plus-synthetic-audit.zip"'})
         rows=allowed_members(s,u) if kind=='members' else (s['campaigns'] if kind=='campaigns' else rows_for(s,u,kind))
@@ -520,6 +659,7 @@ class UserUpdate(BaseModel):
     model_config=ConfigDict(extra='forbid')
     role:str
     active:bool
+    provider_id:str|None=None
 
 @app.patch('/api/v1/admin/users/{id}')
 def update_user(id:str,body:UserUpdate,u=Depends(user)):
@@ -527,8 +667,11 @@ def update_user(id:str,body:UserUpdate,u=Depends(user)):
     if body.role not in ROLES:fail('VALIDATION','Unknown role.')
     if id==u['id'] and (body.role!=u['role'] or not body.active):fail('VALIDATION','Keep your current account role and active access enabled.')
     with db() as conn:
-        if not conn.execute('SELECT id FROM users WHERE id=?',(id,)).fetchone():fail('RESOURCE_NOT_FOUND','User not found.',404)
-        conn.execute('UPDATE users SET role=?,active=?,provider_id=? WHERE id=?',(body.role,int(body.active),'PR-001' if body.role=='provider' else '',id))
+        current=conn.execute('SELECT * FROM users WHERE id=?',(id,)).fetchone()
+        if not current:fail('RESOURCE_NOT_FOUND','User not found.',404)
+        provider_id=(body.provider_id if body.provider_id is not None else current['provider_id']) if body.role=='provider' else ''
+        if body.role=='provider' and provider_id not in {p['id'] for p in get_state(conn)['providers']}:fail('VALIDATION','Choose a valid provider practice when assigning the provider role.')
+        conn.execute('UPDATE users SET role=?,active=?,provider_id=? WHERE id=?',(body.role,int(body.active),provider_id,id))
         conn.execute('DELETE FROM sessions WHERE user_id=?',(id,));event(conn,u,'user_updated',id,f'Role: {body.role}; active: {body.active}')
     return {'ok':True}
 
@@ -561,8 +704,8 @@ def validate_source(s,u,body):
     member(s,u,doc['member_id']);member(s,u,body.member_id)
     matched=doc['member_id']==body.member_id and doc.get('evidence_relation')!='mismatch'
     signed=doc.get('signature_status')=='signed'
-    current=doc.get('kind') in ('current_encounter','intake_sample') and doc.get('source_status') not in ('not_loaded','quarantined')
-    checks=[{'label':'Member matches requested chart','passed':matched,'detail':f"Source {doc['member_id']} / requested {body.member_id}"},{'label':'Clinician signature present','passed':signed,'detail':doc.get('signature_status','No signature metadata')},{'label':'Current-period eligible encounter','passed':current,'detail':doc['source_status'].replace('_',' ')}]
+    current=doc.get('available',True) and doc.get('kind') in ('current_encounter','intake_sample','prepared_encounter','later_encounter_example') and doc.get('source_status') not in ('not_loaded','quarantined')
+    checks=[{'label':'Member matches requested chart','passed':matched,'detail':f"Source {doc.get('source_member_id',doc['member_id'])} / requested {body.member_id}"},{'label':'Clinician signature present','passed':signed,'detail':doc.get('signature_status','No signature metadata')},{'label':'Current-period eligible encounter','passed':current,'detail':doc['source_status'].replace('_',' ')}]
     return {'valid':all(c['passed'] for c in checks),'checks':checks,'document':doc,'requested_member_id':body.member_id}
 
 @app.get('/api/v1/intake/samples')
@@ -570,7 +713,7 @@ def intake_samples(u=Depends(user)):
     permit(u,'intake')
     with db() as conn:
         s=get_state(conn);ids={m['id'] for m in allowed_members(s,u)}
-        return [display.document(d) for d in s['documents'] if d['member_id'] in ids and (d['id'] in ('DOC-0010','DOC-0011','DOC-0009') or (d.get('later_example') and d.get('available',True)))]
+        return [display.document(d) for d in s['documents'] if d['member_id'] in ids and (d['id'] in ('DOC-0010','DOC-0011','DOC-0009') or (d.get('requires_publication') and d.get('available',True) and d['source_status']!='not_loaded'))]
 
 @app.post('/api/v1/intake/validate')
 def intake_validate(body:IntakeRequest,u=Depends(user)):
@@ -585,14 +728,22 @@ def intake_publish(body:IntakeRequest,u=Depends(user)):
     with db() as conn:
         s=get_state(conn,True);result=validate_source(s,u,body)
         if not result['valid']:fail('SOURCE_INELIGIBLE','Resolve the failed source checks before publishing.')
-        doc=result['document'];doc['source_status']='usable'
+        doc=result['document'];already=bool(doc.get('published_at'))
+        doc['source_status']='usable'
         row=next((c for c in s['chases'] if c['member_id']==body.member_id),None)
-        if row:
-            row['status']='usable';row['document_ids']=list(set(row.get('document_ids',[])+[doc['id']]))
-        if not doc.get('published_at'):
-            doc['published_at']=now();event(conn,u,'intake_published',body.member_id,f"Published {doc['id']} after member and signature checks.")
+        if row:row['status']='usable';row['document_ids']=list(dict.fromkeys(row.get('document_ids',[])+[doc['id']]))
+        analysis=None
+        if not already:
+            doc['published_at']=now();doc['published_by']=account_email(u['email'])
+            if doc.get('requires_publication'):
+                o=assessment.opportunity(s,body.member_id)
+                if o:o['document_ids']=list(dict.fromkeys(o.get('document_ids',[])+[doc['id']]))
+                analysis=assessment.analyze(s,body.member_id)
+                if doc['id']=='DOC-RILEY-SIGNED':assessment.document(s,'DOC-0009')['superseded_by']=doc['id']
+            event(conn,u,'intake_published',body.member_id,f"Published {doc['id']} after member and signature checks.")
         save_state(conn,s)
-        return {'ok':True,'message':'Document published. The chart request is ready for use.','document_id':doc['id']}
+        return {'ok':True,'message':'This document was already published; no duplicate transition was created.' if already else 'Document published. The same case is ready for a fresh review.','document_id':doc['id'],'analysis':analysis,'member_id':body.member_id}
+
 
 class AssistantRequest(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -605,14 +756,22 @@ def assistant_answer(body:AssistantRequest,u=Depends(user)):
         s=get_state(conn);question=body.question.lower();ids={m['id'] for m in allowed_members(s,u)}
         if any(word in question for word in ('cohort','priority','campaign')):
             if 'suspects' not in ROLES[u['role']]['screens']:fail('ACTION_FORBIDDEN','Cohort suggestions require population review access.',403)
-            rows=[o for o in s['opportunities'] if o['member_id'] in ids and o['priority']=='High' and o['evidence']=='Strong' and o['status'] not in ('resolved_supported','resolved_unsupported','suppressed')]
-            chosen=rows[:20]
-            return {'answer':f"There are {len(rows)} active high-priority opportunities with strong evidence in your scope. The proposal contains the first {len(chosen)} members for review; it does not approve coding or create tasks.",'basis':'Current protected operational data','sources':[{'label':o['member_id']+' · '+o['condition'],'href':'/members/'+o['member_id']} for o in chosen[:6]],'proposal':{'member_ids':[o['member_id'] for o in chosen],'name':'Priority evidence review','filter':'/suspects?status=active&priority=High&evidence=Strong'}}
+            integrity='integrity' in question or 'correction' in question
+            rows=[o for o in s['opportunities'] if o['member_id'] in ids and o['member_id'] in assessment.CASE_IDS and o['priority']=='High' and o['evidence']=='Strong' and o['status'] not in ('resolved_supported','resolved_unsupported','suppressed') and (o['type']=='integrity_review')==integrity]
+            rows.sort(key=lambda o:(o.get('due_date','9999'),o.get('status')!='in_review',o['member_id']))
+            chosen=rows[:6];rankings=[]
+            for index,o in enumerate(chosen):
+                covered=[c['name'] for c in s['campaigns'] if c['status']=='active' and o['member_id'] in c['member_ids']]
+                rankings.append({'member_id':o['member_id'],'rank':index+1,'reasons':['High priority','Strong evidence',f"Due {o.get('due_date','not set')}",f"Current disposition: {o['status'].replace('_',' ')}",'Existing coverage: '+(', '.join(covered) or 'none'),assessment.eligibility(s,o['member_id'])['reason']]})
+            return {'answer':f"The stable proposal contains {len(chosen)} complete {'integrity' if integrity else 'evidence-review'} cases, ranked by due date, review disposition and member identifier. Review the exact cohort and eligible owner before activation. Integrity correction work is proposed separately.",'basis':'Current protected prepared-case data','basis_key':hashlib.sha256(json.dumps(rankings,sort_keys=True).encode()).hexdigest()[:20],
+              'sources':[{'label':o['member_id']+' · '+o['condition'],'href':'/members/'+o['member_id']} for o in chosen],
+              'proposal':{'member_ids':[o['member_id'] for o in chosen],'name':'Priority integrity review' if integrity else 'Priority evidence review','filter':'/suspects?status=active&priority=High&evidence=Strong'+('&kind=integrity_review' if integrity else ''),'rankings':rankings,'intervention':'integrity_review' if integrity else 'coding_review'}}
         if any(word in question for word in ('precision','recall','time','metric','impact')):
             if 'analytics' not in ROLES[u['role']]['screens']:fail('ACTION_FORBIDDEN','Comparison explanations require analytics access.',403)
             metrics=s['comparison']['metrics']
             return {'answer':f"The reference comparison has AI precision {metrics['ai_precision']:.0%} (108/135) and recall {metrics['ai_recall']:.0%} (108/120). Mean active review time is 22 versus 36 minutes per chart. Operational actions do not change these reference results.",'basis':s['comparison']['id'],'sources':[{'label':'AI Impact · methodology and underlying records','href':'/analytics'}]}
         if body.member_id and any(word in question for word in ('summary','summarize','member','evidence')):
             m=member(s,u,body.member_id)
-            return {'answer':display.text(m['summary']),'basis':'Prepared member summary','sources':[{'label':display.text(d['title'])+' · '+d['date'],'href':'/members/'+m['id']+'?tab=Evidence+%26+documents&document='+d['id']} for d in s['documents'] if d['member_id']==m['id'] and d.get('available',True) and d['source_status']!='not_loaded']}
+            claims=assessment.claims(s,m['id'])
+            return {'answer':assessment.current_finding(s,m['id'])['summary'],'basis':'Prepared source-linked explanation','basis_key':assessment.basis_key(s,m['id']),'claims':claims,'sources':[{'label':c['document_id']+' · page '+str(c['page'])+' · '+c['section'],'href':c['href']} for c in claims]}
         return {'answer':'Ask about priority cohorts, a member summary or reference review metrics. It cannot answer arbitrary clinical questions or generate new diagnoses. Choose a supported prompt below.','basis':'Prepared analysis','sources':[]}

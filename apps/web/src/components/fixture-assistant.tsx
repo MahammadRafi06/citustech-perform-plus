@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Sparkles,
   ArrowRight,
@@ -17,11 +17,15 @@ import { api } from "@/lib/api";
 import type { User, Snapshot, Command } from "@/lib/types";
 import { useDraft } from "@/hooks/workspace-state";
 import { toast } from "sonner";
+import { CaseClaims } from "./assessment-ui";
+import type { Member } from "@/lib/types";
 type Answer = {
   answer: string;
   basis: string;
+  basis_key?: string;
+  claims?: Member["claims"];
   sources: { label: string; href: string }[];
-  proposal?: { member_ids: string[]; name: string; filter: string };
+  proposal?: { member_ids: string[]; name: string; filter: string; intervention?: string; rankings?: { member_id: string; rank: number; reasons: string[] }[] };
 };
 export function FixtureAssistant({
   user,
@@ -34,15 +38,26 @@ export function FixtureAssistant({
 }) {
   const contextVersion = useRef(0);
   const path = usePathname();
+  const params = useSearchParams();
   const [open, setOpen] = useState(false);
   const [question, setQuestion] = useDraft("assistant-question", "");
   const [member, setMember] = useState("");
-  const [answer, setAnswer] = useState<Answer | null>(null);
+  const [storedAnswer, setAnswer] = useState<{ result: Answer; context: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [campaign, setCampaign] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
+  const [proposal, setProposal] = useState<{ name: string; intervention?: string }>();
   const selectedMember =
-    member || path?.match(/MB-\d+/)?.[0] || data.members[0]?.id || "";
+    member || path?.match(/MB-\d+/)?.[0] || params?.get("member") || data.members[0]?.id || "";
+  const currentContext = JSON.stringify({
+    member: selectedMember,
+    memberState: data.members.filter((m) => m.id === selectedMember).map((m) => [m.summary, m.status, m.provider_response]),
+    caseActivity: data.events.find((event) => event.resource === selectedMember && event.action !== "open_evidence")?.id,
+    work: data.opportunities.filter((o) => o.eligibility?.reviewable || o.member_id === selectedMember).map((o) => [o.member_id, o.analysis_basis_key, o.recommendation_version, o.status, o.qa_status, o.owner, o.priority, o.due_date]),
+    campaigns: data.campaigns.map((c) => [c.id, c.status, c.member_ids]),
+  });
+  const answer = storedAnswer?.context === currentContext ? storedAnswer.result : null;
+  useEffect(() => { contextVersion.current++; }, [currentContext]);
   useEffect(() => {
     contextVersion.current++;
     setMember("");
@@ -50,7 +65,9 @@ export function FixtureAssistant({
   }, [path]);
   const ask = async (prompt: string) => {
     const version = contextVersion.current;
+    const context = currentContext;
     setQuestion(prompt);
+    setAnswer(null);
     setBusy(true);
     try {
       const result = await api<Answer>(
@@ -61,7 +78,7 @@ export function FixtureAssistant({
         },
         user.csrf_token,
       );
-      if (version === contextVersion.current) setAnswer(result);
+      if (version === contextVersion.current) setAnswer({ result, context });
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -86,10 +103,7 @@ export function FixtureAssistant({
         title="Ask Perform+"
         description="Grounded explanations and reviewed cohort proposals"
       >
-        <Notice>
-          Prepared analysis from your accessible records. Responses use curated
-          findings; a live model is not connected.
-        </Notice>
+        <p className="body-copy">Prepared analysis from your accessible records, with source passages attached to each finding.</p>
         <div className="assistant-prompts">
           {user.screens.includes("suspects") && (
             <Button
@@ -170,6 +184,7 @@ export function FixtureAssistant({
             )}
           </Button>
         </form>
+        {storedAnswer && !answer && !busy && <Notice>The case or cohort has changed. Ask again to use the current evidence and work state.</Notice>}
         {busy ? (
           <div className="inline-loading">
             <LoaderCircle className="animate-spin" size={18} />
@@ -183,7 +198,8 @@ export function FixtureAssistant({
                 {answer.basis}
               </span>
               <p>{answer.answer}</p>
-              {answer.sources.length > 0 && (
+              <CaseClaims claims={answer.claims} />
+              {!answer.claims?.length && answer.sources.length > 0 && (
                 <>
                   <h3 className="section-title">Grounded in these records</h3>
                   <div className="linked-members">
@@ -210,6 +226,12 @@ export function FixtureAssistant({
                     Inspect the matching registry or review the exact allocation
                     before creating work.
                   </p>
+                  {answer.proposal.rankings?.length ? <ol className="space-y-3 py-3">
+                    {answer.proposal.rankings.map((ranked) => <li key={ranked.member_id}>
+                      <strong>{ranked.rank}. {data.members.find((m) => m.id === ranked.member_id)?.name || ranked.member_id}</strong>
+                      <p className="text-sm">{ranked.reasons.join(" · ")}</p>
+                    </li>)}
+                  </ol> : null}
                   <Button variant="outline" asChild>
                     <Link
                       href={answer.proposal.filter}
@@ -224,6 +246,7 @@ export function FixtureAssistant({
                       disabled={!answer.proposal.member_ids.length}
                       onClick={() => {
                         setSelected(answer.proposal!.member_ids);
+                        setProposal({ name: answer.proposal!.name, intervention: answer.proposal!.intervention });
                         setOpen(false);
                         setCampaign(true);
                       }}
@@ -245,6 +268,7 @@ export function FixtureAssistant({
         onSelectedChange={setSelected}
         data={data}
         act={act}
+        proposal={proposal}
       />
     </>
   );
