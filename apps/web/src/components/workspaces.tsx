@@ -91,7 +91,9 @@ import {
 import { CampaignPlanner, CampaignDialog } from "./campaign-planner";
 import { ReviewWorkbench } from "./review-workbench";
 import { SourceDocument } from "./source-document";
+import { AssessmentSubmissions } from "./assessment-submissions";
 import { IntakeWorkspace } from "./intake-workspace";
+import { EligibilityContext, PreparedClaims, NextSteps, CaseHistory } from "./assessment-workspaces";
 export type WorkspaceProps = {
   route: string;
   path: string;
@@ -132,7 +134,7 @@ export function Workspaces(props: WorkspaceProps) {
   if (route === "chase" || route === "intake")
     return <IntakeWorkspace {...props} />;
   if (route === "submissions" || route === "audit")
-    return <Submissions {...props} />;
+    return <AssessmentSubmissions {...props} />;
   if (route === "scenarios") return <Scenarios {...props} />;
   if (route === "admin" || route === "data") return <Operations {...props} />;
   return <Empty title="Workspace not found" />;
@@ -141,20 +143,24 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   const router = useRouter();
   const params = useSearchParams();
   const [status, setStatus] = useUrlState("status", "all");
+  const [memberFilter, setMemberFilter] = useUrlState("member", "");
   const [kind, setKind] = useUrlState("kind", "suspects");
   const [savedView, setSavedView] = useUrlState("saved", "all");
+  const [scope, setScope] = useUrlState("scope", "actionable");
   const [analysisDetails, setAnalysisDetails] = useState(false);
   const returnLink = useReturnLink();
   const [priority, setPriority] = useUrlState("priority", "all");
   const [evidence, setEvidence] = useUrlState("evidence", "all");
   const [bulk, setBulk] = useState("");
-  const [allocation, setAllocation] = useDraft("bulk-owner", "Coding team");
+  const [allocation, setAllocation] = useDraft("bulk-owner", "");
   const [bulkNote, setBulkNote] = useDraft("bulk-note", "");
   const [selected, setSelected] = useDraft<string[]>(
     `registry-${route}-selected`,
     [],
   );
-  const [detail, setDetail] = useState<Opportunity | null>(null);
+  const [detailId, setDetailId] = useState("");
+  const detail = data.opportunities.find((item) => item.id === detailId) || null;
+  const setDetail = (item: Opportunity | null) => setDetailId(item?.id || "");
   const detailRecord = useQuery({
     queryKey: ["member", detail?.member_id, user.id],
     queryFn: () => api<Member>(`/members/${detail?.member_id}`),
@@ -164,8 +170,17 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   const [campaign, setCampaign] = useState(false);
   const [name, setName] = useState("");
   const [intervention, setIntervention] = useState("Retrospective review");
+  const assignmentOptions = (data.assignment_options || []).filter((owner) =>
+    owner.interventions.includes("coding_review") && selected.every((id) => owner.member_ids.includes(id)),
+  );
+  const selectableIds = new Set(data.opportunities.filter((o) => o.eligibility?.reviewable).map((o) => o.member_id));
+  useEffect(() => {
+    setSelected((current) => current.filter((id) => selectableIds.has(id)));
+  }, [data.opportunities]);
   const rows = data.opportunities.filter(
     (o) =>
+      (scope === "all" || !!o.eligibility?.reviewable) &&
+      (!memberFilter || o.member_id === memberFilter) &&
       (route !== "suspects" ||
         (kind === "suspects"
           ? [
@@ -176,37 +191,23 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             ].includes(o.type)
           : kind === "all" || o.type === kind)) &&
       (savedView === "all" ||
-        (savedView === "active"
-          ? ![
-              "resolved_supported",
-              "resolved_unsupported",
-              "suppressed",
-            ].includes(o.status)
+        (savedView === "complete" ? !!o.completion?.complete : savedView === "active"
+          ? !o.completion?.complete && o.status !== "suppressed"
           : savedView === "assessment"
             ? o.status === "awaiting_assessment"
             : savedView === "ready"
               ? o.evidence === "Strong" &&
                 ["new", "in_review"].includes(o.status)
-              : !!o.recommendation_history?.some(
-                  (h) =>
-                    h.summary.includes("encounter") ||
-                    h.summary.includes("source"),
-                ))) &&
+              : (o.recommendation_history?.length || 0) > 1)) &&
       (status === "all" ||
         (status === "active"
-          ? ![
-              "resolved_supported",
-              "resolved_unsupported",
-              "suppressed",
-            ].includes(o.status)
+          ? !o.completion?.complete && o.status !== "suppressed"
           : status === "pending"
             ? ["awaiting_assessment", "awaiting_evidence"].includes(o.status)
             : o.status === status)) &&
       (priority === "all" || o.priority === priority) &&
       (evidence === "all" || o.evidence === evidence) &&
-      (route !== "qa" ||
-        o.qa_status === "awaiting_qa" ||
-        (o.type === "integrity_review" && !o.qa_status)),
+      (route !== "qa" || o.qa_status === "awaiting_qa"),
   );
   const columns: ColumnDef<Opportunity, unknown>[] = [
     {
@@ -217,6 +218,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
         <span onClick={(e) => e.stopPropagation()}>
           <Checkbox
             aria-label={`Select ${row.original.member_id}`}
+            disabled={!row.original.eligibility?.reviewable}
             checked={selected.includes(row.original.member_id)}
             onCheckedChange={(v) =>
               setSelected((s) =>
@@ -251,7 +253,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       cell: ({ row }) => (
         <>
           <strong className="table-primary">{row.original.condition}</strong>
-          <small>{findingType(row.original.type)}</small>
+          <small>{findingType(row.original.type)}{!row.original.eligibility?.reviewable ? " · Population only" : ""}</small>
         </>
       ),
     },
@@ -380,7 +382,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               {title}{" "}
               <span>
                 {num(
-                  data.opportunities.filter((o) =>
+                  data.opportunities.filter((o) => (scope === "all" || o.eligibility?.reviewable) && (
                     value === "suspects"
                       ? [
                           "documented_gap",
@@ -388,7 +390,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                           "predictive_signal",
                           "specificity_query",
                         ].includes(o.type)
-                      : value === "all" || o.type === value,
+                      : value === "all" || o.type === value),
                   ).length,
                 )}
               </span>
@@ -416,7 +418,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       </div>
       {data.runs.some((r) => r.mode === "fixture") && route === "suspects" && (
         <div className="run-result">
-          <span className="subtle-tag">Precomputed demo</span>
+          <span className="subtle-tag">Prepared analysis</span>
           <span>
             {(() => {
               const r = data.runs.find((r) => r.mode === "fixture")!;
@@ -428,6 +430,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           </button>
         </div>
       )}
+      {memberFilter && <div className="filter-chips"><button onClick={() => setMemberFilter("")}>Member: {data.members.find((m) => m.id === memberFilter)?.name || memberFilter} ×</button></div>}
       {(status !== "all" ||
         priority !== "all" ||
         evidence !== "all" ||
@@ -457,7 +460,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
         open={analysisDetails}
         onOpenChange={setAnalysisDetails}
         title="Analysis details"
-        description="Precomputed demo · Source-linked recommendations"
+        description="Prepared analysis · Source-linked recommendations"
       >
         <div className="definition-list">
           {data.runs
@@ -477,8 +480,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             ))}
         </div>
         <p className="body-copy">
-          This run loads prepared findings and preserves recommendation
-          versions. Review cited source evidence before deciding.
+          Analysis checks the current source set against the prepared case. Unchanged evidence retains its recommendation version. Review cited passages before deciding.
         </p>
       </Modal>
       {selected.length > 0 && (
@@ -527,12 +529,19 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           toolbar={
             <>
               <SelectField
+                label="Work scope"
+                value={scope}
+                onChange={setScope}
+                options={[{ value: "actionable", label: "Actionable cases" }, { value: "all", label: "Population findings" }]}
+              />
+              <SelectField
                 label="Saved view"
                 value={savedView}
                 onChange={setSavedView}
                 options={[
                   { value: "all", label: "All records" },
-                  { value: "active", label: "All active" },
+                  { value: "active", label: "Open review / QA" },
+                  { value: "complete", label: "QA-approved completion" },
                   { value: "assessment", label: "Needs assessment" },
                   { value: "ready", label: "Ready for review" },
                   { value: "changed", label: "Evidence changed" },
@@ -597,7 +606,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
         title={detail?.condition || "Opportunity"}
         description={
           detail
-            ? `${detail.member_id} · Recommendation version ${detail.version}`
+            ? `${detail.member_id} · Recommendation version ${detail.recommendation_version || 1}`
             : undefined
         }
       >
@@ -629,7 +638,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                   `A ${label(detail.type).toLowerCase()} was identified in the source records. Inspect the source and confirm the next review action.`}
               </p>
             </div>
-            <h3 className="section-title">Cited support</h3>
+            <EligibilityContext eligibility={detailRecord.data?.eligibility || detail.eligibility} />
+            <h3 className="section-title">Source context</h3>
             {detailRecord.isPending ? (
               <p className="body-copy">Loading linked sources…</p>
             ) : detailRecord.data?.documents?.length ? (
@@ -721,7 +731,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                   <ArrowRight size={15} />
                 </Link>
               </Button>
-              {can(user, "defer") && (
+              {can(user, "defer") && detail.eligibility?.reviewable && (
                 <Button
                   variant="outline"
                   onClick={() =>
@@ -747,15 +757,10 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       >
         {bulk === "assign" && (
           <SelectField
-            label="Allocation owner"
+            label="Review account"
             value={allocation}
             onChange={setAllocation}
-            options={[
-              "Coding team",
-              "QA team",
-              "Retrieval team",
-              "Provider practice",
-            ].map((v) => ({ value: v, label: v }))}
+            options={assignmentOptions.map((owner) => ({ value: owner.id, label: `${owner.name} · ${label(owner.role)}` }))}
           />
         )}
         <div className="form-field">
@@ -772,6 +777,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           />
         </div>
         <Notice>
+          {bulk === "assign" ? "Each listed account can review every selected case. " : ""}
           Selected records remain selected if validation fails. Existing open
           evidence requests will be reused.
         </Notice>
@@ -779,6 +785,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           disabled={
             busy ||
             !selected.length ||
+            (bulk === "assign" && !assignmentOptions.some((owner) => owner.id === allocation)) ||
             (["defer", "suppress"].includes(bulk) && !bulkNote.trim())
           }
           onClick={async () => {
@@ -853,10 +860,10 @@ function MemberDirectory({ data, user }: WorkspaceProps) {
           <Sparkles size={18} />
           <span>
             <strong>Priority cases</strong>
-            <small>Members with detailed evidence and open review items.</small>
+            <small>Six prepared cases with linked evidence and complete workflows.</small>
           </span>
         </div>
-        {data.members.slice(0, 6).map((m) => (
+        {data.members.filter((m) => m.showcase).map((m) => (
           <Link key={m.id} href={returnLink(`/members/${m.id}`)}>
             <Avatar name={m.name} id={m.id} />
             <span>{m.name.split(" ")[0]}</span>
@@ -994,6 +1001,7 @@ function MemberWorkspace({
   const [zoom, setZoom] = useState(100);
   const [decision, setDecision] = useDraft(`review-${id}-decision`, "");
   const [note, setNote] = useDraft(`review-${id}-note`, "");
+  const [qaNote, setQaNote] = useDraft(`qa-${id}-note`, "");
   const [busy, setBusy] = useState(false);
   const [queryOpen, setQueryOpen] = useState(false);
   const [draft, setDraft] = useDraft(
@@ -1006,7 +1014,10 @@ function MemberWorkspace({
   });
   const m = result.data;
   const o = m?.opportunities?.[0];
-  const doc = m?.documents?.find((d) => d.id === docId) || m?.documents?.[0];
+  const currentSourceIds = m?.eligibility?.source_ids || o?.eligibility?.source_ids || [];
+  const doc = m?.documents?.find((d) => d.id === docId)
+    || m?.documents?.find((d) => currentSourceIds.includes(d.id))
+    || m?.documents?.[0];
   useEffect(() => {
     if (!note) return;
     const prevent = (e: BeforeUnloadEvent) => e.preventDefault();
@@ -1021,6 +1032,7 @@ function MemberWorkspace({
     try {
       await act({ action: "review", id, value: decision, note });
       setNote("");
+      setDecision("");
       await result.refetch();
     } catch {
     } finally {
@@ -1062,13 +1074,13 @@ function MemberWorkspace({
           </p>
         </div>
         <div className="page-actions">
-          {can(user, "query") && (
+          {can(user, "query") && m.eligibility?.reviewable && (
             <Button variant="outline" onClick={() => setQueryOpen(true)}>
               <Send size={15} />
               Create clarification task
             </Button>
           )}
-          {can(user, "analyze") && (
+          {can(user, "analyze") && m.eligibility?.reviewable && (
             <Button
               onClick={() =>
                 actionSafe(act, { action: "analyze", member_ids: [id] })
@@ -1091,10 +1103,12 @@ function MemberWorkspace({
         </span>
         <span>
           <ShieldCheck size={14} />
-          MA Part C · 2026 / 2027
+          {data.program_context?.program || "MA Part C"} · {data.program_context?.service_year || 2026} / {data.program_context?.payment_year || 2027}
         </span>
         <Status value={o?.status || m.status} />
+        {m.scenario && <span title="Scenario dates are staged; saved actions retain their actual timestamps.">Scenario date: {m.scenario.date}</span>}
       </div>
+      {!m.eligibility?.reviewable && <EligibilityContext eligibility={m.eligibility} />}
       <Tabs value={tab} onValueChange={setTab} className="member-tabs">
         <TabsList>
           {[
@@ -1118,9 +1132,9 @@ function MemberWorkspace({
             <div className="member-summary">
               <span className="insight-title">
                 <Sparkles size={16} />
-                Member summary <span>SOURCE-LINKED</span>
+                Current summary <span>PREPARED ANALYSIS</span>
               </span>
-              <p>{m.summary}</p>
+              <PreparedClaims claims={m.claims} summary={m.summary} />
               <div>
                 <Status value={o?.evidence || m.evidence} />
                 <span>
@@ -1135,14 +1149,7 @@ function MemberWorkspace({
             <SourceDocument
               documents={m.documents || []}
               selected={doc}
-              onSelect={(docId) => {
-                setDocId(docId);
-                actionSafe(act, {
-                  action: "open_evidence",
-                  id,
-                  note: `Inspected ${docId}`,
-                });
-              }}
+              onSelect={setDocId}
               onInspect={() =>
                 actionSafe(act, {
                   action: "open_evidence",
@@ -1158,7 +1165,7 @@ function MemberWorkspace({
                 }
                 subtitle={
                   o
-                    ? `Finding ${o.id} · Version ${o.version}`
+                    ? `Finding ${o.id} · Recommendation ${o.recommendation_version || 1}`
                     : "Member context"
                 }
               >
@@ -1168,25 +1175,8 @@ function MemberWorkspace({
                     <h3>{m.condition}</h3>
                     <Status value={o?.evidence || m.evidence} />
                   </div>
-                  {id === "MB-000006" &&
-                    !m.documents?.some(
-                      (d) =>
-                        d.signature_status === "signed" &&
-                        ["eligible", "usable"].includes(d.source_status),
-                    ) && (
-                      <Notice>
-                        This prepared source fails its signature/source
-                        eligibility check. Obtain eligible documentation before
-                        supported coding.
-                      </Notice>
-                    )}
-                  {id === "MB-000003" && o?.evidence !== "Strong" && (
-                    <Notice>
-                      Indirect signals support an assessment task. They do not
-                      establish a current diagnosis.
-                    </Notice>
-                  )}
-                  {can(user, "review") ? (
+                  <EligibilityContext eligibility={m.eligibility} />
+                  {can(user, "review") && m.eligibility?.reviewable ? (
                     <>
                       <div className="decision-options">
                         {[
@@ -1215,6 +1205,7 @@ function MemberWorkspace({
                               name="decision"
                               value={value}
                               checked={decision === value}
+                              disabled={!m.eligibility?.allowed_decisions.includes(value)}
                               onChange={() => setDecision(value)}
                             />
                             <span>
@@ -1234,17 +1225,14 @@ function MemberWorkspace({
                           rows={4}
                         />
                       </div>
+                      <p className="assessment-review-state">{note.trim() || decision ? "Unsaved decision" : o?.current_decision_id ? `Saved decision ${o.current_decision_id}` : "No decision saved"}</p>
                       <Button
                         className="w-full"
                         disabled={
                           !decision ||
                           !note.trim() ||
                           busy ||
-                          (decision === "resolved_supported" &&
-                            ["MB-000002", "MB-000003", "MB-000006"].includes(
-                              id,
-                            ) &&
-                            !m.later_encounter)
+                          !m.eligibility?.allowed_decisions.includes(decision)
                         }
                         onClick={save}
                       >
@@ -1327,6 +1315,9 @@ function MemberWorkspace({
                       </div>
                     </div>
                   )}
+                  {o?.qa_note && (
+                    <div className="assessment-context"><strong>QA feedback</strong><p>{o.qa_note}</p></div>
+                  )}
                   {o?.qa_status && (
                     <div className="badge-row">
                       <span>QA outcome</span>
@@ -1351,6 +1342,7 @@ function MemberWorkspace({
                             ? "A completed review must be sent to QA first."
                             : "Independent QA preserves the first reviewer’s decision and history."}
                       </Notice>
+                      <div className="form-field"><Label htmlFor="member-qa-note">QA note · required for rework</Label><textarea id="member-qa-note" rows={3} value={qaNote} onChange={(e) => setQaNote(e.target.value)} placeholder="Explain what the reviewer needs to revisit…" /></div>
                       <Button
                         disabled={
                           o?.qa_status !== "awaiting_qa" ||
@@ -1358,7 +1350,7 @@ function MemberWorkspace({
                           o?.reviewer === user.email
                         }
                         onClick={() =>
-                          actionSafe(act, { action: "qa", id, value: "passed" })
+                          act({ action: "qa", id, value: "passed", note: qaNote }).then(() => setQaNote("")).catch(() => undefined)
                         }
                       >
                         <ShieldCheck size={15} />
@@ -1367,17 +1359,18 @@ function MemberWorkspace({
                       <Button
                         variant="outline"
                         disabled={
+                          !qaNote.trim() ||
                           o?.qa_status !== "awaiting_qa" ||
                           o?.reviewer === user.id ||
                           o?.reviewer === user.email
                         }
                         onClick={() =>
-                          actionSafe(act, {
+                          act({
                             action: "qa",
                             id,
                             value: "rework",
-                            note: "Returned for clarification",
-                          })
+                            note: qaNote,
+                          }).then(() => setQaNote("")).catch(() => undefined)
                         }
                       >
                         Return for rework
@@ -1386,6 +1379,7 @@ function MemberWorkspace({
                   )}
                 </div>
               </Panel>
+              {!!m.next_steps?.length && <Panel title="Next step"><NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={id} act={act} /></Panel>}
               <Panel title="Connected work">
                 <div className="connected-links">
                   {user.screens.includes("previsit") && (
@@ -1420,6 +1414,8 @@ function MemberWorkspace({
           </div>
         </>
       ) : tab === "Timeline" ? (
+        <>
+        <Panel title="Recommendation and decision history" subtitle="Previous evidence, review and independent QA snapshots are retained."><CaseHistory opportunity={o} /></Panel>
         <Panel
           title="Member timeline"
           subtitle="Actual saved actions and source context"
@@ -1446,7 +1442,7 @@ function MemberWorkspace({
                     <FileText size={13} />
                   </span>
                   <strong>Current source received</strong>
-                  <p>{m.summary}</p>
+                  <PreparedClaims claims={m.claims} summary={m.summary} />
                   <small>{m.service_date}</small>
                 </div>
                 <div>
@@ -1461,6 +1457,7 @@ function MemberWorkspace({
             )}
           </div>
         </Panel>
+        </>
       ) : tab === "Tasks" ? (
         <Panel title="Member tasks">
           {m.tasks?.length ? (
@@ -1468,7 +1465,9 @@ function MemberWorkspace({
               rows={m.tasks}
               columns={[
                 { accessorKey: "title", header: "Task" },
-                { accessorKey: "type", header: "Type" },
+                { accessorKey: "type", header: "Type", cell: ({ getValue }) => label(String(getValue())) },
+                { accessorKey: "owner", header: "Owner" },
+                { id: "completion", header: "Completion basis", cell: ({ row }) => row.original.completion?.reason || "Awaiting workflow outcome" },
                 {
                   accessorKey: "status",
                   header: "Status",
@@ -1498,20 +1497,15 @@ function MemberWorkspace({
             ]}
           />
         </Panel>
+      ) : tab === "Risk scenarios" ? (
+        <Panel title="Risk scenario context" subtitle={id === "MB-000005" ? "Prepared hierarchy comparison" : "Scoring model not configured"}>
+          <div className="padded"><p className="body-copy">{id === "MB-000005" ? "Compare the retained baseline and combined condition set. Numeric scores remain unavailable until an independently checked reference is installed." : "No configured numeric scenario is available for this member. The Casey comparison explains the full-member input approach."}</p>
+          {user.screens.includes("scenarios") && <Button asChild variant="outline"><Link href={`/scenarios?member=${id}`}>Open risk scenarios<ArrowRight size={15} /></Link></Button>}</div>
+        </Panel>
       ) : (
-        <Panel title={tab}>
-          <Empty
-            title={
-              tab === "Risk scenarios"
-                ? "Model configuration required"
-                : "Review the connected workflow"
-            }
-            description={
-              tab === "Risk scenarios"
-                ? "An official model pack has not been installed. Evidence review remains available."
-                : "Submission outcomes remain separate from coding decisions. Open Submission Operations with the appropriate local role."
-            }
-          />
+        <Panel title="Linked submission records" subtitle="Receiver outcomes are separate from review approval and payment reconciliation.">
+          {m.submissions?.length ? <DataGrid rows={m.submissions} columns={[{ accessorKey: "id", header: "Record" }, { accessorKey: "type", header: "Operation" }, { accessorKey: "decision_id", header: "Approved decision" }, { accessorKey: "status", header: "Receiver status", cell: ({ getValue }) => <Status value={String(getValue())} /> }]} /> : <Empty title="No linked submission yet" description="An independently approved eligible decision can be prepared in Submission operations." />}
+          <div className="padded">{user.screens.includes("submissions") ? <Button asChild variant="outline"><Link href={`/submissions?member=${id}`}>Open submission operations<ArrowRight size={15} /></Link></Button> : <p className="body-copy">A submission analyst continues after independent QA approval.</p>}</div>
         </Panel>
       )}
       <Modal
@@ -1520,6 +1514,7 @@ function MemberWorkspace({
         title="Create a clinical clarification task"
         description={`${m.name} · Query draft`}
       >
+        <div className="assessment-context"><strong>Evidence context</strong><p>{m.summary}</p><p>Record a current assessment, a non-supporting finding or uncertainty. No diagnosis is presumed by this request.</p></div>
         <div className="form-field">
           <Label htmlFor="draft">Query draft</Label>
           <textarea
@@ -1631,6 +1626,7 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
                   </span>
                   <p>{m.summary}</p>
                 </div>
+                <EligibilityContext eligibility={m.eligibility} />
                 <h3 className="section-title">Question for this encounter</h3>
                 <p className="body-copy">
                   Please review the available context for{" "}
@@ -1670,7 +1666,7 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
                 </div>
                 <div className="button-row">
                   <Button
-                    disabled={busy}
+                    disabled={busy || !m.eligibility?.reviewable}
                     onClick={async () => {
                       setBusy(true);
                       try {
@@ -1689,19 +1685,8 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
                     <Check size={15} />
                     Save response
                   </Button>
-                  <Button
-                    variant="outline"
-                    disabled={busy || m.documents?.some((d) => d.later_example)}
-                    onClick={() =>
-                      actionSafe(act, { action: "later_encounter", id: m.id })
-                    }
-                  >
-                    <FileCheck2 size={15} />
-                    {m.documents?.some((d) => d.later_example)
-                      ? "Follow-up encounter added"
-                      : "Add prepared encounter"}
-                  </Button>
                 </div>
+                {!!m.next_steps?.length && <NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={m.id} act={act} />}
                 {m.provider_response && (
                   <div className="saved-decision">
                     <CheckCircle2 size={16} />
@@ -1805,475 +1790,39 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
     </>
   );
 }
-function Submissions({ data, user, route, act }: WorkspaceProps) {
-  const [detailId, setDetailId] = useState("");
-  const detail = data.submissions.find((r) => r.id === detailId);
-  const setDetail = (record: Submission | null) =>
-    setDetailId(record?.id || "");
-  const [memberFilter, setMemberFilter] = useUrlState("member", "");
-  const records = data.submissions.filter(
-    (r) => !memberFilter || r.member_id === memberFilter,
-  );
-  const [response, setResponse] = useState("acknowledged");
-  const [selected, setSelected] = useState<string[]>([
-    "MB-000001",
-    "MB-000004",
-  ]);
-  const [busy, setBusy] = useState(false);
-  if (route === "audit")
-    return (
-      <>
-        <PageHeader
-          title="Audit workspace"
-          description="Build a traceable evidence package from the exact records reviewed."
-        >
-          <Button
-            onClick={() => exportSafe("audit", user, selected)}
-            disabled={!selected.length}
-          >
-            <ArrowDownToLine size={16} />
-            Generate evidence package
-          </Button>
-        </PageHeader>
-        <div className="audit-layout">
-          <Panel
-            title="Select evidence"
-            subtitle="Select members for the audit package"
-          >
-            <div className="cohort-picker padded">
-              {data.members.map((m) => (
-                <label key={m.id}>
-                  <Checkbox
-                    checked={selected.includes(m.id)}
-                    onCheckedChange={(v) =>
-                      setSelected((s) =>
-                        v ? [...s, m.id] : s.filter((i) => i !== m.id),
-                      )
-                    }
-                  />
-                  <Avatar name={m.name} id={m.id} />
-                  <span>
-                    <strong>{m.name}</strong>
-                    <small>
-                      {m.id} · {m.condition}
-                    </small>
-                  </span>
-                  <Status value={m.evidence} />
-                </label>
-              ))}
-            </div>
-          </Panel>
-          <Panel title="Package readiness">
-            <div className="padded">
-              <div className="audit-count">
-                <FolderOpen size={28} />
-                <strong>{selected.length}</strong>
-                <span>selected members</span>
-              </div>
-              <div className="check-list">
-                <p>
-                  <CheckCircle2 size={16} />
-                  Member and source identifiers
-                </p>
-                <p>
-                  <CheckCircle2 size={16} />
-                  Exact prepared evidence passages
-                </p>
-                <p>
-                  <CheckCircle2 size={16} />
-                  Downloadable JSON manifest
-                </p>
-                <p>
-                  <Info size={16} />
-                  Source provenance included
-                </p>
-              </div>
-              <Notice>
-                The ZIP contains selected source records and the matching
-                manifest. Generating it does not change a finding.
-              </Notice>
-            </div>
-          </Panel>
-        </div>
-      </>
-    );
-  return (
-    <>
-      <PageHeader
-        title="Submission operations"
-        description="Follow each record from preparation to its receiver outcome."
-      >
-        <Button
-          variant="outline"
-          onClick={() =>
-            exportSafe(
-              "submissions",
-              user,
-              records.map((r) => r.id),
-            )
-          }
-        >
-          <ArrowDownToLine size={16} />
-          Export payload
-        </Button>
-      </PageHeader>
-      <div className="metric-grid">
-        <Metric
-          label="Submission records"
-          value={String(records.length)}
-          note="Response simulator"
-          icon={<Send size={18} />}
-        />
-        <Metric
-          label="Accepted records"
-          value={String(records.filter((s) => s.status === "accepted").length)}
-          note="Not a payment confirmation"
-          icon={<CheckCircle2 size={18} />}
-          accent="teal"
-        />
-        <Metric
-          label="Receiver exceptions"
-          value={String(records.filter((s) => s.status === "rejected").length)}
-          note="Remediation required"
-          icon={<AlertCircle size={18} />}
-          accent="amber"
-        />
-        <Metric
-          label="Pending corrections"
-          value={String(
-            records.filter(
-              (s) =>
-                s.type === "correction" &&
-                !["accepted", "rejected"].includes(s.status),
-            ).length,
-          )}
-          note="Original records retained"
-          icon={<RotateCcw size={18} />}
-          accent="purple"
-        />
-      </div>
-      <Panel>
-        <DataGrid<Submission>
-          rows={records}
-          toolbar={
-            <SelectField
-              label="Submission member"
-              value={memberFilter}
-              onChange={setMemberFilter}
-              options={[
-                { value: "", label: "All members" },
-                ...Array.from(
-                  new Set(data.submissions.map((r) => r.member_id)),
-                ).map((id) => ({
-                  value: id,
-                  label: data.members.find((m) => m.id === id)?.name || id,
-                })),
-              ]}
-            />
-          }
-          exportAction={(filtered) =>
-            exportSafe(
-              "submissions",
-              user,
-              filtered.map((r) => r.id),
-            )
-          }
-          columns={[
-            {
-              accessorKey: "id",
-              header: "Record",
-              cell: ({ getValue }) => (
-                <span className="whitespace-nowrap">{String(getValue())}</span>
-              ),
-            },
-            {
-              accessorKey: "member_id",
-              header: "Member",
-              cell: ({ getValue }) => (
-                <span className="whitespace-nowrap">{String(getValue())}</span>
-              ),
-            },
-            {
-              accessorKey: "type",
-              header: "Operation",
-              cell: ({ getValue }) => label(String(getValue())),
-            },
-            {
-              accessorKey: "status",
-              header: "Receiver status",
-              cell: ({ getValue }) => <Status value={String(getValue())} />,
-            },
-            { accessorKey: "reason", header: "Context" },
-            { accessorKey: "original_id", header: "Original record" },
-            {
-              id: "correction",
-              header: "Correction",
-              cell: ({ row }) =>
-                row.original.corrected ? (
-                  <Status value="corrected" />
-                ) : row.original.original_id ? (
-                  "Linked attempt"
-                ) : (
-                  "—"
-                ),
-            },
-          ]}
-          onRow={(r) => setDetail(r)}
-        />
-      </Panel>
-      <Drawer
-        open={!!detail}
-        onOpenChange={(v) => !v && setDetail(null)}
-        title={detail?.id || "Submission"}
-        description="Response simulator · no external delivery"
-      >
-        {detail && (
-          <>
-            <div className="badge-row">
-              <Status value={detail.status} />
-              {detail.corrected && <Status value="corrected" />}
-              <span className="subtle-tag">{label(detail.type)}</span>
-            </div>
-            <p className="body-copy">{detail.reason}</p>
-            <div className="definition-list">
-              <div>
-                <span>Member</span>
-                <Link href={`/members/${detail.member_id}`}>
-                  {detail.member_id}
-                  <ArrowUpRight size={13} />
-                </Link>
-              </div>
-              <div>
-                <span>Original record</span>
-                <strong>{detail.original_id || detail.id}</strong>
-              </div>
-              <div>
-                <span>Payment reconciliation</span>
-                <strong>Unreconciled</strong>
-              </div>
-            </div>
-            <h3 className="section-title">Receiver response</h3>
-            {["accepted", "rejected"].includes(detail.status) && (
-              <Notice>
-                This terminal response is retained. Prepare a linked remediation
-                attempt to retry.
-              </Notice>
-            )}
-            <Select
-              value={response}
-              onValueChange={setResponse}
-              disabled={["accepted", "rejected"].includes(detail.status)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {["acknowledged", "accepted", "rejected"].map((v) => (
-                  <SelectItem key={v} value={v}>
-                    {label(v)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <div className="drawer-actions">
-              <Button
-                disabled={
-                  busy || ["accepted", "rejected"].includes(detail.status)
-                }
-                onClick={async () => {
-                  setBusy(true);
-                  try {
-                    await act({
-                      action: "receiver",
-                      id: detail.id,
-                      value: response,
-                    });
-                    setDetail(null);
-                  } catch {
-                  } finally {
-                    setBusy(false);
-                  }
-                }}
-              >
-                <Check size={15} />
-                Record response
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() =>
-                  actionSafe(act, { action: "correction", id: detail.id }).then(
-                    () => setDetail(null),
-                  )
-                }
-              >
-                Prepare remediation
-              </Button>
-            </div>
-            <Notice>
-              A transport acknowledgement is not record acceptance. Rejected
-              corrections remain unresolved.
-            </Notice>
-            <h3 className="section-title">Linked attempts</h3>
-            <div className="linked-members">
-              {data.submissions
-                .filter(
-                  (r) =>
-                    (r.original_id || r.id) ===
-                    (detail.original_id || detail.id),
-                )
-                .map((r) => (
-                  <button
-                    key={r.id}
-                    className="button-row"
-                    onClick={() => setDetail(r)}
-                  >
-                    <span>
-                      {r.id} · {label(r.type)}
-                    </span>
-                    <Status value={r.status} />
-                  </button>
-                ))}
-            </div>
-            {detail.history && (
-              <>
-                <h3 className="section-title">
-                  Receiver history for this attempt
-                </h3>
-                <div className="timeline">
-                  {detail.history.map((h, i) => (
-                    <div key={i}>
-                      <strong>{label(h.stage)}</strong>
-                      <p>
-                        {label(h.status)} ·{" "}
-                        {h.terminal
-                          ? "Terminal record response"
-                          : "Transport only"}
-                      </p>
-                      <small>{h.at}</small>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </>
-        )}
-      </Drawer>
-    </>
-  );
-}
 function Scenarios({ data, user }: WorkspaceProps) {
   const [id, setId] = useUrlState("member", "MB-000005");
-  const detail = useQuery({
-    queryKey: ["member", id, user.id],
-    queryFn: () => api<Member>(`/members/${id}`),
-  });
+  const detail = useQuery({ queryKey: ["member", id, user.id], queryFn: () => api<Member>(`/members/${id}`) });
   const member = detail.data || data.members.find((m) => m.id === id);
-  return (
-    <>
-      <PageHeader
-        title="Risk score scenarios"
-        description="Understand the full member context behind a modeled change."
-      />
-      <div className="scenario-context">
-        <Select value={id} onValueChange={setId}>
-          <SelectTrigger aria-label="Scenario member">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {(member && !data.members.some((m) => m.id === member.id)
-              ? [member, ...data.members]
-              : data.members
-            ).map((m) => (
-              <SelectItem key={m.id} value={m.id}>
-                {m.name} · {m.id}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <span className="subtle-tag">MA Part C · 2027</span>
-        <span className="subtle-tag">Reference model not installed</span>
-      </div>
+  const scenario = data.scenarios?.find((item) => item.member_id === id);
+  return <>
+    <PageHeader title="Risk score scenarios" description="Inspect the full-member inputs and the assumptions behind a combined comparison." />
+    <div className="scenario-context">
+      <Select value={id} onValueChange={setId}><SelectTrigger aria-label="Scenario member"><SelectValue /></SelectTrigger><SelectContent>{(member && !data.members.some((m) => m.id === member.id) ? [member, ...data.members.filter((m) => m.showcase)] : data.members.filter((m) => m.showcase)).map((m) => <SelectItem key={m.id} value={m.id}>{m.name} · {m.id}</SelectItem>)}</SelectContent></Select>
+      <span>{data.program_context?.program} · Payment {data.program_context?.payment_year}</span>
+      <span>{scenario ? scenario.basis : "Scenario not configured"}</span>
+    </div>
+    {!scenario ? <Panel title="No prepared comparison for this member"><Empty title="Scoring configuration required" description="Numeric scores require a configured model, complete inputs and retained reference results. The Casey comparison explains the input and hierarchy approach." /><div className="padded"><Button variant="outline" onClick={() => setId("MB-000005")}>Open Casey comparison<ArrowRight size={15} /></Button></div></Panel> : <>
       <div className="metric-grid three">
-        <Metric
-          label="Current-data score"
-          value="—"
-          note="Model configuration required"
-          icon={<Layers3 size={18} />}
-        />
-        <Metric
-          label="Combined scenario"
-          value="—"
-          note="Full diagnosis-set calculation required"
-          icon={<ScanLine size={18} />}
-          accent="teal"
-        />
-        <Metric
-          label="Reconciled financial result"
-          value="—"
-          note="Payment reconciliation unavailable"
-          icon={<ShieldCheck size={18} />}
-          accent="purple"
-        />
+        <Metric label="Baseline score" value="—" note="Independent numeric reference unavailable" icon={<Layers3 size={18} />} />
+        <Metric label="Combined score" value="—" note="Full-member calculation not performed" icon={<ScanLine size={18} />} />
+        <Metric label="Payment result" value="—" note="No financial estimate or reconciliation" icon={<ShieldCheck size={18} />} />
       </div>
-      <div className="charts-grid">
-        <Panel title="Scenario inputs" subtitle={member?.name}>
-          <div className="padded">
-            <div className="definition-list">
-              <div>
-                <span>Program</span>
-                <strong>Medicare Advantage · Part C</strong>
-              </div>
-              <div>
-                <span>Service / payment year</span>
-                <strong>2026 / 2027</strong>
-              </div>
-              <div>
-                <span>Review context</span>
-                <strong>{member?.condition}</strong>
-              </div>
-              <div>
-                <span>Input basis</span>
-                <strong>Member record</strong>
-              </div>
-              <div>
-                <span>Calculation status</span>
-                <Status value="configuration_required" />
-              </div>
-            </div>
-            <Button variant="outline" asChild>
-              <Link href={`/members/${id}`}>
-                Inspect member evidence
-                <ArrowRight size={15} />
-              </Link>
-            </Button>
-          </div>
-        </Panel>
-        <Panel title="Why a combined scenario matters">
-          <div className="padded">
-            <div className="scenario-explainer">
-              <span>A</span>
-              <Plus size={17} />
-              <span>B</span>
-              <ArrowRight size={19} />
-              <strong>
-                Recalculate
-                <br />
-                the full member
-              </strong>
-            </div>
-            <p className="body-copy">
-              Hierarchies and interactions can change the effect of a diagnosis
-              when it is combined with the member’s existing conditions.
-              Standalone opportunity effects must not be added together.
-            </p>
-            <Notice>
-              Scores require a configured, validated program model.
-            </Notice>
-          </div>
-        </Panel>
-      </div>
-    </>
-  );
+      <Panel title={`${member?.name || "Casey"} · baseline and combined inputs`} subtitle={`${scenario.id} · ${scenario.basis}`}>
+        <div className="table-scroll"><table className="assessment-inputs"><thead><tr><th>Input</th><th>Baseline</th><th>Combined scenario</th></tr></thead><tbody>
+          <tr><td>Retained condition set</td><td><ul>{scenario.baseline_inputs.map((input) => <li key={input}>{input}</li>)}</ul></td><td><ul>{scenario.combined_inputs.map((input) => <li key={input}>{input}</li>)}</ul></td></tr>
+          <tr><td>Demographic context</td><td>{scenario.demographics.age} years · {scenario.demographics.sex}</td><td>Unchanged</td></tr>
+          <tr><td>Program / years</td><td>{scenario.program}<br />Service {scenario.service_year} / payment {scenario.payment_year}</td><td>Unchanged</td></tr>
+          <tr><td>Model / segment assumption</td><td>{scenario.model}<br />{scenario.segment}</td><td>Same assumed model and segment</td></tr>
+          <tr><td>Protected evidence</td><td colSpan={2}>{scenario.source_ids.map((documentId) => <Link key={documentId} href={`/members/${id}?tab=Evidence+%26+documents&document=${documentId}`}>{documentId} · inspect original source<ArrowUpRight size={13} /></Link>)}</td></tr>
+        </tbody></table></div>
+      </Panel>
+      <Panel title="How the comparison would be resolved" subtitle="An input illustration, with no inferred code details or numeric effect.">
+        <div className="assessment-history">{scenario.steps.map((step, index) => <article key={step.label}><header><strong>{index + 1}. {step.label}</strong></header><p>{step.detail}</p></article>)}</div>
+        <div className="padded"><p className="body-copy">{scenario.limitation}</p></div>
+      </Panel>
+    </>}
+  </>;
 }
 function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
   const client = useQueryClient();
@@ -2281,6 +1830,9 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
   const [resetOpen, setResetOpen] = useState(false);
   const [confirmation, setConfirmation] = useState("");
   const [busy, setBusy] = useState(false);
+  const [providerAccount, setProviderAccount] = useState<(User & { active: number }) | null>(null);
+  const [providerPractice, setProviderPractice] = useState("");
+  const [providerSaving, setProviderSaving] = useState(false);
   const users = useQuery({
     queryKey: ["admin-users"],
     queryFn: () =>
@@ -2328,6 +1880,22 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
             accent="purple"
           />
         </div>
+        {data.import_summary && <Panel title={data.import_summary.name} subtitle={`${data.import_summary.id} · ${data.import_summary.total} prepared ${data.import_summary.unit}`}>
+          <div className="registry-summary padded">
+            <div><strong>{data.import_summary.received} / {data.import_summary.total}</strong><span>documents received</span></div>
+            <div><strong>{data.import_summary.matched} / {data.import_summary.received}</strong><span>received documents matched</span></div>
+            <div><strong>{data.import_summary.quarantined}</strong><span>documents quarantined</span></div>
+            <div><strong>{data.import_summary.published}</strong><span>usable documents published</span></div>
+          </div>
+          <DataGrid rows={data.import_summary.rows.map((row) => ({ ...row, id: row.document_id }))} columns={[
+            { accessorKey: "title", header: "Prepared source", cell: ({ row }) => <><strong>{row.original.title}</strong><small>{row.original.document_id}</small></> },
+            { accessorKey: "requested_member_id", header: "Requested member" },
+            { accessorKey: "status", header: "Intake state", cell: ({ getValue }) => <Status value={String(getValue())} /> },
+            { accessorKey: "reason", header: "Validation context" },
+            { id: "next", header: "Next step", cell: ({ row }) => user.screens.includes("intake") ? <Link href={`${row.original.href}&returnTo=${encodeURIComponent("/data")}`}>Inspect intake<ArrowUpRight size={13} /></Link> : <span>Retrieval coordinator</span> },
+          ]} />
+          <div className="padded"><p className="body-copy">{data.import_summary.basis} Counts refer to the prepared batch above, separate from the {num(data.population_count)}-member population.</p></div>
+        </Panel>}
         <Panel title="Source inventory" subtitle="Connected sources">
           <div className="table-scroll">
             <table>
@@ -2354,14 +1922,10 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                       <strong>{name}</strong>
                     </td>
                     <td>{count}</td>
-                    <td>Sep 12, 2026</td>
+                    <td>{data.program_context?.scenario_date || "2026-09-12"} · staged basis</td>
                     <td>
                       <Status
-                        value={
-                          name === "Clinical evidence" && data.issues?.length
-                            ? "needs_attention"
-                            : "usable"
-                        }
+                        value={name === "Clinical evidence" ? ((data.import_summary?.quarantined || 0) > 0 ? "needs_attention" : "prepared_sources") : name === "Receiver responses" ? "simulated_receiver" : "reference_loaded"}
                       />
                     </td>
                   </tr>
@@ -2393,7 +1957,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                     </Button>
                     {user.screens.includes("intake") && (
                       <Button variant="outline" size="sm" asChild>
-                        <Link href={`/intake?sample=${issue.id}`}>
+                        <Link href={`/intake?sample=${issue.id}&member=${issue.member_id}&returnTo=${encodeURIComponent("/data")}`}>
                           Open intake document
                         </Link>
                       </Button>
@@ -2493,6 +2057,11 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                         value={u.role}
                         disabled={u.id === user.id}
                         onValueChange={async (role) => {
+                          if (role === "provider" && u.role !== "provider") {
+                            setProviderPractice("");
+                            setProviderAccount(u);
+                            return;
+                          }
                           try {
                             await api(
                               `/admin/users/${u.id}`,
@@ -2506,9 +2075,10 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                               user.csrf_token,
                             );
                             toast.success("Role updated; sessions revoked.");
-                            client.invalidateQueries({
+                            await client.invalidateQueries({
                               queryKey: ["admin-users"],
                             });
+                            await refresh();
                           } catch (e) {
                             toast.error((e as Error).message);
                           }
@@ -2528,6 +2098,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                           ))}
                         </SelectContent>
                       </Select>
+                      {u.role === "provider" && <small>{data.providers.find((practice) => practice.id === u.provider_id)?.name || u.provider_id}</small>}
                     </td>
                     <td>
                       <Status value={u.active ? "active" : "disabled"} />
@@ -2550,9 +2121,10 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                               },
                               user.csrf_token,
                             );
-                            client.invalidateQueries({
+                            await client.invalidateQueries({
                               queryKey: ["admin-users"],
                             });
+                            await refresh();
                             toast.success("Account updated.");
                           } catch (e) {
                             toast.error((e as Error).message);
@@ -2628,6 +2200,53 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
           </div>
         </Panel>
       )}
+      <Modal
+        open={!!providerAccount}
+        onOpenChange={(open) => !open && !providerSaving && setProviderAccount(null)}
+        title="Assign provider access"
+        description={providerAccount ? `${providerAccount.name} · ${providerAccount.email}` : undefined}
+      >
+        <p className="body-copy">Select the practice whose member records this account can access. The provider role is saved together with this practice.</p>
+        <SelectField
+          label="Provider practice"
+          showLabel
+          value={providerPractice}
+          onChange={setProviderPractice}
+          options={[
+            { value: "", label: "Select a practice" },
+            ...data.providers.map((practice) => ({ value: practice.id, label: `${practice.name} · ${practice.id}` })),
+          ]}
+        />
+        <p className="assessment-review-state">Unsaved access change · saving signs this account out of its current sessions.</p>
+        <div className="button-row">
+          <Button variant="outline" disabled={providerSaving} onClick={() => setProviderAccount(null)}>Cancel</Button>
+          <Button
+            disabled={providerSaving || !providerAccount || !data.providers.some((practice) => practice.id === providerPractice)}
+            onClick={async () => {
+              if (!providerAccount) return;
+              setProviderSaving(true);
+              try {
+                await api(`/admin/users/${providerAccount.id}`, {
+                  method: "PATCH",
+                  body: JSON.stringify({ role: "provider", active: !!providerAccount.active, provider_id: providerPractice }),
+                }, user.csrf_token);
+                await client.invalidateQueries({ queryKey: ["admin-users"] });
+                await refresh();
+                setProviderAccount(null);
+                setProviderPractice("");
+                toast.success("Provider access and practice saved; sessions revoked.");
+              } catch (error) {
+                toast.error((error as Error).message);
+              } finally {
+                setProviderSaving(false);
+              }
+            }}
+          >
+            {providerSaving ? <LoaderCircle className="animate-spin" size={15} /> : <Check size={15} />}
+            Save provider access
+          </Button>
+        </div>
+      </Modal>
       <Modal
         open={resetOpen}
         onOpenChange={setResetOpen}

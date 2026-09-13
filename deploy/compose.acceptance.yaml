@@ -14,11 +14,12 @@ services:
       timeout: 3s
       retries: 30
   api:
-    image: perform-plus-api:0.1.0
+    image: ${CT_API_IMAGE:-perform-plus-api:0.1.0}
     environment:
       DATABASE_URL: postgresql://ct_demo:${CT_ACCEPTANCE_DB_PASSWORD}@db:5432/perform_plus
       CT_DEMO_PASSWORD: ${CT_ACCEPTANCE_PASSWORD:?Set acceptance password}
-      CT_ALLOWED_ORIGINS: http://localhost:3002,http://127.0.0.1:3002
+      CT_SUPERUSER_PASSWORD: ${CT_SUPERUSER_PASSWORD:-}
+      CT_ALLOWED_ORIGINS: http://localhost:${CT_PREVIEW_PORT:-3002},http://127.0.0.1:${CT_PREVIEW_PORT:-3002}
       CT_SECURE_COOKIE: 'false'
       CT_DATA_DIR: /app/runtime/state
     # Mirror a root-owned Kubernetes emptyDir with a writable fsGroup.
@@ -33,11 +34,11 @@ services:
       timeout: 3s
       retries: 30
   ui:
-    image: perform-plus-ui:0.1.0
+    image: ${CT_UI_IMAGE:-perform-plus-ui:0.1.0}
     environment:
       API_INTERNAL_URL: http://api:8000
     ports:
-      - '127.0.0.1:3002:3000'
+      - '127.0.0.1:${CT_PREVIEW_PORT:-3002}:3000'
     depends_on:
       api:
         condition: service_healthy

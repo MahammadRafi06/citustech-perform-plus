@@ -1,4 +1,5 @@
 "use client";
+import "./assessment-workspaces.css";
 import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
@@ -164,6 +165,29 @@ function WorkspaceNavigation({
     </nav>
   );
 }
+function signInPath() {
+  if (window.location.pathname === "/login") return window.location.pathname + window.location.search;
+  const returnTo = window.location.pathname + window.location.search + window.location.hash;
+  return `/login?${new URLSearchParams({ returnTo }).toString()}`;
+}
+function signInDestination(user: User) {
+  const fallback = user.screens.includes("overview") ? "/overview" : `/${user.screens[0]}`;
+  const location = window.location;
+  const requested = location.pathname === "/login"
+    ? new URLSearchParams(location.search).get("returnTo")
+    : location.pathname + location.search + location.hash;
+  if (!requested || !requested.startsWith("/") || requested.startsWith("//") || requested.includes("\\")) return fallback;
+  try {
+    const destination = new URL(requested, location.origin);
+    const screen = destination.pathname.split("/")[1];
+    const knownScreen = routes.some((group) => group.items.some(([id]) => id === screen));
+    return destination.origin === location.origin && knownScreen && user.screens.includes(screen)
+      ? destination.pathname + destination.search + destination.hash
+      : fallback;
+  } catch {
+    return fallback;
+  }
+}
 function Application() {
   const client = useQueryClient();
   const pathname = usePathname() || "/overview";
@@ -184,7 +208,7 @@ function Application() {
         if (key.startsWith("ct-campaign-")) sessionStorage.removeItem(key);
       client.clear();
       client.setQueryData(["session"], null);
-      router.push("/login");
+      router.replace(signInPath());
     };
     window.addEventListener("ct-session-expired", expired);
     return () => window.removeEventListener("ct-session-expired", expired);
@@ -220,7 +244,7 @@ function Application() {
       for (const key of Object.keys(sessionStorage))
         if (key.startsWith("ct-campaign-")) sessionStorage.removeItem(key);
       client.clear();
-      router.push("/login");
+      router.replace(signInPath());
       session.refetch();
     } catch (e) {
       toast.error((e as Error).message);
@@ -240,13 +264,7 @@ function Application() {
         onLogin={(u) => {
           client.clear();
           client.setQueryData(["session"], u);
-          router.push(
-            u.screens.includes(route)
-              ? pathname
-              : u.screens.includes("overview")
-                ? "/overview"
-                : `/${u.screens[0]}`,
-          );
+          router.replace(signInDestination(u));
         }}
         apiError={
           session.error instanceof ApiError && session.error.status !== 401
@@ -368,6 +386,10 @@ function Application() {
             </DropdownMenu>
           </div>
         </header>
+        {snapshot.data?.program_context && <div className="assessment-scope" aria-label="Program and scenario context">
+          <span><strong>{snapshot.data.program_context.program}</strong> · Service {snapshot.data.program_context.service_year} / Payment {snapshot.data.program_context.payment_year}</span>
+          <span>{snapshot.data.program_context.basis} · Scenario {snapshot.data.program_context.scenario_date}</span>
+        </div>}
         <main
           className={`page-canvas route-${actualRoute} ${actualRoute === "reviews" && pathname.split("/")[2] ? "workbench-canvas" : ""}`}
         >

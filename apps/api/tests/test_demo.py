@@ -114,7 +114,7 @@ def test_superuser_full_workspace_and_action_access():
     assert client.get('/api/v1/bootstrap').json()['population_count']==10000
     assert client.get('/api/v1/members/MB-001500').status_code==200
     assert client.get('/api/v1/admin/users').status_code==200
-    assert action(client,'campaign',name='Superuser cohort',member_ids=['MB-000031'],owner='Coding team').status_code==200
+    assert action(client,'campaign',name='Superuser cohort',member_ids=['MB-000001'],owner='coder').status_code==200
     assert action(client,'receive',id='CH-0001',value='partially_received').status_code==200
     assert action(client,'respond',id='MB-000002',value='needs_information').status_code==200
     assert action(client,'prepare',id='SUB-0003').status_code==200
@@ -162,16 +162,20 @@ def test_review_qa_and_directory_persistence():
     assert coder.get('/api/v1/members?q=MB-000001').json()['items'][0]['status']==case['status']
 
 
-def test_historical_predictive_and_invalid_source_require_later_encounter():
-    coder=login('coder')
-    for number in (2,3,6):
-        member=f'MB-{number:06}'
-        assert action(coder,'review',id=member,value='resolved_supported',note='Insufficient current evidence').status_code==400
+def test_historical_predictive_and_invalid_source_require_published_authored_encounter():
+    coder=login('coder');retrieval=login('retrieval')
+    for number,did in ((2,'DOC-0005'),(6,'DOC-RILEY-SIGNED')):
+        mid=f'MB-{number:06}'
+        assert action(coder,'review',id=mid,value='resolved_supported',note='Insufficient current evidence').status_code==400
         provider=login(f'provider{number}')
-        assert action(provider,'respond',id=member,value='supported').status_code==200
-        assert action(coder,'review',id=member,value='resolved_supported',note='Response alone is insufficient').status_code==400
-        assert action(provider,'later_encounter',id=member).status_code==200
-        assert action(coder,'review',id=member,value='resolved_supported',note='Later completed encounter reviewed.').status_code==200
+        assert action(provider,'respond',id=mid,value='supported').status_code==200
+        assert action(coder,'review',id=mid,value='resolved_supported',note='Response alone is insufficient').status_code==400
+        assert action(provider,'later_encounter',id=mid).status_code==200
+        assert action(coder,'review',id=mid,value='resolved_supported',note='Received only').status_code==400
+        assert retrieval.post('/api/v1/intake/publish',json={'document_id':did,'member_id':mid}).status_code==200
+        assert action(coder,'review',id=mid,value='resolved_supported',note='Published signed source reviewed.').status_code==200
+    assert action(login('provider3'),'later_encounter',id='MB-000003').status_code==400
+    assert action(coder,'review',id='MB-000003',value='resolved_supported',note='Signals do not establish support.').status_code==400
 
 
 def test_response_does_not_complete_other_work():
@@ -186,12 +190,18 @@ def test_response_does_not_complete_other_work():
 
 def test_correction_preserves_original_and_receiver_history():
     client=login('submission')
-    assert action(client,'correction',id='SUB-0002').status_code==200
+    assert action(client,'correction',id='SUB-0002').status_code==400
+    assert action(login('coder'),'review',id='MB-000004',value='resolved_unsupported',note='Current source contradicts the original condition.').status_code==200
+    assert action(login('qa'),'qa',id='MB-000004',value='passed').status_code==200
+    prepared=action(client,'prepare',id='MB-000004').json()['submission_id']
+    assert action(client,'receiver',id=prepared,value='rejected').status_code==200
+    retry_id=action(client,'correction',id=prepared).json()['submission_id']
     records=client.get('/api/v1/bootstrap').json()['submissions']
     original=next(r for r in records if r['id']=='SUB-0001')
-    rejected=next(r for r in records if r['id']=='SUB-0002')
-    retry=next(r for r in records if r['status']=='correction_pending' and r['original_id']=='SUB-0001')
+    rejected=next(r for r in records if r['id']==prepared)
+    retry=next(r for r in records if r['id']==retry_id)
     assert original['status']=='accepted' and rejected['status']=='rejected'
+    assert retry['operation']==rejected['operation']=='delete' and retry['retry_of']==prepared
     assert not original['corrected']
     assert action(client,'receiver',id=retry['id'],value='acknowledged').status_code==200
     assert action(client,'receiver',id=retry['id'],value='accepted').status_code==200
@@ -199,6 +209,19 @@ def test_correction_preserves_original_and_receiver_history():
     assert next(r for r in records if r['id']=='SUB-0001')['corrected']
     assert len(next(r for r in records if r['id']==retry['id'])['history'])==2
     assert action(client,'receiver',id=retry['id'],value='rejected').status_code==400
+    assert action(client,'prepare',id=retry['id'],value='reconcile').status_code==200
+    package=client.post('/api/v1/downloads',json={'kind':'audit','ids':['MB-000004']})
+    with zipfile.ZipFile(io.BytesIO(package.content)) as archive:
+        trace=json.loads(archive.read('cases/MB-000004.json'))
+        assert len(trace['submissions'])==4 and trace['missing_links']==[]
+        assert all(r['member_id']=='MB-000004' for r in trace['submissions'])
+        accepted=next(r for r in trace['submissions'] if r['id']==retry['id'])
+        assert accepted['code']=='I50.9' and accepted['source_refs'][0]['document_id']=='DOC-0007'
+        assert accepted['report_comparison']['reported']['record_presence']=='absent'
+        assert accepted['report_comparison']['payment_reconciliation']=='unreconciled'
+        assert 'DOC-0001' not in ''.join(archive.namelist())
+        original_doc=next(d for d in json.loads(main.SEED.read_text())['documents'] if d['id']=='DOC-0007')
+        assert json.loads(archive.read('evidence/DOC-0007.json'))['pages']==original_doc['pages']
 
 
 def test_chase_export_and_audit_manifest():
@@ -262,10 +285,10 @@ def test_atomic_bulk_changes_and_campaign_allocation():
     body=dict(name='Allocated cohort',member_ids=['MB-000001','MB-000002'],owner='QA team',due_date='2026-10-05',value='Independent QA')
     assert action(analyst,'campaign',**body).status_code==200
     assert action(analyst,'campaign',**{**body,'member_ids':list(reversed(body['member_ids']))}).status_code==200
-    assert action(analyst,'campaign',**{**body,'owner':'Coding team'}).status_code==409
+    assert action(analyst,'campaign',**{**body,'owner':'Coding team'}).status_code==400
     state=analyst.get('/api/v1/bootstrap').json()
     tasks=[t for t in state['tasks'] if t['type']=='campaign']
-    assert len(tasks)==2 and all(t['owner']=='QA team' and t['due_date']=='2026-10-05' for t in tasks)
+    assert len(tasks)==2 and all(t['owner']=='QA reviewer' and t['due_date']=='2026-10-05' for t in tasks)
 
 
 def test_intake_validates_identity_signature_and_publishes_once():
@@ -310,6 +333,8 @@ def test_contact_history_and_source_issue_recheck():
     state=retrieval.get('/api/v1/bootstrap').json()
     assert state['runs'][0]['mode']=='source_validation' and state['runs'][0]['status']=='needs_attention'
     assert action(login('provider6'),'later_encounter',id='MB-000006').status_code==200
+    assert len(retrieval.get('/api/v1/bootstrap').json()['issues'])==2
+    assert retrieval.post('/api/v1/intake/publish',json={'document_id':'DOC-RILEY-SIGNED','member_id':'MB-000006'}).status_code==200
     assert len(retrieval.get('/api/v1/bootstrap').json()['issues'])==1
 
 
@@ -338,7 +363,7 @@ def test_later_encounter_hidden_until_loaded_and_repeat_safe():
     assert action(provider,'later_encounter',id='MB-000002').status_code==200
     later=coder.get('/api/v1/members/MB-000002').json()
     doc=next(d for d in later['documents'] if d['id']=='DOC-0005')
-    assert doc['signature_status']=='signed' and doc['source_status']=='eligible'
+    assert doc['signature_status']=='signed' and doc['source_status']=='received'
     retrieval=login('retrieval')
     assert 'DOC-0005' in [d['id'] for d in retrieval.get('/api/v1/intake/samples').json()]
     assert retrieval.post('/api/v1/intake/publish',json={'document_id':'DOC-0005','member_id':'MB-000002'}).status_code==200
@@ -394,3 +419,186 @@ def test_campaign_frozen_preview_rejects_changed_versions_and_coverage():
     final=client.get('/api/v1/bootstrap').json()
     assert len(final['campaigns'])==len(before['campaigns'])+1
     assert final['comparison']==before['comparison']
+
+
+def test_assessment_provider_noop_and_disable_preserve_each_practice():
+    admin=login('admin')
+    for number in range(2,7):
+        uid=f'provider_{number}'
+        for active in (True,False,True):
+            assert admin.patch('/api/v1/admin/users/'+uid,json={'role':'provider','active':active}).status_code==200
+        provider=login(f'provider{number}')
+        assert provider.get('/api/v1/auth/session').json()['provider_id']==f'PR-{number:03}'
+        assert provider.get(f'/api/v1/members/MB-{number:06}').status_code==200
+        assert provider.get('/api/v1/members/MB-000001').status_code==404
+
+
+def test_assessment_finding_specific_gates_and_reachable_allocations():
+    coder=login('coder');analyst=login();superuser=login('superuser')
+    for mid in ('MB-000002','MB-000003','MB-000004','MB-000006','MB-000007'):
+        assert action(coder,'review',id=mid,value='resolved_supported',note='A generic signed note is not finding-specific support.').status_code==400
+    generic=coder.get('/api/v1/members/MB-000007').json()
+    assert not generic['eligibility']['reviewable'] and not generic['eligibility']['support_allowed']
+    assert generic['claims']==[] and generic['eligibility']['example_href']=='/reviews/MB-000001'
+    assert action(superuser,'assign',member_ids=['MB-000001','MB-000031'],value='coder').status_code==400
+    assert action(analyst,'campaign',name='Wrong practice',member_ids=['MB-000001','MB-000002'],owner='provider_2',value='pre_visit').status_code==400
+    options=analyst.get('/api/v1/bootstrap').json()['assignment_options']
+    assert options
+    for option in options:
+        role=option['email'].split('@')[0]
+        client=login(role)
+        for mid in option['member_ids']:
+            detail=client.get('/api/v1/members/'+mid)
+            assert detail.status_code==200
+            for doc in detail.json()['documents']:assert client.get('/api/v1/evidence/'+doc['id']).status_code==200
+    assert action(analyst,'campaign',name='Practice 2 response',member_ids=['MB-000002'],owner='provider_2',value='pre_visit').status_code==200
+
+
+def test_assessment_qa_completion_rework_and_new_source_reopen():
+    analyst=login();coder=login('coder');qa=login('qa')
+    mid='MB-000001'
+    assert action(analyst,'campaign',name='Connected review',member_ids=[mid],owner='coder',value='coding_review').status_code==200
+    def case():return coder.get('/api/v1/members/'+mid).json()
+    assert action(coder,'review',id=mid,value='resolved_supported',note='Signed assessment inspected.').status_code==200
+    assert not case()['opportunities'][0]['completion']['complete']
+    assert case()['tasks'][0]['status']=='open'
+    assert action(qa,'qa',id=mid,value='rework').status_code==400
+    assert action(qa,'qa',id=mid,value='rework',note='Specify the exact current encounter passage.').status_code==200
+    assert case()['opportunities'][0]['qa_note']=='Specify the exact current encounter passage.'
+    assert not case()['opportunities'][0]['completion']['complete']
+    assert action(coder,'review',id=mid,value='resolved_supported',note='DOC-0001 assessment and plan reviewed.').status_code==200
+    assert action(qa,'qa',id=mid,value='passed').status_code==200
+    approved=case()['opportunities'][0]
+    assert approved['completion']['complete'] and case()['tasks'][0]['status']=='completed'
+    assert len(approved['decision_history'])==2 and len(approved['qa_history'])==2
+    campaign=next(c for c in analyst.get('/api/v1/bootstrap').json()['campaigns'] if c['name']=='Connected review')
+    assert campaign['progress']==100 and campaign['completion_denominator']==1
+    assert action(login('provider'),'later_encounter',id=mid,value='jordan-clarification').status_code==200
+    assert login('retrieval').post('/api/v1/intake/publish',json={'document_id':'DOC-JORDAN-CLARIFICATION','member_id':mid}).status_code==200
+    reopened=case()['opportunities'][0]
+    assert reopened['qa_status']=='not_submitted' and not reopened['completion']['complete']
+    assert not reopened['eligibility']['support_allowed'] and 'withdraws' in case()['summary']
+    assert case()['tasks'][0]['status']=='open'
+    assert len(reopened['decision_history'])==2 and len(reopened['qa_history'])==2
+    latest=analyst.get('/api/v1/bootstrap').json()
+    assert next(c for c in latest['campaigns'] if c['name']=='Connected review')['progress']==0
+
+
+def test_assessment_recommendation_changes_citations_and_intake_batch():
+    analyst=login();coder=login('coder');retrieval=login('retrieval');provider=login('provider2');mid='MB-000002'
+    original=coder.get('/api/v1/members/'+mid).json();version=original['opportunities'][0]['recommendation_version'];key=original['basis_key']
+    result=action(analyst,'analyze',id=mid).json()
+    assert result['results'][0]['result']=='no_change'
+    assert action(analyst,'assign',id=mid,value='coder').status_code==200
+    assert coder.get('/api/v1/members/'+mid).json()['opportunities'][0]['recommendation_version']==version
+    assert action(provider,'respond',id=mid,value='supported').status_code==200
+    assert action(provider,'later_encounter',id=mid).status_code==200
+    received=coder.get('/api/v1/members/'+mid).json()
+    assert received['basis_key']==key and not received['eligibility']['support_allowed']
+    assert received['scenario']['date']=='2026-09-18'
+    before=retrieval.get('/api/v1/bootstrap').json()['import_summary']
+    payload={'document_id':'DOC-0005','member_id':mid}
+    published=retrieval.post('/api/v1/intake/publish',json=payload).json()
+    assert published['analysis']['result']=='changed'
+    current=coder.get('/api/v1/members/'+mid).json()
+    assert current['basis_key']!=key and current['opportunities'][0]['recommendation_version']==version+1
+    assert current['eligibility']['support_allowed'] and 'September 18' in current['summary']
+    assert current['claims'] and all(c['document_id']=='DOC-0005' and c['quote'] in json.dumps(next(d for d in current['documents'] if d['id']=='DOC-0005')) for c in current['claims'])
+    assert all('page=1' in c['href'] and 'section=' in c['href'] for c in current['claims'])
+    assert retrieval.post('/api/v1/intake/publish',json=payload).json()['analysis'] is None
+    assert action(analyst,'analyze',id=mid).json()['results'][0]['result']=='no_change'
+    assert coder.get('/api/v1/members/'+mid).json()['opportunities'][0]['recommendation_version']==version+1
+    batch=retrieval.get('/api/v1/bootstrap').json()['import_summary']
+    assert batch['total']==before['total'] and batch['published']==before['published']+1
+    assert batch['received']==sum(r['received'] for r in batch['rows'])
+    assert action(login('provider6'),'later_encounter',id='MB-000006',value='riley-mismatch').status_code==200
+    mismatch={'document_id':'DOC-RILEY-MISMATCH','member_id':'MB-000006'}
+    check=retrieval.post('/api/v1/intake/validate',json=mismatch).json()
+    assert not check['valid'] and not check['checks'][0]['passed']
+    assert retrieval.post('/api/v1/intake/publish',json=mismatch).status_code==400
+    riley=coder.get('/api/v1/members/MB-000006').json()
+    mismatch_step=next(step for step in riley['next_steps'] if 'DOC-RILEY-MISMATCH' in step['href'])
+    assert mismatch_step['label']=='Inspect quarantined source · DOC-RILEY-MISMATCH'
+    assert mismatch_step['href']=='/intake?member=MB-000006&document=DOC-RILEY-MISMATCH'
+    assert action(login('provider6'),'later_encounter',id='MB-000006',value='riley-replacement').status_code==200
+    received=coder.get('/api/v1/members/MB-000006').json()
+    signed_step=next(step for step in received['next_steps'] if 'DOC-RILEY-SIGNED' in step['href'])
+    assert signed_step['label']=='Validate and publish DOC-RILEY-SIGNED'
+    assert retrieval.post('/api/v1/intake/publish',json={'document_id':'DOC-RILEY-SIGNED','member_id':'MB-000006'}).status_code==200
+    published=coder.get('/api/v1/members/MB-000006').json()
+    assert published['eligibility']['support_allowed']
+    assert next(d for d in published['documents'] if d['id']=='DOC-RILEY-SIGNED')['source_status']=='usable'
+    assert any(step['label']=='Inspect quarantined source · DOC-RILEY-MISMATCH' for step in published['next_steps'])
+    assert action(analyst,'analyze',id='MB-000031').json()['results'][0]['result']=='no_result'
+
+
+def test_assessment_linked_addition_retry_report_and_complete_audit():
+    coder=login('coder');qa=login('qa');submission=login('submission');mid='MB-000001'
+    assert action(submission,'prepare',id=mid).status_code==400
+    assert action(coder,'review',id=mid,value='resolved_supported',note='Exact DOC-0001 assessment supports the prepared code.').status_code==200
+    assert action(submission,'prepare',id=mid).status_code==400
+    assert action(qa,'qa',id=mid,value='passed').status_code==200
+    first=action(submission,'prepare',id=mid).json()['submission_id']
+    assert action(submission,'prepare',id=mid).json()['submission_id']==first
+    assert action(submission,'receiver',id=first,value='rejected',note='Prepared source reference rejection.').status_code==200
+    retry=action(submission,'correction',id=first).json()['submission_id']
+    assert action(submission,'correction',id=first).json()['submission_id']==retry
+    records=submission.get('/api/v1/bootstrap').json()['submissions']
+    original=next(r for r in records if r['id']==first);new=next(r for r in records if r['id']==retry)
+    assert original['status']=='rejected' and new['operation']==original['operation']=='add'
+    assert new['review_snapshot']['actor_id']!=new['qa_snapshot']['actor_id']
+    assert new['source_refs'][0]['document_id']=='DOC-0001' and new['code']=='I50.22'
+    assert action(submission,'receiver',id=retry,value='acknowledged').status_code==200
+    assert action(submission,'receiver',id=retry,value='accepted').status_code==200
+    accepted=next(r for r in submission.get('/api/v1/bootstrap').json()['submissions'] if r['id']==retry)
+    assert accepted['transport_status']=='acknowledged' and accepted['receiver_status']=='accepted'
+    assert accepted['eligibility_status']=='not_evaluated' and accepted['reported_status']=='not_compared' and accepted['reconciliation_status']=='unreconciled'
+    assert action(submission,'prepare',id=retry,value='reconcile').status_code==200
+    package=submission.post('/api/v1/downloads',json={'kind':'audit','ids':[mid]})
+    with zipfile.ZipFile(io.BytesIO(package.content)) as archive:
+        trace=json.loads(archive.read('cases/'+mid+'.json'))
+        assert trace['missing_links']==[] and not trace['formal_audit_readiness']
+        assert len(trace['submissions'])==2 and len(trace['decisions'])==len(trace['qa'])==1
+        assert trace['submissions'][1]['report_comparison']['payment_reconciliation']=='unreconciled'
+        assert 'DOC-0007' not in ''.join(archive.namelist())
+        assert 'MB-000004' not in archive.read('manifest.json').decode()
+        original_doc=next(d for d in json.loads(main.SEED.read_text())['documents'] if d['id']=='DOC-0001')
+        assert json.loads(archive.read('evidence/DOC-0001.json'))['pages']==original_doc['pages']
+    # Editing a decision cannot reuse the prior approval or transmit its pending records.
+    assert action(coder,'review',id=mid,value='resolved_supported',note='Fresh review after prior preparation.').status_code==200
+    assert action(submission,'prepare',id=mid).status_code==400
+
+
+def test_assessment_fallback_and_ranking_have_explicit_basis():
+    analyst=login();data=analyst.get('/api/v1/bootstrap').json()
+    scenario=data['scenarios'][0]
+    assert scenario['numeric_status']=='deferred_reference_unavailable'
+    assert scenario['baseline_score'] is scenario['combined_score'] is scenario['delta'] is None
+    assert len(scenario['combined_inputs'])>len(scenario['baseline_inputs'])
+    assert data['program_context']['service_year']==2026 and data['program_context']['payment_year']==2027
+    request={'question':'Find a priority cohort'}
+    first=analyst.post('/api/v1/assistant',json=request).json();second=analyst.post('/api/v1/assistant',json=request).json()
+    assert first['proposal']==second['proposal']
+    assert 'MB-000004' not in first['proposal']['member_ids']
+    integrity=analyst.post('/api/v1/assistant',json={'question':'Find a priority integrity cohort'}).json()
+    assert integrity['proposal']['member_ids']==['MB-000004']
+    for mid in first['proposal']['member_ids']:assert action(analyst,'suppress',id=mid,note='Exclude prepared case from proposal.').status_code==200
+    assert analyst.post('/api/v1/assistant',json=request).json()['proposal']['member_ids']==[]
+
+
+def test_assessment_additive_upgrade_retains_legacy_qa_before_fresh_review():
+    with main.db() as conn:
+        raw=json.loads(main.SEED.read_text());raw.update(tasks=[],runs=[])
+        o=raw['opportunities'][0]
+        o.update(status='resolved_supported',reviewer='coder',decision_note='Original saved review.',review_completed_at='2026-09-11T12:00:00Z',qa_status='passed',qa_reviewer='qa.demo@example.test',qa_note='Original saved QA.')
+        main.save_state(conn,raw)
+    coder=login('coder')
+    case=coder.get('/api/v1/members/MB-000001').json()
+    o=case['opportunities'][0]
+    assert o['decision_history'][0]['note']=='Original saved review.'
+    assert o['qa_history'][0]['note']=='Original saved QA.' and o['qa_history'][0]['at'] is None
+    assert not o['completion']['complete']
+    assert action(coder,'review',id='MB-000001',value='resolved_supported',note='Fresh exact-source review.').status_code==200
+    current=coder.get('/api/v1/members/MB-000001').json()['opportunities'][0]
+    assert len(current['decision_history'])==2 and current['qa_history'][0]['note']=='Original saved QA.'
+    assert current['current_decision_id']!=current['decision_history'][0]['id']

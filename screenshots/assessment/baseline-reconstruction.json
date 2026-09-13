@@ -1,0 +1,30 @@
+{
+  "kind": "reconstructed_baseline_runtime",
+  "created_at": "2026-09-12T23:08:03.311793+00:00",
+  "url": "http://localhost:3004",
+  "compose_project": "ct-assessment-baseline-20260912",
+  "compose_file": "deploy/compose.acceptance.yaml",
+  "credential_file": ".local/assessment-baseline.env",
+  "credential_file_mode": "0600; ignored by Git; values not included",
+  "api_image": {
+    "tag": "perform-plus-api:pre-assessment",
+    "id": "sha256:46df2105d830ca84c2716119a49c37d0af695921dca8e96b8a7e07d5872eaece"
+  },
+  "ui_image": {
+    "tag": "perform-plus-ui:pre-assessment",
+    "id": "sha256:2768567d9d83cc2a07c8ae87faaa678d063a54da3a900861368963c8ec6b58d7"
+  },
+  "database": "Fresh synthetic seed in ct-assessment-baseline-20260912_database; no shared preview state copied or reset.",
+  "purpose": "Reconstruct invalid loading-state before captures from the preserved pre-assessment application images.",
+  "scope_note": "Applies only to replacement captures explicitly marked reconstructed_baseline in the screenshot manifest. These are newly captured baseline software with fresh seeded business state, not recovered original screenshots.",
+  "verification": {
+    "compose_services_healthy": true,
+    "ui_proxy_ready_http_status": 200,
+    "superuser_login_http_status": 200,
+    "superuser_pages": 16,
+    "analyst_login_http_status": 200,
+    "population_count": 10000,
+    "assessment_contract_absent": true
+  },
+  "shared_environments": "No services, credentials or records on ports 3002 or 3003 were changed."
+}

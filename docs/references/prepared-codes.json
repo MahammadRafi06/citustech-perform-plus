@@ -1,0 +1,25 @@
+{
+  "id": "ICD10CM-2026-APRIL-PREPARED-CODES",
+  "accessed": "2026-09-12",
+  "release": "FY2026 ICD-10-CM April 1, 2026 update",
+  "effective_from": "2026-04-01",
+  "effective_to": "2026-09-30",
+  "source_url": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2026-update/icd10cm-April-1-2026-XML.zip",
+  "archive_sha256": "0b50672322cd53b222d007fe703e2708dfa3b34f296eb2016bb3cf2109f0fd64",
+  "source_file": "icd10c-tabular-April-1-2026.xml",
+  "codes": [
+    {
+      "code": "I50.22",
+      "description": "Chronic systolic (congestive) heart failure"
+    },
+    {
+      "code": "I50.9",
+      "description": "Heart failure, unspecified"
+    }
+  ],
+  "prepared_use": {
+    "I50.22": "Jordan current documented assessment, DOC-0001; reviewer and independent QA required.",
+    "I50.9": "Taylor explicitly authored prior submitted code reference for deletion, not a supported diagnosis inferred from the contradictory source."
+  },
+  "limit": "Code-description verification only; not an official HCC mapping, encounter eligibility determination, scoring output or submission acceptance."
+}

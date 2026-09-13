@@ -85,12 +85,8 @@ export function Dashboard({
     [records, setRecords] = useState(false);
   const metrics = data.comparison?.metrics || {};
   const comparison = data.comparison;
-  const active = data.opportunities.filter(
-    (o) =>
-      !["resolved_supported", "resolved_unsupported", "suppressed"].includes(
-        o.status,
-      ),
-  );
+  const active = data.opportunities.filter((o) => o.eligibility?.reviewable && !o.completion?.complete && o.status !== "suppressed");
+  const approved = data.opportunities.filter((o) => o.eligibility?.reviewable && o.completion?.complete);
   const pct = (key: string) =>
     !Number.isFinite(metrics[key])
       ? "Unavailable"
@@ -181,9 +177,9 @@ export function Dashboard({
               onClick={() => router.push("/members")}
             />
             <Metric
-              label="Active work items"
+              label="Open actionable reviews"
               value={num(active.length)}
-              note={`${active.filter((o) => o.priority === "High").length} high priority`}
+              note={`${active.filter((o) => o.priority === "High").length} high priority · awaiting review or QA`}
               icon={<ScanLine />}
               onClick={
                 user.screens.includes("suspects")
@@ -192,21 +188,21 @@ export function Dashboard({
               }
             />
             <Metric
-              label="Supported resolutions"
-              value={num(data.counts.resolved_supported || 0)}
-              note="Recorded reviewer dispositions"
+              label="QA-approved reviews"
+              value={num(approved.length)}
+              note={`${data.counts.resolved_supported || 0} supported dispositions recorded separately`}
               icon={<CheckCircle2 />}
               onClick={
                 user.screens.includes("suspects")
                   ? () =>
                       router.push(
-                        "/suspects?kind=all&status=resolved_supported",
+                        "/suspects?kind=all&saved=complete",
                       )
                   : undefined
               }
             />
             <Metric
-              label="Pending follow-up"
+              label="Population follow-up"
               value={num(
                 (data.counts.awaiting_assessment || 0) +
                   (data.counts.awaiting_evidence || 0),
@@ -215,7 +211,7 @@ export function Dashboard({
               icon={<Clock3 />}
               onClick={
                 user.screens.includes("suspects")
-                  ? () => router.push("/suspects?kind=all&status=pending")
+                  ? () => router.push("/suspects?kind=all&status=pending&scope=all")
                   : undefined
               }
             />
@@ -223,7 +219,7 @@ export function Dashboard({
           <div className="overview-layout">
             <Panel
               title="Needs attention"
-              subtitle="Active work, ordered by review priority"
+              subtitle="Actionable reviews remain open until independent QA approval"
               action={
                 <Link
                   href={
@@ -254,6 +250,7 @@ export function Dashboard({
                     </tr>
                   </thead>
                   <tbody>
+                    {!attention.length && <tr><td colSpan={4}>No actionable reviews are awaiting attention.</td></tr>}
                     {attention.map((o) => (
                       <tr key={o.id}>
                         <td>
@@ -707,7 +704,9 @@ function DomainView({
     .sort((a, b) => b[1] - a[1])
     .slice(0, 100)
     .map(([name, value]) => ({ name: label(name), value }));
-  const completed = rows.filter((r) =>
+  const completed = ["Coding & QA", "Executive", "Risk & conditions", "Suspecting"].includes(domain)
+    ? relevant.filter((o) => o.completion?.complete).length
+    : rows.filter((r) =>
     [
       "accepted",
       "resolved_supported",
@@ -727,9 +726,9 @@ function DomainView({
           icon={<Activity size={18} />}
         />
         <Metric
-          label="Completed outcomes"
+          label={["Coding & QA", "Executive", "Risk & conditions", "Suspecting"].includes(domain) ? "QA-approved actionable reviews" : "Completed outcomes"}
           value={num(completed)}
-          note="Status depends on the selected workflow"
+          note={domain === "Coding & QA" ? "Terminal review approved independently" : domain === "Retrieval" ? "Published usable source" : domain === "Submissions" ? "Accepted by the simulated receiver" : "Completion follows the selected workflow"}
           icon={<CheckCircle2 size={18} />}
           accent="teal"
         />

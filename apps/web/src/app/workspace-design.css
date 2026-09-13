@@ -450,12 +450,12 @@
 .status {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
+  gap: 0;
+  padding: 0;
   max-width: 100%;
-  border: 1px solid var(--border);
-  background: var(--muted);
-  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
   font-size: 12.5px;
   font-weight: 500;
   white-space: nowrap;
@@ -465,11 +465,11 @@
 .evidence-level {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--accent-foreground);
+  gap: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-secondary);
   font-size: 12.5px;
   font-weight: 600;
   white-space: nowrap;
@@ -1809,31 +1809,75 @@ tr[tabindex]:focus-visible {
   }
   .intake-workspace {
     grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-rows: 72px minmax(0, 1fr);
+    height: calc(100dvh - 194px);
+    min-height: 0;
+  }
+  .assessment-scope + .page-canvas .intake-workspace {
+    height: calc(100dvh - 228px);
+    min-height: 0;
   }
   .intake-queue {
     grid-column: 1/-1;
     display: flex;
     gap: 8px;
     align-items: center;
-    max-height: 90px;
+    height: 72px;
+    min-height: 72px;
+    max-height: 72px;
+    padding: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
   .intake-queue h2 {
+    flex: 0 0 auto;
     white-space: nowrap;
     padding: 0 8px;
   }
   .intake-queue > button {
-    min-width: 160px;
-    width: auto;
+    flex: 0 0 224px;
+    min-width: 224px;
+    width: 224px;
     margin: 0;
-    padding: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    line-height: 16px;
   }
-  .intake-workspace {
-    height: auto;
-    min-height: 0;
+  .intake-queue-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .intake-queue small {
+    margin-top: 2px;
+    font-size: 11px;
+    line-height: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .intake-queue > .intake-member-link {
+    flex: 0 0 auto;
+    margin: 0 8px;
+    white-space: nowrap;
   }
   .intake-workspace > .source-viewer,
-  .intake-inspector {
-    height: 650px;
+  .intake-workspace > .intake-inspector {
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .intake-workspace .intake-inspector-body {
+    min-height: 0;
+    overflow: auto;
+  }
+  .intake-workspace .intake-inspector > header,
+  .intake-workspace .decision-footer,
+  .intake-workspace .source-toolbar,
+  .intake-workspace .source-provenance,
+  .intake-workspace .source-footer {
+    flex-shrink: 0;
   }
   .overview-layout {
     grid-template-columns: minmax(0, 1fr) 270px;

@@ -1,0 +1,95 @@
+{
+  "verified_at": "2026-09-12T23:33:31.206445+00:00",
+  "checkout_base": "40be7e2",
+  "branch": "codex/assessment-workflows",
+  "containers": [
+    {
+      "name": "ct-acceptance-20260912142859-ui-1",
+      "container_id": "742c1854a7eeba0a2343c37c2c94f3f342bc44ab7143147d61e5fdc288cfe257",
+      "image_id": "sha256:26a7441a890aa0a5430c6fb849c0db80b9419bacd76f4857051c0073536bf44b",
+      "status": "running",
+      "health": null,
+      "source_sha256": "3f0b436f76c34c4d6d4b3dd7768acc81f1efa8d6b4ca60f74d02fea0d12d1c25"
+    },
+    {
+      "name": "ct-acceptance-20260912142859-api-1",
+      "container_id": "23f4b2339ce52f7fc478840ad95b47e91764466f180170dd7368c36a4a3e0e7e",
+      "image_id": "sha256:b14e621a5677af9b166d289d9cbb222a04e6a0c637ede6c76399cb35cfdb23b9",
+      "status": "running",
+      "health": "healthy",
+      "source_sha256": "ff59ca6032b45bf769ace2d87bc89ee0aebe9b089cfb6126448848d0784ef8a9"
+    },
+    {
+      "name": "ct-acceptance-20260912142859-db-1",
+      "container_id": "6e072a3b154e4c0f3f51e71441579b6492e7b81c54bc9e41a26ca29dfbc30755",
+      "image_id": "sha256:4ef4dbc939d61acea57712655ddb4b4ab27419c913f94cca0cd57cb3ea3c2280",
+      "status": "running",
+      "health": "healthy",
+      "source_sha256": null
+    },
+    {
+      "name": "ct-assessment-20260912-ui-1",
+      "container_id": "9da8b053aca1fb36da049b8f89459e931aa76d2de943920467b5689bc6679bf4",
+      "image_id": "sha256:26a7441a890aa0a5430c6fb849c0db80b9419bacd76f4857051c0073536bf44b",
+      "status": "running",
+      "health": null,
+      "source_sha256": "3f0b436f76c34c4d6d4b3dd7768acc81f1efa8d6b4ca60f74d02fea0d12d1c25"
+    },
+    {
+      "name": "ct-assessment-20260912-api-1",
+      "container_id": "2aa250a545a4d4dc6ce5c4691078006696c3c86df784e7b1cc04d83c4c633358",
+      "image_id": "sha256:b14e621a5677af9b166d289d9cbb222a04e6a0c637ede6c76399cb35cfdb23b9",
+      "status": "running",
+      "health": "healthy",
+      "source_sha256": "ff59ca6032b45bf769ace2d87bc89ee0aebe9b089cfb6126448848d0784ef8a9"
+    }
+  ],
+  "note": "Source fingerprints identify the local source tree used for the final build, captured before the implementation commit. These local runtime checks do not establish a production deployment.",
+  "api_build": {
+    "source_sha256": "ff59ca6032b45bf769ace2d87bc89ee0aebe9b089cfb6126448848d0784ef8a9",
+    "fingerprint_algorithm": "SHA-256 over files sorted by repository-relative POSIX path; append UTF-8 relative path, NUL byte, raw file bytes, NUL byte for each. Inputs: apps/api/Dockerfile, apps/api/requirements.lock, all apps/api/app files except __pycache__, and seed/demo.json.",
+    "components": [
+      {
+        "path": "apps/api/Dockerfile",
+        "sha256": "3f66f651058f571abea0f396746d927a96fe95ed6a87e900c7430530d0fcc7a5",
+        "bytes": 535
+      },
+      {
+        "path": "apps/api/app/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "apps/api/app/assessment.py",
+        "sha256": "dfaca24f66f9b39c17f5f8254fcf97bf4c8f2d00588f3ce492720070797786fb",
+        "bytes": 24652
+      },
+      {
+        "path": "apps/api/app/display.py",
+        "sha256": "1c071d9a080a5fc33e41b738c04124e80aeb04bc0cb59e2c786c1526b8ef1111",
+        "bytes": 5084
+      },
+      {
+        "path": "apps/api/app/main.py",
+        "sha256": "5ed135798d67cee7abd068958585c575eb811d32bc33344f68fb85217b834f34",
+        "bytes": 62642
+      },
+      {
+        "path": "apps/api/requirements.lock",
+        "sha256": "eb7f6dc05b1a4350269d0e54e21d33e117bcee2e6479b2cb1b6065206d23aca1",
+        "bytes": 474
+      },
+      {
+        "path": "seed/demo.json",
+        "sha256": "42763669542c934338c667a5c615ce1806c0346b18529f22d3c2f4f1dd90c045",
+        "bytes": 7419838
+      }
+    ],
+    "tags": [
+      "perform-plus-api:assessment",
+      "perform-plus-api:0.1.0"
+    ],
+    "change": "Truthful inspect label for known quarantined or mismatched received sources; intake routes and gates unchanged.",
+    "fingerprint_note": "This final API fingerprint uses the explicit documented input recipe; it is not directly comparable to the earlier undocumented API recipe."
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   FileCheck2,
@@ -28,10 +29,11 @@ import {
   SelectField,
 } from "./shared";
 import type { WorkspaceProps } from "./workspaces";
-import type { Evidence, Chase } from "@/lib/types";
+import type { Evidence, Chase, Member } from "@/lib/types";
 import { api, download, label } from "@/lib/api";
 import { useDraft, useUrlState, useReturnLink } from "@/hooks/workspace-state";
 import { SourceDocument } from "./source-document";
+import { CaseNextSteps } from "./assessment-ui";
 import { toast } from "sonner";
 type Validation = {
   valid: boolean;
@@ -48,6 +50,8 @@ export function IntakeWorkspace({
   refresh,
 }: WorkspaceProps) {
   const client = useQueryClient();
+  const params = useSearchParams();
+  const requestedMember = params?.get("member") || "";
   const returnLink = useReturnLink();
   const [status, setStatus] = useUrlState("status", "all");
   const [provider, setProvider] = useUrlState("provider", "all");
@@ -60,11 +64,7 @@ export function IntakeWorkspace({
     "Phone follow-up",
   );
   const [busy, setBusy] = useState(false);
-  const [sampleId, setSampleId] = useUrlState("sample", "DOC-0010");
-  const [memberOverride, setMemberId] = useDraft(
-    `intake-${sampleId}-member`,
-    "",
-  );
+  const [sampleOverride, setSampleId] = useUrlState("document", "");
   const [validation, setValidation] = useState<Validation | null>(null);
   const [file, setFile] = useState<{
     name: string;
@@ -84,9 +84,12 @@ export function IntakeWorkspace({
     queryFn: () => api<Evidence[]>("/intake/samples"),
     enabled: route === "intake",
   });
+  const sampleId = sampleOverride || params?.get("sample") || (requestedMember ? samples.data?.find((d) => d.member_id === requestedMember)?.id || "" : "DOC-0010");
   const sample = samples.data?.find((d) => d.id === sampleId);
+  const [memberOverride, setMemberId] = useDraft(`intake-${sampleId}-member`, "");
   const memberId =
-    memberOverride || sample?.requested_member_id || sample?.member_id || "";
+    memberOverride || requestedMember || sample?.requested_member_id || sample?.member_id || "";
+  const member = useQuery({ queryKey: ["member", memberId, user.id], queryFn: () => api<Member>(`/members/${memberId}`), enabled: route === "intake" && !!memberId });
   const rows = data.chases.filter(
     (c) =>
       (status === "all" || c.status === status) &&
@@ -143,13 +146,14 @@ export function IntakeWorkspace({
         <PageHeader
           title="Document intake"
           description="Review source identity and eligibility before publishing."
-        />
+        >{memberId && <Button variant="outline" asChild><Link href={returnLink(`/members/${memberId}?tab=Evidence%20%26%20documents&document=${sampleId}`)}>Back to {member.data?.name || memberId}<ArrowRight size={14} /></Link></Button>}</PageHeader>
         <div className="intake-workspace">
           <aside className="intake-queue" aria-label="Sample documents">
-            <h2>Sample documents</h2>
-            {samples.data?.map((d) => (
+            <h2>{requestedMember ? "Case documents" : "Prepared source queue"}</h2>
+            {samples.data?.filter((d) => !requestedMember || d.member_id === requestedMember || d.requested_member_id === requestedMember).map((d) => (
               <button
                 key={d.id}
+                title={`${d.title} · ${d.id} · ${d.date} · ${d.published_at ? "Published" : label(d.source_status)}`}
                 className={!file && d.id === sampleId ? "active" : ""}
                 onClick={() => {
                   setSampleId(d.id);
@@ -157,12 +161,13 @@ export function IntakeWorkspace({
                   setFile(null);
                 }}
               >
-                {d.title}
+                <span className="intake-queue-title">{d.title}</span>
                 <small>
-                  {d.id} · {d.date}
+                  {d.id} · {d.date} · {d.published_at ? "Published" : label(d.source_status)}
                 </small>
               </button>
             ))}
+            {requestedMember && <Link className="intake-member-link" href="/intake">All prepared documents →</Link>}
           </aside>
           {file ? (
             <section className="source-viewer">
@@ -250,7 +255,7 @@ export function IntakeWorkspace({
                     <div className="definition-list">
                       <div>
                         <span>Source member</span>
-                        <strong>{sample.member_id}</strong>
+                        <strong>{sample.source_member_id || sample.member_id}</strong>
                       </div>
                       <div>
                         <span>Encounter date</span>
@@ -272,6 +277,7 @@ export function IntakeWorkspace({
                       </div>
                     </div>
                   )}
+                  {member.data?.scenario && <p className="body-copy">Scenario date {member.data.scenario.date}. Encounter dates remain as authored; saved actions use their actual timestamps.</p>}
                   <div className="validation-checks">
                     {currentValidation ? (
                       currentValidation.checks.map((c) => (
@@ -282,12 +288,10 @@ export function IntakeWorkspace({
                         </div>
                       ))
                     ) : (
-                      <Notice>
-                        Review needed · Validate member matching, signature and
-                        current-period eligibility.
-                      </Notice>
+                      <Notice>{sample?.published_at ? "Published and available for a fresh review. Previous decisions remain in the case history." : "Review needed · Validate member matching, signature and current-period eligibility."}</Notice>
                     )}
                   </div>
+                  {(sample?.published_at || !sample || (currentValidation && !currentValidation.valid)) && member.data && <CaseNextSteps member={member.data} user={user} accounts={data.assignment_options} />}
                 </>
               )}
               <div className="local-file-preview">
@@ -329,7 +333,9 @@ export function IntakeWorkspace({
             {!file && (
               <footer className="decision-footer">
                 <p>
-                  {currentValidation?.valid
+                  {sample?.published_at
+                    ? `Published ${new Date(sample.published_at).toLocaleString()}. Coding review and independent QA are the next gates.`
+                    : currentValidation?.valid
                     ? "All required checks passed. Source will be rechecked on publish."
                     : currentValidation
                       ? "Publishing is blocked until the failed checks are resolved."
@@ -349,10 +355,10 @@ export function IntakeWorkspace({
                   Open member record →
                 </Link>
                 <Button
-                  disabled={!currentValidation?.valid || busy}
+                  disabled={!currentValidation?.valid || !!sample?.published_at || busy}
                   onClick={publish}
                 >
-                  Publish document
+                  {sample?.published_at ? "Document published" : "Publish document"}
                 </Button>
               </footer>
             )}
@@ -530,6 +536,7 @@ export function IntakeWorkspace({
               Mark receipt here, then validate and publish the source in
               Document Intake.
             </Notice>
+            {user.screens.includes("intake") && <Button variant="outline" asChild><Link href={`/intake?member=${detail.member_id}${detail.document_ids?.length ? `&document=${detail.document_ids[0]}` : ""}`}>Validate this member’s source<ArrowRight size={14} /></Link></Button>}
             <h3 className="section-title">Record a follow-up</h3>
             <SelectField
               label="Contact channel"

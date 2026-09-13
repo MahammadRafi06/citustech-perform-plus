@@ -1,4 +1,117 @@
-# CitusTech Perform+ UI-first demo TODO
+# CitusTech Perform+ delivery TODO
+
+Updated 12 September 2026 after reviewing the full [capability assessment](Perform_Plus_Demo_Assessment.md) against `main` at `40be7e2`. The active plan is [docs/DEMO_ASSESSMENT_PLAN.md](docs/DEMO_ASSESSMENT_PLAN.md). **The assessment features are implemented, connected browser journeys pass, and the approved runtime reset rehearsal passed twice; see [verification](docs/ASSESSMENT_VERIFICATION.md).**
+
+## Assessment backlog — active
+
+`DA-01`–`DA-12` map directly to assessment D01–D12. DA-13/DA-14 capture the prepared import and record-reconciliation requirements from its workflow table. The original checked D01–D07 phases farther below are historical delivery, not evidence that these new requirements are complete. Each active ticket must meet the acceptance criteria in the new plan before it is checked off.
+
+- [x] **PLAN-01** Read all 478 assessment lines and compare requirements with the merged implementation; confirm the intervening merge contains visual changes only.
+- [x] **PLAN-02** Record scope, defaults, dependencies, all-screen coverage, focused acceptance and deferred work before implementation.
+- [x] **PRE-01** At implementation start, recheck concurrent changes, record the actual preview/runtime revision and capture before screenshots with route, role, case state and viewport metadata. Preserve shared state and credentials.
+
+### Phase 1 — Case and access foundation
+
+**DA-11 · P0 · Provider scope · independent first fix**
+
+- [x] Preserve the current provider practice on no-op save and disable/re-enable; keep session revocation and self-account protections.
+- [x] Verify provider2 remains PR-002, can open member 2 and cannot open member 1 after a fresh login.
+
+**DA-03 · P1 · Prepared-case evidence eligibility**
+
+- [x] Add the explicit six-case/source/transition catalog and additive state support without resetting existing accounts or history.
+- [x] Expose server-derived reviewability, finding-specific support reasons and complete-example links; apply the same gates in API, workbench and Member 360.
+- [x] Verify browsing-only support is denied; Jordan, Morgan, Avery, Taylor, Casey and Riley retain their intended evidence distinctions. A signed unrelated/contradictory current note does not establish support.
+
+**DA-04 · P1 · Reachable assignments · depends on DA-03**
+
+- [x] Bind owners to eligible local accounts/practices and validate actionable members at bulk assignment, campaign preview and activation; distinguish existing population campaigns from actionable work.
+- [x] Replace arbitrary assistant cohort order with stable ranking and visible inclusion reasons; separate integrity work and retain explicit proposal review (AI03).
+- [x] Sign in as each offered assignee to verify member/source reachability; check exact preview counts, coverage, empty results and stale-preview behavior.
+
+### Phase 2 — Review, QA and simulated outcome
+
+**DA-05 · P1 · Shared completion and rework**
+
+- [x] Define completion per intervention and use it consistently in tasks, members, campaigns and operational dashboards; retain separate recorded-disposition metric definitions.
+- [x] Retain review/QA snapshots and show user-entered rework rationale in both review surfaces.
+- [x] Verify awaiting QA remains open, independent pass advances completion, rework/new evidence reopens, and retrieval completes only on usable source.
+
+**DA-01 · P1 · Connected submissions · depends on DA-03/DA-05**
+
+- [x] Verify prepared code/release references and bind exact source passages, recommendation, reviewer and QA snapshots to the submission preparation path.
+- [x] Connect Jordan's approved addition and Taylor's approved deletion to explicit simulated attempts and next-action links.
+- [x] Preserve original/rejected attempts and intended operations on retry; prevent duplicate preparation of the same approved decision and require fresh approval after relevant changes.
+- [x] Verify separate acknowledgement/acceptance/eligibility/payment states; acceptance must not imply payment reconciliation or bypass independent QA.
+
+### Phase 3 — Evidence changes and guided follow-up
+
+**DA-06 · P1 · Recommendation changes/history · depends on the case catalog**
+
+- [x] Separate workflow revision from recommendation version while preserving campaign version checks; retain existing recommendation snapshots.
+- [x] Implement named prepared transitions, changed/no-change results and one visible contradiction change with exact evidence references (AI01).
+- [x] Verify unchanged input and assignment/review/QA do not generate new recommendations; repeated publication does not duplicate history.
+
+**DA-08 · P1 · Provider → intake → fresh review · coordinates with DA-06**
+
+- [x] Replace generic later-encounter creation with named authored transitions; retain Morgan's source and add distinct Riley replacement/mismatch examples without rewriting original documents.
+- [x] Add neutral evidence-context queries (AI04), role-aware next steps and same-member return links from response through validation/publication to review.
+- [x] Make publish-once source availability update finding/summary/history together and require fresh review/QA; loading a source or answering a query alone cannot enable supported coding.
+- [x] Verify unsigned/mismatched rejection, Riley's matched replacement, Morgan's later source and Avery's assessment/no-support path.
+
+**DA-07 · P1 · Current explanations and precise citations · depends on DA-06/DA-08**
+
+- [x] Build state-aware prepared summaries and claim-level member/document/page/passage links with support/history/conflict/context labels (AI02).
+- [x] Invalidate assistant answers when their recommendation/source basis changes and navigate citations to the exact section.
+- [x] Verify Morgan updates, Avery remains a signal, Taylor shows contradiction, and no-source cases abstain; all claims match protected source passages.
+
+**DA-10 · P1 · Program, basis and scenario date · shared across phases**
+
+- [x] Expose one program/scenario context, distinguish staged dates from actual action timestamps and retain authored source dates.
+- [x] Apply restrained prepared/precomputed/simulated labels to relevant UI and export outputs; check reference-dependent new copy against authoritative sources.
+- [x] Verify no output implies live AI, real transmission/payment or an implemented unconfigured program; avoid repeated demo branding and warning panels.
+
+### Phase 4 — Scoring, import explanation and case trace
+
+**DA-02 · P1 · Casey comparison · reference discovery starts in Phase 1**
+
+- [x] Establish the available reference basis and retained complete-member inputs, assumptions, model/year/segment and hierarchy explanation.
+- [x] Implement independently checked precomputed baseline/combined results if a verified reference is available; otherwise implement the explicit nonnumeric hierarchy fallback.
+- [x] Record which option shipped, preserve unavailable states for unconfigured inputs and keep official numeric scoring open/deferred if using the fallback. No summed marginal estimates or invented revenue.
+
+**DA-09 · P2 · Complete case export · depends on DA-01/DA-06**
+
+- [x] Add readable and machine-readable source/recommendation/review/QA/submission chains with complete retry history, basis and missing-link states (AI05).
+- [x] Derive audit readiness from actual selected-case records and include DA-14's prepared report trace when available.
+- [x] Inspect Jordan/Taylor ZIP contents against the UI; verify original source text, stable IDs, retained prior decisions and exclusion of unrelated members.
+
+**DA-13 · P2 · Prepared import summary · depends on DA-08/DA-10**
+
+- [x] Show received/matched/quarantined counts for a named prepared batch, with clear units, denominator and separate usability state.
+- [x] Link sample failures to intake/remediation and verify rechecks/publication update the same records without claiming arbitrary ingestion/OCR.
+
+**DA-14 · P2 · Prepared record reconciliation · depends on DA-01/DA-10**
+
+- [x] Add one named synthetic report comparison tied to the same source, approved decision and submission; keep receipt, acceptance, eligibility, reported and payment states separate.
+- [x] Verify matching/difference explanations and export provenance; leave actual payment unreconciled and avoid real integration/financial claims.
+
+### Phase 5 — Desktop verification and handoff
+
+**DA-12 · P2 · Presenter route · follows the connected features**
+
+- [x] Complete Jordan, Morgan/Avery, Riley, Taylor and Casey stories with real local role handoffs, including independent QA and visible rework rationale.
+- [x] Check all sixteen screens and supporting analytics views for next-action links, source readability, saved/unsaved labels and preserved member/filter context; reconcile merged typography with the earlier IBM Plex Sans choice and retain plain statuses without backgrounds/dots.
+- [x] Run focused API checks, type/compile checks and production builds; validate separate local UI/API/database containers and the intended :3002 login path.
+- [x] Verify refresh, representative exports and reset preservation in the disposable-schema acceptance suite; preserve accounts/roles and the frozen AI comparison. Retain metric formulas/denominator explanations (AI05).
+- [x] Repeat reset in the completed isolated runtime at `:3003`. After explicit user approval and a protected backup, two reset cycles restored all six cases while preserving 14 accounts, roles, practice scopes, passwords, original sources and frozen metrics. The existing `:3002` preview remained unchanged.
+- [x] Capture and inspect matching before/after 1440×900 screenshots; check dense review/source layouts at 1366×768 and 1920×1080. Fix defects and save actual dimensions in `screenshots/assessment/manifest.json`. No mobile design.
+- [x] Write `docs/ASSESSMENT_VERIFICATION.md`; update README and presenter routes with observed results, correct environment/login instructions, screenshot links and explicit remaining limitations. Check off tasks only after their acceptance passes.
+
+**Deferred:** real integrations/OCR/live AI, full official program engines, complex correction/concurrency cases, enterprise auth/operations, clinical outcome studies, mobile design and target Kubernetes rollout. The legacy deployment TODO remains open below. See the plan for decision triggers and the scoring fallback boundary.
+
+## Historical initial delivery
+
+The following checklist records the original bounded build. Its completion claims and test counts are historical; the active assessment backlog above is the current scope. In particular, the original review/QA and submission screens existed independently, which does not satisfy DA-01's connected journey.
 
 Updated 12 September 2026. Execution plan: [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md). Product reference: [original coding specification](CitusTech_Perform_Plus_Coding_Spec.md).
 
@@ -8,7 +121,7 @@ Build all sixteen screens, with the strongest detail on the opening screens and 
 
 Allocate effort approximately **60% to visual/UI quality, 25% to journey wiring (including local authentication/RBAC) and 15% to focused QA**. These are effort priorities, not a delivery-time promise. Checkboxes below track the implemented demo and verified demo scope and the remaining environment deployment.
 
-## Implementation status — 12 September 2026
+## Initial implementation status — historical
 
 The bounded demo implementation is complete across D01–D06: **Next.js, Tailwind, shadcn/ui, FastAPI and PostgreSQL**, all sixteen screen families, local authentication/RBAC, and the remaining campaign, bulk-action, intake, assistant and navigation work. The focused acceptance suite passes **17 tests**. Browser QA covered the six case paths, both walkthrough routes, account handoffs, reset, downloads, keyboard interaction and the four target viewport sizes. See [verification evidence](docs/VERIFICATION.md) for the exact scope and timing limits.
 
