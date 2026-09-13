@@ -1,0 +1,44 @@
+[
+  {
+    "logo": {
+      "complete": true,
+      "height": 56,
+      "naturalWidth": 64,
+      "src": "http://127.0.0.1:3000/_next/image?url=%2Fbranding%2Fnorthstar-meridian-mark.png&w=64&q=75",
+      "width": 56
+    },
+    "viewport": {
+      "height": 839,
+      "scrollHeight": 839,
+      "scrollWidth": 1366,
+      "width": 1366
+    },
+    "wordmark": {
+      "fontSize": "20px",
+      "scrollWidth": 180,
+      "text": "Northstar & Meridian",
+      "width": 180
+    }
+  },
+  {
+    "logo": {
+      "complete": true,
+      "height": 56,
+      "naturalWidth": 64,
+      "src": "http://127.0.0.1:3000/_next/image?url=%2Fbranding%2Fnorthstar-meridian-mark.png&w=64&q=75",
+      "width": 56
+    },
+    "viewport": {
+      "height": 839,
+      "scrollHeight": 839,
+      "scrollWidth": 1920,
+      "width": 1920
+    },
+    "wordmark": {
+      "fontSize": "24px",
+      "scrollWidth": 216,
+      "text": "Northstar & Meridian",
+      "width": 216
+    }
+  }
+]

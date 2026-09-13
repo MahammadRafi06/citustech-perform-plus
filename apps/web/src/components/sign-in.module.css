@@ -46,13 +46,12 @@
   margin-inline: auto;
 }
 
-.workspaceIcon {
-  display: grid;
-  place-items: center;
+.workspaceLogo {
+  display: block;
   flex: none;
-  width: 40px;
-  height: 40px;
-  color: var(--text-secondary);
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
 }
 
 .workspaceIdentity > div {
@@ -61,10 +60,12 @@
 
 .workspaceIdentity > div > span {
   display: block;
-  margin-bottom: 3px;
-  color: var(--text-muted);
-  font-size: 12px;
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  letter-spacing: 0.09em;
   line-height: 1.35;
+  text-transform: uppercase;
 }
 
 .workspaceIdentity strong {
@@ -72,11 +73,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--ink-strong);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
+  color: var(--primary);
+  font-size: clamp(20px, 1.4vw, 24px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
 }
+
+.workspaceAmpersand { color: #506f87; font-weight: 400; }
+.workspaceMeridian { color: #087f8c; }
 
 .formSide {
   display: flex;

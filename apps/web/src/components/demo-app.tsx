@@ -5,6 +5,7 @@ import { RiskProvider, RiskContextBar, RiskOverview, useRiskContext } from "./ri
 import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   QueryClient,
@@ -556,10 +557,25 @@ function Login({
         <Brand full />
         <div className={signIn.workspaceHeader}>
           <div className={signIn.workspaceIdentity}>
-            <span className={signIn.workspaceIcon} aria-hidden="true"><Building2 size={20} /></span>
+            <Image
+              className={signIn.workspaceLogo}
+              src="/branding/northstar-meridian-mark.png"
+              alt=""
+              width={56}
+              height={56}
+              loading="eager"
+            />
             <div>
               <span>Organization workspace</span>
-              <strong>{workspaceName}</strong>
+              <strong title={workspaceName}>
+                {workspaceName === "Northstar & Meridian" ? (
+                  <>
+                    <span>Northstar</span>
+                    <span className={signIn.workspaceAmpersand}> & </span>
+                    <span className={signIn.workspaceMeridian}>Meridian</span>
+                  </>
+                ) : workspaceName}
+              </strong>
             </div>
           </div>
         </div>
