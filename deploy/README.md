@@ -20,9 +20,13 @@ The workflow invokes the `perform-plus-release` Lambda inside the VPC. Its EKS g
 
 The EKS API's public CIDR restriction remains unchanged. The release bridge calls the private endpoint; no permanent AWS credentials or additional public Kubernetes access are used. See [GitHub OIDC in AWS](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws) and [EKS group access entries](https://docs.aws.amazon.com/eks/latest/userguide/create-k8s-group-access-entry.html).
 
+This repository uses GitHub's immutable subject format. The trust policy pins owner ID `163666861`, repository ID `1367596866`, and `refs/heads/main`; it does not fall back to a name-only or wildcard subject. Recheck `gh api repos/MahammadRafi06/citustech-perform-plus/actions/oidc/customization/sub` if repository ownership changes. See [immutable OIDC subjects](https://docs.github.com/en/actions/reference/security/oidc#immutable-subject-claims).
+
 ## Infrastructure and bootstrap
 
 `aws/` is a separate Terraform root. State and saved plans are under ignored `.local/aws-deploy/`; do not delete that state or commit it. Initialize, generate a saved plan, inspect it, and apply that exact plan. Existing cluster/VPC/hosted-zone resources are referenced rather than imported or recreated.
+
+`aws/production.auto.tfvars.json` records the ingress-created ALB ARN used for the Route 53 alias. If the ingress is deliberately replaced, verify the new ALB identity and update that input before applying a DNS plan.
 
 ```bash
 terraform -chdir=deploy/aws init

@@ -23,11 +23,13 @@ locals {
   account    = data.aws_caller_identity.current.account_id
   registry   = "${local.account}.dkr.ecr.${local.region}.amazonaws.com"
   repository = "MahammadRafi06/citustech-perform-plus"
-  host       = "performplus.idaibhealth.com"
-  zone_id    = "Z03332101O8QU3MC8I65G"
-  subnets    = ["subnet-059cf470b5e140a27", "subnet-0f1b63a43cc932211"]
-  eks_issuer = replace(data.aws_iam_openid_connect_provider.eks.url, "https://", "")
-  scheduling = { nodeSelector = { "workload" = "perform-plus" }, tolerations = [{ key = "workload", operator = "Equal", value = "perform-plus", effect = "NoSchedule" }] }
+  # Read from GitHub's repository OIDC configuration; immutable owner/repo IDs are required.
+  github_subject_prefix = "repo:MahammadRafi06@163666861/citustech-perform-plus@1367596866"
+  host                  = "performplus.idaibhealth.com"
+  zone_id               = "Z03332101O8QU3MC8I65G"
+  subnets               = ["subnet-059cf470b5e140a27", "subnet-0f1b63a43cc932211"]
+  eks_issuer            = replace(data.aws_iam_openid_connect_provider.eks.url, "https://", "")
+  scheduling            = { nodeSelector = { "workload" = "perform-plus" }, tolerations = [{ key = "workload", operator = "Equal", value = "perform-plus", effect = "NoSchedule" }] }
 }
 
 resource "aws_ecr_repository" "app" {
@@ -41,7 +43,7 @@ resource "aws_ecr_repository" "app" {
 
 resource "aws_iam_role" "github" {
   name               = "perform-plus-github-main"
-  assume_role_policy = jsonencode({ Version = "2012-10-17", Statement = [{ Effect = "Allow", Principal = { Federated = data.aws_iam_openid_connect_provider.github.arn }, Action = "sts:AssumeRoleWithWebIdentity", Condition = { StringEquals = { "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com", "token.actions.githubusercontent.com:sub" = "repo:${local.repository}:ref:refs/heads/main" } } }] })
+  assume_role_policy = jsonencode({ Version = "2012-10-17", Statement = [{ Effect = "Allow", Principal = { Federated = data.aws_iam_openid_connect_provider.github.arn }, Action = "sts:AssumeRoleWithWebIdentity", Condition = { StringEquals = { "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com", "token.actions.githubusercontent.com:sub" = "${local.github_subject_prefix}:ref:refs/heads/main" } } }] })
 }
 
 resource "aws_iam_role_policy" "github" {
