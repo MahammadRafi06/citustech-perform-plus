@@ -1,3 +1,7 @@
+## Active work — Agent and AI model configuration UI
+
+UI delivery complete and verified locally. User narrowed this to a polished, interactive demo UI. See [UI TODOs](docs/AGENT_MODEL_CONFIGURATION_PLAN.md) and [future integration requirements](CitusTech_Perform_Plus_Agent_Model_Configuration_Requirements.md). Backend provider/runtime work is deferred by explicit instruction.
+
 # CitusTech Perform+ delivery TODO
 
 ## Active increment — business requirements V2
@@ -337,3 +341,15 @@ The full normalized domain backend architecture, durable workers/outbox infrastr
 - [x] Local Kustomize rendering and deployment guide.
 - [x] Build both container images and validate separate UI/API/PostgreSQL containers, health, authentication and restart persistence locally.
 - [ ] Push the images and validate the actual target Kubernetes cluster, ingress/TLS and PVC behavior after deployment targets are supplied.
+
+## Agents visual refinement
+
+- [x] Polish Agents configuration with provider logos, role cards and consistent shared page/panel spacing.
+- [x] Make private deployments directly selectable as either the primary or fallback model while preserving saved configurations.
+- [x] Verify the rendered configuration pages and private model controls; save before/after screenshots in `screenshots/agents-polish/`.
+
+## Desktop navigation and release
+
+- [x] Refine the white sidebar with organization branding, compact navigation, clearer selected states and an accessible collapsed rail.
+- [x] Preserve the sidebar preference across navigation and reloads; retain risk context and role-based links.
+- [x] Build and visually inspect expanded/collapsed navigation before publishing through the existing main-branch EKS workflow.

@@ -32,9 +32,11 @@ import {
   FolderCheck,
   Database,
   Settings,
+  Bot,
   Search,
   Bell,
   ChevronDown,
+  ChevronRight,
   LogOut,
   LockKeyhole,
   Eye,
@@ -60,13 +62,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Toaster, toast } from "sonner";
 import { api, command, ApiError, label } from "@/lib/api";
 import type { User, Snapshot, Command } from "@/lib/types";
 import { Dashboard } from "./dashboard";
 import { Workspaces } from "./workspaces";
 import { FixtureAssistant } from "./fixture-assistant";
+import { AiConfiguration } from "./ai-configuration";
 import { Avatar, Drawer, Empty, Modal, Notice } from "./shared";
 
 const queryClient = new QueryClient({
@@ -120,11 +123,12 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
       ["submissions", "Submissions", Send],
       ["audit", "Audit workspace", FolderCheck],
       ["data", "Models & data", Database],
+      ["agents", "Agents", Bot],
       ["admin", "Administration", Settings],
     ],
   },
 ];
-function Brand({ full = false }: { full?: boolean }) {
+function Brand({ full = false, sidebar = false }: { full?: boolean; sidebar?: boolean }) {
   return (
     <div className={`brand${full ? " brand-full" : ""}`}>
       <span className={full ? "brand-wordmark" : "brand-mark"}>
@@ -135,40 +139,41 @@ function Brand({ full = false }: { full?: boolean }) {
           height={full ? 251 : 200}
         />
       </span>
-      <span className="brand-product">
-        Perform<span className="brand-plus">+</span>
-      </span>
+      {sidebar ? <span className="sidebar-product"><span className="brand-product">Perform<span className="brand-plus">+</span></span><small>Risk adjustment</small></span> : <span className="brand-product">Perform<span className="brand-plus">+</span></span>}
     </div>
   );
 }
 function WorkspaceNavigation({
   user,
   route,
+  collapsed = false,
   onNavigate,
 }: {
   user: User;
   route: string;
+  collapsed?: boolean;
   onNavigate?: () => void;
 }) {
   const risk = useRiskContext();
   return (
     <nav aria-label="Workspace navigation">
       {routes.map((group) => {
-        const items = group.items.filter(([id]) => user.screens.includes(id));
+        const items = group.items.filter(([id]) => user.screens.includes(id === "agents" ? "admin" : id));
         return items.length ? (
           <div className="nav-group" key={group.group}>
             <h3>{group.group}</h3>
             {items.map(([id, title, Icon]) => (
-              <Link
-                key={id}
-                href={risk.href(`/${id}`)}
+              <Tooltip key={id} delayDuration={200}><TooltipTrigger asChild><Link
+                href={id === "agents" ? "/admin/ai/agents" : risk.href(`/${id}`)}
+                aria-label={title}
                 aria-current={route === id ? "page" : undefined}
                 className={`nav-link ${route === id ? "active" : ""}`}
                 onClick={onNavigate}
               >
-                <Icon size={18} />
-                <span>{title}</span>
-              </Link>
+                <Icon className="nav-icon" size={18} aria-hidden="true" />
+                <span className="nav-label">{title}</span>
+                {route === id && <ChevronRight className="nav-chevron" size={13} aria-hidden="true" />}
+              </Link></TooltipTrigger>{collapsed && <TooltipContent side="right" sideOffset={12}>{title}</TooltipContent>}</Tooltip>
             ))}
           </div>
         ) : null;
@@ -208,6 +213,14 @@ function Application() {
   const [help, setHelp] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [globalSearch, setGlobalSearch] = useState("");
+  useEffect(() => {
+    try { setCollapsed(localStorage.getItem("ct-sidebar-collapsed") === "true"); } catch { /* The navigation still works when browser storage is unavailable. */ }
+  }, []);
+  function toggleNavigation() {
+    const next = !collapsed;
+    setCollapsed(next);
+    try { localStorage.setItem("ct-sidebar-collapsed", String(next)); } catch { /* Keep the current tab's selection. */ }
+  }
   const session = useQuery({
     queryKey: ["session"],
     queryFn: () => api<User>("/auth/session"),
@@ -299,15 +312,15 @@ function Application() {
               : `/${user.screens[0]}`
           }
         >
-          <Brand />
+          <Brand sidebar />
         </Link>
-        <div className="workspace-label">
-          <Building2 size={16} />
-          <span title={workspaceName}>{workspaceName}</span>
+        <div className="workspace-label" title={workspaceName}>
+          <Image className="workspace-symbol" src="/branding/northstar-meridian-mark.png" alt="" width={32} height={32} loading="eager" />
+          <div className="workspace-identity"><small>Organization workspace</small><strong>{workspaceName === "Northstar & Meridian" ? <><span>Northstar</span><span className="workspace-ampersand"> & </span><span className="workspace-meridian">Meridian</span></> : workspaceName}</strong></div>
         </div>
-        <WorkspaceNavigation user={user} route={actualRoute} />
+        <WorkspaceNavigation user={user} route={pathname.startsWith('/admin/ai') ? 'agents' : actualRoute} collapsed={collapsed} />
         <div className="sidebar-footer">
-          <button onClick={() => setHelp(true)}>
+          <button onClick={() => setHelp(true)} aria-label="Workspace guide" title={collapsed ? "Workspace guide" : undefined}>
             <HelpCircle size={16} />
             <span>Workspace guide</span>
             <ArrowUpRight size={14} />
@@ -322,7 +335,8 @@ function Application() {
               size="icon-sm"
               className="desktop-nav-toggle"
               aria-label="Toggle navigation"
-              onClick={() => setCollapsed(!collapsed)}
+              aria-expanded={!collapsed}
+              onClick={toggleNavigation}
             >
               {collapsed ? (
                 <PanelLeftOpen size={18} />
@@ -330,7 +344,7 @@ function Application() {
                 <PanelLeftClose size={18} />
               )}
             </Button>
-            <span className="breadcrumb">{routeName}</span>
+            <span className="breadcrumb">{pathname.startsWith('/admin/ai') ? 'Agents configuration' : routeName}</span>
           </div>
           <div className="topbar-right">
             {snapshot.data && (
@@ -387,7 +401,7 @@ function Application() {
             </DropdownMenu>
           </div>
         </header>
-        <RiskContextBar />
+        {!pathname.startsWith('/admin/ai') && <RiskContextBar />}
         <main
           className={`page-canvas route-${actualRoute} ${actualRoute === "reviews" && pathname.split("/")[2] ? "workbench-canvas" : ""}`}
         >
@@ -422,7 +436,7 @@ function Application() {
               </Button>
             </div>
           ) : snapshot.data ? (
-            actualRoute === "overview" ? <RiskOverview user={user} /> : actualRoute === "analytics" ? (
+            pathname.startsWith('/admin/ai') ? <AiConfiguration key={user.id} user={user} /> : actualRoute === "overview" ? <RiskOverview user={user} /> : actualRoute === "analytics" ? (
               <Dashboard
                 data={snapshot.data}
                 user={user}

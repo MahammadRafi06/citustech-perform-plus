@@ -20,6 +20,7 @@ import {
   LoaderCircle,
   Plus,
   Search,
+  Settings,
   ShieldCheck,
   Sparkles,
   Users,
@@ -2074,7 +2075,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
       <PageHeader
         title="Administration"
         description="Manage access and workspace settings."
-      />
+      ><Button asChild variant="outline"><Link href="/admin/ai/agents"><Settings size={16} />Agents configuration<ArrowRight size={14} /></Link></Button></PageHeader>
       <Tabs value={tab} onValueChange={setTab} className="member-tabs">
         <TabsList>
           {[
@@ -2230,6 +2231,10 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
               </Button>
             </div>
           </div>
+        </Panel>
+      ) : tab === "AI settings" ? (
+        <Panel title="Agent configuration" subtitle="Choose a model and personalize the settings for each Perform+ agent.">
+          <div className="padded"><p className="body-copy">Manage shared provider details, model selections, response settings and saved versions in one place.</p><Button asChild><Link href="/admin/ai/agents">Open Agents configuration<ArrowRight size={15} /></Link></Button></div>
         </Panel>
       ) : (
         <Panel title={tab} subtitle="Program and workspace configuration">

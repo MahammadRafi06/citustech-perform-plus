@@ -775,3 +775,8 @@ The following product pages displayed no verified publication date. All were acc
 [^V08]: Arcadia, [Risk Adjustment](https://arcadia.io/risk-adjustment) and [HCC Risk Suspecting App](https://arcadia.io/risk-suspecting-software-with-epic). Risk analytics and distinct condition/follow-up workflows.
 
 [^V09]: Veradigm, [Data Submissions and Reconciliation](https://veradigm.com/data-submissions-and-reconciliation/). Risk-aware intake, validation, correction and response processing.
+
+
+## Companion — agent and generative AI model configuration
+
+[Agent and AI Model Configuration Requirements](CitusTech_Perform_Plus_Agent_Model_Configuration_Requirements.md) defines provider connections, generative model deployments, tested agent versions and runtime controls. It is separate from RA-01 risk-adjustment model configuration. The current delivery is limited to an interactive configuration UI, as requested. Implementation tracking: [UI TODOs](docs/AGENT_MODEL_CONFIGURATION_PLAN.md).
