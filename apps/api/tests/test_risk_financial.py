@@ -179,3 +179,19 @@ def test_incomplete_records_without_member_scope_are_visible_only_to_their_autho
     assert client.get('/api/v1/risk/financial/' + saved['id'], headers={'x-test-user': 'scoped'}).status_code == 404
     assert client.get('/api/v1/risk/financial', headers={'x-test-user': 'scoped'}).json()['items'] == []
     assert client.get('/api/v1/risk/financial', headers={'x-test-user': 'analyst'}).json()['items'][0]['id'] == saved['id']
+
+
+def test_history_includes_records_beyond_one_hundred_with_reader_scope(api):
+    client, db, _ = api
+    expected = []
+    for index in range(106):
+        mid = 'MB-000002' if index == 105 else 'MB-000001'
+        record = {'id': f'FIN-{index:04}', 'member_ids': [mid], 'actor_id': 'analyst'}
+        db.execute('INSERT INTO risk_records VALUES (?,?,?,?,?)',
+                   (record['id'], 'financial', mid, json.dumps(record), f'2026-09-13T00:{index // 60:02}:{index % 60:02}'))
+        if index < 105:
+            expected.append(record['id'])
+    db.commit()
+    assert len(client.get('/api/v1/risk/financial', headers={'x-test-user': 'analyst'}).json()['items']) == 106
+    scoped = client.get('/api/v1/risk/financial', headers={'x-test-user': 'scoped'}).json()['items']
+    assert [item['id'] for item in scoped] == list(reversed(expected))

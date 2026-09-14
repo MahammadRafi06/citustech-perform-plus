@@ -66,7 +66,7 @@ def dashboard(conn, state, members, config_id, basis='captured_baseline', prior_
                'attribution': [{'factor': 'Shared / unattributed input, age, segment and period change', 'value': delta}],
                'attribution_method': 'Raw change is retained as one reconciled residual. Causal or per-factor allocation has not been calculated.',
                'members': [{'member_id': mid, 'name': allowed[mid]['name'], 'prior_run_id': prior[mid]['id'],
-                  'current_run_id': present[mid]['id'], 'delta': present[mid]['raw_score'] - prior[mid]['raw_score']} for mid in matched[:100]]}
+                  'current_run_id': present[mid]['id'], 'delta': present[mid]['raw_score'] - prior[mid]['raw_score']} for mid in matched]}
     return {'config_id': config_id, 'score_basis': basis, 'stale': any(r['stale'] for r in current),
       'definition': 'Stored successful model outputs; no missing stage or score is replaced by zero.', 'unit': 'score points',
       'weighting': 'Eligible member-month weighted internal portfolio measure', 'scope_members': len(members),

@@ -14,6 +14,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import {
+  ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   LayoutDashboard,
@@ -156,7 +157,7 @@ function WorkspaceNavigation({
 }) {
   const risk = useRiskContext();
   return (
-    <nav aria-label="Workspace navigation">
+    <nav id="workspace-navigation" aria-label="Workspace navigation">
       {routes.map((group) => {
         const items = group.items.filter(([id]) => user.screens.includes(id === "agents" ? "admin" : id));
         return items.length ? (
@@ -320,11 +321,26 @@ function Application() {
         </div>
         <WorkspaceNavigation user={user} route={pathname.startsWith('/admin/ai') ? 'agents' : actualRoute} collapsed={collapsed} />
         <div className="sidebar-footer">
-          <button onClick={() => setHelp(true)} aria-label="Workspace guide" title={collapsed ? "Workspace guide" : undefined}>
+          <button className="sidebar-guide" onClick={() => setHelp(true)} aria-label="Workspace guide" title={collapsed ? "Workspace guide" : undefined}>
             <HelpCircle size={16} />
             <span>Workspace guide</span>
-            <ArrowUpRight size={14} />
           </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                className="sidebar-collapse"
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                aria-expanded={!collapsed}
+                aria-controls="workspace-navigation"
+                onClick={toggleNavigation}
+              >
+                {collapsed ? <ArrowRight size={16} aria-hidden="true" /> : <ArrowLeft size={16} aria-hidden="true" />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={12}>{collapsed ? "Expand sidebar" : "Collapse sidebar"}</TooltipContent>
+          </Tooltip>
         </div>
       </aside>
       <div className="main-shell">

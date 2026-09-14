@@ -1,0 +1,729 @@
+[
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "contribution records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 1,500 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 150"
+          }
+        ],
+        "rows": 10,
+        "title": "Contribution records"
+      }
+    ],
+    "view": [
+      "AI Impact"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "contribution records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "11–20 of 1,500 recordsRows per page10 / page25 / page50 / page100 / pagePage 2 of 150"
+          }
+        ],
+        "rows": 10,
+        "title": "Contribution records"
+      }
+    ],
+    "view": [
+      "AI Impact"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "contribution records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "25",
+            "text": "1–25 of 1,500 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 60"
+          }
+        ],
+        "rows": 25,
+        "title": "Contribution records"
+      }
+    ],
+    "view": [
+      "AI Impact"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "contribution records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "50",
+            "text": "1–50 of 1,500 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 30"
+          }
+        ],
+        "rows": 50,
+        "title": "Contribution records"
+      }
+    ],
+    "view": [
+      "AI Impact"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "contribution records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "100",
+            "text": "1–100 of 1,500 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 15"
+          }
+        ],
+        "rows": 100,
+        "title": "Contribution records"
+      }
+    ],
+    "view": [
+      "AI Impact"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "suspecting records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 1,123 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 113"
+          }
+        ],
+        "rows": 10,
+        "title": "Suspecting records"
+      }
+    ],
+    "view": [
+      "Suspecting"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "providers records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 30 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 3"
+          }
+        ],
+        "rows": 10,
+        "title": "Providers records"
+      }
+    ],
+    "view": [
+      "Providers"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "retrieval records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 30 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 3"
+          }
+        ],
+        "rows": 10,
+        "title": "Retrieval records"
+      }
+    ],
+    "view": [
+      "Retrieval"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "coding & qa records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 646 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 65"
+          }
+        ],
+        "rows": 10,
+        "title": "Coding & QA records"
+      }
+    ],
+    "view": [
+      "Coding & QA"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "submissions records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 13 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 2"
+          }
+        ],
+        "rows": 10,
+        "title": "Submissions records"
+      }
+    ],
+    "view": [
+      "Submissions"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "data & ai operations records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "0–0 of 0 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 0,
+        "title": "Data & AI operations records"
+      }
+    ],
+    "view": [
+      "Data & AI"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Member risk results pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 10,000 membersRows per page10 / page25 / page50 / page100 / pagePage 1 of 1,000"
+          }
+        ],
+        "rows": 10,
+        "title": "Member risk results"
+      }
+    ],
+    "view": [
+      "Executive"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Member risk results pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "25",
+            "text": "1–25 of 10,000 membersRows per page10 / page25 / page50 / page100 / pagePage 1 of 400"
+          }
+        ],
+        "rows": 25,
+        "title": "Member risk results"
+      }
+    ],
+    "view": [
+      "Executive"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Monthly values and denominators pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 12 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 2"
+          }
+        ],
+        "rows": 10,
+        "title": "Monthly calculated risk"
+      },
+      {
+        "footers": [
+          {
+            "name": "Separate score stages pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–6 of 6 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 6,
+        "title": "Separate score stages"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Risk and stage movement"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Monthly values and denominators pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "11–12 of 12 recordsRows per page10 / page25 / page50 / page100 / pagePage 2 of 2"
+          }
+        ],
+        "rows": 2,
+        "title": "Monthly calculated risk"
+      },
+      {
+        "footers": [
+          {
+            "name": "Separate score stages pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–6 of 6 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 6,
+        "title": "Separate score stages"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Risk and stage movement"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "model categories pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–4 of 4 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 4,
+        "title": "Retained model category prevalence"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Condition prevalence"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "contributing members pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 2,500 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 250"
+          }
+        ],
+        "rows": 10,
+        "title": "HCC226 · contributing members"
+      },
+      {
+        "footers": [
+          {
+            "name": "model categories pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–4 of 4 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 4,
+        "title": "Retained model category prevalence"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Condition prevalence"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "contributing members pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "25",
+            "text": "1–25 of 2,500 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 100"
+          }
+        ],
+        "rows": 25,
+        "title": "HCC226 · contributing members"
+      },
+      {
+        "footers": [
+          {
+            "name": "model categories pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–4 of 4 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 4,
+        "title": "Retained model category prevalence"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Condition prevalence"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Annual condition inventory pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 9,598 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 960"
+          }
+        ],
+        "rows": 10,
+        "title": "Annual condition inventory"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Annual recapture",
+      "Comparable pairs · 9598"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Retained period attribution pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–1 of 1 recordRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 1,
+        "title": "Period change bridge"
+      },
+      {
+        "footers": [
+          {
+            "name": "matched members pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–10 of 9,600 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 960"
+          }
+        ],
+        "rows": 10,
+        "title": "Matched-member evidence"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Actual period comparison"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Retained period attribution pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–1 of 1 recordRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 1,
+        "title": "Period change bridge"
+      },
+      {
+        "footers": [
+          {
+            "name": "matched members pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "9,591–9,600 of 9,600 recordsRows per page10 / page25 / page50 / page100 / pagePage 960 of 960"
+          }
+        ],
+        "rows": 10,
+        "title": "Matched-member evidence"
+      }
+    ],
+    "view": [
+      "Risk & conditions",
+      "Actual period comparison"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Retained financial sensitivities pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–3 of 3 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 3,
+        "title": "Retained financial assumptions and outputs"
+      }
+    ],
+    "view": [
+      "Financial"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "Financial components pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–1 of 1 recordRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          },
+          {
+            "name": "Assumption sensitivities pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "1–2 of 2 recordsRows per page10 / page25 / page50 / page100 / pagePage 1 of 1"
+          }
+        ],
+        "rows": 3,
+        "title": "Simplified MA payment sensitivity"
+      }
+    ],
+    "view": [
+      "Financial"
+    ]
+  },
+  {
+    "loading": false,
+    "tables": [],
+    "view": []
+  },
+  {
+    "loading": false,
+    "tables": [
+      {
+        "footers": [
+          {
+            "name": "submissions records pagination",
+            "options": [
+              "10",
+              "25",
+              "50",
+              "100"
+            ],
+            "size": "10",
+            "text": "11–13 of 13 recordsRows per page10 / page25 / page50 / page100 / pagePage 2 of 2"
+          }
+        ],
+        "rows": 3,
+        "title": "Submissions records"
+      }
+    ],
+    "view": [
+      "Submissions"
+    ]
+  }
+]

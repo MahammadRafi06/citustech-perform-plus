@@ -398,6 +398,8 @@ export function Dashboard({
             }
           >
             <DataGrid
+              pageSize={10}
+              stateKey="analytics_contributions"
               rows={data.opportunities}
               onRow={(o) => router.push(caseLink(o))}
               columns={[
@@ -479,6 +481,8 @@ export function Dashboard({
         description="200 charts, separate from the operational population."
       >
         <DataGrid
+          pageSize={10}
+          stateKey="analytics_evaluation"
           rows={(comparison?.evaluation_records || []).map((r) => ({
             id: String(r.id),
             arm: r.arm === "assisted" ? "AI-assisted" : "Manual",
@@ -569,6 +573,10 @@ function DomainView({
       <OperationalVisuals domain={domain} rows={rows} data={data} />
       <Panel title={`${domain} records`}>
         <DataGrid
+          key={domain}
+          pageSize={10}
+          stateKey={`analytics_${domain.toLowerCase().replace(/[^a-z0-9]+/g, "_")}`}
+          searchLabel={`Search ${domain.toLowerCase()} records…`}
           rows={rows}
           columns={[
             {

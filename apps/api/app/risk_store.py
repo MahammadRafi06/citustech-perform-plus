@@ -114,8 +114,12 @@ def record(conn, kind, value, mid=None, rid=None):
 
 def records(conn, kind, mid=None, limit=100):
     where = 'kind=?' + (' AND member_id=?' if mid else '')
-    args = [kind] + ([mid] if mid else []) + [limit]
-    return [body(r) for r in conn.execute(f'SELECT body FROM risk_records WHERE {where} ORDER BY created_at DESC LIMIT ?', args)]
+    args = [kind] + ([mid] if mid else [])
+    query = f'SELECT body FROM risk_records WHERE {where} ORDER BY created_at DESC'
+    if limit is not None:
+        query += ' LIMIT ?'
+        args.append(limit)
+    return [body(r) for r in conn.execute(query, args)]
 
 
 def save_batch(conn, value):

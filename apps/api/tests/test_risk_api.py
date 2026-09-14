@@ -10,6 +10,60 @@ from apps.api.app import risk_store, risk_service, risk_inputs
 CONFIG = risk_inputs.DEFAULT_CONFIG
 
 
+def test_overview_includes_all_scored_members_in_stable_order_with_reader_scope():
+    admin = login('admin')
+    feed = admin.get('/api/v1/risk/external-scores/example').json()
+    with main.db() as conn:
+        members = main.get_state(conn)['members'][:105]
+    member_ids = sorted(m['id'] for m in members)
+    feed['metadata']['expected_member_ids'] = member_ids
+    feed['rows'] = [dict(feed['rows'][0], member_id=mid) for mid in reversed(member_ids)]
+    imported = admin.post('/api/v1/risk/external-scores', json=feed)
+    assert imported.status_code == 200, imported.text
+    assert imported.json()['imported'] == 105
+
+    url = '/api/v1/risk/overview?config_id=medicaid_fl_external&basis=reported'
+    overview = admin.get(url).json()
+    assert [row['member_id'] for row in overview['members']] == member_ids
+    assert overview['coverage']['scored_members'] == len(overview['members']) == 105
+    assert overview['portfolio']['denominator'] == 105 * feed['rows'][0]['coverage_months']
+    assert {row['run_id'] for row in overview['members']} == set(imported.json()['run_ids'])
+
+    scoped = login('provider2').get(url).json()
+    expected = sorted(m['id'] for m in members if m['provider_id'] == 'PR-002')
+    assert [row['member_id'] for row in scoped['members']] == expected
+    assert scoped['coverage']['scored_members'] == len(expected)
+
+
+def test_period_comparison_includes_every_matched_member_and_retained_run():
+    client = login('admin')
+    with main.db() as conn:
+        members = main.get_state(conn)['members'][:105]
+        run_ids = {}
+        for config_id, score in [('ma_v28_py2026', 1.0), (CONFIG, 1.5)]:
+            run_ids[config_id] = {}
+            for member in reversed(members):
+                frozen = risk_store.snapshot(conn, config_id, {'member_id': member['id'], 'synthetic': True})
+                run = risk_store.save_run(conn, frozen, {
+                    'config_id': config_id, 'status': 'completed', 'raw_score': score,
+                    'monthly_scores': [{'month': f'2026-{month:02}', 'raw_score': score} for month in range(1, 13)],
+                    'categories': [],
+                }, 'captured_baseline', actor='pagination-test')
+                run_ids[config_id][member['id']] = run['id']
+    url = '/api/v1/risk/analytics?config_id=' + CONFIG + '&prior_config_id=ma_v28_py2026'
+    comparison = client.get(url).json()['comparison']
+    assert comparison['matched_members'] == len(comparison['members']) == 105
+    assert comparison['before']['denominator'] == comparison['after']['denominator'] == 1260
+    assert comparison['raw_change'] == 0.5
+    assert [row['member_id'] for row in comparison['members']] == sorted(m['id'] for m in members)
+    for row in comparison['members']:
+        assert row['prior_run_id'] == run_ids['ma_v28_py2026'][row['member_id']]
+        assert row['current_run_id'] == run_ids[CONFIG][row['member_id']]
+    scoped = login('provider2').get(url).json()['comparison']
+    assert [row['member_id'] for row in scoped['members']] == sorted(m['id'] for m in members if m['provider_id'] == 'PR-002')
+    assert scoped['matched_members'] == len(scoped['members'])
+
+
 def test_status_drilldown_and_analytics_reconcile_without_zero_stages():
     client = login()
     run = calculate(client, 'MB-000005')

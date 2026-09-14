@@ -4,8 +4,6 @@ import { useUrlState } from "@/hooks/workspace-state";
 import {
   ArrowDownToLine,
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   Search,
   SlidersHorizontal,
   Inbox,
@@ -40,6 +38,7 @@ import {
 } from "@/components/ui/sheet";
 import { label, num } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { TablePagination } from "./table-pagination";
 
 export function Status({ value }: { value: string }) {
   if (
@@ -454,45 +453,14 @@ export function DataGrid<T extends { id: string }>({
       {!table.getRowModel().rows.length && (
         <Empty title="No matching records" />
       )}
-      <div className="table-footer">
-        <span>{num(table.getFilteredRowModel().rows.length)} records</span>
-        <SelectField
-          label="Rows per page"
-          value={String(pageSize)}
-          onChange={(v) => {
-            setPageSize(Number(v));
-            setPageIndex(0);
-          }}
-          options={[25, 50, 100].map((v) => ({
-            value: String(v),
-            label: `${v} / page`,
-          }))}
-        />
-        <div>
-          <span>
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {Math.max(table.getPageCount(), 1)}
-          </span>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            aria-label="Previous page"
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => table.previousPage()}
-          >
-            <ChevronLeft size={16} />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            aria-label="Next page"
-            disabled={!table.getCanNextPage()}
-            onClick={() => table.nextPage()}
-          >
-            <ChevronRight size={16} />
-          </Button>
-        </div>
-      </div>
+      <TablePagination
+        label={searchLabel.replace(/^(Search )|[…\.]+$/g, "")}
+        totalRows={table.getFilteredRowModel().rows.length}
+        pageIndex={table.getState().pagination.pageIndex}
+        pageSize={pageSize}
+        onPageChange={(page) => table.setPageIndex(page)}
+        onPageSizeChange={(size) => { setPageSize(size); setPageIndex(0); }}
+      />
     </div>
   );
 }

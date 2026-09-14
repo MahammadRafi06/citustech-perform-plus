@@ -227,7 +227,7 @@ def overview(conn, state, members, config_id, basis='captured_baseline'):
                         {'id': 'coverage', 'label': 'Scored members', 'value': len(scored), 'denominator': len(members), 'unit': 'members'}],
             'distribution': [{'label': key, 'count': dist[key]} for key in ['0–0.5', '0.5–1', '1–2', '2–3', '3+']],
             'members': [{'member_id': r['member_id'], 'name': allowed[r['member_id']]['name'], 'run_id': r['id'],
-                         'raw_score': r['raw_score'], 'adjusted_score': r.get('adjusted_score'), 'stale': r.get('stale', False)} for r in scored[:100]],
+                         'raw_score': r['raw_score'], 'adjusted_score': r.get('adjusted_score'), 'stale': r.get('stale', False)} for r in sorted(scored, key=lambda r: r['member_id'])],
             'stale': stale, 'incomplete': len(scored) != fixture_manifest['expected_scoreable_members'] or mixed_external, 'batch': visible_batches[0] if visible_batches else None,
             'fixture_manifest': fixture_manifest}
 

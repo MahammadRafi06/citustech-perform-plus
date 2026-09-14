@@ -342,7 +342,7 @@ def register(app, *, db, user, get_state, allowed_members, member, permit, event
     def history(u=Depends(user)):
         with db() as conn:
             state = get_state(conn)
-            return {'items': [row for row in store.records(conn, 'financial', limit=100) if visible(row, state, u)]}
+            return {'items': [row for row in store.records(conn, 'financial', limit=None) if visible(row, state, u)]}
 
     @router.get('/{record_id}')
     def saved(record_id: str, u=Depends(user)):
