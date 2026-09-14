@@ -1,0 +1,328 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions" [selected]
+    - tab "Geography"
+    - tab "Suspecting"
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions"
+    - tab "Financial"
+    - tab "Data & AI"
+  - tabpanel:
+    - tablist "Risk analytics views":
+      - tab "Risk and stage movement"
+      - tab "Condition prevalence"
+      - tab "Annual recapture"
+      - tab "Actual period comparison" [active] [selected]
+    - button "Export retained analytics"
+    - text: Prior configuration
+    - combobox "Prior period configuration":
+      - option "Choose an actual prior input period"
+      - option "CMS-HCC V28 · 2026 Midyear/Final" [selected]
+      - option "CMS-HCC V28 · 2027 Initial"
+      - option "CMS-HCC V24 · 2025 historical reference"
+    - link "Fixed-input model comparison":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - text: Fixed-input model comparison
+    - generic: Prior comparable value
+    - strong: "0.834"
+    - generic: 9600 matched members
+    - generic: Current comparable value
+    - strong: "0.847"
+    - generic: 9600 matched members
+    - generic: Raw period change
+    - strong: "+0.012"
+    - generic: 9600 matched members
+    - heading "Period change bridge" [level=2]
+    - paragraph: Raw change is retained as one reconciled residual. Causal or per-factor allocation has not been calculated.
+    - generic: Prior period
+    - generic: Current period
+    - 'img "Matched cohort: Prior period 0.834; Current period 0.847"':
+      - generic: "0"
+      - generic: "0.5"
+      - generic: "1"
+      - generic: "1.5"
+      - generic "Matched cohort"
+      - generic: "0.834"
+      - generic: "0.847"
+    - table "Retained period attribution":
+      - rowgroup:
+        - row "Retained attribution Score-point change":
+          - columnheader "Retained attribution"
+          - columnheader "Score-point change"
+      - rowgroup:
+        - row "Shared / unattributed input, age, segment and period change +0.012":
+          - cell "Shared / unattributed input, age, segment and period change"
+          - cell "+0.012"
+    - navigation "Retained period attribution pagination":
+      - status: 1–1 of 1 record
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 1
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page" [disabled]:
+      - button "Last page" [disabled]:
+    - generic: 0 prior-only members excluded · 400 current-only members excluded
+    - generic: Available
+    - heading "Matched-member evidence" [level=2]
+    - paragraph: Retained prior and current runs support the displayed comparison.
+    - textbox "Search matched members…"
+    - generic: Row density
+    - combobox "Row density":
+      - option "Comfortable" [selected]
+      - option "Compact"
+    - region "Search matched members table":
+      - table:
+        - rowgroup:
+          - row "Member Raw change Prior inputs Current inputs":
+            - columnheader "Member":
+              - button "Member"
+            - columnheader "Raw change":
+              - button "Raw change"
+            - columnheader "Prior inputs"
+            - columnheader "Current inputs"
+        - rowgroup:
+          - row "Jordan Ellis 0.000 Inspect prior snapshot Inspect current snapshot":
+            - cell "Jordan Ellis"
+            - cell "0.000"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000001?tab=Scoring+inputs&run=RUN-8f1f38fa101445c0b782cdb4d385434e&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000001?tab=Scoring+inputs&run=RUN-1f6575df19c947ddac1221ebb57123e7&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Morgan Reed -0.319 Inspect prior snapshot Inspect current snapshot":
+            - cell "Morgan Reed"
+            - cell "-0.319"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000002?tab=Scoring+inputs&run=RUN-4fbbb8362aa74360a5ae11e636a0368b&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000002?tab=Scoring+inputs&run=RUN-646dcb3c4c8e4c8f83f141df5e69aa85&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Avery Brooks 0.000 Inspect prior snapshot Inspect current snapshot":
+            - cell "Avery Brooks"
+            - cell "0.000"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000003?tab=Scoring+inputs&run=RUN-1bf0e8a6c03a45f59efd8f872ba428f7&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000003?tab=Scoring+inputs&run=RUN-97af39db71ce4eb8a4022a6ba37bee76&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Taylor Quinn +0.064 Inspect prior snapshot Inspect current snapshot":
+            - cell "Taylor Quinn"
+            - cell "+0.064"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000004?tab=Scoring+inputs&run=RUN-c618d4d9e47d41eaabf6e814ae5eebde&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000004?tab=Scoring+inputs&run=RUN-8a64fb40f9d34342a950222fcd507da1&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Casey Morgan 0.000 Inspect prior snapshot Inspect current snapshot":
+            - cell "Casey Morgan"
+            - cell "0.000"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000005?tab=Scoring+inputs&run=RUN-586306b2562840bbb3604cfc7145fc03&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000005?tab=Scoring+inputs&run=RUN-1937055894e743c89e7384775021f582&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Riley Parker 0.000 Inspect prior snapshot Inspect current snapshot":
+            - cell "Riley Parker"
+            - cell "0.000"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000006?tab=Scoring+inputs&run=RUN-34430da580614213af669e8b2fe76699&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000006?tab=Scoring+inputs&run=RUN-380df59e0d854a4b890d18d89ecf123f&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Rowan Cameron 0.000 Inspect prior snapshot Inspect current snapshot":
+            - cell "Rowan Cameron"
+            - cell "0.000"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000007?tab=Scoring+inputs&run=RUN-8237c5457c744b60bc6467454abb4ec8&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000007?tab=Scoring+inputs&run=RUN-2b9c4565b2104e5691c904b95b67ef78&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Lane Jensen 0.000 Inspect prior snapshot Inspect current snapshot":
+            - cell "Lane Jensen"
+            - cell "0.000"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000008?tab=Scoring+inputs&run=RUN-88d172269fa347cab2299cf53a40944c&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000008?tab=Scoring+inputs&run=RUN-4b563c52efab4c708a9ea6cfbbbe196e&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Teresa Diaz 0.000 Inspect prior snapshot Inspect current snapshot":
+            - cell "Teresa Diaz"
+            - cell "0.000"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000009?tab=Scoring+inputs&run=RUN-6fe3cdaca2604ab1b35a3d7c5402281e&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000009?tab=Scoring+inputs&run=RUN-bc540c0da311421396b3ead6ced38a8e&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+          - row "Jose Davis +0.050 Inspect prior snapshot Inspect current snapshot":
+            - cell "Jose Davis"
+            - cell "+0.050"
+            - cell "Inspect prior snapshot":
+              - link "Inspect prior snapshot":
+                - /url: /members/MB-000010?tab=Scoring+inputs&run=RUN-72ec12963d1742108004a0a8857f6c12&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect prior snapshot
+            - cell "Inspect current snapshot":
+              - link "Inspect current snapshot":
+                - /url: /members/MB-000010?tab=Scoring+inputs&run=RUN-3572305411c94fc281fa22b33e8d8c03&config=ma_v28_py2027_forecast&basis=captured_baseline
+                - text: Inspect current snapshot
+    - navigation "matched members pagination":
+      - status: 1–10 of 9,600 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 960
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page":
+      - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- generic: "0.2"

@@ -48,8 +48,11 @@ export function ReviewWorkbench({
   const editable = user.permissions.includes("review");
   const qa = user.permissions.includes("qa");
   useEffect(() => {
-    if (o?.draft_note && o.review_state === "paused") setNote(o.draft_note);
-  }, [o?.draft_note, o?.review_state]);
+    if (o?.review_state === "paused") {
+      setNote(o.draft_note || "");
+      setDecision(o.draft_decision || "");
+    }
+  }, [o?.id, o?.draft_note, o?.draft_decision, o?.review_state]);
   useEffect(() => {
     if (!note) return;
     const prevent = (e: BeforeUnloadEvent) => e.preventDefault();
@@ -283,6 +286,7 @@ export function ReviewWorkbench({
                         o?.review_state === "paused"
                           ? "start_review"
                           : "pause_review",
+                        decision,
                       )
                     }
                   >

@@ -194,6 +194,8 @@ export interface Member {
   provider: string;
   plan: string;
   county: string;
+  city?: string;
+  state?: string;
   condition: string;
   status: string;
   priority: string;
@@ -233,6 +235,7 @@ export interface Opportunity {
   version: number;
   review_state?: string;
   draft_note?: string;
+  draft_decision?: string;
   qa_reviewer?: string;
   qa_status?: string;
   decision_note?: string;

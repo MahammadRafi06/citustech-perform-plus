@@ -1,0 +1,245 @@
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /members
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Submissions
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: SB
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Submission operations" [level=1]
+  - paragraph: Prepare approved records, retain each attempt and follow the simulated receiver.
+  - button "Export records":
+    - text: Export records
+  - generic: Submission attempts
+  - generic: "3"
+  - generic: Original records and linked attempts
+  - generic: Receiver accepted
+  - generic: "2"
+  - generic: Acceptance is separate from payment
+  - generic: Receiver rejected
+  - generic: "1"
+  - generic: Rejected attempts remain retained
+  - generic: Prepared comparisons
+  - generic: "1"
+  - generic: Synthetic report · payment unreconciled
+  - heading "Approved review handoff" [level=2]
+  - paragraph: A submission specialist explicitly prepares the exact current decision after independent QA.
+  - strong: Taylor Quinn
+  - generic: Delete · I50.9 · ICD-10-CM April 1, 2026 release
+  - generic: Passed
+  - generic: Linked record SUB-ee1c4a2197
+  - link "Review basis":
+    - /url: /members/MB-000004?tab=Timeline&returnTo=%2Fsubmissions
+  - button "Open record":
+    - text: Open record
+  - heading "Score-stage reconciliation" [level=2]
+  - paragraph: Accepted records, diagnosis eligibility and reported evidence retain distinct outcomes.
+  - link "Captured baseline 0.756 Completed":
+    - /url: /members/MB-000004?tab=Risk+profile&basis=captured_baseline&config=ma_v28_py2027_forecast
+    - generic: Captured baseline
+    - strong: "0.756"
+    - generic: Completed
+  - link "QA-supported scenario 0.396 Completed":
+    - /url: /members/MB-000004?tab=Risk+profile&basis=qa_supported&config=ma_v28_py2027_forecast
+    - generic: QA-supported scenario
+    - strong: "0.396"
+    - generic: Completed
+  - link "Submitted set 0.396 Completed":
+    - /url: /members/MB-000004?tab=Risk+profile&basis=submitted&config=ma_v28_py2027_forecast
+    - generic: Submitted set
+    - strong: "0.396"
+    - generic: Completed
+  - link "Accepted set 0.396 Completed":
+    - /url: /members/MB-000004?tab=Risk+profile&basis=accepted&config=ma_v28_py2027_forecast
+    - generic: Accepted set
+    - strong: "0.396"
+    - generic: Completed
+  - link "Eligible set 0.396 Completed":
+    - /url: /members/MB-000004?tab=Risk+profile&basis=eligible&config=ma_v28_py2027_forecast
+    - generic: Eligible set
+    - strong: "0.396"
+    - generic: Completed
+  - link "Reported result — No score result":
+    - /url: /members/MB-000004?tab=Risk+profile&basis=reported&config=ma_v28_py2027_forecast
+    - generic: Reported result
+    - strong: —
+    - generic: No score result
+  - text: Linked submission
+  - combobox "Linked submission":
+    - option "Select an approved submission attempt"
+    - option "SUB-0001 · add · Accepted"
+    - option "SUB-0002 · delete · Rejected"
+    - option "SUB-ee1c4a2197 · delete I50.9 · Accepted" [selected]
+  - text: Independent receiver / report evidence
+  - combobox "Independent receiver or report evidence":
+    - option "Choose an authored observation"
+    - option "Taylor · qualifying deletion"
+    - option "Taylor · deleted occurrence absent"
+    - option "Taylor · original occurrence still present" [selected]
+  - strong: Taylor · original occurrence still present
+  - text: Service 2026 · Payment 2027 · ma_v28_py2027_forecast
+  - text: Authored synthetic receiver result; no external receiver or payment report was contacted.
+  - paragraph: Apply this exact observation to the selected approved record.
+  - button "Compare reported record"
+  - article:
+    - strong: Taylor · qualifying deletion
+    - generic: Eligible
+    - paragraph: The prepared receiver eligibility result applies the deletion to the exact original diagnosis occurrence.
+    - generic: SUB-ee1c4a2197 · Compare the independent reported record.
+  - article:
+    - strong: Taylor · original occurrence still present
+    - generic: Discrepancy
+    - paragraph: The deleted occurrence remains present in this prepared report.
+    - term: Expected I50.9
+    - definition: Absent
+    - term: Reported occurrence
+    - definition: Present
+    - paragraph:
+      - strong: Deletion not reflected
+      - text: · The deleted occurrence remains present in this prepared report.
+    - paragraph: Selected diagnosis occurrence only; no comparable member score is supplied.
+    - generic: SUB-ee1c4a2197 · Inspect the mismatched report basis or prepare the appropriate remediation.
+  - article:
+    - strong: Taylor · deleted occurrence absent
+    - generic: Matched
+    - paragraph: The independent prepared report agrees with the approved record operation.
+    - term: Expected I50.9
+    - definition: Absent
+    - term: Reported occurrence
+    - definition: Absent
+    - paragraph: Selected diagnosis occurrence only; no comparable member score is supplied.
+    - generic: SUB-ee1c4a2197 · Retain this diagnosis-level report comparison.
+  - paragraph: "Payment reconciliation: unreconciled."
+  - strong: Taylor Quinn · current review context
+  - paragraph: Review the contradiction and route a deletion decision to independent QA.
+  - textbox "Search records..."
+  - generic: Row density
+  - combobox "Row density":
+    - option "Comfortable" [selected]
+    - option "Compact"
+  - button "Export":
+    - text: Export
+  - generic: Submission member
+  - combobox "Submission member":
+    - option "All members"
+    - option "Jordan Ellis"
+    - option "Morgan Reed"
+    - option "Avery Brooks"
+    - option "Taylor Quinn" [selected]
+    - option "Casey Morgan"
+    - option "Riley Parker"
+  - region "Search records table":
+    - table:
+      - rowgroup:
+        - row "Record Member Operation Receiver status Approved decision Original record":
+          - columnheader "Record":
+            - button "Record"
+          - columnheader "Member":
+            - button "Member"
+          - columnheader "Operation"
+          - columnheader "Receiver status":
+            - button "Receiver status"
+          - columnheader "Approved decision":
+            - button "Approved decision"
+          - columnheader "Original record":
+            - button "Original record"
+      - rowgroup:
+        - row "SUB-0001 Taylor Quinn Add Accepted Original prepared record —":
+          - cell "SUB-0001"
+          - cell "Taylor Quinn"
+          - cell "Add"
+          - cell "Accepted":
+            - generic: Accepted
+          - cell "Original prepared record"
+          - cell "—"
+        - row "SUB-0002 Taylor Quinn Delete Rejected Original prepared record SUB-0001":
+          - cell "SUB-0002"
+          - cell "Taylor Quinn"
+          - cell "Delete"
+          - cell "Rejected":
+            - generic: Rejected
+          - cell "Original prepared record"
+          - cell "SUB-0001"
+        - row "SUB-ee1c4a2197 Taylor Quinn Delete Accepted DEC-013b4243a6 SUB-0001":
+          - cell "SUB-ee1c4a2197"
+          - cell "Taylor Quinn"
+          - cell "Delete"
+          - cell "Accepted":
+            - generic: Accepted
+          - cell "DEC-013b4243a6"
+          - cell "SUB-0001"
+  - navigation "records pagination":
+    - status: 1–3 of 3 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page"
+      - option "25 / page" [selected]
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 1
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page" [disabled]:
+    - button "Last page" [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T":
+  - list:
+    - button "Close toast":
+    - generic: Independent report comparison retained
+- alert

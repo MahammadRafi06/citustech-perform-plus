@@ -1,0 +1,230 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link:
+    - /url: /overview
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic: Organization workspace
+  - strong: Northstar & Meridian
+  - navigation:
+    - heading [level=3]: Monitoring
+    - link:
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link:
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link:
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading [level=3]: Review operations
+    - link:
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link:
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link:
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link:
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link:
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link:
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading [level=3]: Members and providers
+    - link:
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link:
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link:
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading [level=3]: Governance
+    - link:
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link:
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link:
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link:
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link:
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button:
+    - generic: Workspace guide
+  - button [expanded]:
+- banner:
+  - button [expanded]:
+  - generic: Suspect registry
+  - button:
+    - generic: Ask Perform+
+  - textbox:
+    - /placeholder: Search members…
+  - generic: ↵
+  - button:
+  - button:
+    - generic: AM
+- generic: Program & model
+- combobox
+- generic: Score basis
+- combobox
+- strong: 2027 · Forecast
+- generic: Service dates 2026-01-01 — 2026-09-30
+- generic: Active
+- main:
+  - heading [level=1]: Suspect registry
+  - paragraph: Prioritize findings, inspect evidence and assign the next review.
+  - button:
+    - text: Create campaign
+  - button:
+    - text: Run analysis
+  - button: Suspects 3
+  - button: Integrity 1
+  - button: Source issues 1
+  - button: Scenarios 1
+  - button: All work 6
+  - generic: Prepared analysis
+  - generic: 12:29 AM · 1 finding analyzed
+  - button: Analysis details
+  - textbox:
+    - /placeholder: Search members, conditions or owners…
+  - button [disabled]: Calculate effect
+  - generic: Row density
+  - combobox
+  - button:
+    - text: Export
+  - generic: Ranking
+  - combobox
+  - generic: Work scope
+  - combobox
+  - generic: Saved view
+  - combobox
+  - generic: Status
+  - combobox
+  - generic: Priority
+  - combobox
+  - generic: Evidence
+  - combobox
+  - region:
+    - table:
+      - rowgroup:
+        - row:
+          - columnheader
+          - columnheader:
+            - button: Member
+          - columnheader:
+            - button: Finding
+          - columnheader:
+            - button: Priority
+          - columnheader:
+            - button: Evidence
+          - columnheader:
+            - button: Status
+          - columnheader: Marginal score effect
+          - columnheader:
+            - button: Owner
+          - columnheader:
+            - button: Due date
+          - columnheader
+      - rowgroup:
+        - row:
+          - cell:
+            - checkbox
+          - cell:
+            - strong: Jordan Ellis
+            - generic: MB-000001
+          - cell:
+            - strong: Chronic systolic heart failure
+            - generic: Potential coding gap
+          - cell:
+            - generic: High
+          - cell:
+            - generic: Strong
+          - cell:
+            - generic: Resolved supported
+          - cell:
+            - text: —
+            - generic: Inputs changed · recalculate
+          - cell: Alex Chen
+          - cell: Sep 16
+          - cell:
+        - row:
+          - cell:
+            - checkbox
+          - cell:
+            - strong: Morgan Reed
+            - generic: MB-000002
+          - cell:
+            - strong: COPD · historical assessment
+            - generic: Historical condition review
+          - cell:
+            - generic: High
+          - cell:
+            - generic: Strong
+          - cell:
+            - generic: In review
+          - cell:
+            - text: —
+            - generic: Inputs changed · recalculate
+          - cell: Dr. Daniel Reyes
+          - cell: Sep 18
+          - cell:
+        - row:
+          - cell:
+            - checkbox
+          - cell:
+            - strong: Avery Brooks
+            - generic: MB-000003
+          - cell:
+            - strong: Kidney-related assessment need
+            - generic: AI condition hypothesis
+          - cell:
+            - generic: Medium
+          - cell:
+            - generic: Limited
+          - cell:
+            - generic: Suppressed
+          - cell:
+            - text: —
+            - generic: Inputs changed · recalculate
+          - cell: Alex Chen
+          - cell: Sep 16
+          - cell:
+  - navigation:
+    - status: 1–3 of 3 records
+    - generic: Rows per page
+    - combobox
+    - generic: Page 1 of 1
+    - button [disabled]:
+    - button [disabled]:
+    - button [disabled]:
+    - button [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button:
+    - text: Workspace guide
+- region "Notifications alt+T"
+- dialog "Analysis details":
+  - heading "Analysis details" [level=2]
+  - paragraph: Prepared analysis · Source-linked recommendations
+  - generic: RUN-cb2854 · 9/14/2026, 12:29:48 AM
+  - strong: 1 finding · Succeeded
+  - paragraph: Read published sources → Evaluated named prepared transition → Retained changed or no-change result
+  - generic: RUN-b09836 · 9/13/2026, 10:54:23 PM
+  - strong: 1 finding · Succeeded
+  - paragraph: Read published sources → Evaluated named prepared transition → Retained changed or no-change result
+  - paragraph: Analysis checks the current source set against the prepared case. Unchanged evidence retains its recommendation version. Review cited passages before deciding.
+  - button "Close" [active]:
+    - generic: Close

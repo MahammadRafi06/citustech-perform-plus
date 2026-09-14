@@ -83,7 +83,7 @@ export default function DemoApp() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Application />
-        <Toaster position="bottom-right" richColors closeButton />
+        <Toaster position="top-right" offset={72} richColors closeButton />
       </TooltipProvider>
     </QueryClientProvider>
   );

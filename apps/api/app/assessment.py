@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from urllib.parse import urlencode
+from .people import ACCOUNT_NAMES
 
 CASE_IDS = [f'MB-{n:06}' for n in range(1, 7)]
 PROGRAM = {'program':'Medicare Advantage Part C', 'service_year':2026, 'payment_year':2027,
@@ -260,8 +261,8 @@ def upgrade(s):
             continue
         if mid in CASE_IDS and not o.get('owner_id'):
             o.setdefault('previous_owner',o.get('owner'))
-            owner_id,name=('retrieval_coordinator','Retrieval coordinator') if mid=='MB-000006' else ('provider_2','Practice 2 provider') if mid=='MB-000002' else ('provider_3','Practice 3 provider') if mid=='MB-000003' else ('coder','Coder')
-            o.update(owner_id=owner_id,owner=name)
+            owner_id='retrieval_coordinator' if mid=='MB-000006' else 'provider_2' if mid=='MB-000002' else 'provider_3' if mid=='MB-000003' else 'coder'
+            o.update(owner_id=owner_id,owner=ACCOUNT_NAMES[owner_id])
         if o.get('case_rule_id') in ('MB-000001','MB-000004'):
             o['prepared_code']={'code':'I50.22' if mid=='MB-000001' else 'I50.9','description':'Chronic systolic (congestive) heart failure' if mid=='MB-000001' else 'Heart failure, unspecified','operation':'add' if mid=='MB-000001' else 'delete','release':'ICD-10-CM April 1, 2026 release','reference_url':'https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2026-update/icd10cm-April-1-2026-XML.zip','basis':'Prepared source-to-code example; not a model mapping or eligibility determination.' if mid=='MB-000001' else 'Authored prior-record reference for deletion only; the contradictory source does not support coding this diagnosis.'}
         elif o.get('case_rule_id') in ('MB-000002','MB-000006'):

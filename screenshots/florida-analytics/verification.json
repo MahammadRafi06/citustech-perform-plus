@@ -1,0 +1,30 @@
+{
+  "population_members": 10000,
+  "raw_raf": 0.8406506,
+  "scored_member_months": 120000,
+  "county_count": 12,
+  "practice_count": 30,
+  "county_practice_combinations": 71,
+  "first_request_seconds": 1.176,
+  "response_bytes": 821488,
+  "intersection_members": 31,
+  "intersection_raf": 0.9802580645161291,
+  "all_groupings_reconcile": true,
+  "tests": "7 passed",
+  "production_ui_build": "passed",
+  "browser_checks": {
+    "viewport": {
+      "width": 1920,
+      "height": 937
+    },
+    "horizontal_overflow": false,
+    "county_groups": 12,
+    "provider_groups": 30,
+    "combined_groups": 71,
+    "heatmap_filter_members": 70,
+    "member_page_size": 25,
+    "second_page_range": "26\u201350 of 70",
+    "empty_intersection": true,
+    "named_assigned_owner": "Dr. Daniel Reyes"
+  }
+}

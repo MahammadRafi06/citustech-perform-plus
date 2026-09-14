@@ -1,0 +1,331 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk overview
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk overview" [level=1]
+  - paragraph: Calculated risk, supporting evidence and the work that changes it.
+  - button "Export results":
+    - text: Export results
+  - link "Open model lab":
+    - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - text: Open model lab
+  - button "Calculate population":
+    - text: Calculate population
+  - link "Raw RAF 0.841 Captured baseline":
+    - /url: /members?riskStatus=completed&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - generic: Raw RAF
+    - strong: "0.841"
+    - text: Captured baseline
+  - link "Adjusted portfolio score 0.733 Eligible member-month weighted internal portfolio measure":
+    - /url: /members?riskStatus=completed&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - generic: Adjusted portfolio score
+    - strong: "0.733"
+    - text: Eligible member-month weighted internal portfolio measure
+  - link "Successfully scored 10,000 10,000 expected scoreable members":
+    - /url: /data?riskTab=coverage&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - generic: Successfully scored
+    - strong: 10,000
+    - text: 10,000 expected scoreable members
+  - link "Without a completed score 0 0 failed · 0 excluded":
+    - /url: /members?riskStatus=unscored&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - generic: Without a completed score
+    - strong: "0"
+    - text: 0 failed · 0 excluded
+  - heading "Risk distribution" [level=2]
+  - paragraph: Captured baseline · Eligible member-month weighted internal portfolio measure
+  - 'img "10,000 scored members. 0–0.5: 1,093; 0.5–1: 6,318; 1–2: 2,589; 2–3: 0; 3+: 0"':
+    - 'generic "0–0.5: 1,093 (10.9%)"'
+    - 'generic "0.5–1: 6,318 (63.2%)"'
+    - 'generic "1–2: 2,589 (25.9%)"'
+    - 'generic "2–3: 0 (0.0%)"'
+    - 'generic "3+: 0 (0.0%)"'
+    - generic: 10,000
+    - generic: scored members
+  - generic "scored members distribution":
+    - generic: 0–0.5
+    - strong: 1,093
+    - generic: 10.9%
+    - generic: 0.5–1
+    - strong: 6,318
+    - generic: 63.2%
+    - generic: 1–2
+    - strong: 2,589
+    - generic: 25.9%
+    - generic: 2–3
+    - strong: "0"
+    - generic: 0.0%
+    - generic: 3+
+    - strong: "0"
+    - generic: 0.0%
+  - generic: 120,000 scored member-months
+  - link "Inspect coverage":
+    - /url: /data?riskTab=coverage&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - text: Inspect coverage
+  - heading "Calculation coverage" [level=2]
+  - paragraph: Excluded and failed records remain part of the reconciliation.
+  - 'img "Calculation completeness: 10,000 of 10,000"':
+    - generic: 100%
+  - strong: Calculation completeness
+  - generic: 10,000 of 10,000
+  - generic: Based on the selected scope
+  - term: Enrolled members
+  - definition: 10,000
+  - term: Expected scoreable
+  - definition: 10,000
+  - term: Completed
+  - definition: 10,000
+  - term: Failed calculations
+  - definition: "0"
+  - term: Excluded
+  - definition: "0"
+  - term: Portfolio denominator
+  - definition: 120,000
+  - generic: Completed · 10,000 / 10,000
+  - link "Open run":
+    - /url: /data?riskTab=runs&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - text: Open run
+  - generic "Metric definitions and denominators"
+  - heading "Member risk results" [level=2]
+  - paragraph: Each result opens its retained input and factor ledger.
+  - link "All members":
+    - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - text: All members
+  - table "Member risk results":
+    - rowgroup:
+      - row "Member Raw score Adjusted score Calculation state Result":
+        - columnheader "Member"
+        - columnheader "Raw score"
+        - columnheader "Adjusted score"
+        - columnheader "Calculation state"
+        - columnheader "Result"
+    - rowgroup:
+      - row "Jordan Ellis MB-000001 0.396 0.345 Completed Open profile":
+        - cell "Jordan Ellis MB-000001":
+          - strong: Jordan Ellis
+          - generic: MB-000001
+        - cell "0.396"
+        - cell "0.345"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000001?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Morgan Reed MB-000002 0.330 0.288 Completed Open profile":
+        - cell "Morgan Reed MB-000002":
+          - strong: Morgan Reed
+          - generic: MB-000002
+        - cell "0.330"
+        - cell "0.288"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000002?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Avery Brooks MB-000003 0.395 0.344 Completed Open profile":
+        - cell "Avery Brooks MB-000003":
+          - strong: Avery Brooks
+          - generic: MB-000003
+        - cell "0.395"
+        - cell "0.344"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000003?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Taylor Quinn MB-000004 0.756 0.659 Completed Open profile":
+        - cell "Taylor Quinn MB-000004":
+          - strong: Taylor Quinn
+          - generic: MB-000004
+        - cell "0.756"
+        - cell "0.659"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000004?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Casey Morgan MB-000005 0.758 0.661 Completed Open profile":
+        - cell "Casey Morgan MB-000005":
+          - strong: Casey Morgan
+          - generic: MB-000005
+        - cell "0.758"
+        - cell "0.661"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Riley Parker MB-000006 0.332 0.290 Completed Open profile":
+        - cell "Riley Parker MB-000006":
+          - strong: Riley Parker
+          - generic: MB-000006
+        - cell "0.332"
+        - cell "0.290"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000006?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Rowan Cameron MB-000007 1.390 1.212 Completed Open profile":
+        - cell "Rowan Cameron MB-000007":
+          - strong: Rowan Cameron
+          - generic: MB-000007
+        - cell "1.390"
+        - cell "1.212"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000007?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Lane Jensen MB-000008 0.626 0.546 Completed Open profile":
+        - cell "Lane Jensen MB-000008":
+          - strong: Lane Jensen
+          - generic: MB-000008
+        - cell "0.626"
+        - cell "0.546"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000008?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Teresa Diaz MB-000009 0.465 0.406 Completed Open profile":
+        - cell "Teresa Diaz MB-000009":
+          - strong: Teresa Diaz
+          - generic: MB-000009
+        - cell "0.465"
+        - cell "0.406"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000009?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+      - row "Jose Davis MB-000010 0.781 0.681 Completed Open profile":
+        - cell "Jose Davis MB-000010":
+          - strong: Jose Davis
+          - generic: MB-000010
+        - cell "0.781"
+        - cell "0.681"
+        - cell "Completed"
+        - cell "Open profile":
+          - link "Open profile":
+            - /url: /members/MB-000010?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - text: Open profile
+  - navigation "Member risk results pagination":
+    - status: 1–10 of 10,000 members
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 1,000
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page":
+    - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

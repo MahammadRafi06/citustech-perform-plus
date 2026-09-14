@@ -32,6 +32,7 @@ import type { Snapshot, User, Opportunity } from "@/lib/types";
 import { toast } from "sonner";
 import { ComparisonPlot, QualityMatrix, MetricSpotlight } from "./report-visuals";
 import { OperationalVisuals } from "./report-operations";
+import { RiskGeography } from "./risk-geography-ui";
 import { RiskAnalytics } from "./risk-analytics-ui";
 import { RiskFinancial } from "./risk-financial-ui";
 import { RiskOverview, useRiskContext } from "./risk-ui";
@@ -40,6 +41,7 @@ const domainTabs = [
   "AI Impact",
   "Executive",
   "Risk & conditions",
+  "Geography",
   "Suspecting",
   "Providers",
   "Retrieval",
@@ -108,7 +110,7 @@ export function Dashboard({
             : `${risk.configuration?.name || "Program loading"} · ${risk.basis.replaceAll("_", " ")}`
         }
       >
-        {risk.permissions.includes("export") && !["Executive", "Risk & conditions", "Financial scenarios"].includes(domain) && <Button variant="outline" onClick={exportReport}>
+        {risk.permissions.includes("export") && !["Executive", "Risk & conditions", "Geography", "Financial scenarios"].includes(domain) && <Button variant="outline" onClick={exportReport}>
           <ArrowDownToLine size={16} />
           {analytics && domain === "AI Impact" ? "Export comparison" : "Export report"}
         </Button>}
@@ -133,7 +135,7 @@ export function Dashboard({
         </div>
       )}
       <TabsContent value={domain} className="report-content">
-      {analytics && domain === "Executive" ? <RiskOverview user={user} embedded /> : analytics && domain === "Risk & conditions" ? <RiskAnalytics user={user} /> : analytics && domain === "Financial scenarios" ? <RiskFinancial user={user} /> : analytics && domain !== "AI Impact" ? (
+      {analytics && domain === "Executive" ? <RiskOverview user={user} embedded /> : analytics && domain === "Risk & conditions" ? <RiskAnalytics user={user} /> : analytics && domain === "Geography" ? <RiskGeography user={user} /> : analytics && domain === "Financial scenarios" ? <RiskFinancial user={user} /> : analytics && domain !== "AI Impact" ? (
         <DomainView
           domain={domain}
           data={data}

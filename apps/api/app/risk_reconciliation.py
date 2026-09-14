@@ -97,8 +97,9 @@ def qualifying_inputs(conn, state, member, config_id, observations):
     for key in ('id', 'input_hash'):
         value.pop(key, None)
     latest = {}
+    active_submissions = {row['id'] for row in state['submissions'] if row['member_id'] == member['id']}
     for observation in sorted(observations, key=lambda r: r['created_at']):
-        if observation['config_id'] == config_id:
+        if observation['config_id'] == config_id and observation['submission_id'] in active_submissions:
             latest[observation['decision_id']] = observation
     applied, excluded = [], []
     for observation in latest.values():
@@ -229,10 +230,14 @@ def register(app, *, db, user, get_state, save_state, member, permit, event):
             except ValueError as exc:
                 invalid(str(exc))
             records = [r for r in state['submissions'] if r['member_id'] == mid]
+            active_ids = {record['id'] for record in records}
+            def active_observations(kind):
+                return [item for item in store.records(conn, kind, mid, limit=1000)
+                        if item.get('submission_id') in active_ids and item.get('config_id') == config_id]
             return {'member_id': mid, 'config_id': config_id, 'stages': service.stages(conn, mid, config_id),
                     'submissions': records, 'fixtures': [f for f in fixtures() if f['member_id'] == mid],
-                    'eligibility_results': store.records(conn, 'receiver_eligibility', mid, limit=1000),
-                    'report_results': store.records(conn, 'reported_reconciliation', mid, limit=1000),
+                    'eligibility_results': active_observations('receiver_eligibility'),
+                    'report_results': active_observations('reported_reconciliation'),
                     'basis': 'Local stage calculations and independent prepared receiver/report evidence.', 'payment_reconciliation': 'unreconciled'}
 
     def apply(sid, body, u, kind):

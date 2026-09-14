@@ -1,0 +1,216 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions" [selected]
+    - tab "Geography"
+    - tab "Suspecting"
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions"
+    - tab "Financial"
+    - tab "Data & AI"
+  - tabpanel:
+    - tablist "Risk analytics views":
+      - tab "Risk and stage movement"
+      - tab "Condition prevalence" [active] [selected]
+      - tab "Annual recapture"
+      - tab "Actual period comparison"
+    - button "Export retained analytics"
+    - heading "Condition prevalence at a glance" [level=2]
+    - paragraph: Distinct member prevalence in the selected model
+    - button "HCC226 01 25.0% 2,500 / 10,000 scored members":
+      - text: HCC226
+      - generic: "01"
+      - strong: 25.0%
+      - generic: 2,500 / 10,000 scored members
+    - button "HCC280 02 25.0% 2,499 / 10,000 scored members":
+      - text: HCC280
+      - generic: "02"
+      - strong: 25.0%
+      - generic: 2,499 / 10,000 scored members
+    - button "HCC328 03 25.0% 2,499 / 10,000 scored members":
+      - text: HCC328
+      - generic: "03"
+      - strong: 25.0%
+      - generic: 2,499 / 10,000 scored members
+    - button "HCC38 04 25.0% 2,499 / 10,000 scored members":
+      - text: HCC38
+      - generic: "04"
+      - strong: 25.0%
+      - generic: 2,499 / 10,000 scored members
+    - paragraph: Top 4 categories by distinct members. Categories may overlap; percentages do not add to 100%. Select a category to inspect its cohort below.
+    - heading "Retained model category prevalence" [level=2]
+    - paragraph: Each category counts distinct members under the selected model and score basis.
+    - textbox "Search model categories…"
+    - generic: Row density
+    - combobox "Row density":
+      - option "Comfortable" [selected]
+      - option "Compact"
+    - region "Search model categories table":
+      - table:
+        - rowgroup:
+          - row "Model category Distinct members Scored-member denominator Contributing members":
+            - columnheader "Model category":
+              - button "Model category"
+            - columnheader "Distinct members":
+              - button "Distinct members"
+            - columnheader "Scored-member denominator":
+              - button "Scored-member denominator"
+            - columnheader "Contributing members"
+        - rowgroup:
+          - row "HCC226 2500 10000 Inspect cohort":
+            - cell "HCC226"
+            - cell "2500"
+            - cell "10000"
+            - cell "Inspect cohort":
+              - button "Inspect cohort":
+                - text: Inspect cohort
+          - row "HCC280 2499 10000 Inspect cohort":
+            - cell "HCC280"
+            - cell "2499"
+            - cell "10000"
+            - cell "Inspect cohort":
+              - button "Inspect cohort":
+                - text: Inspect cohort
+          - row "HCC328 2499 10000 Inspect cohort":
+            - cell "HCC328"
+            - cell "2499"
+            - cell "10000"
+            - cell "Inspect cohort":
+              - button "Inspect cohort":
+                - text: Inspect cohort
+          - row "HCC38 2499 10000 Inspect cohort":
+            - cell "HCC38"
+            - cell "2499"
+            - cell "10000"
+            - cell "Inspect cohort":
+              - button "Inspect cohort":
+                - text: Inspect cohort
+    - navigation "model categories pagination":
+      - status: 1–4 of 4 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 1
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page" [disabled]:
+      - button "Last page" [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- generic: "0.2"

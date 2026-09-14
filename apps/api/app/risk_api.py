@@ -278,6 +278,23 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
             except ValueError as exc:
                 bad(exc)
 
+    @router.get('/analytics/geography')
+    def geography(config_id: str = inputs.DEFAULT_CONFIG, basis: str = 'captured_baseline',
+                  county: str = '', provider_id: str = '', dimension: str = 'county',
+                  page: int = 1, size: int = 10, u=Depends(user)):
+        if basis not in inputs.BASES or dimension not in ('county', 'provider', 'county_provider'):
+            bad('Choose a supported score basis and dimension.')
+        if page < 1 or size not in (10, 25, 50, 100):
+            bad('Choose a positive page and 10, 25, 50 or 100 records per page.')
+        with db() as conn:
+            s = get_state(conn)
+            from . import risk_analytics
+            try:
+                return risk_analytics.geography(conn, s, allowed_members(s, u), config_id, basis,
+                                                county, provider_id, dimension, page, size)
+            except ValueError as exc:
+                bad(exc)
+
     @router.post('/opportunities/calculate')
     def opportunity(request: OpportunityCalculation, u=Depends(user)):
         permit(u, 'risk_scenario')
@@ -353,6 +370,7 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
             for m in selected[(page-1)*page_size:page*page_size]:
                 run = current.get(m['id'])
                 items.append({'member_id': m['id'], 'name': m['name'], 'provider_id': m['provider_id'], 'provider': m['provider'],
+                  'county': m.get('county'), 'city': m.get('city'), 'state': m.get('state'),
                   'raw_score': run.get('raw_score') if run else None, 'adjusted_score': run.get('adjusted_score') if run else None,
                   'selected_segment': run.get('selected_segment') if run else None,
                   'status': calculation_status(m['id']), 'run_id': run['id'] if run else latest.get(m['id'], {}).get('id'),

@@ -1,0 +1,291 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Administration
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Administration" [level=1]
+  - paragraph: Manage access and workspace settings.
+  - link "Agents configuration":
+    - /url: /admin/ai/agents
+    - text: Agents configuration
+  - tablist:
+    - tab "Users & access" [selected]
+    - tab "Program configuration"
+    - tab "AI settings"
+    - tab "Workspace settings"
+  - heading "Workspace accounts" [level=2]
+  - paragraph: Manage roles and account access. Changes sign the account out of active sessions.
+  - table:
+    - rowgroup:
+      - row "User Role Account state Action":
+        - columnheader "User"
+        - columnheader "Role"
+        - columnheader "Account state"
+        - columnheader "Action"
+    - rowgroup:
+      - row "Morgan Hayes executive@perform.test Active Disable":
+        - cell "Morgan Hayes executive@perform.test":
+          - strong: Morgan Hayes
+          - generic: executive@perform.test
+        - cell:
+          - combobox "Morgan Hayes role":
+            - generic: Executive
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Priya Shah analyst@perform.test Active Disable":
+        - cell "Priya Shah analyst@perform.test":
+          - strong: Priya Shah
+          - generic: analyst@perform.test
+        - cell:
+          - combobox "Priya Shah role":
+            - generic: Risk analyst
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Jamie Rivera retrieval@perform.test Active Disable":
+        - cell "Jamie Rivera retrieval@perform.test":
+          - strong: Jamie Rivera
+          - generic: retrieval@perform.test
+        - cell:
+          - combobox "Jamie Rivera role":
+            - generic: Retrieval coordinator
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Alex Chen coder@perform.test Active Disable":
+        - cell "Alex Chen coder@perform.test":
+          - strong: Alex Chen
+          - generic: coder@perform.test
+        - cell:
+          - combobox "Alex Chen role":
+            - generic: Coder
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Drew Collins qa@perform.test Active Disable":
+        - cell "Drew Collins qa@perform.test":
+          - strong: Drew Collins
+          - generic: qa@perform.test
+        - cell:
+          - combobox "Drew Collins role":
+            - generic: QA reviewer
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Sam Bennett submission@perform.test Active Disable":
+        - cell "Sam Bennett submission@perform.test":
+          - strong: Sam Bennett
+          - generic: submission@perform.test
+        - cell:
+          - combobox "Sam Bennett role":
+            - generic: Submission analyst
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Jordan Patel admin@perform.test Active Disable":
+        - cell "Jordan Patel admin@perform.test":
+          - strong: Jordan Patel
+          - generic: admin@perform.test
+        - cell:
+          - combobox "Jordan Patel role":
+            - generic: Administrator
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Avery Morgan superuser@perform.test Active Disable":
+        - cell "Avery Morgan superuser@perform.test":
+          - strong: Avery Morgan
+          - generic: superuser@perform.test
+        - cell:
+          - combobox "Avery Morgan role" [disabled]:
+            - generic: Superuser
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable" [disabled]
+      - row "Dr. Emily Carter provider@perform.test Northbrook Family Care Active Disable":
+        - cell "Dr. Emily Carter provider@perform.test":
+          - strong: Dr. Emily Carter
+          - generic: provider@perform.test
+        - cell "Northbrook Family Care":
+          - combobox "Dr. Emily Carter role":
+            - generic: Provider
+          - generic: Northbrook Family Care
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Dr. Daniel Reyes provider2@perform.test Lakeside Medical Group Active Disable":
+        - cell "Dr. Daniel Reyes provider2@perform.test":
+          - strong: Dr. Daniel Reyes
+          - generic: provider2@perform.test
+        - cell "Lakeside Medical Group":
+          - combobox "Dr. Daniel Reyes role":
+            - generic: Provider
+          - generic: Lakeside Medical Group
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Dr. Maya Thompson provider3@perform.test Cedar Grove Primary Care Active Disable":
+        - cell "Dr. Maya Thompson provider3@perform.test":
+          - strong: Dr. Maya Thompson
+          - generic: provider3@perform.test
+        - cell "Cedar Grove Primary Care":
+          - combobox "Dr. Maya Thompson role":
+            - generic: Provider
+          - generic: Cedar Grove Primary Care
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Dr. Olivia Grant provider4@perform.test Westhaven Clinical Partners Active Disable":
+        - cell "Dr. Olivia Grant provider4@perform.test":
+          - strong: Dr. Olivia Grant
+          - generic: provider4@perform.test
+        - cell "Westhaven Clinical Partners":
+          - combobox "Dr. Olivia Grant role":
+            - generic: Provider
+          - generic: Westhaven Clinical Partners
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Dr. Ethan Brooks provider5@perform.test Maple Ridge Health Active Disable":
+        - cell "Dr. Ethan Brooks provider5@perform.test":
+          - strong: Dr. Ethan Brooks
+          - generic: provider5@perform.test
+        - cell "Maple Ridge Health":
+          - combobox "Dr. Ethan Brooks role":
+            - generic: Provider
+          - generic: Maple Ridge Health
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+      - row "Dr. Sofia Bennett provider6@perform.test Brookfield Community Care Active Disable":
+        - cell "Dr. Sofia Bennett provider6@perform.test":
+          - strong: Dr. Sofia Bennett
+          - generic: provider6@perform.test
+        - cell "Brookfield Community Care":
+          - combobox "Dr. Sofia Bennett role":
+            - generic: Provider
+          - generic: Brookfield Community Care
+        - cell "Active":
+          - generic: Active
+        - cell "Disable":
+          - button "Disable"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

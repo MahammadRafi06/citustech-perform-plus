@@ -1,0 +1,151 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Administration
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Administration" [level=1]
+  - paragraph: Manage access and workspace settings.
+  - link "Agents configuration":
+    - /url: /admin/ai/agents
+    - text: Agents configuration
+  - tablist:
+    - tab "Users & access"
+    - tab "Program configuration"
+    - tab "AI settings"
+    - tab "Workspace settings" [active] [selected]
+  - heading "Workspace maintenance" [level=2]
+  - paragraph: Manage the starting dataset. Accounts and role assignments are preserved.
+  - link "01 Jordan Ellis · Documented gap":
+    - /url: /members/MB-000001
+    - generic: "01"
+    - text: Jordan Ellis · Documented gap
+  - link "02 Morgan Reed · Historical condition":
+    - /url: /members/MB-000002
+    - generic: "02"
+    - text: Morgan Reed · Historical condition
+  - link "03 Avery Brooks · Predictive signal":
+    - /url: /members/MB-000003
+    - generic: "03"
+    - text: Avery Brooks · Predictive signal
+  - link "04 Taylor Quinn · Integrity review":
+    - /url: /members/MB-000004
+    - generic: "04"
+    - text: Taylor Quinn · Integrity review
+  - link "05 Casey Morgan · Scenario comparison":
+    - /url: /members/MB-000005
+    - generic: "05"
+    - text: Casey Morgan · Scenario comparison
+  - link "06 Riley Parker · Source issue":
+    - /url: /members/MB-000006
+    - generic: "06"
+    - text: Riley Parker · Source issue
+  - heading "Restore starting state" [level=3]
+  - paragraph: Clear workflow changes and restore the initial dataset.
+  - button "Reset workspace":
+    - text: Reset workspace
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

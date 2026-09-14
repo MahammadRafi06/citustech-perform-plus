@@ -301,7 +301,9 @@ def test_atomic_bulk_changes_and_campaign_allocation():
     assert action(analyst,'campaign',**{**body,'owner':'Coding team'}).status_code==400
     state=analyst.get('/api/v1/bootstrap').json()
     tasks=[t for t in state['tasks'] if t['type']=='campaign']
-    assert len(tasks)==2 and all(t['owner']=='QA reviewer' and t['due_date']=='2026-10-05' for t in tasks)
+    with main.db() as conn:
+        reviewer_name=conn.execute('SELECT name FROM users WHERE id=?',('qa_reviewer',)).fetchone()['name']
+    assert len(tasks)==2 and all(t['owner_id']=='qa_reviewer' and t['owner']==reviewer_name and t['due_date']=='2026-10-05' for t in tasks)
 
 
 def test_intake_validates_identity_signature_and_publishes_once():

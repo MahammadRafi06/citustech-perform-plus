@@ -1,0 +1,161 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Pre-visit
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Pre-visit review" [level=1]
+  - paragraph: Relevant context. Neutral questions. A clear next step.
+  - heading "Upcoming member reviews" [level=2]
+  - textbox "Search upcoming members":
+    - /placeholder: Search your practice members…
+    - text: Jordan Ellis
+  - generic: 1 matching members · showing up to 100
+  - button "JE Jordan Ellis 2026-09-22" [active]:
+    - generic: JE
+    - strong: Jordan Ellis
+    - generic: 2026-09-22
+  - heading "Jordan Ellis" [level=2]
+  - paragraph: MB-000001 · Northbrook Family Care
+  - text: Relevant history
+  - paragraph: The signed current encounter explicitly documents chronic systolic heart failure. The selected coded dataset has no corresponding diagnosis. Review the source passage before a supported coding decision.
+  - strong: Evidence available for review
+  - paragraph: Inspect the current signed assessment.
+  - generic: Response task
+  - combobox "Provider response task":
+    - option "No pending provider task" [selected]
+  - heading "Question for this encounter" [level=3]
+  - paragraph: Please review the available context for chronic systolic heart failure and document your current assessment. A negative assessment or need for more information is a valid outcome.
+  - radio "Supported in current assessment"
+  - strong: Supported in current assessment
+  - radio "Not supported"
+  - strong: Not supported
+  - radio "Needs more information" [checked]
+  - strong: Needs more information
+  - radio "Deferred"
+  - strong: Deferred
+  - generic: Response note
+  - textbox "Response note":
+    - /placeholder: Add context for the review team…
+  - button "Save response" [disabled]:
+    - text: Save response
+  - strong: Prepare approved record
+  - generic: submission@perform.test
+  - link "Open":
+    - /url: /submissions?member=MB-000001
+    - text: Open
+  - strong: Receive later clarification
+  - generic: provider@perform.test
+  - button "Continue":
+    - text: Continue
+  - strong: Review current evidence
+  - generic: coder@perform.test
+  - link "Open":
+    - /url: /reviews/MB-000001
+    - text: Open
+  - generic: Responses are recorded locally. A response and encounter documentation are separate; coding requires a new review.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

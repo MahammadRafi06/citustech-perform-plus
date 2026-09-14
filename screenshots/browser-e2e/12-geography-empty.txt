@@ -1,0 +1,257 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions"
+    - tab "Geography" [selected]
+    - tab "Suspecting"
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions"
+    - tab "Financial"
+    - tab "Data & AI"
+  - tabpanel "Geography":
+    - text: Florida portfolio
+    - heading "Geography & provider performance" [level=2]
+    - paragraph: Compare risk across member residence counties and assigned practices.
+    - button "Export analysis":
+      - text: Export analysis
+    - text: Member county
+    - combobox "Member county":
+      - option "All counties"
+      - option "Broward County"
+      - option "Duval County" [selected]
+      - option "Hillsborough County"
+      - option "Lee County"
+      - option "Miami-Dade County"
+      - option "Orange County"
+      - option "Osceola County"
+      - option "Palm Beach County"
+      - option "Pinellas County"
+      - option "Polk County"
+      - option "Sarasota County"
+      - option "Seminole County"
+    - text: Assigned practice
+    - combobox "Assigned practice":
+      - option "All practices"
+      - option "Northbrook Family Care"
+      - option "Lakeside Medical Group" [selected]
+      - option "Cedar Grove Primary Care"
+      - option "Westhaven Clinical Partners"
+      - option "Maple Ridge Health"
+      - option "Brookfield Community Care"
+      - option "Willow Creek Family Practice"
+      - option "Silver Birch Medical"
+      - option "Oakstone Primary Care"
+      - option "Meadowvale Health Partners"
+      - option "Pinecrest Family Medicine"
+      - option "Clearwater Clinical Group"
+      - option "Highland Grove Health"
+      - option "Birchwood Community Practice"
+      - option "Riverbend Family Care"
+      - option "Stonebridge Medical Partners"
+      - option "Ashford Primary Care"
+      - option "Fairhaven Community Health"
+      - option "Woodland Clinical Partners"
+      - option "Elmstead Family Medicine"
+      - option "Foxglove Medical Group"
+      - option "Greenfield Health Practice"
+      - option "Larkspur Family Care"
+      - option "Summit Grove Medical"
+      - option "Bluebell Community Care"
+      - option "Kingswood Health Partners"
+      - option "Hawthorne Family Practice"
+      - option "Cloverfield Primary Care"
+      - option "Rosewood Medical Group"
+      - option "Parkhaven Clinical Partners"
+    - strong: Captured baseline
+    - status: County + practice filters apply together
+    - button "Reset filters":
+      - text: Reset filters
+    - tablist "Group risk results by":
+      - tab "By county"
+      - tab "By provider"
+      - tab "County + provider" [selected]
+    - generic: Portfolio Raw RAF
+    - strong: —
+    - generic: Member-month weighted · unnormalized
+    - generic: Members in scope
+    - strong: "0"
+    - generic: 0 scored · 0 unscored
+    - generic: Scored member-months
+    - strong: "0"
+    - generic: 0 members with stale results
+    - generic: County / practice coverage
+    - strong:
+      - text: "0"
+      - emphasis: /
+      - text: "0"
+    - generic: Within the selected member cohort
+    - heading "No members in this combination" [level=3]
+    - paragraph: Choose another county or practice, or reset the filters.
+    - heading "Performance breakdown" [level=2]
+    - paragraph: Raw RAF · same model, score basis and member-month weighting
+    - table "Geography performance":
+      - rowgroup:
+        - row "Member county Assigned practice Raw RAF Members Scored / unscored Member-months Stale":
+          - columnheader "Member county"
+          - columnheader "Assigned practice"
+          - columnheader "Raw RAF"
+          - columnheader "Members"
+          - columnheader "Scored / unscored"
+          - columnheader "Member-months"
+          - columnheader "Stale"
+          - columnheader
+      - rowgroup
+    - navigation "Geography performance pagination":
+      - status: 0–0 of 0 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 1
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page" [disabled]:
+      - button "Last page" [disabled]:
+    - heading "Members behind the results" [level=2]
+    - paragraph: Current directory attribution with a link to each retained scoring input.
+    - table:
+      - rowgroup:
+        - row "Member County Assigned practice Raw member score Scored months Result":
+          - columnheader "Member"
+          - columnheader "County"
+          - columnheader "Assigned practice"
+          - columnheader "Raw member score"
+          - columnheader "Scored months"
+          - columnheader "Result"
+      - rowgroup
+    - navigation "Geography members pagination":
+      - status: 0–0 of 0 members
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 1
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page" [disabled]:
+      - button "Last page" [disabled]:
+    - generic "Metric definition & attribution"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

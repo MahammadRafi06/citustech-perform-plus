@@ -1,0 +1,52 @@
+{
+  "date": "2026-09-14",
+  "environment": "Local isolated QA copy; Next.js production build on 127.0.0.1:3100, API 8100",
+  "source_base": "73a97dba0ab6455a7f3746fc045775190ca664b3",
+  "source_state": "Uncommitted local changes including Florida analytics and eight browser-audit fixes; not deployed",
+  "production_ui_build": "passed",
+  "backend_full_suite": {
+    "command": ".venv/bin/python -m pytest apps/api/tests -q --tb=short",
+    "environment": "Private isolated runtime configuration; disposable test schemas",
+    "passed": 194,
+    "failed": 0,
+    "warnings": 4,
+    "duration_seconds": 185.65,
+    "warnings_summary": "Existing FastAPI lifespan and Starlette/httpx/anyio deprecations"
+  },
+  "focused_tests": {
+    "distinct_passed": 9,
+    "runs": [
+      {
+        "passed": 6,
+        "scope": "two audit regressions and four Florida tests"
+      },
+      {
+        "passed": 5,
+        "scope": "three audit regressions and two auth/scope tests"
+      }
+    ]
+  },
+  "browser_observations": 164,
+  "passing_observations": 154,
+  "defects_fixed_and_browser_retested": 8,
+  "blocked_checks": [
+    "Native CSV and intake file attachment: Chrome extension file URL permission"
+  ],
+  "open_data_findings": [
+    "ACA scoring fixture demographics differ from clinical member header"
+  ],
+  "not_browser_verified": [
+    "Same-chart multi-finding clinical story",
+    "Whole-population audit export",
+    "Double-click campaign activation race"
+  ],
+  "intentional_scope_limits": [
+    "Agents are browser-local UI preview",
+    "Receiver/report outcomes are prepared local fixtures",
+    "No live SSO or external clinical integration acceptance",
+    "No production deployment or load verification"
+  ],
+  "screenshots": 39,
+  "validated_downloads": 18,
+  "diff_check": "passed"
+}

@@ -1,0 +1,378 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - button "Export report":
+    - text: Export report
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Suspecting"
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA" [active] [selected]
+    - tab "Submissions"
+    - tab "Financial"
+    - tab "Data & AI"
+  - tabpanel:
+    - generic: Coding & QA records
+    - generic: "648"
+    - generic: Current workspace records
+    - generic: QA-approved actionable reviews
+    - generic: "1"
+    - generic: Terminal review approved independently
+    - generic: Program population
+    - generic: 10,000
+    - generic: Members in your access scope
+    - heading "Current workflow composition" [level=2]
+    - paragraph: 648 records · mutually exclusive recorded states
+    - 'img "648 records. Resolved supported: 299; In review: 271; Resolved unsupported: 75; Passed: 1; Awaiting QA: 1; Not submitted: 1"':
+      - 'generic "Resolved supported: 299 (46.1%)"'
+      - 'generic "In review: 271 (41.8%)"'
+      - 'generic "Resolved unsupported: 75 (11.6%)"'
+      - 'generic "Passed: 1 (0.2%)"'
+      - 'generic "Awaiting QA: 1 (0.2%)"'
+      - 'generic "Not submitted: 1 (0.2%)"'
+      - generic: "648"
+      - generic: records
+    - generic "records distribution":
+      - generic: Resolved supported
+      - strong: "299"
+      - generic: 46.1%
+      - generic: In review
+      - strong: "271"
+      - generic: 41.8%
+      - generic: Resolved unsupported
+      - strong: "75"
+      - generic: 11.6%
+      - generic: Passed
+      - strong: "1"
+      - generic: 0.2%
+      - generic: Awaiting QA
+      - strong: "1"
+      - generic: 0.2%
+      - generic: Not submitted
+      - strong: "1"
+      - generic: 0.2%
+    - heading "Where the work sits" [level=2]
+    - paragraph: Record counts by context and workflow state
+    - table "Coding & QA records by context and state":
+      - row "Context Resolved supported In review Resolved unsupported Passed Awaiting QA Other states":
+        - columnheader "Context"
+        - columnheader "Resolved supported"
+        - columnheader "In review"
+        - columnheader "Resolved unsupported"
+        - columnheader "Passed"
+        - columnheader "Awaiting QA"
+        - columnheader "Other states"
+      - 'row "Peripheral vascular disease Peripheral vascular disease · Resolved supported: 36 records Peripheral vascular disease · In review: 40 records Peripheral vascular disease · Resolved unsupported: 14 records Peripheral vascular disease · Passed: 0 records Peripheral vascular disease · Awaiting QA: 0 records Peripheral vascular disease · Other states: 0 records"':
+        - rowheader "Peripheral vascular disease"
+        - 'cell "Peripheral vascular disease · Resolved supported: 36 records"':
+          - 'button "Peripheral vascular disease · Resolved supported: 36 records"': "36"
+        - 'cell "Peripheral vascular disease · In review: 40 records"':
+          - 'button "Peripheral vascular disease · In review: 40 records"': "40"
+        - 'cell "Peripheral vascular disease · Resolved unsupported: 14 records"':
+          - 'button "Peripheral vascular disease · Resolved unsupported: 14 records"': "14"
+        - 'cell "Peripheral vascular disease · Passed: 0 records"':
+          - 'button "Peripheral vascular disease · Passed: 0 records"': "0"
+        - 'cell "Peripheral vascular disease · Awaiting QA: 0 records"':
+          - 'button "Peripheral vascular disease · Awaiting QA: 0 records"': "0"
+        - 'cell "Peripheral vascular disease · Other states: 0 records"':
+          - 'button "Peripheral vascular disease · Other states: 0 records"': "0"
+      - 'row "Kidney assessment Kidney assessment · Resolved supported: 39 records Kidney assessment · In review: 35 records Kidney assessment · Resolved unsupported: 16 records Kidney assessment · Passed: 0 records Kidney assessment · Awaiting QA: 0 records Kidney assessment · Other states: 0 records"':
+        - rowheader "Kidney assessment"
+        - 'cell "Kidney assessment · Resolved supported: 39 records"':
+          - 'button "Kidney assessment · Resolved supported: 39 records"': "39"
+        - 'cell "Kidney assessment · In review: 35 records"':
+          - 'button "Kidney assessment · In review: 35 records"': "35"
+        - 'cell "Kidney assessment · Resolved unsupported: 16 records"':
+          - 'button "Kidney assessment · Resolved unsupported: 16 records"': "16"
+        - 'cell "Kidney assessment · Passed: 0 records"':
+          - 'button "Kidney assessment · Passed: 0 records"': "0"
+        - 'cell "Kidney assessment · Awaiting QA: 0 records"':
+          - 'button "Kidney assessment · Awaiting QA: 0 records"': "0"
+        - 'cell "Kidney assessment · Other states: 0 records"':
+          - 'button "Kidney assessment · Other states: 0 records"': "0"
+      - 'row "COPD COPD · Resolved supported: 39 records COPD · In review: 40 records COPD · Resolved unsupported: 7 records COPD · Passed: 0 records COPD · Awaiting QA: 0 records COPD · Other states: 0 records"':
+        - rowheader "COPD"
+        - 'cell "COPD · Resolved supported: 39 records"':
+          - 'button "COPD · Resolved supported: 39 records"': "39"
+        - 'cell "COPD · In review: 40 records"':
+          - 'button "COPD · In review: 40 records"': "40"
+        - 'cell "COPD · Resolved unsupported: 7 records"':
+          - 'button "COPD · Resolved unsupported: 7 records"': "7"
+        - 'cell "COPD · Passed: 0 records"':
+          - 'button "COPD · Passed: 0 records"': "0"
+        - 'cell "COPD · Awaiting QA: 0 records"':
+          - 'button "COPD · Awaiting QA: 0 records"': "0"
+        - 'cell "COPD · Other states: 0 records"':
+          - 'button "COPD · Other states: 0 records"': "0"
+      - 'row "Chronic kidney disease Chronic kidney disease · Resolved supported: 40 records Chronic kidney disease · In review: 32 records Chronic kidney disease · Resolved unsupported: 7 records Chronic kidney disease · Passed: 0 records Chronic kidney disease · Awaiting QA: 0 records Chronic kidney disease · Other states: 0 records"':
+        - rowheader "Chronic kidney disease"
+        - 'cell "Chronic kidney disease · Resolved supported: 40 records"':
+          - 'button "Chronic kidney disease · Resolved supported: 40 records"': "40"
+        - 'cell "Chronic kidney disease · In review: 32 records"':
+          - 'button "Chronic kidney disease · In review: 32 records"': "32"
+        - 'cell "Chronic kidney disease · Resolved unsupported: 7 records"':
+          - 'button "Chronic kidney disease · Resolved unsupported: 7 records"': "7"
+        - 'cell "Chronic kidney disease · Passed: 0 records"':
+          - 'button "Chronic kidney disease · Passed: 0 records"': "0"
+        - 'cell "Chronic kidney disease · Awaiting QA: 0 records"':
+          - 'button "Chronic kidney disease · Awaiting QA: 0 records"': "0"
+        - 'cell "Chronic kidney disease · Other states: 0 records"':
+          - 'button "Chronic kidney disease · Other states: 0 records"': "0"
+      - 'row "Depression Depression · Resolved supported: 35 records Depression · In review: 35 records Depression · Resolved unsupported: 8 records Depression · Passed: 0 records Depression · Awaiting QA: 0 records Depression · Other states: 0 records"':
+        - rowheader "Depression"
+        - 'cell "Depression · Resolved supported: 35 records"':
+          - 'button "Depression · Resolved supported: 35 records"': "35"
+        - 'cell "Depression · In review: 35 records"':
+          - 'button "Depression · In review: 35 records"': "35"
+        - 'cell "Depression · Resolved unsupported: 8 records"':
+          - 'button "Depression · Resolved unsupported: 8 records"': "8"
+        - 'cell "Depression · Passed: 0 records"':
+          - 'button "Depression · Passed: 0 records"': "0"
+        - 'cell "Depression · Awaiting QA: 0 records"':
+          - 'button "Depression · Awaiting QA: 0 records"': "0"
+        - 'cell "Depression · Other states: 0 records"':
+          - 'button "Depression · Other states: 0 records"': "0"
+      - 'row "Other categories Other categories · Resolved supported: 110 records Other categories · In review: 89 records Other categories · Resolved unsupported: 23 records Other categories · Passed: 1 records Other categories · Awaiting QA: 1 records Other categories · Other states: 1 records"':
+        - rowheader "Other categories"
+        - 'cell "Other categories · Resolved supported: 110 records"':
+          - 'button "Other categories · Resolved supported: 110 records"': "110"
+        - 'cell "Other categories · In review: 89 records"':
+          - 'button "Other categories · In review: 89 records"': "89"
+        - 'cell "Other categories · Resolved unsupported: 23 records"':
+          - 'button "Other categories · Resolved unsupported: 23 records"': "23"
+        - 'cell "Other categories · Passed: 1 records"':
+          - 'button "Other categories · Passed: 1 records"': "1"
+        - 'cell "Other categories · Awaiting QA: 1 records"':
+          - 'button "Other categories · Awaiting QA: 1 records"': "1"
+        - 'cell "Other categories · Other states: 1 records"':
+          - 'button "Other categories · Other states: 1 records"': "1"
+    - generic: Fewer
+    - generic: More records
+    - paragraph: Select a cell to read its context. Exact records remain available below.
+    - heading "Coding & QA records" [level=2]
+    - textbox "Search coding & qa records…"
+    - generic: Row density
+    - combobox "Row density":
+      - option "Comfortable" [selected]
+      - option "Compact"
+    - region "Search coding & qa records table":
+      - table:
+        - rowgroup:
+          - row "Record / member Record ID Context Status":
+            - columnheader "Record / member":
+              - button "Record / member"
+            - columnheader "Record ID":
+              - button "Record ID"
+            - columnheader "Context":
+              - button "Context"
+            - columnheader "Status":
+              - button "Status"
+        - rowgroup:
+          - row "Jordan Ellis OP-0001 Chronic systolic heart failure Passed":
+            - cell "Jordan Ellis":
+              - link "Jordan Ellis":
+                - /url: /members/MB-000001?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0001"
+            - cell "Chronic systolic heart failure"
+            - cell "Passed":
+              - generic: Passed
+          - row "Morgan Reed OP-0002 COPD · historical assessment Awaiting QA":
+            - cell "Morgan Reed":
+              - link "Morgan Reed":
+                - /url: /members/MB-000002?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0002"
+            - cell "COPD · historical assessment"
+            - cell "Awaiting QA":
+              - generic: Awaiting QA
+          - row "Taylor Quinn OP-0004 Existing heart failure diagnosis · integrity review In review":
+            - cell "Taylor Quinn":
+              - link "Taylor Quinn":
+                - /url: /members/MB-000004?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0004"
+            - cell "Existing heart failure diagnosis · integrity review"
+            - cell "In review":
+              - generic: In review
+          - row "Casey Morgan OP-0005 Diabetes and chronic kidney disease In review":
+            - cell "Casey Morgan":
+              - link "Casey Morgan":
+                - /url: /members/MB-000005?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0005"
+            - cell "Diabetes and chronic kidney disease"
+            - cell "In review":
+              - generic: In review
+          - row "Riley Parker OP-0006 COPD · source eligibility issue Not submitted":
+            - cell "Riley Parker":
+              - link "Riley Parker":
+                - /url: /members/MB-000006?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0006"
+            - cell "COPD · source eligibility issue"
+            - cell "Not submitted":
+              - generic: Not submitted
+          - row "Rowan Cameron OP-0007 Peripheral vascular disease Resolved supported":
+            - cell "Rowan Cameron":
+              - link "Rowan Cameron":
+                - /url: /members/MB-000007?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0007"
+            - cell "Peripheral vascular disease"
+            - cell "Resolved supported":
+              - generic: Resolved supported
+          - row "Lane Jensen OP-0008 Atrial fibrillation Resolved unsupported":
+            - cell "Lane Jensen":
+              - link "Lane Jensen":
+                - /url: /members/MB-000008?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0008"
+            - cell "Atrial fibrillation"
+            - cell "Resolved unsupported":
+              - generic: Resolved unsupported
+          - row "Jose Davis OP-0010 COPD Resolved supported":
+            - cell "Jose Davis":
+              - link "Jose Davis":
+                - /url: /members/MB-000010?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0010"
+            - cell "COPD"
+            - cell "Resolved supported":
+              - generic: Resolved supported
+          - row "Christopher James OP-0012 Diabetes mellitus In review":
+            - cell "Christopher James":
+              - link "Christopher James":
+                - /url: /members/MB-000012?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0012"
+            - cell "Diabetes mellitus"
+            - cell "In review":
+              - generic: In review
+          - row "Dorothy Baker OP-0015 Peripheral vascular disease In review":
+            - cell "Dorothy Baker":
+              - link "Dorothy Baker":
+                - /url: /members/MB-000015?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DCoding%2B%2526%2BQA
+            - cell "OP-0015"
+            - cell "Peripheral vascular disease"
+            - cell "In review":
+              - generic: In review
+    - navigation "coding & qa records pagination":
+      - status: 1–10 of 648 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 65
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page":
+      - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- generic: "0.2"

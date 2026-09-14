@@ -130,15 +130,17 @@ def scenario(conn, member, config_id, *, baseline_run_id=None, additions=(), rem
     comparison = calculate(conn, member, target, modified, 'potential', actor, publish=False)
     differences = []
     base_factors = defaultdict(float)
-    for c in baseline.get('components', []):
-        base_factors[c.get('factor', c.get('description', ''))] += c.get('contribution') or 0
-    for c in comparison.get('components', []):
-        factor = c.get('factor', c.get('description', ''))
-        delta = (c.get('contribution') or 0) - base_factors.pop(factor, 0)
-        if delta:
-            differences.append({'factor': factor, 'description': c.get('description', factor), 'delta': delta})
-    differences.extend({'factor': f, 'description': f, 'delta': -v} for f, v in base_factors.items() if v)
-    delta = (comparison['raw_score'] - baseline['raw_score']) if comparison.get('raw_score') is not None and baseline.get('raw_score') is not None else None
+    comparable = comparison.get('status') == 'completed' and comparison.get('raw_score') is not None and baseline.get('raw_score') is not None
+    if comparable:
+        for c in baseline.get('components', []):
+            base_factors[c.get('factor', c.get('description', ''))] += c.get('contribution') or 0
+        for c in comparison.get('components', []):
+            factor = c.get('factor', c.get('description', ''))
+            delta = (c.get('contribution') or 0) - base_factors.pop(factor, 0)
+            if delta:
+                differences.append({'factor': factor, 'description': c.get('description', factor), 'delta': delta})
+        differences.extend({'factor': f, 'description': f, 'delta': -v} for f, v in base_factors.items() if v)
+    delta = comparison['raw_score'] - baseline['raw_score'] if comparable else None
     result = {'id': 'SCENARIO-' + uuid.uuid4().hex, 'member_id': member['id'], 'name': name or 'Input comparison',
               'mode': 'fixed_inputs_different_model' if compare_config_id else 'same_model_different_inputs',
               'baseline': baseline, 'scenario': comparison, 'delta': round(delta, 9) if delta is not None else None,

@@ -1,0 +1,190 @@
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Agents configuration
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- main:
+  - heading "Agents configuration" [level=1]
+  - paragraph: Choose your models. Shape how each agent works.
+  - generic: Development workspace
+  - button "Export settings":
+    - text: Export settings
+  - tablist "Agents configuration sections":
+    - tab "Agents"
+    - tab "Providers"
+    - tab "Models" [selected]
+    - tab "Change history"
+  - heading "Model deployments" [level=2]
+  - paragraph: Name your models once, then select them for any agent.
+  - button "Add model":
+    - text: Add model
+  - table:
+    - rowgroup:
+      - row "Model Provider connection Inference identifier Used by":
+        - columnheader "Model"
+        - columnheader "Provider connection"
+        - columnheader "Inference identifier"
+        - columnheader "Used by"
+        - columnheader
+    - rowgroup:
+      - row "Private model An organization-hosted model on your own infrastructure Private provider Organization-hosted Not entered 1 agent Edit":
+        - cell "Private model An organization-hosted model on your own infrastructure":
+          - strong: Private model
+          - generic: An organization-hosted model on your own infrastructure
+        - cell "Private provider Organization-hosted":
+          - strong: Private provider
+          - generic: Organization-hosted
+        - cell "Not entered":
+          - code: Not entered
+        - cell "1 agent"
+        - cell "Edit":
+          - button "Edit":
+            - text: Edit
+      - row "Browser QA clinical model Edited private model metadata Browser QA private connection Organization-hosted qa-clinical-v1 0 agents Edit":
+        - cell "Browser QA clinical model Edited private model metadata":
+          - strong: Browser QA clinical model
+          - generic: Edited private model metadata
+        - cell "Browser QA private connection Organization-hosted":
+          - strong: Browser QA private connection
+          - generic: Organization-hosted
+        - cell "qa-clinical-v1":
+          - code: qa-clinical-v1
+        - cell "0 agents"
+        - cell "Edit":
+          - button "Edit":
+            - text: Edit
+      - row "GPT-4.1 General-purpose reasoning and analysis OpenAI workspace Provider connection gpt-4.1 4 agents Edit":
+        - cell "GPT-4.1 General-purpose reasoning and analysis":
+          - strong: GPT-4.1
+          - generic: General-purpose reasoning and analysis
+        - cell "OpenAI workspace Provider connection":
+          - strong: OpenAI workspace
+          - generic: Provider connection
+        - cell "gpt-4.1":
+          - code: gpt-4.1
+        - cell "4 agents"
+        - cell "Edit":
+          - button "Edit":
+            - text: Edit
+      - row "GPT-4.1 mini Everyday questions and quick summaries OpenAI workspace Provider connection gpt-4.1-mini 1 agent Edit":
+        - cell "GPT-4.1 mini Everyday questions and quick summaries":
+          - strong: GPT-4.1 mini
+          - generic: Everyday questions and quick summaries
+        - cell "OpenAI workspace Provider connection":
+          - strong: OpenAI workspace
+          - generic: Provider connection
+        - cell "gpt-4.1-mini":
+          - code: gpt-4.1-mini
+        - cell "1 agent"
+        - cell "Edit":
+          - button "Edit":
+            - text: Edit
+      - row "Clinical review deployment Your Azure deployment name Azure workspace Provider connection clinical-review 0 agents Edit":
+        - cell "Clinical review deployment Your Azure deployment name":
+          - strong: Clinical review deployment
+          - generic: Your Azure deployment name
+        - cell "Azure workspace Provider connection":
+          - strong: Azure workspace
+          - generic: Provider connection
+        - cell "clinical-review":
+          - code: clinical-review
+        - cell "0 agents"
+        - cell "Edit":
+          - button "Edit":
+            - text: Edit
+      - row "Claude Sonnet Add your exact model identifier Anthropic workspace Provider connection Not entered 0 agents Edit":
+        - cell "Claude Sonnet Add your exact model identifier":
+          - strong: Claude Sonnet
+          - generic: Add your exact model identifier
+        - cell "Anthropic workspace Provider connection":
+          - strong: Anthropic workspace
+          - generic: Provider connection
+        - cell "Not entered":
+          - code: Not entered
+        - cell "0 agents"
+        - cell "Edit":
+          - button "Edit":
+            - text: Edit
+  - paragraph: Catalog entries are configuration examples. Model access and capabilities have not been verified.
+  - generic: Configuration preview
+  - paragraph: Settings are saved for your account in this browser. They do not change live AI or clinical workflows.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- alert

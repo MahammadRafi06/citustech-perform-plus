@@ -1,0 +1,198 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Agents configuration
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- main:
+  - button "All agents":
+    - text: All agents
+  - heading "Clinical Evidence" [level=1]
+  - generic: Clinical review
+  - paragraph: Surface relevant passages, dates and contradictions so reviewers can assess the complete clinical picture.
+  - strong: Version 3
+  - generic: Saved Sep 13, 11:14 PM
+  - tablist "Agent configuration views":
+    - tab "Settings" [selected]
+    - tab "Instructions & tools"
+    - tab "Version history (3)"
+  - heading "Model" [level=2]
+  - paragraph: Select a private deployment or a model from your configured providers.
+  - generic: Primary model
+  - combobox "Primary model":
+    - strong: GPT-4.1
+    - generic: OpenAI
+  - generic: Fallback model
+  - combobox "Fallback model":
+    - strong: Private model
+    - generic: Organization-hosted · Your infrastructure
+  - strong: OpenAI workspace
+  - generic: Responses · Development
+  - button "Manage models":
+    - text: Manage models
+  - heading "Response settings" [level=2]
+  - paragraph: Set the balance between answer length and available context.
+  - generic: Output allowance
+  - spinbutton "Output allowance tokens 128–32,768 tokens · Includes generated response content.": "2048"
+  - generic: tokens
+  - generic: 128–32,768 tokens · Includes generated response content.
+  - generic: Context budget
+  - spinbutton "Context budget tokens 4,096–262,144 tokens · Application planning limit.": "32768"
+  - generic: tokens
+  - generic: 4,096–262,144 tokens · Application planning limit.
+  - text: Temperature
+  - paragraph: Use the model’s default, or set a value for this agent.
+  - combobox "Temperature":
+    - option "Provider default"
+    - option "Custom value" [selected]
+  - slider "Temperature slider": "0.3"
+  - generic: More focused
+  - generic: More varied
+  - generic: Value
+  - spinbutton "Value": "0.3"
+  - button "Advanced settings Context allocation, timeouts and retries" [expanded]:
+    - strong: Advanced settings
+    - generic: Context allocation, timeouts and retries
+  - generic: Conversation history
+  - spinbutton "Conversation history tokens 0–64,000 tokens": "4000"
+  - generic: tokens
+  - generic: 0–64,000 tokens
+  - generic: Retrieved evidence
+  - spinbutton "Retrieved evidence tokens 0–128,000 tokens": "12000"
+  - generic: tokens
+  - generic: 0–128,000 tokens
+  - generic: Response timeout
+  - spinbutton "Response timeout seconds 10–300 seconds": "90"
+  - generic: seconds
+  - generic: 10–300 seconds
+  - generic: Additional retries
+  - spinbutton "Additional retries attempts 0–3 attempts": "1"
+  - generic: attempts
+  - generic: 0–3 attempts
+  - checkbox "Pause this configuration Keep its saved settings while excluding it from the preview setup."
+  - strong: Pause this configuration
+  - generic: Keep its saved settings while excluding it from the preview setup.
+  - complementary:
+    - heading "At a glance" [level=2]
+    - generic: Up to date
+    - strong: GPT-4.1
+    - generic: OpenAI
+    - term: Hosting
+    - definition: Provider connection
+    - term: Output
+    - definition: Cited evidence summary
+    - term: Temperature
+    - definition: "0.3"
+    - term: Tools
+    - definition: 1 allowed
+    - heading "Context allocation" [level=3]
+    - strong: 32,768
+    - img "20,096 of 32,768 tokens allocated"
+    - generic: History
+    - strong: 4,000
+    - generic: Evidence
+    - strong: 12,000
+    - generic: Response
+    - strong: 2,048
+    - generic: Instructions & reserve
+    - strong: 2,048
+    - paragraph: 12,672 tokens unallocated
+    - heading "Review stays in your hands" [level=3]
+    - paragraph: These settings do not change clinical decisions, independent QA or risk model coefficients.
+  - status:
+    - generic: Settings and budget checks passed. Provider connectivity has not been tested.
+    - button "Dismiss validation":
+  - strong: Version 3 saved
+  - generic: Adjust the settings to make this agent your own.
+  - button "Discard changes" [disabled]
+  - button "Check settings"
+  - button "Save configuration" [disabled]:
+    - text: Save configuration
+  - generic: Configuration preview
+  - paragraph: Settings are saved for your account in this browser. They do not change live AI or clinical workflows.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T":
+  - list:
+    - button "Close toast":
+    - generic: Clinical Evidence configuration saved
+    - generic: Version 3 · Saved in this browser
+    - button "Close toast":
+    - generic: Previous settings loaded
+    - generic: Review them and save as a new version.

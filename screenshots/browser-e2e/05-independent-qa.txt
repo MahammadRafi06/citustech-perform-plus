@@ -1,0 +1,186 @@
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /members
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - heading "Governance" [level=3]
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Chart review
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: DC
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - link "Back to review queue":
+    - /url: /reviews
+    - text: Back to review queue
+  - link "Member 360":
+    - /url: /members/MB-000001
+    - text: Member 360
+  - heading "Jordan Ellis" [level=1]
+  - paragraph: MB-000001 · 72 years · Male · Northstar Health
+  - paragraph: Service year 2026 · Payment year 2027
+  - generic: Resolved supported
+  - complementary:
+    - heading "Findings" [level=2]
+    - generic: 1 linked to this chart
+    - heading "Chronic systolic heart failure" [level=3]
+    - paragraph: Strong evidence
+    - generic: Resolved supported
+    - generic: OP-0001 · Recommendation v2
+    - strong: Assigned to
+    - paragraph: Alex Chen
+    - strong: Due date
+    - paragraph: 2026-09-16
+  - region "Source document":
+    - generic: Source document
+    - combobox "Source document":
+      - option "Cardiology follow-up · signed encounter" [selected]
+      - option "Cardiology history · prior-year context"
+    - button "Previous document page" [disabled]:
+    - generic: 1 / 1
+    - button "Next document page" [disabled]:
+    - button "Zoom out":
+    - generic: 100%
+    - button "Zoom in":
+    - button "Fit width":
+    - button "Find in document":
+    - generic: DOC-0001
+    - generic: Encounter 2026-08-28
+    - generic: signed
+    - generic: Synthetic source
+    - generic "Scrollable source page":
+      - article:
+        - heading "Cardiology follow-up · signed encounter" [level=2]
+        - paragraph:
+          - text: MB-000001 · Northbrook Family Care
+          - text: 2026-08-28
+        - heading "Synthetic demonstration record" [level=3]
+        - paragraph: Jordan Ellis · MB-000001 · Service date 2026-08-28. This is a fictional record for demonstration.
+        - heading "Reason for visit" [level=3]
+        - paragraph: Scheduled follow-up for chronic cardiovascular conditions. Symptoms and ongoing management were reviewed at today's encounter.
+        - heading "Assessment and plan" [level=3]
+        - paragraph:
+          - mark: Chronic systolic heart failure is present and was assessed today. The member is clinically stable. Continue the established management plan and monitor symptoms at follow-up.
+        - heading "Signature" [level=3]
+        - paragraph: Electronically signed by the synthetic treating clinician at Northbrook Family Care on August 28, 2026.
+        - generic: Page 1 · DOC-0001 · Original source wording
+    - button "Complete source fixture"
+    - button "Linked passage"
+    - button "Mark inspected":
+      - text: Mark inspected
+  - region "Finding and decision":
+    - heading "Independent QA" [level=2]
+    - generic: OP-0001 · Recommendation v2
+    - generic "Scrollable review context":
+      - heading "Chronic systolic heart failure" [level=3]
+      - paragraph: The signed current encounter explicitly documents chronic systolic heart failure. The selected coded dataset has no corresponding diagnosis. Review the source passage before a supported coding decision.
+      - generic: Strong evidence
+      - generic: Resolved supported
+      - text: Prepared code output
+      - strong: I50.22 · Chronic systolic (congestive) heart failure
+      - generic: ICD-10-CM April 1, 2026 release
+      - link "Code reference":
+        - /url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2026-update/icd10cm-April-1-2026-XML.zip
+      - generic "Code basis"
+      - generic "Finding-specific passages · 1"
+      - generic "Authored review context"
+      - generic "Saved reviews and QA"
+      - generic: Resolved supported
+      - generic: Current review
+      - paragraph: "Browser QA revised review: DOC-0001 page 1, Assessment and plan; signed 2026-08-28 by treating clinician. Current chronic systolic heart failure assessed; identity and eligible service date confirmed."
+      - generic: coder@perform.test · 9/13/2026, 10:42:57 PM · Recommendation v2
+      - paragraph:
+        - link "DOC-0001 · p. 1 · Assessment and plan":
+          - /url: /members/MB-000001?tab=Evidence%20%26%20documents&document=DOC-0001&page=1&section=Assessment%20and%20plan
+          - text: DOC-0001 · p. 1 · Assessment and plan
+      - strong: QA · Passed
+      - paragraph: "Browser QA: independently inspected DOC-0001 assessment and signed service date. Revised coder rationale supports I50.22 and addresses feedback."
+      - generic: qa@perform.test · 9/13/2026, 10:43:16 PM
+      - generic: Resolved supported
+      - generic: Retained review
+      - paragraph: "Browser QA: current signed assessment on DOC-0001, Assessment and plan, documents chronic systolic heart failure; source and member identity reviewed."
+      - generic: coder@perform.test · 9/13/2026, 10:40:39 PM · Recommendation v2
+      - paragraph:
+        - link "DOC-0001 · p. 1 · Assessment and plan":
+          - /url: /members/MB-000001?tab=Evidence%20%26%20documents&document=DOC-0001&page=1&section=Assessment%20and%20plan
+          - text: DOC-0001 · p. 1 · Assessment and plan
+      - strong: QA · Rework
+      - paragraph: "Browser QA: include the signed encounter date and confirm the linked assessment passage before final approval."
+      - generic: qa@perform.test · 9/13/2026, 10:42:35 PM
+      - generic "Next role and case steps"
+      - generic "Next case steps":
+        - strong: Prepare approved record
+        - generic: submission@perform.test continues this step
+        - strong: Receive later clarification
+        - generic: provider@perform.test continues this step
+        - strong: Review current evidence
+        - generic: coder@perform.test continues this step
+        - link "Open workspace":
+          - /url: /reviews/MB-000001
+          - text: Open workspace
+      - generic "Evidence provenance"
+      - generic "History and related work"
+    - paragraph: Independent QA passed. The approved review is ready for the next case step.
+    - button "Pass QA" [disabled]
+    - button "Return for rework" [disabled]
+- region "Notifications alt+T":
+  - list:
+    - button "Close toast":
+    - generic: Workflow updated.
+- alert

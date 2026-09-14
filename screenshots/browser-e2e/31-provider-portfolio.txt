@@ -1,0 +1,373 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Provider portfolio
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Provider portfolio" [level=1]
+  - paragraph: A shared view of practices, documentation and open work.
+  - textbox "Search practices, counties or contacts…"
+  - generic: Row density
+  - combobox "Row density":
+    - option "Comfortable" [selected]
+    - option "Compact"
+  - region "Search practices, counties or contacts table":
+    - table:
+      - rowgroup:
+        - row "Practice City County Response turnaround Work items Contact":
+          - columnheader "Practice":
+            - button "Practice"
+          - columnheader "City":
+            - button "City"
+          - columnheader "County":
+            - button "County"
+          - columnheader "Response turnaround":
+            - button "Response turnaround"
+          - columnheader "Work items":
+            - button "Work items"
+          - columnheader "Contact":
+            - button "Contact"
+      - rowgroup:
+        - row "Northbrook Family Care PR-001 Miami Miami-Dade County 2 days 50 intake-01@practice.example":
+          - cell "Northbrook Family Care PR-001":
+            - strong: Northbrook Family Care
+            - generic: PR-001
+          - cell "Miami"
+          - cell "Miami-Dade County"
+          - cell "2 days"
+          - cell "50"
+          - cell "intake-01@practice.example"
+        - row "Lakeside Medical Group PR-002 Fort Lauderdale Broward County 3 days 50 intake-02@practice.example":
+          - cell "Lakeside Medical Group PR-002":
+            - strong: Lakeside Medical Group
+            - generic: PR-002
+          - cell "Fort Lauderdale"
+          - cell "Broward County"
+          - cell "3 days"
+          - cell "50"
+          - cell "intake-02@practice.example"
+        - row "Cedar Grove Primary Care PR-003 West Palm Beach Palm Beach County 4 days 50 intake-03@practice.example":
+          - cell "Cedar Grove Primary Care PR-003":
+            - strong: Cedar Grove Primary Care
+            - generic: PR-003
+          - cell "West Palm Beach"
+          - cell "Palm Beach County"
+          - cell "4 days"
+          - cell "50"
+          - cell "intake-03@practice.example"
+        - row "Westhaven Clinical Partners PR-004 Tampa Hillsborough County 5 days 50 intake-04@practice.example":
+          - cell "Westhaven Clinical Partners PR-004":
+            - strong: Westhaven Clinical Partners
+            - generic: PR-004
+          - cell "Tampa"
+          - cell "Hillsborough County"
+          - cell "5 days"
+          - cell "50"
+          - cell "intake-04@practice.example"
+        - row "Maple Ridge Health PR-005 Orlando Orange County 6 days 50 intake-05@practice.example":
+          - cell "Maple Ridge Health PR-005":
+            - strong: Maple Ridge Health
+            - generic: PR-005
+          - cell "Orlando"
+          - cell "Orange County"
+          - cell "6 days"
+          - cell "50"
+          - cell "intake-05@practice.example"
+        - row "Brookfield Community Care PR-006 Jacksonville Duval County 7 days 50 intake-06@practice.example":
+          - cell "Brookfield Community Care PR-006":
+            - strong: Brookfield Community Care
+            - generic: PR-006
+          - cell "Jacksonville"
+          - cell "Duval County"
+          - cell "7 days"
+          - cell "50"
+          - cell "intake-06@practice.example"
+        - row "Willow Creek Family Practice PR-007 St. Petersburg Pinellas County 8 days 50 intake-07@practice.example":
+          - cell "Willow Creek Family Practice PR-007":
+            - strong: Willow Creek Family Practice
+            - generic: PR-007
+          - cell "St. Petersburg"
+          - cell "Pinellas County"
+          - cell "8 days"
+          - cell "50"
+          - cell "intake-07@practice.example"
+        - row "Silver Birch Medical PR-008 Lakeland Polk County 2 days 50 intake-08@practice.example":
+          - cell "Silver Birch Medical PR-008":
+            - strong: Silver Birch Medical
+            - generic: PR-008
+          - cell "Lakeland"
+          - cell "Polk County"
+          - cell "2 days"
+          - cell "50"
+          - cell "intake-08@practice.example"
+        - row "Oakstone Primary Care PR-009 Fort Myers Lee County 3 days 50 intake-09@practice.example":
+          - cell "Oakstone Primary Care PR-009":
+            - strong: Oakstone Primary Care
+            - generic: PR-009
+          - cell "Fort Myers"
+          - cell "Lee County"
+          - cell "3 days"
+          - cell "50"
+          - cell "intake-09@practice.example"
+        - row "Meadowvale Health Partners PR-010 Sarasota Sarasota County 4 days 50 intake-10@practice.example":
+          - cell "Meadowvale Health Partners PR-010":
+            - strong: Meadowvale Health Partners
+            - generic: PR-010
+          - cell "Sarasota"
+          - cell "Sarasota County"
+          - cell "4 days"
+          - cell "50"
+          - cell "intake-10@practice.example"
+        - row "Pinecrest Family Medicine PR-011 Sanford Seminole County 5 days 50 intake-11@practice.example":
+          - cell "Pinecrest Family Medicine PR-011":
+            - strong: Pinecrest Family Medicine
+            - generic: PR-011
+          - cell "Sanford"
+          - cell "Seminole County"
+          - cell "5 days"
+          - cell "50"
+          - cell "intake-11@practice.example"
+        - row "Clearwater Clinical Group PR-012 Kissimmee Osceola County 6 days 50 intake-12@practice.example":
+          - cell "Clearwater Clinical Group PR-012":
+            - strong: Clearwater Clinical Group
+            - generic: PR-012
+          - cell "Kissimmee"
+          - cell "Osceola County"
+          - cell "6 days"
+          - cell "50"
+          - cell "intake-12@practice.example"
+        - row "Highland Grove Health PR-013 Miami Miami-Dade County 7 days 50 intake-13@practice.example":
+          - cell "Highland Grove Health PR-013":
+            - strong: Highland Grove Health
+            - generic: PR-013
+          - cell "Miami"
+          - cell "Miami-Dade County"
+          - cell "7 days"
+          - cell "50"
+          - cell "intake-13@practice.example"
+        - row "Birchwood Community Practice PR-014 Fort Lauderdale Broward County 8 days 50 intake-14@practice.example":
+          - cell "Birchwood Community Practice PR-014":
+            - strong: Birchwood Community Practice
+            - generic: PR-014
+          - cell "Fort Lauderdale"
+          - cell "Broward County"
+          - cell "8 days"
+          - cell "50"
+          - cell "intake-14@practice.example"
+        - row "Riverbend Family Care PR-015 West Palm Beach Palm Beach County 2 days 50 intake-15@practice.example":
+          - cell "Riverbend Family Care PR-015":
+            - strong: Riverbend Family Care
+            - generic: PR-015
+          - cell "West Palm Beach"
+          - cell "Palm Beach County"
+          - cell "2 days"
+          - cell "50"
+          - cell "intake-15@practice.example"
+        - row "Stonebridge Medical Partners PR-016 Tampa Hillsborough County 3 days 50 intake-16@practice.example":
+          - cell "Stonebridge Medical Partners PR-016":
+            - strong: Stonebridge Medical Partners
+            - generic: PR-016
+          - cell "Tampa"
+          - cell "Hillsborough County"
+          - cell "3 days"
+          - cell "50"
+          - cell "intake-16@practice.example"
+        - row "Ashford Primary Care PR-017 Orlando Orange County 4 days 50 intake-17@practice.example":
+          - cell "Ashford Primary Care PR-017":
+            - strong: Ashford Primary Care
+            - generic: PR-017
+          - cell "Orlando"
+          - cell "Orange County"
+          - cell "4 days"
+          - cell "50"
+          - cell "intake-17@practice.example"
+        - row "Fairhaven Community Health PR-018 Jacksonville Duval County 5 days 50 intake-18@practice.example":
+          - cell "Fairhaven Community Health PR-018":
+            - strong: Fairhaven Community Health
+            - generic: PR-018
+          - cell "Jacksonville"
+          - cell "Duval County"
+          - cell "5 days"
+          - cell "50"
+          - cell "intake-18@practice.example"
+        - row "Woodland Clinical Partners PR-019 St. Petersburg Pinellas County 6 days 50 intake-19@practice.example":
+          - cell "Woodland Clinical Partners PR-019":
+            - strong: Woodland Clinical Partners
+            - generic: PR-019
+          - cell "St. Petersburg"
+          - cell "Pinellas County"
+          - cell "6 days"
+          - cell "50"
+          - cell "intake-19@practice.example"
+        - row "Elmstead Family Medicine PR-020 Lakeland Polk County 7 days 50 intake-20@practice.example":
+          - cell "Elmstead Family Medicine PR-020":
+            - strong: Elmstead Family Medicine
+            - generic: PR-020
+          - cell "Lakeland"
+          - cell "Polk County"
+          - cell "7 days"
+          - cell "50"
+          - cell "intake-20@practice.example"
+        - row "Foxglove Medical Group PR-021 Fort Myers Lee County 8 days 50 intake-21@practice.example":
+          - cell "Foxglove Medical Group PR-021":
+            - strong: Foxglove Medical Group
+            - generic: PR-021
+          - cell "Fort Myers"
+          - cell "Lee County"
+          - cell "8 days"
+          - cell "50"
+          - cell "intake-21@practice.example"
+        - row "Greenfield Health Practice PR-022 Sarasota Sarasota County 2 days 50 intake-22@practice.example":
+          - cell "Greenfield Health Practice PR-022":
+            - strong: Greenfield Health Practice
+            - generic: PR-022
+          - cell "Sarasota"
+          - cell "Sarasota County"
+          - cell "2 days"
+          - cell "50"
+          - cell "intake-22@practice.example"
+        - row "Larkspur Family Care PR-023 Sanford Seminole County 3 days 50 intake-23@practice.example":
+          - cell "Larkspur Family Care PR-023":
+            - strong: Larkspur Family Care
+            - generic: PR-023
+          - cell "Sanford"
+          - cell "Seminole County"
+          - cell "3 days"
+          - cell "50"
+          - cell "intake-23@practice.example"
+        - row "Summit Grove Medical PR-024 Kissimmee Osceola County 4 days 50 intake-24@practice.example":
+          - cell "Summit Grove Medical PR-024":
+            - strong: Summit Grove Medical
+            - generic: PR-024
+          - cell "Kissimmee"
+          - cell "Osceola County"
+          - cell "4 days"
+          - cell "50"
+          - cell "intake-24@practice.example"
+        - row "Bluebell Community Care PR-025 Miami Miami-Dade County 5 days 50 intake-25@practice.example":
+          - cell "Bluebell Community Care PR-025":
+            - strong: Bluebell Community Care
+            - generic: PR-025
+          - cell "Miami"
+          - cell "Miami-Dade County"
+          - cell "5 days"
+          - cell "50"
+          - cell "intake-25@practice.example"
+  - navigation "practices, counties or contacts pagination":
+    - status: 1–25 of 30 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page"
+      - option "25 / page" [selected]
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 2
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page":
+    - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

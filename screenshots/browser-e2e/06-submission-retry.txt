@@ -1,0 +1,278 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link:
+    - /url: /members
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic: Organization workspace
+  - strong: Northstar & Meridian
+  - navigation:
+    - heading [level=3]: Members and providers
+    - link:
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - heading [level=3]: Governance
+    - link:
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link:
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+  - button:
+    - generic: Workspace guide
+  - button [expanded]:
+- banner:
+  - button [expanded]:
+  - generic: Submissions
+  - button:
+    - generic: Ask Perform+
+  - textbox:
+    - /placeholder: Search members…
+  - generic: ↵
+  - button:
+  - button:
+    - generic: SB
+- generic: Program & model
+- combobox
+- generic: Score basis
+- combobox
+- strong: 2027 · Forecast
+- generic: Service dates 2026-01-01 — 2026-09-30
+- generic: Validated for declared scope
+- main:
+  - heading [level=1]: Submission operations
+  - paragraph: Prepare approved records, retain each attempt and follow the simulated receiver.
+  - button:
+    - text: Export records
+  - generic: Submission attempts
+  - generic: "14"
+  - generic: Original records and linked attempts
+  - generic: Receiver accepted
+  - generic: "4"
+  - generic: Acceptance is separate from payment
+  - generic: Receiver rejected
+  - generic: "4"
+  - generic: Rejected attempts remain retained
+  - generic: Prepared comparisons
+  - generic: "0"
+  - generic: Synthetic report · payment unreconciled
+  - heading [level=2]: Approved review handoff
+  - paragraph: A submission specialist explicitly prepares the exact current decision after independent QA.
+  - strong: Jordan Ellis
+  - generic: Add · I50.22 · ICD-10-CM April 1, 2026 release
+  - generic: Passed
+  - generic: Linked record SUB-ef11c031c5
+  - link:
+    - /url: /members/MB-000001?tab=Timeline&returnTo=%2Fsubmissions
+    - text: Review basis
+  - button:
+    - text: Open record
+  - strong: Taylor Quinn
+  - generic: Delete · I50.9 · ICD-10-CM April 1, 2026 release
+  - generic: Not submitted
+  - generic: Awaiting terminal review and independent QA approval.
+  - link:
+    - /url: /members/MB-000004?tab=Timeline&returnTo=%2Fsubmissions
+    - text: Review basis
+  - button [disabled]: Prepare deletion
+  - textbox:
+    - /placeholder: Search records...
+  - generic: Row density
+  - combobox
+  - button:
+    - text: Export
+  - generic: Submission member
+  - combobox
+  - region:
+    - table:
+      - rowgroup:
+        - row:
+          - columnheader:
+            - button: Record
+          - columnheader:
+            - button: Member
+          - columnheader: Operation
+          - columnheader:
+            - button: Receiver status
+          - columnheader:
+            - button: Approved decision
+          - columnheader:
+            - button: Original record
+      - rowgroup:
+        - row:
+          - cell: SUB-0001
+          - cell: Taylor Quinn
+          - cell: Add
+          - cell:
+            - generic: Accepted
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0002
+          - cell: Taylor Quinn
+          - cell: Delete
+          - cell:
+            - generic: Rejected
+          - cell: Original prepared record
+          - cell: SUB-0001
+        - row:
+          - cell: SUB-0003
+          - cell: MB-000044
+          - cell: Add
+          - cell:
+            - generic: Prepared
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0004
+          - cell: MB-000045
+          - cell: Add
+          - cell:
+            - generic: Pending acknowledgement
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0005
+          - cell: MB-000046
+          - cell: Add
+          - cell:
+            - generic: Accepted
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0006
+          - cell: MB-000047
+          - cell: Add
+          - cell:
+            - generic: Rejected
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0007
+          - cell: MB-000048
+          - cell: Add
+          - cell:
+            - generic: Validated
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0008
+          - cell: MB-000049
+          - cell: Add
+          - cell:
+            - generic: Prepared
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0009
+          - cell: MB-000050
+          - cell: Add
+          - cell:
+            - generic: Pending acknowledgement
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0010
+          - cell: MB-000051
+          - cell: Add
+          - cell:
+            - generic: Accepted
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0011
+          - cell: MB-000052
+          - cell: Add
+          - cell:
+            - generic: Rejected
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-0012
+          - cell: MB-000053
+          - cell: Add
+          - cell:
+            - generic: Validated
+          - cell: Original prepared record
+          - cell: —
+        - row:
+          - cell: SUB-8082b9c47d
+          - cell: Jordan Ellis
+          - cell: Add
+          - cell:
+            - generic: Rejected
+          - cell: DEC-02f7798e4e
+          - cell: —
+        - row:
+          - cell: SUB-ef11c031c5
+          - cell: Jordan Ellis
+          - cell: Add
+          - cell:
+            - generic: Accepted
+          - cell: DEC-02f7798e4e
+          - cell: —
+  - navigation:
+    - status: 1–14 of 14 records
+    - generic: Rows per page
+    - combobox
+    - generic: Page 1 of 1
+    - button [disabled]:
+    - button [disabled]:
+    - button [disabled]:
+    - button [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button:
+    - text: Workspace guide
+- region "Notifications alt+T"
+- dialog "SUB-ef11c031c5" [active]:
+  - heading "SUB-ef11c031c5" [level=2]
+  - paragraph: Simulated receiver · each action retains its actual timestamp
+  - generic: Accepted
+  - generic: Add
+  - paragraph: Simulated receiver accepted this record. Diagnosis eligibility, reported reconciliation and payment remain separate.
+  - generic: Member
+  - link "Jordan Ellis":
+    - /url: /members/MB-000001?returnTo=%2Fsubmissions%3Frecord%3DSUB-ef11c031c5
+    - text: Jordan Ellis
+  - generic: Code / release
+  - strong: I50.22 · ICD-10-CM April 1, 2026 release
+  - generic: Transport receipt
+  - generic: Not acknowledged
+  - generic: Receiver acceptance
+  - generic: Accepted
+  - generic: Diagnosis eligibility
+  - generic: Not evaluated
+  - generic: Prepared report
+  - generic: Not compared
+  - generic: Payment reconciliation
+  - generic: Unreconciled
+  - heading "Retained approval and evidence" [level=3]
+  - strong: Review · DEC-02f7798e4e
+  - paragraph: "Browser QA revised review: DOC-0001 page 1, Assessment and plan; signed 2026-08-28 by treating clinician. Current chronic systolic heart failure assessed; identity and eligible service date confirmed."
+  - generic: coder@perform.test · 9/13/2026, 10:42:57 PM
+  - strong: Independent QA · QA-4e2be5187c
+  - paragraph: "Browser QA: independently inspected DOC-0001 assessment and signed service date. Revised coder rationale supports I50.22 and addresses feedback."
+  - generic: qa@perform.test · Passed
+  - strong: Recommendation 2
+  - paragraph: New current signed encounter explicitly documents chronic systolic heart failure.
+  - link "DOC-0001 · p. 1 · Assessment and plan":
+    - /url: /members/MB-000001?tab=Evidence+%26+documents&document=DOC-0001&page=1&section=Assessment%20and%20plan
+    - text: DOC-0001 · p. 1 · Assessment and plan
+  - blockquote: Chronic systolic heart failure is present and was assessed today. The member is clinically stable. Continue the established management plan and monitor symptoms at follow-up.
+  - heading "Receiver outcome retained" [level=3]
+  - button "Open eligibility and report reconciliation":
+    - text: Open eligibility and report reconciliation
+  - paragraph: This attempt’s terminal acceptance remains linked to its receiver history.
+  - heading "Linked attempts" [level=3]
+  - button "SUB-8082b9c47d · Add Rejected":
+    - generic: SUB-8082b9c47d · Add
+    - generic: Rejected
+  - button "SUB-ef11c031c5 · Add Accepted":
+    - generic: SUB-ef11c031c5 · Add
+    - generic: Accepted
+  - heading "This attempt’s receiver history" [level=3]
+  - strong: Record processing · Accepted
+  - generic: 9/13/2026, 10:45:03 PM · Terminal receiver outcome
+  - button "Close":
+    - generic: Close

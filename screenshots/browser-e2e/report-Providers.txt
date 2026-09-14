@@ -1,0 +1,279 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - button "Export report":
+    - text: Export report
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Suspecting"
+    - tab "Providers" [active] [selected]
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions"
+    - tab "Financial"
+    - tab "Data & AI"
+  - tabpanel "Providers":
+    - generic: Providers records
+    - generic: "30"
+    - generic: Current workspace records
+    - generic: Average response time
+    - generic: 4.8 days
+    - generic: Mean recorded response days across practices
+    - generic: Program population
+    - generic: 10,000
+    - generic: Members in your access scope
+    - heading "Practice workload and response" [level=2]
+    - paragraph: Recorded response days and review workload · all practices in scope
+    - paragraph: 30 practices shown. Overlapping practices share a point; the number above it is the practice count. Hover for names. Full practice details are retained in the table below.
+    - heading "Practice response profile" [level=2]
+    - paragraph: Practices by recorded response time · full access scope
+    - 'img "30 practices. 2 days: 5; 3 days: 5; 4 days: 4; 5 days: 4; 6 days: 4; 7 days: 4; 8 days: 4"':
+      - 'generic "2 days: 5 (16.7%)"'
+      - 'generic "3 days: 5 (16.7%)"'
+      - 'generic "4 days: 4 (13.3%)"'
+      - 'generic "5 days: 4 (13.3%)"'
+      - 'generic "6 days: 4 (13.3%)"'
+      - 'generic "7 days: 4 (13.3%)"'
+      - 'generic "8 days: 4 (13.3%)"'
+      - generic: "30"
+      - generic: practices
+    - generic "practices distribution":
+      - generic: 2 days
+      - strong: "5"
+      - generic: 16.7%
+      - generic: 3 days
+      - strong: "5"
+      - generic: 16.7%
+      - generic: 4 days
+      - strong: "4"
+      - generic: 13.3%
+      - generic: 5 days
+      - strong: "4"
+      - generic: 13.3%
+      - generic: 6 days
+      - strong: "4"
+      - generic: 13.3%
+      - generic: 7 days
+      - strong: "4"
+      - generic: 13.3%
+      - generic: 8 days
+      - strong: "4"
+      - generic: 13.3%
+    - heading "Providers records" [level=2]
+    - textbox "Search providers records…"
+    - generic: Row density
+    - combobox "Row density":
+      - option "Comfortable" [selected]
+      - option "Compact"
+    - region "Search providers records table":
+      - table:
+        - rowgroup:
+          - row "Practice Record ID Review workload Response time (days) Status":
+            - columnheader "Practice":
+              - button "Practice"
+            - columnheader "Record ID":
+              - button "Record ID"
+            - columnheader "Review workload":
+              - button "Review workload"
+            - columnheader "Response time (days)":
+              - button "Response time (days)"
+            - columnheader "Status":
+              - button "Status"
+        - rowgroup:
+          - row "Northbrook Family Care PR-001 50 work items 2 Active":
+            - cell "Northbrook Family Care"
+            - cell "PR-001"
+            - cell "50 work items"
+            - cell "2"
+            - cell "Active":
+              - generic: Active
+          - row "Lakeside Medical Group PR-002 50 work items 3 Active":
+            - cell "Lakeside Medical Group"
+            - cell "PR-002"
+            - cell "50 work items"
+            - cell "3"
+            - cell "Active":
+              - generic: Active
+          - row "Cedar Grove Primary Care PR-003 50 work items 4 Active":
+            - cell "Cedar Grove Primary Care"
+            - cell "PR-003"
+            - cell "50 work items"
+            - cell "4"
+            - cell "Active":
+              - generic: Active
+          - row "Westhaven Clinical Partners PR-004 50 work items 5 Active":
+            - cell "Westhaven Clinical Partners"
+            - cell "PR-004"
+            - cell "50 work items"
+            - cell "5"
+            - cell "Active":
+              - generic: Active
+          - row "Maple Ridge Health PR-005 50 work items 6 Active":
+            - cell "Maple Ridge Health"
+            - cell "PR-005"
+            - cell "50 work items"
+            - cell "6"
+            - cell "Active":
+              - generic: Active
+          - row "Brookfield Community Care PR-006 50 work items 7 Active":
+            - cell "Brookfield Community Care"
+            - cell "PR-006"
+            - cell "50 work items"
+            - cell "7"
+            - cell "Active":
+              - generic: Active
+          - row "Willow Creek Family Practice PR-007 50 work items 8 Active":
+            - cell "Willow Creek Family Practice"
+            - cell "PR-007"
+            - cell "50 work items"
+            - cell "8"
+            - cell "Active":
+              - generic: Active
+          - row "Silver Birch Medical PR-008 50 work items 2 Active":
+            - cell "Silver Birch Medical"
+            - cell "PR-008"
+            - cell "50 work items"
+            - cell "2"
+            - cell "Active":
+              - generic: Active
+          - row "Oakstone Primary Care PR-009 50 work items 3 Active":
+            - cell "Oakstone Primary Care"
+            - cell "PR-009"
+            - cell "50 work items"
+            - cell "3"
+            - cell "Active":
+              - generic: Active
+          - row "Meadowvale Health Partners PR-010 50 work items 4 Active":
+            - cell "Meadowvale Health Partners"
+            - cell "PR-010"
+            - cell "50 work items"
+            - cell "4"
+            - cell "Active":
+              - generic: Active
+    - navigation "providers records pagination":
+      - status: 1–10 of 30 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 3
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page":
+      - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- generic: "0.2"

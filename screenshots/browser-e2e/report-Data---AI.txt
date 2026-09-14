@@ -1,0 +1,199 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - button "Export report":
+    - text: Export report
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Suspecting"
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions"
+    - tab "Financial"
+    - tab "Data & AI" [active] [selected]
+  - tabpanel:
+    - generic: Data & AI operations records
+    - generic: "1"
+    - generic: Current workspace records
+    - generic: Completed outcomes
+    - generic: "1"
+    - generic: Completion follows the selected workflow
+    - generic: Program population
+    - generic: 10,000
+    - generic: Members in your access scope
+    - heading "Current workflow composition" [level=2]
+    - paragraph: 1 records · mutually exclusive recorded states
+    - 'img "1 records. Succeeded: 1"':
+      - 'generic "Succeeded: 1 (100.0%)"'
+      - generic: "1"
+      - generic: records
+    - generic "records distribution":
+      - generic: Succeeded
+      - strong: "1"
+      - generic: 100.0%
+    - heading "Where the work sits" [level=2]
+    - paragraph: Record counts by context and workflow state
+    - table "Data & AI operations records by context and state":
+      - row "Context Succeeded":
+        - columnheader "Context"
+        - columnheader "Succeeded"
+      - 'row "1 member · prepared_analysis 1 member · prepared_analysis · Succeeded: 1 records"':
+        - rowheader "1 member · prepared_analysis"
+        - 'cell "1 member · prepared_analysis · Succeeded: 1 records"':
+          - 'button "1 member · prepared_analysis · Succeeded: 1 records"': "1"
+    - generic: Fewer
+    - generic: More records
+    - paragraph: Select a cell to read its context. Exact records remain available below.
+    - heading "Data & AI operations records" [level=2]
+    - textbox "Search data & ai operations records…"
+    - generic: Row density
+    - combobox "Row density":
+      - option "Comfortable" [selected]
+      - option "Compact"
+    - region "Search data & ai operations records table":
+      - table:
+        - rowgroup:
+          - row "Record / member Record ID Context Status":
+            - columnheader "Record / member":
+              - button "Record / member"
+            - columnheader "Record ID":
+              - button "Record ID"
+            - columnheader "Context":
+              - button "Context"
+            - columnheader "Status":
+              - button "Status"
+        - rowgroup:
+          - row "RUN-b09836 RUN-b09836 1 member · prepared_analysis Succeeded":
+            - cell "RUN-b09836"
+            - cell "RUN-b09836"
+            - cell "1 member · prepared_analysis"
+            - cell "Succeeded":
+              - generic: Succeeded
+    - navigation "data & ai operations records pagination":
+      - status: 1–1 of 1 record
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 1
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page" [disabled]:
+      - button "Last page" [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- generic: "0.2"

@@ -1,3 +1,7 @@
+## Florida directory and geographic risk analytics
+
+Delivered locally: named account owners, varied patient names and Florida residence/practice locations, plus county/provider RAF analytics with intersecting filters, retained-run drilldowns and 10/25/50/100 pagination. See [plan and verification](docs/FLORIDA_ANALYTICS_PLAN.md).
+
 ## Active work — Agent and AI model configuration UI
 
 UI delivery complete and verified locally. User narrowed this to a polished, interactive demo UI. See [UI TODOs](docs/AGENT_MODEL_CONFIGURATION_PLAN.md) and [future integration requirements](CitusTech_Perform_Plus_Agent_Model_Configuration_Requirements.md). Backend provider/runtime work is deferred by explicit instruction.

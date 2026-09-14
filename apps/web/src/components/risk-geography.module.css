@@ -1,0 +1,58 @@
+.workspace { display:grid; gap:20px; }
+.heading { display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.heading h2 { font-size:22px; line-height:1.4; font-weight:600; letter-spacing:-.45px; margin:5px 0; color:var(--foreground); }
+.heading p { color:var(--text-muted); font-size:13px; }
+.eyebrow { display:flex; align-items:center; gap:6px; color:var(--chart-2); font-size:12px; font-weight:600; }
+.filters { display:flex; align-items:end; gap:20px; padding:16px 20px; border:1px solid var(--border); background:var(--card); border-radius:8px; }
+.filters label { display:grid; gap:7px; color:var(--text-muted); font-size:12px; font-weight:500; min-width:210px; }
+.filters select { min-height:36px; background:var(--card); color:var(--foreground); border:1px solid var(--border); border-radius:5px; padding:7px 30px 7px 10px; font-size:13px; }
+.filterNote { display:grid; gap:5px; margin:0 auto 3px 0; font-size:12px; color:var(--text-muted); }
+.filterNote strong { color:var(--foreground); font-weight:500; }
+.metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--border); border-radius:8px; background:var(--card); padding:20px 0; }
+.metrics > div { display:grid; gap:7px; padding:0 24px; border-right:1px solid var(--border); }
+.metrics > div:last-child { border-right:0; }
+.metrics span { color:var(--text-muted); font-size:12px; }
+.metrics strong { font-size:30px; font-weight:600; letter-spacing:-1px; color:var(--foreground); font-variant-numeric:tabular-nums; }
+.metrics > div:first-child strong { color:var(--chart-1); }
+.metrics small { color:var(--text-muted); font-size:11px; }
+.metrics em { font-size:22px; font-weight:400; font-style:normal; color:var(--border-strong); margin:0 10px; }
+.visuals { display:grid; grid-template-columns:minmax(380px,.85fr) minmax(540px,1.15fr); gap:20px; align-items:stretch; }
+.visuals > section { min-width:0; }
+.ranking { padding:8px 20px 16px; }
+.rankHeader,.rankRow,.rankAxis { display:grid; grid-template-columns:var(--rank-label,110px) minmax(100px,1fr) 55px; gap:14px; align-items:center; }
+.rankHeader { font-size:10px; color:var(--text-muted); margin:4px 0 15px; }
+.rankHeader > :last-child { text-align:right; }
+.rankRow { width:100%; min-height:36px; border:0; background:transparent; text-align:left; font-size:12px; cursor:pointer; border-radius:4px; }
+.rankRow:hover { background:var(--muted); }
+.rankRow > strong { font-weight:500; color:var(--text-muted); text-align:right; font-variant-numeric:tabular-nums; }
+.track { position:relative; height:36px; }
+.trackLine { position:absolute; top:19px; height:1px; width:100%; background:var(--border); }
+.dot { position:absolute; top:15px; width:9px; height:9px; border:2px solid var(--card); border-radius:50%; background:var(--chart-1); transform:translateX(-50%); box-shadow:0 0 0 1px var(--chart-1); }
+.benchmark { position:absolute; top:0; height:36px; width:1px; border-left:1px dashed var(--border-strong); }
+.track b { position:absolute; top:-1px; transform:translateX(-50%); font-size:10px; font-weight:600; font-variant-numeric:tabular-nums; color:var(--chart-1); }
+.track small { line-height:36px; font-size:11px; color:var(--text-muted); background:var(--card); position:relative; }
+.rankAxis > div { display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); }
+.note { font-size:11px; line-height:1.6; color:var(--text-muted); margin:14px 0 0; }
+.matrixWrap { padding:0 16px 18px; overflow-x:auto; }
+.matrix { border-collapse:separate; border-spacing:4px; width:100%; table-layout:fixed; font-size:11px; }
+.matrix th,.matrix td { padding:0; height:auto; border:0; white-space:normal; overflow:visible; }
+.matrix thead { background:transparent; }
+.matrix th { text-align:left; font-weight:500; color:var(--text-muted); font-size:11px; }
+.matrix th:first-child { width:100px; }
+.matrix thead th { height:52px; vertical-align:bottom; padding:0 3px 7px; }
+.matrix thead th span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.5; white-space:normal; }
+.matrix tbody th { color:var(--foreground); }
+.heatCell { width:100%; height:32px; border:0; border-radius:4px; background:var(--muted); color:var(--text-muted); font-size:11px; font-weight:500; font-variant-numeric:tabular-nums; cursor:pointer; }
+.heatCell[data-scored="true"] { background:color-mix(in srgb,var(--chart-2) var(--heat),var(--card)); color:var(--foreground); }
+.heatCell[data-dark="true"] { color:white; }
+.heatCell:disabled { cursor:default; opacity:.55; }
+.heatCell:enabled:hover { outline:2px solid var(--chart-1); outline-offset:1px; }
+.legend { display:flex; align-items:center; gap:9px; color:var(--text-muted); font-size:10px; margin:13px 5px 0; }
+.legend > i { width:90px; height:7px; background:linear-gradient(to right,color-mix(in srgb,var(--chart-2) 12%,var(--card)),var(--chart-2)); border-radius:2px; }
+.legend small { margin-left:auto; font-size:10px; }
+.dimensions { display:flex; gap:20px; padding:0 20px; border-bottom:1px solid var(--border); }
+.dimensions button { padding:12px 0; color:var(--text-muted); font-size:12px; border:0; border-bottom:2px solid transparent; background:transparent; cursor:pointer; }
+.dimensions button[aria-selected="true"] { color:var(--chart-1); border-bottom-color:var(--chart-1); font-weight:600; }
+.workspace button:focus-visible,.workspace select:focus-visible { outline:2px solid var(--chart-1); outline-offset:3px; }
+
+.rankRow > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }

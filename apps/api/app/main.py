@@ -1,6 +1,6 @@
 """Local-only Perform+ demo: protected fixtures, PostgreSQL state, real local RBAC."""
 from __future__ import annotations
-from . import display, assessment, risk_store, risk_workflow
+from . import display, assessment, risk_store, risk_workflow, people, florida_population
 from copy import deepcopy
 import csv
 import io
@@ -73,6 +73,8 @@ def fail(code, message, status=400): raise HTTPException(status_code=status, det
 def get_state(conn, lock=False):
     state=json.loads(conn.execute('SELECT body FROM state WHERE id=1' + (' FOR UPDATE' if lock else '')).fetchone()['body'])
     assessment.upgrade(state)
+    florida_population.migrate(state)
+    people.refresh_owners(conn,state)
     grouped={}
     for finding in state['opportunities']:grouped.setdefault(finding['member_id'],[]).append(finding)
     for m in state['members']:
@@ -80,6 +82,8 @@ def get_state(conn, lock=False):
     return state
 def save_state(conn, state):
     assessment.upgrade(state)
+    florida_population.migrate(state)
+    people.refresh_owners(conn,state)
     conn.execute('UPDATE state SET body=? WHERE id=1',(json.dumps(state),))
 
 def ensure_superuser(conn):
@@ -94,7 +98,7 @@ def ensure_superuser(conn):
         os.fchmod(saved.fileno(), 0o600)
         json.dump({'email':'superuser@perform.test','password':password,'role':'superuser'}, saved, indent=2)
         saved.write('\n')
-    conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',('superuser',email,'Superuser','superuser',PASSWORD_HASHER.hash(password),''))
+    conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',('superuser',email,people.ACCOUNT_NAMES['superuser'],'superuser',PASSWORD_HASHER.hash(password),''))
 
 def initialize():
     LOCAL.mkdir(parents=True, exist_ok=True)
@@ -114,7 +118,7 @@ def initialize():
                 if role == 'superuser': continue
                 email=f'{EMAILS[role]}.demo@example.test'
                 scope='PR-001' if role=='provider' else ''
-                conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',(role,email,ROLE_NAMES[role]+' demo',role,PASSWORD_HASHER.hash(password),scope))
+                conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',(role,email,people.ACCOUNT_NAMES[role],role,PASSWORD_HASHER.hash(password),scope))
                 accounts.append({'role':role,'email':email,'password':password})
             credentials=LOCAL/'demo-accounts.json'
             credentials.write_text(json.dumps(accounts,indent=2))
@@ -128,10 +132,11 @@ def initialize():
                 account_id=f'provider_{number}'
                 if not conn.execute('SELECT id FROM users WHERE id=?',(account_id,)).fetchone():
                     email=f'provider{number}.demo@example.test'
-                    conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',(account_id,email,f'Practice {number} provider','provider',PASSWORD_HASHER.hash(password),f'PR-{number:03}'))
+                    conn.execute('INSERT INTO users VALUES (?,?,?,?,?,1,?)',(account_id,email,people.ACCOUNT_NAMES[account_id],'provider',PASSWORD_HASHER.hash(password),f'PR-{number:03}'))
                     saved.append({'role':'provider','email':email,'password':password})
             credentials.write_text(json.dumps(saved,indent=2));os.chmod(credentials,0o600)
         ensure_superuser(conn)
+        people.migrate_accounts(conn,ROLE_NAMES)
         if not conn.execute('SELECT id FROM state').fetchone():
             if not SEED.exists(): raise RuntimeError('Missing seed/demo.json. Run setup first.')
             initial=json.loads(SEED.read_text())
@@ -139,6 +144,8 @@ def initialize():
             initial['tasks']=[]
             initial['tour_started']=now()
             assessment.upgrade(initial)
+            florida_population.migrate(initial)
+            people.refresh_owners(conn,initial)
             conn.execute('INSERT INTO state VALUES (1,?)',(json.dumps(initial),))
         else:
             save_state(conn,get_state(conn,lock=True))
@@ -285,7 +292,7 @@ def save_review(conn,s,o,u,decision,note):
       'risk_context':risk_context,
       'recommendation_snapshot':deepcopy(o.get('recommendation_history',[])[-1] if o.get('recommendation_history') else {})}
     o.setdefault('decision_history',[]).append(record)
-    o.update(review_state='completed',draft_note='',status=decision,reviewer=u['id'],decision_note=note,qa_status='awaiting_qa',review_completed_at=record['at'],current_decision_id=record['id'])
+    o.update(review_state='completed',draft_note='',draft_decision='',status=decision,reviewer=u['id'],decision_note=note,qa_status='awaiting_qa',review_completed_at=record['at'],current_decision_id=record['id'])
     o.pop('qa_note',None);o.pop('qa_reviewer',None)
     return record
 
@@ -571,7 +578,9 @@ def action(body:Action,u=Depends(user)):
                 if not body.note.strip():fail('VALIDATION','Add a reason for this disposition.')
                 o['status']='deferred' if body.action=='defer' else 'suppressed';o['disposition_note']=body.note
             elif body.action=='start_review':o['status']='in_review';o['review_state']='active';o['review_started_at']=now()
-            elif body.action=='pause_review':o['review_state']='paused';o['draft_note']=body.note
+            elif body.action=='pause_review':
+                if body.value and body.value not in eligible['allowed_decisions']:fail('EVIDENCE_REQUIRED',eligible['reason'])
+                o.update(review_state='paused',draft_note=body.note,draft_decision=body.value)
             elif body.action=='complete_review':
                 if body.value!='no_finding' or not body.note.strip():fail('VALIDATION','Add a reason to complete without a supported finding.')
                 save_review(conn,s,o,u,'resolved_unsupported',body.note);o['review_state']='completed_no_finding'

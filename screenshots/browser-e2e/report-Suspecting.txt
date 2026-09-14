@@ -1,0 +1,386 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - button "Export report":
+    - text: Export report
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Suspecting" [active] [selected]
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions"
+    - tab "Financial"
+    - tab "Data & AI"
+  - tabpanel "Suspecting":
+    - generic: Suspecting records
+    - generic: 1,123
+    - generic: Current workspace records
+    - generic: QA-approved actionable reviews
+    - generic: "1"
+    - generic: Completion follows the selected workflow
+    - generic: Program population
+    - generic: 10,000
+    - generic: Members in your access scope
+    - heading "Current workflow composition" [level=2]
+    - paragraph: 1,123 records · mutually exclusive recorded states
+    - 'img "1,123 records. New: 428; Resolved supported: 223; In review: 200; Awaiting assessment: 134; Deferred: 83; Resolved unsupported: 53; Passed: 1; Awaiting QA: 1"':
+      - 'generic "New: 428 (38.1%)"'
+      - 'generic "Resolved supported: 223 (19.9%)"'
+      - 'generic "In review: 200 (17.8%)"'
+      - 'generic "Awaiting assessment: 134 (11.9%)"'
+      - 'generic "Deferred: 83 (7.4%)"'
+      - 'generic "Resolved unsupported: 53 (4.7%)"'
+      - 'generic "Passed: 1 (0.1%)"'
+      - 'generic "Awaiting QA: 1 (0.1%)"'
+      - generic: 1,123
+      - generic: records
+    - generic "records distribution":
+      - generic: New
+      - strong: "428"
+      - generic: 38.1%
+      - generic: Resolved supported
+      - strong: "223"
+      - generic: 19.9%
+      - generic: In review
+      - strong: "200"
+      - generic: 17.8%
+      - generic: Awaiting assessment
+      - strong: "134"
+      - generic: 11.9%
+      - generic: Deferred
+      - strong: "83"
+      - generic: 7.4%
+      - generic: Resolved unsupported
+      - strong: "53"
+      - generic: 4.7%
+      - generic: Passed
+      - strong: "1"
+      - generic: 0.1%
+      - generic: Awaiting QA
+      - strong: "1"
+      - generic: 0.1%
+    - heading "Where the work sits" [level=2]
+    - paragraph: Record counts by context and workflow state
+    - table "Suspecting records by context and state":
+      - row "Context New Resolved supported In review Awaiting assessment Deferred Other states":
+        - columnheader "Context"
+        - columnheader "New"
+        - columnheader "Resolved supported"
+        - columnheader "In review"
+        - columnheader "Awaiting assessment"
+        - columnheader "Deferred"
+        - columnheader "Other states"
+      - 'row "Heart failure Heart failure · New: 79 records Heart failure · Resolved supported: 35 records Heart failure · In review: 28 records Heart failure · Awaiting assessment: 21 records Heart failure · Deferred: 16 records Heart failure · Other states: 8 records"':
+        - rowheader "Heart failure"
+        - 'cell "Heart failure · New: 79 records"':
+          - 'button "Heart failure · New: 79 records"': "79"
+        - 'cell "Heart failure · Resolved supported: 35 records"':
+          - 'button "Heart failure · Resolved supported: 35 records"': "35"
+        - 'cell "Heart failure · In review: 28 records"':
+          - 'button "Heart failure · In review: 28 records"': "28"
+        - 'cell "Heart failure · Awaiting assessment: 21 records"':
+          - 'button "Heart failure · Awaiting assessment: 21 records"': "21"
+        - 'cell "Heart failure · Deferred: 16 records"':
+          - 'button "Heart failure · Deferred: 16 records"': "16"
+        - 'cell "Heart failure · Other states: 8 records"':
+          - 'button "Heart failure · Other states: 8 records"': "8"
+      - 'row "COPD COPD · New: 66 records COPD · Resolved supported: 39 records COPD · In review: 40 records COPD · Awaiting assessment: 21 records COPD · Deferred: 14 records COPD · Other states: 7 records"':
+        - rowheader "COPD"
+        - 'cell "COPD · New: 66 records"':
+          - 'button "COPD · New: 66 records"': "66"
+        - 'cell "COPD · Resolved supported: 39 records"':
+          - 'button "COPD · Resolved supported: 39 records"': "39"
+        - 'cell "COPD · In review: 40 records"':
+          - 'button "COPD · In review: 40 records"': "40"
+        - 'cell "COPD · Awaiting assessment: 21 records"':
+          - 'button "COPD · Awaiting assessment: 21 records"': "21"
+        - 'cell "COPD · Deferred: 14 records"':
+          - 'button "COPD · Deferred: 14 records"': "14"
+        - 'cell "COPD · Other states: 7 records"':
+          - 'button "COPD · Other states: 7 records"': "7"
+      - 'row "Kidney assessment Kidney assessment · New: 65 records Kidney assessment · Resolved supported: 39 records Kidney assessment · In review: 35 records Kidney assessment · Awaiting assessment: 24 records Kidney assessment · Deferred: 8 records Kidney assessment · Other states: 16 records"':
+        - rowheader "Kidney assessment"
+        - 'cell "Kidney assessment · New: 65 records"':
+          - 'button "Kidney assessment · New: 65 records"': "65"
+        - 'cell "Kidney assessment · Resolved supported: 39 records"':
+          - 'button "Kidney assessment · Resolved supported: 39 records"': "39"
+        - 'cell "Kidney assessment · In review: 35 records"':
+          - 'button "Kidney assessment · In review: 35 records"': "35"
+        - 'cell "Kidney assessment · Awaiting assessment: 24 records"':
+          - 'button "Kidney assessment · Awaiting assessment: 24 records"': "24"
+        - 'cell "Kidney assessment · Deferred: 8 records"':
+          - 'button "Kidney assessment · Deferred: 8 records"': "8"
+        - 'cell "Kidney assessment · Other states: 16 records"':
+          - 'button "Kidney assessment · Other states: 16 records"': "16"
+      - 'row "Diabetes mellitus Diabetes mellitus · New: 80 records Diabetes mellitus · Resolved supported: 35 records Diabetes mellitus · In review: 30 records Diabetes mellitus · Awaiting assessment: 21 records Diabetes mellitus · Deferred: 14 records Diabetes mellitus · Other states: 7 records"':
+        - rowheader "Diabetes mellitus"
+        - 'cell "Diabetes mellitus · New: 80 records"':
+          - 'button "Diabetes mellitus · New: 80 records"': "80"
+        - 'cell "Diabetes mellitus · Resolved supported: 35 records"':
+          - 'button "Diabetes mellitus · Resolved supported: 35 records"': "35"
+        - 'cell "Diabetes mellitus · In review: 30 records"':
+          - 'button "Diabetes mellitus · In review: 30 records"': "30"
+        - 'cell "Diabetes mellitus · Awaiting assessment: 21 records"':
+          - 'button "Diabetes mellitus · Awaiting assessment: 21 records"': "21"
+        - 'cell "Diabetes mellitus · Deferred: 14 records"':
+          - 'button "Diabetes mellitus · Deferred: 14 records"': "14"
+        - 'cell "Diabetes mellitus · Other states: 7 records"':
+          - 'button "Diabetes mellitus · Other states: 7 records"': "7"
+      - 'row "Chronic kidney disease Chronic kidney disease · New: 70 records Chronic kidney disease · Resolved supported: 40 records Chronic kidney disease · In review: 32 records Chronic kidney disease · Awaiting assessment: 23 records Chronic kidney disease · Deferred: 14 records Chronic kidney disease · Other states: 7 records"':
+        - rowheader "Chronic kidney disease"
+        - 'cell "Chronic kidney disease · New: 70 records"':
+          - 'button "Chronic kidney disease · New: 70 records"': "70"
+        - 'cell "Chronic kidney disease · Resolved supported: 40 records"':
+          - 'button "Chronic kidney disease · Resolved supported: 40 records"': "40"
+        - 'cell "Chronic kidney disease · In review: 32 records"':
+          - 'button "Chronic kidney disease · In review: 32 records"': "32"
+        - 'cell "Chronic kidney disease · Awaiting assessment: 23 records"':
+          - 'button "Chronic kidney disease · Awaiting assessment: 23 records"': "23"
+        - 'cell "Chronic kidney disease · Deferred: 14 records"':
+          - 'button "Chronic kidney disease · Deferred: 14 records"': "14"
+        - 'cell "Chronic kidney disease · Other states: 7 records"':
+          - 'button "Chronic kidney disease · Other states: 7 records"': "7"
+      - 'row "Other categories Other categories · New: 68 records Other categories · Resolved supported: 35 records Other categories · In review: 35 records Other categories · Awaiting assessment: 24 records Other categories · Deferred: 17 records Other categories · Other states: 10 records"':
+        - rowheader "Other categories"
+        - 'cell "Other categories · New: 68 records"':
+          - 'button "Other categories · New: 68 records"': "68"
+        - 'cell "Other categories · Resolved supported: 35 records"':
+          - 'button "Other categories · Resolved supported: 35 records"': "35"
+        - 'cell "Other categories · In review: 35 records"':
+          - 'button "Other categories · In review: 35 records"': "35"
+        - 'cell "Other categories · Awaiting assessment: 24 records"':
+          - 'button "Other categories · Awaiting assessment: 24 records"': "24"
+        - 'cell "Other categories · Deferred: 17 records"':
+          - 'button "Other categories · Deferred: 17 records"': "17"
+        - 'cell "Other categories · Other states: 10 records"':
+          - 'button "Other categories · Other states: 10 records"': "10"
+    - generic: Fewer
+    - generic: More records
+    - paragraph: Select a cell to read its context. Exact records remain available below.
+    - heading "Suspecting records" [level=2]
+    - textbox "Search suspecting records…"
+    - generic: Row density
+    - combobox "Row density":
+      - option "Comfortable" [selected]
+      - option "Compact"
+    - region "Search suspecting records table":
+      - table:
+        - rowgroup:
+          - row "Record / member Record ID Context Status":
+            - columnheader "Record / member":
+              - button "Record / member"
+            - columnheader "Record ID":
+              - button "Record ID"
+            - columnheader "Context":
+              - button "Context"
+            - columnheader "Status":
+              - button "Status"
+        - rowgroup:
+          - row "Jordan Ellis OP-0001 Chronic systolic heart failure Passed":
+            - cell "Jordan Ellis":
+              - link "Jordan Ellis":
+                - /url: /members/MB-000001?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0001"
+            - cell "Chronic systolic heart failure"
+            - cell "Passed":
+              - generic: Passed
+          - row "Morgan Reed OP-0002 COPD · historical assessment Awaiting QA":
+            - cell "Morgan Reed":
+              - link "Morgan Reed":
+                - /url: /members/MB-000002?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0002"
+            - cell "COPD · historical assessment"
+            - cell "Awaiting QA":
+              - generic: Awaiting QA
+          - row "Avery Brooks OP-0003 Kidney-related assessment need Deferred":
+            - cell "Avery Brooks":
+              - link "Avery Brooks":
+                - /url: /members/MB-000003?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0003"
+            - cell "Kidney-related assessment need"
+            - cell "Deferred":
+              - generic: Deferred
+          - row "Teresa Diaz OP-0009 Heart failure New":
+            - cell "Teresa Diaz":
+              - link "Teresa Diaz":
+                - /url: /members/MB-000009?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0009"
+            - cell "Heart failure"
+            - cell "New":
+              - generic: New
+          - row "Jose Davis OP-0010 COPD Resolved supported":
+            - cell "Jose Davis":
+              - link "Jose Davis":
+                - /url: /members/MB-000010?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0010"
+            - cell "COPD"
+            - cell "Resolved supported":
+              - generic: Resolved supported
+          - row "Karen Foster OP-0011 Kidney assessment New":
+            - cell "Karen Foster":
+              - link "Karen Foster":
+                - /url: /members/MB-000011?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0011"
+            - cell "Kidney assessment"
+            - cell "New":
+              - generic: New
+          - row "Christopher James OP-0012 Diabetes mellitus In review":
+            - cell "Christopher James":
+              - link "Christopher James":
+                - /url: /members/MB-000012?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0012"
+            - cell "Diabetes mellitus"
+            - cell "In review":
+              - generic: In review
+          - row "Kimberly Gonzalez OP-0013 Chronic kidney disease Awaiting assessment":
+            - cell "Kimberly Gonzalez":
+              - link "Kimberly Gonzalez":
+                - /url: /members/MB-000013?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0013"
+            - cell "Chronic kidney disease"
+            - cell "Awaiting assessment":
+              - generic: Awaiting assessment
+          - row "Edward Nelson OP-0014 Depression New":
+            - cell "Edward Nelson":
+              - link "Edward Nelson":
+                - /url: /members/MB-000014?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0014"
+            - cell "Depression"
+            - cell "New":
+              - generic: New
+          - row "Amy Wood OP-0017 Heart failure New":
+            - cell "Amy Wood":
+              - link "Amy Wood":
+                - /url: /members/MB-000017?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSuspecting
+            - cell "OP-0017"
+            - cell "Heart failure"
+            - cell "New":
+              - generic: New
+    - navigation "suspecting records pagination":
+      - status: 1–10 of 1,123 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 113
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page":
+      - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- generic: "0.2"

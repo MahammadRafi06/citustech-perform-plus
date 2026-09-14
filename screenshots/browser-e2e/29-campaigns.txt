@@ -1,0 +1,231 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Campaigns
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Campaign planner" [level=1]
+  - paragraph: Target the right cohort, allocate the work and follow its progress.
+  - button "Create campaign":
+    - text: Create campaign
+  - generic: Active campaigns
+  - generic: "5"
+  - generic: Shared program work
+  - generic: Campaign members
+  - generic: "102"
+  - generic: Distinct frozen cohort members
+  - generic: Campaign tasks
+  - generic: "2"
+  - generic: Saved campaign task records
+  - textbox "Search campaigns or owners…"
+  - generic: Row density
+  - combobox "Row density":
+    - option "Comfortable" [selected]
+    - option "Compact"
+  - region "Search campaigns or owners table":
+    - table:
+      - rowgroup:
+        - row "Campaign Members Owner Due date Completed Status":
+          - columnheader "Campaign":
+            - button "Campaign"
+          - columnheader "Members":
+            - button "Members"
+          - columnheader "Owner":
+            - button "Owner"
+          - columnheader "Due date":
+            - button "Due date"
+          - columnheader "Completed":
+            - button "Completed"
+          - columnheader "Status":
+            - button "Status"
+      - rowgroup:
+        - row "Heart failure documentation review Coding review · Population illustration 42 Alex Chen Sep 25, 2026 100% 1 / 1 actionable cases Active":
+          - cell "Heart failure documentation review Coding review · Population illustration":
+            - strong: Heart failure documentation review
+            - generic: Coding review · Population illustration
+          - cell "42"
+          - cell "Alex Chen"
+          - cell "Sep 25, 2026"
+          - cell "100% 1 / 1 actionable cases":
+            - strong: 100%
+            - generic: 1 / 1 actionable cases
+          - cell "Active":
+            - generic: Active
+        - row "September pre-visit assessment Pre-visit assessment · Population illustration 28 Priya Shah Sep 30, 2026 50% 1 / 2 actionable cases Active":
+          - cell "September pre-visit assessment Pre-visit assessment · Population illustration":
+            - strong: September pre-visit assessment
+            - generic: Pre-visit assessment · Population illustration
+          - cell "28"
+          - cell "Priya Shah"
+          - cell "Sep 30, 2026"
+          - cell "50% 1 / 2 actionable cases":
+            - strong: 50%
+            - generic: 1 / 2 actionable cases
+          - cell "Active":
+            - generic: Active
+        - row "Source documentation follow-up Source remediation · Population illustration 18 Jamie Rivera Sep 23, 2026 0% 0 / 1 actionable cases Active":
+          - cell "Source documentation follow-up Source remediation · Population illustration":
+            - strong: Source documentation follow-up
+            - generic: Source remediation · Population illustration
+          - cell "18"
+          - cell "Jamie Rivera"
+          - cell "Sep 23, 2026"
+          - cell "0% 0 / 1 actionable cases":
+            - strong: 0%
+            - generic: 0 / 1 actionable cases
+          - cell "Active":
+            - generic: Active
+        - row "Integrity correction follow-through Integrity review · Population illustration 13 Sam Bennett Oct 2, 2026 100% 1 / 1 actionable cases Draft":
+          - cell "Integrity correction follow-through Integrity review · Population illustration":
+            - strong: Integrity correction follow-through
+            - generic: Integrity review · Population illustration
+          - cell "13"
+          - cell "Sam Bennett"
+          - cell "Oct 2, 2026"
+          - cell "100% 1 / 1 actionable cases":
+            - strong: 100%
+            - generic: 1 / 1 actionable cases
+          - cell "Draft":
+            - generic: Draft
+        - row "Browser QA September review Coding review 1 Alex Chen Sep 30, 2026 0% 0 / 1 actionable cases Active":
+          - cell "Browser QA September review Coding review":
+            - strong: Browser QA September review
+            - generic: Coding review
+          - cell "1"
+          - cell "Alex Chen"
+          - cell "Sep 30, 2026"
+          - cell "0% 0 / 1 actionable cases":
+            - strong: 0%
+            - generic: 0 / 1 actionable cases
+          - cell "Active":
+            - generic: Active
+        - row "Priority integrity review Integrity review 1 Alex Chen Sep 30, 2026 100% 1 / 1 actionable cases Active":
+          - cell "Priority integrity review Integrity review":
+            - strong: Priority integrity review
+            - generic: Integrity review
+          - cell "1"
+          - cell "Alex Chen"
+          - cell "Sep 30, 2026"
+          - cell "100% 1 / 1 actionable cases":
+            - strong: 100%
+            - generic: 1 / 1 actionable cases
+          - cell "Active":
+            - generic: Active
+  - navigation "campaigns or owners pagination":
+    - status: 1–6 of 6 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page"
+      - option "25 / page" [selected]
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 1
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page" [disabled]:
+    - button "Last page" [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

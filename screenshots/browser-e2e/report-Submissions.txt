@@ -1,0 +1,313 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - button "Export report":
+    - text: Export report
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Suspecting"
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions" [active] [selected]
+    - tab "Financial"
+    - tab "Data & AI"
+  - tabpanel "Submissions":
+    - generic: Submissions records
+    - generic: "14"
+    - generic: Current workspace records
+    - generic: Completed outcomes
+    - generic: "4"
+    - generic: Accepted by the simulated receiver
+    - generic: Program population
+    - generic: 10,000
+    - generic: Members in your access scope
+    - heading "Current workflow composition" [level=2]
+    - paragraph: 14 records · mutually exclusive recorded states
+    - 'img "14 records. Accepted: 4; Rejected: 4; Prepared: 2; Pending acknowledgement: 2; Validated: 2"':
+      - 'generic "Accepted: 4 (28.6%)"'
+      - 'generic "Rejected: 4 (28.6%)"'
+      - 'generic "Prepared: 2 (14.3%)"'
+      - 'generic "Pending acknowledgement: 2 (14.3%)"'
+      - 'generic "Validated: 2 (14.3%)"'
+      - generic: "14"
+      - generic: records
+    - generic "records distribution":
+      - generic: Accepted
+      - strong: "4"
+      - generic: 28.6%
+      - generic: Rejected
+      - strong: "4"
+      - generic: 28.6%
+      - generic: Prepared
+      - strong: "2"
+      - generic: 14.3%
+      - generic: Pending acknowledgement
+      - strong: "2"
+      - generic: 14.3%
+      - generic: Validated
+      - strong: "2"
+      - generic: 14.3%
+    - heading "Where the work sits" [level=2]
+    - paragraph: Record counts by context and workflow state
+    - table "Submissions records by context and state":
+      - row "Context Accepted Rejected Prepared Pending acknowledgement Validated":
+        - columnheader "Context"
+        - columnheader "Accepted"
+        - columnheader "Rejected"
+        - columnheader "Prepared"
+        - columnheader "Pending acknowledgement"
+        - columnheader "Validated"
+      - 'row "Original Original · Accepted: 4 records Original · Rejected: 3 records Original · Prepared: 2 records Original · Pending acknowledgement: 2 records Original · Validated: 2 records"':
+        - rowheader "Original"
+        - 'cell "Original · Accepted: 4 records"':
+          - 'button "Original · Accepted: 4 records"': "4"
+        - 'cell "Original · Rejected: 3 records"':
+          - 'button "Original · Rejected: 3 records"': "3"
+        - 'cell "Original · Prepared: 2 records"':
+          - 'button "Original · Prepared: 2 records"': "2"
+        - 'cell "Original · Pending acknowledgement: 2 records"':
+          - 'button "Original · Pending acknowledgement: 2 records"': "2"
+        - 'cell "Original · Validated: 2 records"':
+          - 'button "Original · Validated: 2 records"': "2"
+      - 'row "Correction Correction · Accepted: 0 records Correction · Rejected: 1 records Correction · Prepared: 0 records Correction · Pending acknowledgement: 0 records Correction · Validated: 0 records"':
+        - rowheader "Correction"
+        - 'cell "Correction · Accepted: 0 records"':
+          - 'button "Correction · Accepted: 0 records"': "0"
+        - 'cell "Correction · Rejected: 1 records"':
+          - 'button "Correction · Rejected: 1 records"': "1"
+        - 'cell "Correction · Prepared: 0 records"':
+          - 'button "Correction · Prepared: 0 records"': "0"
+        - 'cell "Correction · Pending acknowledgement: 0 records"':
+          - 'button "Correction · Pending acknowledgement: 0 records"': "0"
+        - 'cell "Correction · Validated: 0 records"':
+          - 'button "Correction · Validated: 0 records"': "0"
+    - generic: Fewer
+    - generic: More records
+    - paragraph: Select a cell to read its context. Exact records remain available below.
+    - heading "Submissions records" [level=2]
+    - textbox "Search submissions records…"
+    - generic: Row density
+    - combobox "Row density":
+      - option "Comfortable" [selected]
+      - option "Compact"
+    - region "Search submissions records table":
+      - table:
+        - rowgroup:
+          - row "Record / member Record ID Context Status":
+            - columnheader "Record / member":
+              - button "Record / member"
+            - columnheader "Record ID":
+              - button "Record ID"
+            - columnheader "Context":
+              - button "Context"
+            - columnheader "Status":
+              - button "Status"
+        - rowgroup:
+          - row "MB-000004 SUB-0001 Original Accepted":
+            - cell "MB-000004":
+              - link "MB-000004":
+                - /url: /members/MB-000004?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0001"
+            - cell "Original"
+            - cell "Accepted":
+              - generic: Accepted
+          - row "MB-000004 SUB-0002 Correction Rejected":
+            - cell "MB-000004":
+              - link "MB-000004":
+                - /url: /members/MB-000004?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0002"
+            - cell "Correction"
+            - cell "Rejected":
+              - generic: Rejected
+          - row "MB-000044 SUB-0003 Original Prepared":
+            - cell "MB-000044":
+              - link "MB-000044":
+                - /url: /members/MB-000044?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0003"
+            - cell "Original"
+            - cell "Prepared":
+              - generic: Prepared
+          - row "MB-000045 SUB-0004 Original Pending acknowledgement":
+            - cell "MB-000045":
+              - link "MB-000045":
+                - /url: /members/MB-000045?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0004"
+            - cell "Original"
+            - cell "Pending acknowledgement":
+              - generic: Pending acknowledgement
+          - row "MB-000046 SUB-0005 Original Accepted":
+            - cell "MB-000046":
+              - link "MB-000046":
+                - /url: /members/MB-000046?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0005"
+            - cell "Original"
+            - cell "Accepted":
+              - generic: Accepted
+          - row "MB-000047 SUB-0006 Original Rejected":
+            - cell "MB-000047":
+              - link "MB-000047":
+                - /url: /members/MB-000047?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0006"
+            - cell "Original"
+            - cell "Rejected":
+              - generic: Rejected
+          - row "MB-000048 SUB-0007 Original Validated":
+            - cell "MB-000048":
+              - link "MB-000048":
+                - /url: /members/MB-000048?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0007"
+            - cell "Original"
+            - cell "Validated":
+              - generic: Validated
+          - row "MB-000049 SUB-0008 Original Prepared":
+            - cell "MB-000049":
+              - link "MB-000049":
+                - /url: /members/MB-000049?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0008"
+            - cell "Original"
+            - cell "Prepared":
+              - generic: Prepared
+          - row "MB-000050 SUB-0009 Original Pending acknowledgement":
+            - cell "MB-000050":
+              - link "MB-000050":
+                - /url: /members/MB-000050?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0009"
+            - cell "Original"
+            - cell "Pending acknowledgement":
+              - generic: Pending acknowledgement
+          - row "MB-000051 SUB-0010 Original Accepted":
+            - cell "MB-000051":
+              - link "MB-000051":
+                - /url: /members/MB-000051?returnTo=%2Fanalytics%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline%26analytics_evaluation_size%3D25%26analytics_evaluation_q%3DEV-M-001%26view%3DSubmissions
+            - cell "SUB-0010"
+            - cell "Original"
+            - cell "Accepted":
+              - generic: Accepted
+    - navigation "submissions records pagination":
+      - status: 1–10 of 14 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 2
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page":
+      - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- generic: "0.2"

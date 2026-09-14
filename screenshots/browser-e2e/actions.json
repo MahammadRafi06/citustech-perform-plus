@@ -1,0 +1,1331 @@
+[
+  {
+    "id": "AUTH-01",
+    "area": "Sign in",
+    "action": "Select all four carousel slides; pause; previous/next",
+    "result": "All four slide contents rendered; navigation changed the selected slide.",
+    "status": "passed",
+    "at": "2026-09-14T02:28:56.800Z"
+  },
+  {
+    "id": "AUTH-02",
+    "area": "Sign in",
+    "action": "Show/hide password; submit incorrect password",
+    "result": "Password type toggled to text and back; invalid login showed Email or password is incorrect.",
+    "status": "passed",
+    "at": "2026-09-14T02:29:14.379Z"
+  },
+  {
+    "id": "AUTH-03",
+    "area": "Sign in",
+    "action": "Valid superuser login",
+    "result": "Authenticated through UI proxy; populated risk overview rendered.",
+    "status": "passed",
+    "at": "2026-09-14T02:29:17.698Z"
+  },
+  {
+    "id": "SHELL-01",
+    "area": "Shell",
+    "action": "Collapse and expand sidebar",
+    "result": "Sidebar collapsed to 72px and expanded; navigation stayed available.",
+    "status": "passed",
+    "at": "2026-09-14T02:29:44.373Z"
+  },
+  {
+    "id": "SHELL-02",
+    "area": "Shell",
+    "action": "Open notifications",
+    "result": "Retained operational activity with member links appeared.",
+    "status": "passed",
+    "at": "2026-09-14T02:29:58.402Z"
+  },
+  {
+    "id": "SHELL-03",
+    "area": "Shell",
+    "action": "Workspace guide and case link",
+    "result": "Guide listed all six cases; Jordan link opened its member record.",
+    "status": "passed",
+    "at": "2026-09-14T02:30:23.375Z"
+  },
+  {
+    "id": "SHELL-04",
+    "area": "Shell",
+    "action": "Global search for Morgan",
+    "result": "Enter opened filtered member profiles and returned matching Morgan records.",
+    "status": "passed",
+    "at": "2026-09-14T02:30:57.776Z"
+  },
+  {
+    "id": "OV-01",
+    "area": "Overview",
+    "action": "Metric definitions disclosure",
+    "result": "Displayed numerator 100878.072 and denominator 120000, alongside 10000 scored members.",
+    "status": "passed",
+    "at": "2026-09-14T02:31:32.157Z"
+  },
+  {
+    "id": "OV-PAGE-25",
+    "area": "Overview",
+    "action": "Set 25 rows per page",
+    "result": "Rendered 25 retained member results.",
+    "status": "passed",
+    "at": "2026-09-14T02:31:32.249Z"
+  },
+  {
+    "id": "OV-PAGE-50",
+    "area": "Overview",
+    "action": "Set 50 rows per page",
+    "result": "Rendered 50 retained member results.",
+    "status": "passed",
+    "at": "2026-09-14T02:31:32.288Z"
+  },
+  {
+    "id": "OV-PAGE-100",
+    "area": "Overview",
+    "action": "Set 100 rows per page",
+    "result": "Rendered 100 retained member results.",
+    "status": "passed",
+    "at": "2026-09-14T02:31:32.342Z"
+  },
+  {
+    "id": "OV-02",
+    "area": "Overview",
+    "action": "Next/last/previous/first pages",
+    "result": "Correct ranges displayed through the full 10000-member result set.",
+    "status": "passed",
+    "at": "2026-09-14T02:31:35.068Z"
+  },
+  {
+    "id": "ADMIN-01",
+    "area": "Administration",
+    "action": "Inspect accounts and self-protection",
+    "result": "All 14 named accounts and practice scopes rendered; own role and Disable controls were disabled.",
+    "status": "passed",
+    "at": "2026-09-14T02:33:00.698Z"
+  },
+  {
+    "id": "BUG-01",
+    "area": "Administration",
+    "action": "Program configuration model status",
+    "result": "Reference model pack says Not installed while the global selected model is Validated for declared scope and 10000 calculated results exist.",
+    "status": "failed",
+    "at": "2026-09-14T02:33:13.836Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-01"
+  },
+  {
+    "id": "ADMIN-02",
+    "area": "Administration",
+    "action": "Reset validation and success on isolated copy",
+    "result": "Incorrect confirmation kept action disabled; exact phrase restored workflow, preserving accounts and retained scoring evidence.",
+    "status": "passed",
+    "at": "2026-09-14T02:33:30.802Z"
+  },
+  {
+    "id": "AUTH-04",
+    "area": "Authentication",
+    "action": "Sign out",
+    "result": "Returned to the sign-in form.",
+    "status": "passed",
+    "at": "2026-09-14T02:34:08.675Z"
+  },
+  {
+    "id": "RBAC-CODER",
+    "area": "Roles",
+    "action": "Coder sign-in and navigation",
+    "result": "Coder sees Suspect registry, Chart review and Member risk profiles only.",
+    "status": "passed",
+    "at": "2026-09-14T02:34:50.727Z"
+  },
+  {
+    "id": "REVIEW-01",
+    "area": "Chart review",
+    "action": "Document selector, zoom, fit, find, full source and linked passage",
+    "result": "Current/prior documents switched; search highlighted clinically stable; full fixture exposed Documentation context; zoom changed 100/110%.",
+    "status": "passed",
+    "at": "2026-09-14T02:35:34.802Z"
+  },
+  {
+    "id": "REVIEW-02",
+    "area": "Chart review",
+    "action": "Pause, reload, resume and inspect source",
+    "result": "Draft decision and rationale persisted; Resume returns active review.",
+    "status": "passed",
+    "at": "2026-09-14T02:40:12.387Z",
+    "correction": "Initial decision persistence observation was premature. BUG-02 records the reproduced failure; FIX-02 verifies the correction."
+  },
+  {
+    "id": "BUG-02",
+    "area": "Chart review",
+    "action": "Pause draft and reload",
+    "result": "Rationale persisted but selected supported decision was lost. Earlier REVIEW-02 decision-persistence assertion corrected.",
+    "status": "failed",
+    "at": "2026-09-14T02:40:38.208Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-02"
+  },
+  {
+    "id": "REVIEW-03",
+    "area": "Chart review",
+    "action": "Save supported decision",
+    "result": "Resolved supported; retained rationale, reviewer, recommendation v2 and DOC-0001 page/section; awaiting independent QA.",
+    "status": "passed",
+    "at": "2026-09-14T02:41:16.168Z"
+  },
+  {
+    "id": "RBAC-02",
+    "area": "Roles",
+    "action": "Coder direct /qa route",
+    "result": "Blocked with role-specific message and return link.",
+    "status": "passed",
+    "at": "2026-09-14T02:41:25.705Z"
+  },
+  {
+    "id": "QA-01",
+    "area": "Coding QA",
+    "action": "Empty rationale gate and return for rework",
+    "result": "Return disabled without rationale; independent reviewer saved feedback against current coder decision.",
+    "status": "passed",
+    "at": "2026-09-14T02:42:35.751Z"
+  },
+  {
+    "id": "QA-02",
+    "area": "Coding QA",
+    "action": "Revised review and independent pass",
+    "result": "New review retained old review/rework; Pass required QA rationale; current decision approved by distinct user.",
+    "status": "passed",
+    "at": "2026-09-14T02:43:18.737Z"
+  },
+  {
+    "id": "SUB-01",
+    "area": "Submissions",
+    "action": "Prepare, acknowledge, reject, retry, accept",
+    "result": "13th record prepared from exact DEC/QA; rejected original retained; linked retry accepted; payment still unreconciled.",
+    "status": "passed",
+    "at": "2026-09-14T02:45:49.585Z"
+  },
+  {
+    "id": "BUG-03",
+    "area": "Workspace reset",
+    "action": "Reconciliation after reset",
+    "result": "Reset retained old eligibility/report observations referencing SUB-d90bec6a15, absent from reset submission state. Old comparison cards appear beside new workflow.",
+    "status": "failed",
+    "at": "2026-09-14T02:46:02.621Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-03"
+  },
+  {
+    "id": "SUB-02",
+    "area": "Reconciliation",
+    "action": "Rejected gate; eligible accepted record; matched and prior-period reports",
+    "result": "Rejected attempt blocked; eligible RAF 0.756; diagnosis match retained separately from period discrepancy; no comparable score/payment invented.",
+    "status": "passed",
+    "at": "2026-09-14T02:46:38.000Z"
+  },
+  {
+    "id": "CHASE-01",
+    "area": "Chart chase",
+    "action": "Practice filter, contact note, receipt state",
+    "result": "Filtered Brookfield; blank note disabled; saved note/history; received state distinct from source usability.",
+    "status": "passed",
+    "at": "2026-09-14T02:47:12.697Z"
+  },
+  {
+    "id": "INTAKE-01",
+    "area": "Intake",
+    "action": "Unsigned and mismatched source validation",
+    "result": "Unsigned fails signature; mismatched sample fails identity; publish remains disabled.",
+    "status": "passed",
+    "at": "2026-09-14T02:47:36.766Z"
+  },
+  {
+    "id": "INTAKE-02",
+    "area": "Intake",
+    "action": "Correct member, validate, publish, duplicate gate",
+    "result": "DOC-0010 matched MB-000007; became Usable; published timestamp shown and repeat publish disabled.",
+    "status": "passed",
+    "at": "2026-09-14T02:48:11.928Z"
+  },
+  {
+    "id": "PROVIDER-01",
+    "area": "Provider",
+    "action": "Scoped directory, pre-visit search, receive signed replacement",
+    "result": "Only Brookfield and 334 members available; Riley search returns one; received DOC-RILEY-SIGNED without auto-publishing or resolving review.",
+    "status": "passed",
+    "at": "2026-09-14T02:49:07.674Z"
+  },
+  {
+    "id": "RBAC-03",
+    "area": "Provider",
+    "action": "Direct cross-practice member URL",
+    "result": "MB-000001 unavailable for Brookfield provider.",
+    "status": "passed",
+    "at": "2026-09-14T02:49:16.259Z"
+  },
+  {
+    "id": "INTAKE-03",
+    "area": "Intake",
+    "action": "Provider receipt to retrieval publish",
+    "result": "Signed replacement received by provider and published by retrieval coordinator; retained old unsigned original; fresh review required.",
+    "status": "passed",
+    "at": "2026-09-14T02:49:35.189Z"
+  },
+  {
+    "id": "REVIEW-04",
+    "area": "Chart review",
+    "action": "Published replacement refresh",
+    "result": "Riley recommendation advanced v2 with signed citation, original retained and fresh review required.",
+    "status": "passed",
+    "at": "2026-09-14T02:49:52.308Z"
+  },
+  {
+    "id": "REVIEW-05",
+    "area": "Chart review",
+    "action": "Historical support gate, clarification and assessment decision",
+    "result": "Supported radio disabled for Morgan historical COPD; neutral task created; awaiting-assessment review saved.",
+    "status": "passed",
+    "at": "2026-09-14T02:50:35.836Z"
+  },
+  {
+    "id": "PROVIDER-02",
+    "area": "Provider",
+    "action": "Clarification task response and later encounter receipt",
+    "result": "Required note; response consumed task and retained Needs information without coding support; September18 source received for intake.",
+    "status": "passed",
+    "at": "2026-09-14T02:51:03.260Z"
+  },
+  {
+    "id": "PROVIDER-03",
+    "area": "Provider portfolio",
+    "action": "Practice detail and directory link",
+    "result": "Only Lakeside practice visible; Broward/Fort Lauderdale details and member links; View practice members keeps scope.",
+    "status": "passed",
+    "at": "2026-09-14T02:51:24.276Z"
+  },
+  {
+    "id": "REG-CAT-Integrity",
+    "area": "Registry",
+    "action": "Category Integrity 1",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T02:51:44.209Z"
+  },
+  {
+    "id": "REG-CAT-Source",
+    "area": "Registry",
+    "action": "Category Source issues 1",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T02:51:45.443Z"
+  },
+  {
+    "id": "REG-CAT-Scenarios",
+    "area": "Registry",
+    "action": "Category Scenarios 1",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T02:51:46.686Z"
+  },
+  {
+    "id": "REG-CAT-All",
+    "area": "Registry",
+    "action": "Category All work 6",
+    "result": "status: 1\u20136 of 6 records",
+    "status": "passed",
+    "at": "2026-09-14T02:51:47.948Z"
+  },
+  {
+    "id": "BUG-04",
+    "area": "Registry",
+    "action": "Open Assign selected work",
+    "result": "Alex Chen appears selected by default but Apply stays disabled, even with optional note; requires changing away/back.",
+    "status": "failed",
+    "at": "2026-09-14T02:52:12.248Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-04"
+  },
+  {
+    "id": "REG-01",
+    "area": "Registry",
+    "action": "Assign, request evidence and defer selected finding",
+    "result": "Assigned Alex via explicit selection; evidence request saved; defer requires reason and status persists.",
+    "status": "passed",
+    "at": "2026-09-14T02:53:05.031Z"
+  },
+  {
+    "id": "REG-02",
+    "area": "Registry",
+    "action": "Population scope",
+    "result": "1500 findings with disabled action selection for population-only rows; independent from six interactive cases.",
+    "status": "passed",
+    "at": "2026-09-14T02:53:16.796Z"
+  },
+  {
+    "id": "REG-03",
+    "area": "Registry",
+    "action": "Calculate selected effect",
+    "result": "Selected Casey calculation completed and returned enabled control.",
+    "status": "passed",
+    "at": "2026-09-14T02:53:30.381Z"
+  },
+  {
+    "id": "BUG-05",
+    "area": "Campaign",
+    "action": "Save draft then Continue",
+    "result": "Bottom-right success toast covers sticky Continue button at desktop viewport; clicks hit toast until dismissed.",
+    "status": "failed",
+    "at": "2026-09-14T02:55:32.779Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-05"
+  },
+  {
+    "id": "CAMPAIGN-01",
+    "area": "Campaign",
+    "action": "Cohort draft, explicit exclusion, allocation preview and activation",
+    "result": "Selected Avery and Casey; excluded covered Avery; froze exact Casey revision; activated one task owned Alex with QA completion gate; campaign drawer/export clicked.",
+    "status": "passed",
+    "at": "2026-09-14T02:56:15.968Z"
+  },
+  {
+    "id": "AN-AI",
+    "area": "Analytics",
+    "action": "Methodology, underlying records, pagination/search",
+    "result": "Frozen 200-chart cohort with exact precision/recall metrics; 25-page next works; search resets to single EV-M-001; download clicked.",
+    "status": "passed",
+    "at": "2026-09-14T02:56:55.385Z"
+  },
+  {
+    "id": "AN-RISK",
+    "area": "Analytics",
+    "action": "Stage, prevalence, recapture and actual-period views",
+    "result": "Stage switching kept basis; actual prior/current 9600 matched and 400 unmatched; recapture 9598 condition pairs; 50 paging and empty exclusions work.",
+    "status": "passed",
+    "at": "2026-09-14T02:58:32.626Z"
+  },
+  {
+    "id": "AN-PAGE-Suspecting-25",
+    "area": "Analytics",
+    "action": "Suspecting 25 / page",
+    "result": "Rendered 25 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:58:58.387Z"
+  },
+  {
+    "id": "AN-PAGE-Suspecting-50",
+    "area": "Analytics",
+    "action": "Suspecting 50 / page",
+    "result": "Rendered 50 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:58:58.476Z"
+  },
+  {
+    "id": "AN-PAGE-Suspecting-100",
+    "area": "Analytics",
+    "action": "Suspecting 100 / page",
+    "result": "Rendered 100 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:58:58.604Z"
+  },
+  {
+    "id": "AN-PAGE-Suspecting-10",
+    "area": "Analytics",
+    "action": "Suspecting 10 / page",
+    "result": "Rendered 10 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:58:58.680Z"
+  },
+  {
+    "id": "AN-PAGE-Providers-25",
+    "area": "Analytics",
+    "action": "Providers 25 / page",
+    "result": "Rendered 25 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:01.281Z"
+  },
+  {
+    "id": "AN-PAGE-Providers-50",
+    "area": "Analytics",
+    "action": "Providers 50 / page",
+    "result": "Rendered 30 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:01.350Z"
+  },
+  {
+    "id": "AN-PAGE-Providers-100",
+    "area": "Analytics",
+    "action": "Providers 100 / page",
+    "result": "Rendered 30 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:01.422Z"
+  },
+  {
+    "id": "AN-PAGE-Providers-10",
+    "area": "Analytics",
+    "action": "Providers 10 / page",
+    "result": "Rendered 10 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:01.494Z"
+  },
+  {
+    "id": "AN-PAGE-Retrieval-25",
+    "area": "Analytics",
+    "action": "Retrieval 25 / page",
+    "result": "Rendered 25 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:03.967Z"
+  },
+  {
+    "id": "AN-PAGE-Retrieval-50",
+    "area": "Analytics",
+    "action": "Retrieval 50 / page",
+    "result": "Rendered 30 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:04.058Z"
+  },
+  {
+    "id": "AN-PAGE-Retrieval-100",
+    "area": "Analytics",
+    "action": "Retrieval 100 / page",
+    "result": "Rendered 30 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:04.145Z"
+  },
+  {
+    "id": "AN-PAGE-Retrieval-10",
+    "area": "Analytics",
+    "action": "Retrieval 10 / page",
+    "result": "Rendered 10 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:04.229Z"
+  },
+  {
+    "id": "AN-PAGE-Coding & QA-25",
+    "area": "Analytics",
+    "action": "Coding & QA 25 / page",
+    "result": "Rendered 25 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:06.663Z"
+  },
+  {
+    "id": "AN-PAGE-Coding & QA-50",
+    "area": "Analytics",
+    "action": "Coding & QA 50 / page",
+    "result": "Rendered 50 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:06.760Z"
+  },
+  {
+    "id": "AN-PAGE-Coding & QA-100",
+    "area": "Analytics",
+    "action": "Coding & QA 100 / page",
+    "result": "Rendered 100 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:06.870Z"
+  },
+  {
+    "id": "AN-PAGE-Coding & QA-10",
+    "area": "Analytics",
+    "action": "Coding & QA 10 / page",
+    "result": "Rendered 10 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:06.951Z"
+  },
+  {
+    "id": "AN-PAGE-Submissions-25",
+    "area": "Analytics",
+    "action": "Submissions 25 / page",
+    "result": "Rendered 14 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:09.273Z"
+  },
+  {
+    "id": "AN-PAGE-Submissions-50",
+    "area": "Analytics",
+    "action": "Submissions 50 / page",
+    "result": "Rendered 14 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:09.342Z"
+  },
+  {
+    "id": "AN-PAGE-Submissions-100",
+    "area": "Analytics",
+    "action": "Submissions 100 / page",
+    "result": "Rendered 14 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:09.419Z"
+  },
+  {
+    "id": "AN-PAGE-Submissions-10",
+    "area": "Analytics",
+    "action": "Submissions 10 / page",
+    "result": "Rendered 10 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:09.494Z"
+  },
+  {
+    "id": "AN-PAGE-Data & AI-25",
+    "area": "Analytics",
+    "action": "Data & AI 25 / page",
+    "result": "Rendered 1 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:11.624Z"
+  },
+  {
+    "id": "AN-PAGE-Data & AI-50",
+    "area": "Analytics",
+    "action": "Data & AI 50 / page",
+    "result": "Rendered 1 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:11.696Z"
+  },
+  {
+    "id": "AN-PAGE-Data & AI-100",
+    "area": "Analytics",
+    "action": "Data & AI 100 / page",
+    "result": "Rendered 1 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:11.760Z"
+  },
+  {
+    "id": "AN-PAGE-Data & AI-10",
+    "area": "Analytics",
+    "action": "Data & AI 10 / page",
+    "result": "Rendered 1 table rows.",
+    "status": "passed",
+    "at": "2026-09-14T02:59:11.825Z"
+  },
+  {
+    "id": "AN-OPS",
+    "area": "Analytics",
+    "action": "Operational heatmap context selection",
+    "result": "Selecting cell highlights its context label; by design leaves the full records table available.",
+    "status": "passed",
+    "at": "2026-09-14T03:00:00.693Z"
+  },
+  {
+    "id": "MEM-LEDGER-Categories",
+    "area": "Member",
+    "action": "Factor ledger Categories",
+    "result": "Rendered retained Categories section.",
+    "status": "passed",
+    "at": "2026-09-14T03:00:21.517Z"
+  },
+  {
+    "id": "MEM-LEDGER-Monthly eligibility",
+    "area": "Member",
+    "action": "Factor ledger Monthly eligibility",
+    "result": "Rendered retained Monthly eligibility section.",
+    "status": "passed",
+    "at": "2026-09-14T03:00:22.805Z"
+  },
+  {
+    "id": "MEM-LEDGER-Exclusions (0)",
+    "area": "Member",
+    "action": "Factor ledger Exclusions (0)",
+    "result": "Rendered retained Exclusions (0) section.",
+    "status": "passed",
+    "at": "2026-09-14T03:00:24.188Z"
+  },
+  {
+    "id": "MEM-LEDGER-Provenance",
+    "area": "Member",
+    "action": "Factor ledger Provenance",
+    "result": "Rendered retained Provenance section.",
+    "status": "passed",
+    "at": "2026-09-14T03:00:25.467Z"
+  },
+  {
+    "id": "FIX-02",
+    "area": "Chart review",
+    "action": "Draft persistence retest",
+    "result": "After restart and full reload, selected Supported decision and rationale both persist.",
+    "status": "passed",
+    "at": "2026-09-14T03:04:58.819Z"
+  },
+  {
+    "id": "QA-03",
+    "area": "Coding QA",
+    "action": "Superuser self-review gate",
+    "result": "Pass QA and Return for rework disabled for same actor; explicit different-reviewer message.",
+    "status": "passed",
+    "at": "2026-09-14T03:05:18.655Z"
+  },
+  {
+    "id": "FIX-03",
+    "area": "Reconciliation",
+    "action": "Archived observation retest",
+    "result": "Only active submission observations appear; prior orphaned cards absent.",
+    "status": "passed",
+    "at": "2026-09-14T03:05:20.621Z"
+  },
+  {
+    "id": "FIX-01",
+    "area": "Administration",
+    "action": "Model label retest",
+    "result": "Reference pack is CMS_HCC_v28_2027_T1_initial_package_v1; readiness matches selected context.",
+    "status": "passed",
+    "at": "2026-09-14T03:05:34.886Z"
+  },
+  {
+    "id": "BUG-06",
+    "area": "Administration",
+    "action": "Change non-provider role to Provider and save practice",
+    "result": "After modal closes body remains pointer-events:none with no open overlay; mouse controls stop responding until reload. Keyboard still works.",
+    "status": "failed",
+    "at": "2026-09-14T03:07:14.963Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-06"
+  },
+  {
+    "id": "ADMIN-03",
+    "area": "Administration",
+    "action": "Role/practice persistence",
+    "result": "Morgan Hayes next login restricted to Lakeside after explicit required practice; mouse-lock issue separately recorded.",
+    "status": "passed",
+    "at": "2026-09-14T03:08:24.683Z"
+  },
+  {
+    "id": "FIX-06",
+    "area": "Administration",
+    "action": "Provider allocation mouse-lock retest",
+    "result": "Body pointer-events auto after saving; mouse account menu works without reload.",
+    "status": "passed",
+    "at": "2026-09-14T03:10:35.636Z"
+  },
+  {
+    "id": "ADMIN-04",
+    "area": "Administration",
+    "action": "Disable and login restriction",
+    "result": "Disabled Maya account cannot authenticate with unchanged correct QA password.",
+    "status": "passed",
+    "at": "2026-09-14T03:10:53.584Z"
+  },
+  {
+    "id": "AGENT-01",
+    "area": "Agents",
+    "action": "Private primary/fallback, validation, tools, pause, save/version/restore",
+    "result": "Saved v1 GPT/private fallback; v2 private primary paused; restored v1 as new v3. Duplicate primary/fallback and over-budget blocked. Unsaved guard Keep editing worked.",
+    "status": "passed",
+    "at": "2026-09-14T03:14:05.004Z"
+  },
+  {
+    "id": "AGENT-02",
+    "area": "Agents",
+    "action": "Add/edit provider and model, validation, history/export",
+    "result": "Required names validated; private provider endpoint and Test environment saved/edited; model bound to new connection saved/edited; three agent versions visible; export clicked.",
+    "status": "passed",
+    "at": "2026-09-14T03:16:08.449Z"
+  },
+  {
+    "id": "AGENT-CARD-Ask Perform+",
+    "area": "Agents",
+    "action": "Open Ask Perform+ instructions/tools",
+    "result": "  - heading \"Ask Perform+\" [level=1] |   - heading \"Instructions\" [level=2] |   - generic: Managed by Perform+ \u00b7 ask_perform_v1 |   - heading \"Allowed tools\" [level=2] |   - checkbox \"Member context Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Source evidence Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Risk results Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Worklist search Read-only \u00b7 Existing record permissions apply\" [checked]",
+    "status": "passed",
+    "at": "2026-09-14T03:16:13.989Z"
+  },
+  {
+    "id": "AGENT-CARD-Suspecting & Recapture",
+    "area": "Agents",
+    "action": "Open Suspecting & Recapture instructions/tools",
+    "result": "  - heading \"Suspecting & Recapture\" [level=1] |   - heading \"Instructions\" [level=2] |   - generic: Managed by Perform+ \u00b7 suspecting_recapture_v1 |   - heading \"Allowed tools\" [level=2] |   - checkbox \"Member context Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Source evidence Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Worklist search Read-only \u00b7 Existing record permissions apply\" [checked]",
+    "status": "passed",
+    "at": "2026-09-14T03:16:19.261Z"
+  },
+  {
+    "id": "AGENT-CARD-Coding & Integrity",
+    "area": "Agents",
+    "action": "Open Coding & Integrity instructions/tools",
+    "result": "  - heading \"Coding & Integrity\" [level=1] |   - heading \"Instructions\" [level=2] |   - generic: Managed by Perform+ \u00b7 coding_integrity_v1 |   - heading \"Allowed tools\" [level=2] |   - checkbox \"Member context Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Source evidence Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Coding references Read-only \u00b7 Existing record permissions apply\" [checked]",
+    "status": "passed",
+    "at": "2026-09-14T03:16:24.447Z"
+  },
+  {
+    "id": "AGENT-CARD-Risk Analytics",
+    "area": "Agents",
+    "action": "Open Risk Analytics instructions/tools",
+    "result": "  - heading \"Risk Analytics\" [level=1] |   - heading \"Instructions\" [level=2] |   - generic: Managed by Perform+ \u00b7 risk_analytics_v1 |   - heading \"Allowed tools\" [level=2] |   - checkbox \"Member context Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Risk results Read-only \u00b7 Existing record permissions apply\" [checked] |   - checkbox \"Metric definitions Read-only \u00b7 Existing record permissions apply\" [checked]",
+    "status": "passed",
+    "at": "2026-09-14T03:16:29.708Z"
+  },
+  {
+    "id": "GEO-01",
+    "area": "Geography",
+    "action": "County/provider/combined, intersection, reset, pagination, retained run",
+    "result": "Broward+Lakeside 267 members raw .975; reset restores 10000/12/30; provider table30 records; independent25/100 paging; member101 link opens exact immutable run.",
+    "status": "passed",
+    "at": "2026-09-14T03:17:57.128Z"
+  },
+  {
+    "id": "LAB-01",
+    "area": "RAF lab",
+    "action": "Add code, save, combined remove/add, compare models",
+    "result": "Casey baseline .758; add I50.22 recomputed1.406; removingE119 together gives1.128 with interaction ledger; fixed-input V24 comparison executed.",
+    "status": "passed",
+    "at": "2026-09-14T03:18:51.964Z",
+    "clarification": "V24 comparison returned unavailable, not a calculated score. See BUG-08 and FIX-08 for the corrected empty difference state."
+  },
+  {
+    "id": "FIN-MA",
+    "area": "Financial",
+    "action": "Missing inputs, explicit assumptions, compute/save/history/export",
+    "result": "Incomplete estimate lists missing assumptions; complete saved MA sensitivity $6781.48 from retained runs; +/-10% assumption range; payment unreconciled.",
+    "status": "passed",
+    "at": "2026-09-14T03:19:50.569Z"
+  },
+  {
+    "id": "FIN-ACA",
+    "area": "Financial",
+    "action": "ACA assumptions/add-remove plan/same-score calculation",
+    "result": "Added and removed market plan; explicit synthetic assumptions and identical retained scores produce the displayed unchanged-score sensitivity.",
+    "status": "passed",
+    "at": "2026-09-14T03:20:20.954Z"
+  },
+  {
+    "id": "DATA-EXTERNAL",
+    "area": "Models/data",
+    "action": "Authored external score import",
+    "result": "7 rows:3 imported; missing score, duplicate Casey rows, rating mismatch retained as exceptions; imported profile links present.",
+    "status": "passed",
+    "at": "2026-09-14T03:21:10.960Z"
+  },
+  {
+    "id": "FIN-MEDICAID",
+    "area": "Financial",
+    "action": "External-score sensitivity",
+    "result": "Matched imported raw1.250 score used with explicit rate-cell assumptions; identical input gives zero delta and no local grouper claim.",
+    "status": "passed",
+    "at": "2026-09-14T03:21:59.158Z"
+  },
+  {
+    "id": "BUG-07",
+    "area": "Data operations",
+    "action": "Compare analysis metric with completed run",
+    "result": "Source operations shows 0 completed analysis runs after Data & AI reports one succeeded prepared_analysis; metric filters legacy fixture mode.",
+    "status": "failed",
+    "at": "2026-09-14T03:23:06.843Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-07"
+  },
+  {
+    "id": "DATA-MODELS",
+    "area": "Models/data",
+    "action": "Inventory, activation, mapping, coverage, recheck",
+    "result": "Validated forecast activated; I5022 mapsHCC226, coefficient disclosure works; unknown search empty; source recheck retained validation run without duplicate source rows. Partial batch resume initiated, final result pending.",
+    "status": "passed",
+    "at": "2026-09-14T03:23:19.157Z"
+  },
+  {
+    "id": "AUDIT-01",
+    "area": "Audit",
+    "action": "Select member and generate evidence package",
+    "result": "Selected only Jordan; retained two review/QA records and two attempts with complete recorded chain; package generation clicked.",
+    "status": "passed",
+    "at": "2026-09-14T03:23:36.357Z"
+  },
+  {
+    "id": "ASK-01",
+    "area": "Assistant",
+    "action": "Metric explanation and member summary",
+    "result": "Frozen metric denominators and source-linked historical/current evidence preserved.",
+    "status": "passed",
+    "at": "2026-09-14T03:28:55.835Z"
+  },
+  {
+    "id": "ASK-02",
+    "area": "Assistant",
+    "action": "Evidence and integrity cohort proposals",
+    "result": "Empty cohort disables action; Taylor integrity proposal opens planner with exactly one selected member and no work created.",
+    "status": "passed",
+    "at": "2026-09-14T03:29:46.797Z"
+  },
+  {
+    "id": "FIX-05",
+    "area": "Campaigns",
+    "action": "Save draft then immediate Continue",
+    "result": "Visible toast no longer intercepts Continue; entered intervention step.",
+    "status": "passed",
+    "at": "2026-09-14T03:29:56.928Z"
+  },
+  {
+    "id": "CAM-RESTORE",
+    "area": "Campaigns",
+    "action": "Reload saved integrity draft",
+    "result": "Restored intervention, selected member count and step.",
+    "status": "passed",
+    "at": "2026-09-14T03:30:06.568Z"
+  },
+  {
+    "id": "CAM-SCOPE",
+    "area": "Campaigns",
+    "action": "Pre-visit owner scope",
+    "result": "Only Taylor practice provider and superuser offered; empty owner blocks review.",
+    "status": "passed",
+    "at": "2026-09-14T03:30:16.779Z"
+  },
+  {
+    "id": "CAM-SOURCE",
+    "area": "Campaigns",
+    "action": "Source owner scope",
+    "result": "Only retrieval coordinator and superuser offered.",
+    "status": "passed",
+    "at": "2026-09-14T03:30:32.017Z"
+  },
+  {
+    "id": "CAM-STALE",
+    "area": "Campaigns",
+    "action": "Activate stale preview after second-tab draft update",
+    "result": "Rejected changed work revision; refresh required and activate disabled.",
+    "status": "passed",
+    "at": "2026-09-14T03:32:08.819Z"
+  },
+  {
+    "id": "CAM-ACTIVATE-INTEGRITY",
+    "area": "Campaigns",
+    "action": "Activate refreshed integrity preview",
+    "result": "Created one Taylor task; planner now shows two retained campaign tasks.",
+    "status": "passed",
+    "at": "2026-09-14T03:32:55.487Z"
+  },
+  {
+    "id": "REVIEW-INTEGRITY",
+    "area": "Chart review",
+    "action": "Complete without supported finding",
+    "result": "Taylor contradiction blocks Supported; unsupported decision retained, independent QA required.",
+    "status": "passed",
+    "at": "2026-09-14T03:33:14.340Z"
+  },
+  {
+    "id": "QA-INTEGRITY",
+    "area": "Coding QA",
+    "action": "Independent QA for unsupported finding",
+    "result": "Rationale required; second reviewer approved exact unsupported decision.",
+    "status": "passed",
+    "at": "2026-09-14T03:33:56.808Z"
+  },
+  {
+    "id": "SUB-DELETION",
+    "area": "Submissions",
+    "action": "Prepare, accept, qualify and compare deletion",
+    "result": "SUB-ee1c4a2197 linked to original SUB-0001; historical rejected SUB-0002 preserved. Eligible score .396 vs .756 baseline. Absent occurrence match and still-present discrepancy both retained; no payment reconciliation.",
+    "status": "passed",
+    "at": "2026-09-14T03:35:30.701Z"
+  },
+  {
+    "id": "CAM-COMPLETE",
+    "area": "Campaigns",
+    "action": "Check completed work after independent QA",
+    "result": "Integrity campaign now 100%, 1/1 actionable cases; outstanding Casey coding campaign remains 0%.",
+    "status": "passed",
+    "at": "2026-09-14T03:35:45.813Z"
+  },
+  {
+    "id": "FIX-04",
+    "area": "Registry",
+    "action": "Default bulk assignment",
+    "result": "Explicit Choose a review account placeholder; selecting Alex enables Apply and saves without workaround.",
+    "status": "passed",
+    "at": "2026-09-14T03:36:15.740Z"
+  },
+  {
+    "id": "REG-SUPPRESS",
+    "area": "Registry",
+    "action": "Suppress selected with rationale and filter",
+    "result": "Required note; Avery persisted Suppressed and matches status filter.",
+    "status": "passed",
+    "at": "2026-09-14T03:36:42.435Z"
+  },
+  {
+    "id": "REG-FILTER-Saved view-Open review / QA",
+    "area": "Registry",
+    "action": "Saved view: Open review / QA",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:43.420Z"
+  },
+  {
+    "id": "REG-FILTER-Saved view-QA-approved completion",
+    "area": "Registry",
+    "action": "Saved view: QA-approved completion",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:44.357Z"
+  },
+  {
+    "id": "REG-FILTER-Saved view-Needs assessment",
+    "area": "Registry",
+    "action": "Saved view: Needs assessment",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:45.282Z"
+  },
+  {
+    "id": "REG-FILTER-Saved view-Ready for review",
+    "area": "Registry",
+    "action": "Saved view: Ready for review",
+    "result": "status: 0\u20130 of 0 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:46.205Z"
+  },
+  {
+    "id": "REG-FILTER-Saved view-Evidence changed",
+    "area": "Registry",
+    "action": "Saved view: Evidence changed",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:47.129Z"
+  },
+  {
+    "id": "REG-FILTER-Saved view-All records",
+    "area": "Registry",
+    "action": "Saved view: All records",
+    "result": "status: 1\u20133 of 3 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:48.067Z"
+  },
+  {
+    "id": "REG-FILTER-Ranking-Recapture urgency",
+    "area": "Registry",
+    "action": "Ranking: Recapture urgency",
+    "result": "status: 1\u20133 of 3 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:49.462Z"
+  },
+  {
+    "id": "REG-FILTER-Ranking-Marginal score effect",
+    "area": "Registry",
+    "action": "Ranking: Marginal score effect",
+    "result": "status: 1\u20133 of 3 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:50.842Z"
+  },
+  {
+    "id": "REG-FILTER-Ranking-Accuracy correction",
+    "area": "Registry",
+    "action": "Ranking: Accuracy correction",
+    "result": "status: 1\u20133 of 3 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:52.226Z"
+  },
+  {
+    "id": "REG-FILTER-Ranking-Operational priority",
+    "area": "Registry",
+    "action": "Ranking: Operational priority",
+    "result": "status: 1\u20133 of 3 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:53.173Z"
+  },
+  {
+    "id": "REG-FILTER-Priority-High",
+    "area": "Registry",
+    "action": "Priority: High",
+    "result": "status: 1\u20132 of 2 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:54.103Z"
+  },
+  {
+    "id": "REG-FILTER-Priority-Medium",
+    "area": "Registry",
+    "action": "Priority: Medium",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:55.022Z"
+  },
+  {
+    "id": "REG-FILTER-Priority-Low",
+    "area": "Registry",
+    "action": "Priority: Low",
+    "result": "status: 0\u20130 of 0 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:55.939Z"
+  },
+  {
+    "id": "REG-FILTER-Priority-All priorities",
+    "area": "Registry",
+    "action": "Priority: All priorities",
+    "result": "status: 1\u20133 of 3 records",
+    "status": "passed",
+    "at": "2026-09-14T03:36:56.882Z"
+  },
+  {
+    "id": "REG-FILTER-Evidence-Strong",
+    "area": "Registry",
+    "action": "Evidence: Strong",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:57.813Z"
+  },
+  {
+    "id": "REG-FILTER-Evidence-Moderate",
+    "area": "Registry",
+    "action": "Evidence: Moderate",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:58.736Z"
+  },
+  {
+    "id": "REG-FILTER-Evidence-Limited",
+    "area": "Registry",
+    "action": "Evidence: Limited",
+    "result": "status: 1\u20131 of 1 record",
+    "status": "passed",
+    "at": "2026-09-14T03:36:59.660Z"
+  },
+  {
+    "id": "REG-FILTER-Evidence-All evidence",
+    "area": "Registry",
+    "action": "Evidence: All evidence",
+    "result": "status: 1\u20133 of 3 records",
+    "status": "passed",
+    "at": "2026-09-14T03:37:00.600Z"
+  },
+  {
+    "id": "TASK-CLOSE",
+    "area": "Member tasks",
+    "action": "Close evidence follow-up with reason",
+    "result": "Empty reason blocks; saved Unable to obtain closes exact task, source and coding gates remain independent.",
+    "status": "passed",
+    "at": "2026-09-14T03:42:37.470Z"
+  },
+  {
+    "id": "FIX-07",
+    "area": "Models and data",
+    "action": "Completed analysis count",
+    "result": "Prepared analysis RUN-b09836 now counted as 1 completed action.",
+    "status": "passed",
+    "at": "2026-09-14T03:43:03.080Z"
+  },
+  {
+    "id": "RUN-RESUME-RESULT",
+    "area": "Models and data",
+    "action": "Inspect resumed historical batch",
+    "result": "Retained partial result: 9,600 scored and 400 prior-period exclusions; retry does not silently count ineligible members as scored.",
+    "status": "passed",
+    "at": "2026-09-14T03:43:24.810Z"
+  },
+  {
+    "id": "ROLE-EXEC",
+    "area": "RBAC",
+    "action": "Restored executive login",
+    "result": "Four read-only screens; population calculation disabled.",
+    "status": "passed",
+    "at": "2026-09-14T03:45:23.027Z"
+  },
+  {
+    "id": "ROLE-AGENTS-DENY",
+    "area": "RBAC",
+    "action": "Executive direct Agents URL",
+    "result": "Different-role page; no configuration controls.",
+    "status": "passed",
+    "at": "2026-09-14T03:45:33.401Z"
+  },
+  {
+    "id": "ROLE-ANALYST",
+    "area": "RBAC",
+    "action": "Risk analyst login",
+    "result": "Overview, analytics, model lab, registry, campaigns, members and provider portfolio available; clinical QA/admin absent.",
+    "status": "passed",
+    "at": "2026-09-14T03:46:10.024Z"
+  },
+  {
+    "id": "ROLE-ANALYST-DENY",
+    "area": "RBAC",
+    "action": "Analyst direct administration URL",
+    "result": "Access denied.",
+    "status": "passed",
+    "at": "2026-09-14T03:46:10.353Z"
+  },
+  {
+    "id": "ROLE-ADMIN",
+    "area": "RBAC",
+    "action": "Administrator login",
+    "result": "Administration, models, Agents and reporting navigation available; review operations absent.",
+    "status": "passed",
+    "at": "2026-09-14T03:46:24.117Z"
+  },
+  {
+    "id": "ROLE-REENABLE",
+    "area": "Administration",
+    "action": "Re-enabled Dr Maya Thompson login",
+    "result": "Previously disabled account can sign in again with provider-only navigation.",
+    "status": "passed",
+    "at": "2026-09-14T03:46:40.379Z"
+  },
+  {
+    "id": "UPLOAD-CSV",
+    "area": "Models and data",
+    "action": "Attach synthetic CSV using native file chooser",
+    "result": "Chooser opened; Chrome returned Not allowed when attaching local file. Extension Allow access to file URLs is required. Authored score-set import was independently exercised.",
+    "status": "blocked"
+  },
+  {
+    "id": "RUN-NEW",
+    "area": "Overview",
+    "action": "Start population and verify final run",
+    "result": "BATCH-1d55915359744d6185b696a404120d4b completed 10,000/10,000 with zero failures.",
+    "status": "passed",
+    "at": "2026-09-14T04:23:23.901Z"
+  },
+  {
+    "id": "AGENT-DISCARD",
+    "area": "Agents",
+    "action": "Discard unsaved response allowance",
+    "result": "3072-token edit discarded; saved version remains 2048.",
+    "status": "passed",
+    "at": "2026-09-14T04:23:58.633Z"
+  },
+  {
+    "id": "AGENT-CUSTOM-MODEL",
+    "area": "Agents",
+    "action": "Assign newly created private model",
+    "result": "Browser QA clinical model selected, local budget validation passed, saved as version 4. Connectivity explicitly untested.",
+    "status": "passed",
+    "at": "2026-09-14T04:24:18.242Z"
+  },
+  {
+    "id": "BUG-08",
+    "area": "RAF model lab",
+    "action": "Compare to unavailable V24 reference",
+    "result": "Total difference correctly null, but What changed falsely subtracts all baseline factors. Fix removes component deltas unless both scores completed.",
+    "status": "fixed-awaiting-retest",
+    "at": "2026-09-14T04:26:11.559Z",
+    "resolution": "fixed and browser-retested",
+    "retested_by": "FIX-08"
+  },
+  {
+    "id": "LAB-MODEL",
+    "area": "RAF model lab",
+    "action": "Forecast versus Initial with fixed inputs",
+    "result": "Completed .758 vs .465; -0.293 explained by two diagnoses outside Initial service window. Hypothetical result saved; not a clinical update.",
+    "status": "passed",
+    "at": "2026-09-14T04:27:55.351Z"
+  },
+  {
+    "id": "FIX-08",
+    "area": "RAF model lab",
+    "action": "Unavailable V24 comparison retest",
+    "result": "No score, no total delta and no misleading removed-factor table. Availability reason preserved.",
+    "status": "passed",
+    "at": "2026-09-14T04:28:02.974Z"
+  },
+  {
+    "id": "ROLE-REVOKE",
+    "area": "Administration",
+    "action": "Disable already signed-in provider and reload second session",
+    "result": "Existing provider session revoked server-side; protected workspace returned to sign-in.",
+    "status": "passed",
+    "at": "2026-09-14T04:29:03.278Z"
+  },
+  {
+    "id": "MEM-RECALC-HISTORY",
+    "area": "Member profile",
+    "action": "Recalculate baseline and reopen historical snapshot",
+    "result": "Baseline stays .758; historical potential run shows 1.406 and its retained interaction and adjustment bridge.",
+    "status": "passed",
+    "at": "2026-09-14T04:29:48.673Z"
+  },
+  {
+    "id": "CHASE-STATES",
+    "area": "Chart chase",
+    "action": "Requested, partial, received and unavailable transitions",
+    "result": "Each saved status retained in contact history; Unavailable filter returns CH-0002; usability remains publication-gated.",
+    "status": "passed",
+    "at": "2026-09-14T04:30:44.808Z"
+  },
+  {
+    "id": "INTAKE-LATER",
+    "area": "Document intake",
+    "action": "Publish later encounter and reopen review",
+    "result": "Morgan recommendation v2 now has current signed COPD assessment; v1 awaiting-assessment rationale preserved, fresh review/QA required.",
+    "status": "passed",
+    "at": "2026-09-14T04:31:22.425Z"
+  },
+  {
+    "id": "PROVIDER-DRILL",
+    "area": "Provider portfolio",
+    "action": "County search, practice details and member drilldown",
+    "result": "Broward search returns three practices; Lakeside detail opens members with provider PR-002 selected.",
+    "status": "passed",
+    "at": "2026-09-14T04:31:46.354Z"
+  },
+  {
+    "id": "GEO-EMPTY-VERIFIED",
+    "area": "Geography",
+    "action": "Wait for Duval plus Lakeside intersection",
+    "result": "Zero members and scored months, absent score, disabled paging; no stale previous cohort after load.",
+    "status": "passed",
+    "at": "2026-09-14T04:32:11.415Z"
+  },
+  {
+    "id": "GEO-MATRIX",
+    "area": "Geography",
+    "action": "Click Broward/Lakeside matrix cell",
+    "result": "Both filters applied; 267-member intersection at raw RAF .975, retained run links present. Empty cells disabled.",
+    "status": "passed",
+    "at": "2026-09-14T04:32:24.248Z"
+  },
+  {
+    "id": "AN-COHORT",
+    "area": "Risk analytics",
+    "action": "Condition tile and contributing-member pagination",
+    "result": "HCC226 cohort contains 2,500 members; 25-row page and Next retain category scope and exact profile links.",
+    "status": "passed",
+    "at": "2026-09-14T04:33:21.251Z"
+  },
+  {
+    "id": "MODEL-PARTD-MAPD",
+    "area": "Models",
+    "action": "MAPD forecast member calculation",
+    "result": "Completed raw RxHCC .245 and adjusted .221; Part D factors retained separately from MA.",
+    "status": "passed",
+    "at": "2026-09-14T04:35:00.615Z"
+  },
+  {
+    "id": "MODEL-RxHCC \u00b7 2027 MAPD initial",
+    "area": "Models",
+    "action": "RxHCC \u00b7 2027 MAPD initial recalculation",
+    "result": "generic: Raw RxHCC score\n  - strong: \"0.245\"\n",
+    "status": "passed",
+    "at": "2026-09-14T04:35:01.452Z"
+  },
+  {
+    "id": "MODEL-RxHCC \u00b7 2027 PDP initial",
+    "area": "Models",
+    "action": "RxHCC \u00b7 2027 PDP initial recalculation",
+    "result": "generic: Raw RxHCC score\n  - strong: \"0.335\"\n",
+    "status": "passed",
+    "at": "2026-09-14T04:35:02.849Z"
+  },
+  {
+    "id": "MODEL-RxHCC \u00b7 2027 PDP forecast",
+    "area": "Models",
+    "action": "RxHCC \u00b7 2027 PDP forecast recalculation",
+    "result": "generic: Raw RxHCC score\n  - strong: \"0.335\"\n",
+    "status": "passed",
+    "at": "2026-09-14T04:35:03.667Z"
+  },
+  {
+    "id": "DATA-ACA-DEMOGRAPHICS",
+    "area": "Program fixtures",
+    "action": "Compare ACA scoring inputs with clinical member header",
+    "result": "Casey header says 77 years; ACA retained DOB is 2006-01-15 and CHILD PLATINUM segment. Existing program fixtures are distinct from clinical records. Data alignment remains unresolved; scoring inputs preserved.",
+    "status": "open",
+    "at": "2026-09-14T04:36:01.917Z"
+  },
+  {
+    "id": "FIX-07-DETAILS",
+    "area": "Registry",
+    "action": "Open analysis details after member refresh",
+    "result": "Both RUN-cb2854 and RUN-b09836 listed with retained stages; member Refresh analysis succeeded without replacing evidence.",
+    "status": "passed",
+    "at": "2026-09-14T04:36:25.826Z"
+  },
+  {
+    "id": "ASK-UNSUPPORTED",
+    "area": "Assistant",
+    "action": "Unsupported free-text prompt",
+    "result": "Weather query returned explicit supported-scope message, with no invented answer or clinical action.",
+    "status": "passed",
+    "at": "2026-09-14T04:37:56.530Z"
+  }
+]

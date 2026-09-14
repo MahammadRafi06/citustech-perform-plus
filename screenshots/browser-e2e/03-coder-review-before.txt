@@ -1,0 +1,162 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /suspects
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Chart review
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AC
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - link "Back to review queue":
+    - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - text: Back to review queue
+  - link "Member 360":
+    - /url: /members/MB-000001
+    - text: Member 360
+  - heading "Jordan Ellis" [level=1]
+  - paragraph: MB-000001 · 72 years · Male · Northstar Health
+  - paragraph: Service year 2026 · Payment year 2027
+  - generic: New
+  - complementary:
+    - heading "Findings" [level=2]
+    - generic: 1 linked to this chart
+    - heading "Chronic systolic heart failure" [level=3]
+    - paragraph: Strong evidence
+    - generic: New
+    - generic: OP-0001 · Recommendation v2
+    - strong: Assigned to
+    - paragraph: Alex Chen
+    - strong: Due date
+    - paragraph: 2026-09-16
+  - region "Source document":
+    - generic: Source document
+    - combobox "Source document":
+      - option "Cardiology follow-up · signed encounter" [selected]
+      - option "Cardiology history · prior-year context"
+    - button "Previous document page" [disabled]:
+    - generic: 1 / 1
+    - button "Next document page" [disabled]:
+    - button "Zoom out":
+    - generic: 100%
+    - button "Zoom in":
+    - button "Fit width":
+    - button "Find in document":
+    - generic: DOC-0001
+    - generic: Encounter 2026-08-28
+    - generic: signed
+    - generic: Synthetic source
+    - generic "Scrollable source page":
+      - article:
+        - heading "Cardiology follow-up · signed encounter" [level=2]
+        - paragraph:
+          - text: MB-000001 · Northbrook Family Care
+          - text: 2026-08-28
+        - heading "Synthetic demonstration record" [level=3]
+        - paragraph: Jordan Ellis · MB-000001 · Service date 2026-08-28. This is a fictional record for demonstration.
+        - heading "Reason for visit" [level=3]
+        - paragraph: Scheduled follow-up for chronic cardiovascular conditions. Symptoms and ongoing management were reviewed at today's encounter.
+        - heading "Assessment and plan" [level=3]
+        - paragraph:
+          - mark: Chronic systolic heart failure is present and was assessed today. The member is clinically stable. Continue the established management plan and monitor symptoms at follow-up.
+        - heading "Signature" [level=3]
+        - paragraph: Electronically signed by the synthetic treating clinician at Northbrook Family Care on August 28, 2026.
+        - generic: Page 1 · DOC-0001 · Original source wording
+    - button "Complete source fixture"
+    - button "Linked passage"
+    - button "Mark inspected":
+      - text: Mark inspected
+  - region "Finding and decision":
+    - heading "Review decision" [level=2]
+    - generic: OP-0001 · Recommendation v2
+    - generic "Scrollable review context":
+      - heading "Chronic systolic heart failure" [level=3]
+      - paragraph: The signed current encounter explicitly documents chronic systolic heart failure. The selected coded dataset has no corresponding diagnosis. Review the source passage before a supported coding decision.
+      - generic: Strong evidence
+      - generic: New
+      - text: Prepared code output
+      - strong: I50.22 · Chronic systolic (congestive) heart failure
+      - generic: ICD-10-CM April 1, 2026 release
+      - link "Code reference":
+        - /url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2026-update/icd10cm-April-1-2026-XML.zip
+      - generic "Code basis"
+      - generic "Finding-specific passages · 1"
+      - generic "Authored review context"
+      - group "Review decision":
+        - generic: Review decision
+        - radio "Supported by evidence Current, eligible documentation supports this finding."
+        - strong: Supported by evidence
+        - generic: Current, eligible documentation supports this finding.
+        - radio "Not supported Record why the reviewed source does not support it."
+        - strong: Not supported
+        - generic: Record why the reviewed source does not support it.
+        - radio "Needs current assessment Route for clarification and retain this review."
+        - strong: Needs current assessment
+        - generic: Route for clarification and retain this review.
+      - generic: Review rationale
+      - textbox "Review rationale":
+        - /placeholder: Cite the source and explain your decision…
+      - button "Pause and save draft"
+      - button "Defer"
+      - generic "Next role and case steps"
+      - generic "Evidence provenance"
+      - generic "History and related work"
+      - button "Create clarification task"
+      - button "Request evidence"
+    - paragraph: Select a decision to continue.
+    - button "Save review and send to QA" [disabled]:
+      - text: Save review and send to QA
+    - button "Complete without a supported finding" [disabled]
+- region "Notifications alt+T"

@@ -5,6 +5,71 @@ from decimal import Decimal
 from . import risk_inputs as inputs, risk_service as service, risk_store as store
 
 
+def geography(conn, state, members, config_id, basis, county='', provider_id='', dimension='county', page=1, size=10):
+    """Current directory attribution over retained, reader-scoped model outputs."""
+    service.configuration(config_id, conn)
+    providers = {p['id']: p['name'] for p in state['providers']}
+    allowed = {m['id']: m for m in members}
+    county_of = lambda m: m.get('county') or 'Unassigned county'
+    options = {
+        'counties': sorted({county_of(m) for m in members}),
+        'providers': [{'id': pid, 'name': providers.get(pid, pid or 'Unassigned provider')}
+                      for pid in sorted({m.get('provider_id', '') for m in members})],
+    }
+    cohort = {mid: m for mid, m in allowed.items()
+              if (not county or county_of(m) == county) and (not provider_id or m.get('provider_id') == provider_id)}
+    runs = {}
+    for row in conn.execute('''SELECT r.id,r.member_id,r.body->'raw_score' AS raw_score,
+          r.body->'monthly_scores' AS monthly_scores,s.stale FROM risk_stages s JOIN risk_runs r ON r.id=s.run_id
+          WHERE s.config_id=? AND s.score_basis=? AND r.status='completed' ''', (config_id, basis)):
+        if row['member_id'] in cohort:
+            runs[row['member_id']] = row
+    external = config_id == service.EXTERNAL_CONFIG['id']
+    values = {mid: [Decimal(str(month['raw_score'])) for month in (r['monthly_scores'] or [])
+                    if month.get('raw_score') is not None] for mid, r in runs.items()}
+
+    def aggregate(mids, include_runs=True):
+        denominator = sum(len(values.get(mid, [])) for mid in mids) if not external else 0
+        numerator = sum((sum(values.get(mid, []), Decimal(0)) for mid in mids), Decimal(0)) if not external else None
+        return {'value': float(numerator / denominator) if denominator else None,
+                'numerator': float(numerator) if numerator is not None else None, 'denominator': denominator,
+                'members': len(mids), 'scored_members': sum(mid in runs for mid in mids),
+                'unscored_members': sum(mid not in runs for mid in mids),
+                'stale_members': sum(bool(runs[mid]['stale']) for mid in mids if mid in runs),
+                **({'run_ids': [runs[mid]['id'] for mid in sorted(mids) if mid in runs]} if include_runs else {})}
+
+    def grouped(kind, include_runs=False):
+        groups = defaultdict(list)
+        for mid, m in cohort.items():
+            key = (county_of(m) if kind != 'provider' else '', m.get('provider_id', '') if kind != 'county' else '')
+            groups[key].append(mid)
+        return [{'id': c + '|' + p, 'county': c, 'provider_id': p, 'provider': providers.get(p, p),
+                 'name': c if kind == 'county' else providers.get(p, p) if kind == 'provider' else c + ' · ' + providers.get(p, p),
+                 **aggregate(mids, include_runs)} for (c, p), mids in sorted(groups.items())]
+
+    total = len(cohort)
+    page = min(page, max(1, (total + size - 1) // size))
+    visible = sorted(cohort)[(page - 1) * size:page * size]
+    return {'config_id': config_id, 'score_basis': basis, 'dimension': dimension,
+            'filters': {'county': county, 'provider_id': provider_id}, 'options': options,
+            'definition': 'Sum of retained raw monthly model scores divided by eligible scored member-months. Missing scores are excluded, never zero-filled. Stale results remain included and identified.',
+            'attribution': 'Current member county of residence and assigned practice; historical scoring inputs are unchanged.',
+            'metric': 'Raw RAF' if config_id.startswith('ma_') else 'Raw risk score',
+            'limitation': 'External results require their declared rating and normalization groups; combined geography scores are unavailable.' if external else None,
+            'summary': aggregate(list(cohort)), 'groups': grouped(dimension),
+            # Matrix cells retain exact group provenance without repeating the
+            # same 10,000 IDs in every alternate chart projection.
+            'counties': grouped('county'), 'providers': grouped('provider'), 'matrix': grouped('county_provider', True),
+            'members_page': {'total': total, 'page': page, 'size': size, 'items': [
+                {'member_id': mid, 'name': cohort[mid]['name'], 'county': county_of(cohort[mid]),
+                 'city': cohort[mid].get('city'), 'provider_id': cohort[mid].get('provider_id'),
+                 'provider': providers.get(cohort[mid].get('provider_id'), cohort[mid].get('provider', 'Unassigned provider')),
+                 'run_id': runs[mid]['id'] if mid in runs else None,
+                 'value': runs[mid]['raw_score'] if mid in runs else None,
+                 'member_months': len(values.get(mid, [])), 'stale': bool(runs[mid]['stale']) if mid in runs else False}
+                for mid in visible]}}
+
+
 def dashboard(conn, state, members, config_id, basis='captured_baseline', prior_config_id=None):
     """Read stored results; missing stages never become fabricated zero scores."""
     cfg = service.configuration(config_id, conn)

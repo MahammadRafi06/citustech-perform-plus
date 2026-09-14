@@ -1,0 +1,197 @@
+[
+  {
+    "file": "01-overview.jpg",
+    "width": 1910,
+    "height": 988
+  },
+  {
+    "file": "02-admin-users.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "03-coder-review-before.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "04-supported-review.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "05-independent-qa.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "06-submission-retry.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "07-intake-mismatch.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "08-recapture-exclusions.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "09-agent-versions.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "10-private-model-catalog.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "11-geography-intersection.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "12-geography-empty.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "13-risk-scenario.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "14-financial-ma.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "15-audit-evidence.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "16-deletion-reconciliation.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "17-population-completed.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "18-agent-private-model.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "19-unavailable-model-before.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "20-unavailable-model-after.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "21-later-encounter-review.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "22-geography-empty-settled.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "23-geography-matrix-drill.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "24-geography-full.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "25-annual-recapture-settled.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "26-part-d-result.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "27-aca-demographic-mismatch.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "28-registry.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "29-campaigns.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "30-members.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "31-provider-portfolio.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "32-previsit.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "33-login.jpg",
+    "width": 1920,
+    "height": 937
+  },
+  {
+    "file": "report-Coding---QA.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "report-Data---AI.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "report-Providers.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "report-Retrieval.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "report-Submissions.jpg",
+    "width": 1910,
+    "height": 932
+  },
+  {
+    "file": "report-Suspecting.jpg",
+    "width": 1910,
+    "height": 932
+  }
+]

@@ -1,0 +1,181 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=reported
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=reported
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Audit workspace
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline"
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result" [selected]
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Audit workspace" [level=1]
+  - paragraph: Trace the selected case from original evidence through each recorded outcome.
+  - button "Generate evidence package" [active]:
+    - text: Generate evidence package
+  - heading "Select case records" [level=2]
+  - paragraph: The package includes only selected members and their linked history.
+  - checkbox "JE Jordan Ellis MB-000001 · Chronic systolic heart failure Strong" [checked]:
+  - generic: JE
+  - strong: Jordan Ellis
+  - generic: MB-000001 · Chronic systolic heart failure
+  - generic: Strong
+  - checkbox "MR Morgan Reed MB-000002 · COPD · historical assessment Moderate"
+  - generic: MR
+  - strong: Morgan Reed
+  - generic: MB-000002 · COPD · historical assessment
+  - generic: Moderate
+  - checkbox "AB Avery Brooks MB-000003 · Kidney-related assessment need Limited"
+  - generic: AB
+  - strong: Avery Brooks
+  - generic: MB-000003 · Kidney-related assessment need
+  - generic: Limited
+  - checkbox "TQ Taylor Quinn MB-000004 · Existing heart failure diagnosis · integrity review Strong"
+  - generic: TQ
+  - strong: Taylor Quinn
+  - generic: MB-000004 · Existing heart failure diagnosis · integrity review
+  - generic: Strong
+  - checkbox "CM Casey Morgan MB-000005 · Diabetes and chronic kidney disease Strong"
+  - generic: CM
+  - strong: Casey Morgan
+  - generic: MB-000005 · Diabetes and chronic kidney disease
+  - generic: Strong
+  - checkbox "RP Riley Parker MB-000006 · COPD · source eligibility issue Strong"
+  - generic: RP
+  - strong: Riley Parker
+  - generic: MB-000006 · COPD · source eligibility issue
+  - generic: Strong
+  - heading "Recorded chain coverage" [level=2]
+  - paragraph: 1 selected cases · coverage derives from retained records
+  - generic: Original source passages
+  - strong: 1 / 1 cases
+  - generic: Recommendation snapshots
+  - strong: 1 / 1 cases
+  - generic: Saved review decisions
+  - strong: 1 / 1 cases
+  - generic: Independent QA approval
+  - strong: 1 / 1 cases
+  - generic: Linked submission
+  - strong: 1 / 1 cases
+  - generic: Recorded receiver outcome
+  - strong: 1 / 1 cases
+  - generic: Prepared report comparison
+  - strong: 1 / 1 cases
+  - paragraph: Unavailable stages are identified in the readable manifest and machine-readable chain. Exporting preserves decisions, source quotations and all rejected attempts; it does not certify formal audit readiness.
+  - heading "Jordan Ellis" [level=2]
+  - paragraph: Trace complete for the recorded prepared workflow
+  - generic: Source passages
+  - strong: "2"
+  - generic: Retained review / QA decisions
+  - strong: 2 / 2
+  - generic: Submission attempts
+  - strong: "2"
+  - link "Inspect decision history":
+    - /url: /members/MB-000001?tab=Timeline&returnTo=%2Faudit
+    - text: Inspect decision history
+  - link "Inspect attempts":
+    - /url: /submissions?member=MB-000001
+    - text: Inspect attempts
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T":
+  - list:
+    - button "Close toast":
+    - generic: Package downloaded

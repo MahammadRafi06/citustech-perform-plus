@@ -1,0 +1,594 @@
+- alert: Member risk profiles
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Member risk profiles
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Member risk profiles" [level=1]
+  - paragraph: Calculated scores, input readiness and clinical evidence in one member record.
+  - textbox "Search member risk profiles":
+    - /placeholder: Search name or member ID…
+  - combobox "Risk profile provider":
+    - option "All providers" [selected]
+    - option "Northbrook Family Care"
+    - option "Lakeside Medical Group"
+    - option "Cedar Grove Primary Care"
+    - option "Westhaven Clinical Partners"
+    - option "Maple Ridge Health"
+    - option "Brookfield Community Care"
+    - option "Willow Creek Family Practice"
+    - option "Silver Birch Medical"
+    - option "Oakstone Primary Care"
+    - option "Meadowvale Health Partners"
+    - option "Pinecrest Family Medicine"
+    - option "Clearwater Clinical Group"
+    - option "Highland Grove Health"
+    - option "Birchwood Community Practice"
+    - option "Riverbend Family Care"
+    - option "Stonebridge Medical Partners"
+    - option "Ashford Primary Care"
+    - option "Fairhaven Community Health"
+    - option "Woodland Clinical Partners"
+    - option "Elmstead Family Medicine"
+    - option "Foxglove Medical Group"
+    - option "Greenfield Health Practice"
+    - option "Larkspur Family Care"
+    - option "Summit Grove Medical"
+    - option "Bluebell Community Care"
+    - option "Kingswood Health Partners"
+    - option "Hawthorne Family Practice"
+    - option "Cloverfield Primary Care"
+    - option "Rosewood Medical Group"
+    - option "Parkhaven Clinical Partners"
+  - combobox "Risk calculation status":
+    - option "All calculation states" [selected]
+    - option "Completed"
+    - option "Failed"
+    - option "Unavailable"
+    - option "Not calculated"
+    - option "Unscored"
+    - option "Stale"
+  - table:
+    - rowgroup:
+      - row "Member / practice Member county Raw RAF Adjusted score Model segment Readiness Calculation state":
+        - columnheader "Member / practice"
+        - columnheader "Member county"
+        - columnheader "Raw RAF"
+        - columnheader "Adjusted score"
+        - columnheader "Model segment"
+        - columnheader "Readiness"
+        - columnheader "Calculation state"
+    - rowgroup:
+      - row "Jordan Ellis MB-000001 · Northbrook Family Care Miami-Dade County Miami, FL 0.396 0.345 COMMUNITY NA Scoring inputs prepared Clinical review prepared Completed":
+        - cell "Jordan Ellis MB-000001 · Northbrook Family Care":
+          - link "Jordan Ellis":
+            - /url: /members/MB-000001?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Jordan Ellis
+          - generic: MB-000001 · Northbrook Family Care
+        - cell "Miami-Dade County Miami, FL":
+          - text: Miami-Dade County
+          - generic: Miami, FL
+        - cell "0.396"
+        - cell "0.345"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared Clinical review prepared":
+          - text: Scoring inputs prepared
+          - generic: Clinical review prepared
+        - cell "Completed":
+          - generic: Completed
+      - row "Morgan Reed MB-000002 · Lakeside Medical Group Broward County Fort Lauderdale, FL 0.330 0.288 COMMUNITY NA Scoring inputs prepared Clinical review prepared Completed":
+        - cell "Morgan Reed MB-000002 · Lakeside Medical Group":
+          - link "Morgan Reed":
+            - /url: /members/MB-000002?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Morgan Reed
+          - generic: MB-000002 · Lakeside Medical Group
+        - cell "Broward County Fort Lauderdale, FL":
+          - text: Broward County
+          - generic: Fort Lauderdale, FL
+        - cell "0.330"
+        - cell "0.288"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared Clinical review prepared":
+          - text: Scoring inputs prepared
+          - generic: Clinical review prepared
+        - cell "Completed":
+          - generic: Completed
+      - row "Avery Brooks MB-000003 · Cedar Grove Primary Care Broward County Fort Lauderdale, FL 0.395 0.344 COMMUNITY NA Scoring inputs prepared Clinical review prepared Completed":
+        - cell "Avery Brooks MB-000003 · Cedar Grove Primary Care":
+          - link "Avery Brooks":
+            - /url: /members/MB-000003?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Avery Brooks
+          - generic: MB-000003 · Cedar Grove Primary Care
+        - cell "Broward County Fort Lauderdale, FL":
+          - text: Broward County
+          - generic: Fort Lauderdale, FL
+        - cell "0.395"
+        - cell "0.344"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared Clinical review prepared":
+          - text: Scoring inputs prepared
+          - generic: Clinical review prepared
+        - cell "Completed":
+          - generic: Completed
+      - row "Taylor Quinn MB-000004 · Westhaven Clinical Partners Pinellas County St. Petersburg, FL 0.756 0.659 COMMUNITY NA Scoring inputs prepared Clinical review prepared Completed":
+        - cell "Taylor Quinn MB-000004 · Westhaven Clinical Partners":
+          - link "Taylor Quinn":
+            - /url: /members/MB-000004?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Taylor Quinn
+          - generic: MB-000004 · Westhaven Clinical Partners
+        - cell "Pinellas County St. Petersburg, FL":
+          - text: Pinellas County
+          - generic: St. Petersburg, FL
+        - cell "0.756"
+        - cell "0.659"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared Clinical review prepared":
+          - text: Scoring inputs prepared
+          - generic: Clinical review prepared
+        - cell "Completed":
+          - generic: Completed
+      - row "Casey Morgan MB-000005 · Maple Ridge Health Orange County Orlando, FL 0.758 0.661 COMMUNITY NA Scoring inputs prepared Clinical review prepared Completed":
+        - cell "Casey Morgan MB-000005 · Maple Ridge Health":
+          - link "Casey Morgan":
+            - /url: /members/MB-000005?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Casey Morgan
+          - generic: MB-000005 · Maple Ridge Health
+        - cell "Orange County Orlando, FL":
+          - text: Orange County
+          - generic: Orlando, FL
+        - cell "0.758"
+        - cell "0.661"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared Clinical review prepared":
+          - text: Scoring inputs prepared
+          - generic: Clinical review prepared
+        - cell "Completed":
+          - generic: Completed
+      - row "Riley Parker MB-000006 · Brookfield Community Care Duval County Jacksonville, FL 0.332 0.290 COMMUNITY NA Scoring inputs prepared Clinical review prepared Completed":
+        - cell "Riley Parker MB-000006 · Brookfield Community Care":
+          - link "Riley Parker":
+            - /url: /members/MB-000006?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Riley Parker
+          - generic: MB-000006 · Brookfield Community Care
+        - cell "Duval County Jacksonville, FL":
+          - text: Duval County
+          - generic: Jacksonville, FL
+        - cell "0.332"
+        - cell "0.290"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared Clinical review prepared":
+          - text: Scoring inputs prepared
+          - generic: Clinical review prepared
+        - cell "Completed":
+          - generic: Completed
+      - row "Rowan Cameron MB-000007 · Willow Creek Family Practice Hillsborough County Tampa, FL 1.390 1.212 COMMUNITY PBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Rowan Cameron MB-000007 · Willow Creek Family Practice":
+          - link "Rowan Cameron":
+            - /url: /members/MB-000007?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Rowan Cameron
+          - generic: MB-000007 · Willow Creek Family Practice
+        - cell "Hillsborough County Tampa, FL":
+          - text: Hillsborough County
+          - generic: Tampa, FL
+        - cell "1.390"
+        - cell "1.212"
+        - cell "COMMUNITY PBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Lane Jensen MB-000008 · Silver Birch Medical Polk County Lakeland, FL 0.626 0.546 COMMUNITY FBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Lane Jensen MB-000008 · Silver Birch Medical":
+          - link "Lane Jensen":
+            - /url: /members/MB-000008?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Lane Jensen
+          - generic: MB-000008 · Silver Birch Medical
+        - cell "Polk County Lakeland, FL":
+          - text: Polk County
+          - generic: Lakeland, FL
+        - cell "0.626"
+        - cell "0.546"
+        - cell "COMMUNITY FBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Teresa Diaz MB-000009 · Oakstone Primary Care Lee County Fort Myers, FL 0.465 0.406 COMMUNITY NA Scoring inputs prepared No interactive review story Completed":
+        - cell "Teresa Diaz MB-000009 · Oakstone Primary Care":
+          - link "Teresa Diaz":
+            - /url: /members/MB-000009?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Teresa Diaz
+          - generic: MB-000009 · Oakstone Primary Care
+        - cell "Lee County Fort Myers, FL":
+          - text: Lee County
+          - generic: Fort Myers, FL
+        - cell "0.465"
+        - cell "0.406"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Jose Davis MB-000010 · Meadowvale Health Partners Sarasota County Sarasota, FL 0.781 0.681 COMMUNITY PBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Jose Davis MB-000010 · Meadowvale Health Partners":
+          - link "Jose Davis":
+            - /url: /members/MB-000010?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Jose Davis
+          - generic: MB-000010 · Meadowvale Health Partners
+        - cell "Sarasota County Sarasota, FL":
+          - text: Sarasota County
+          - generic: Sarasota, FL
+        - cell "0.781"
+        - cell "0.681"
+        - cell "COMMUNITY PBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Karen Foster MB-000011 · Pinecrest Family Medicine Seminole County Sanford, FL 0.825 0.719 COMMUNITY FBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Karen Foster MB-000011 · Pinecrest Family Medicine":
+          - link "Karen Foster":
+            - /url: /members/MB-000011?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Karen Foster
+          - generic: MB-000011 · Pinecrest Family Medicine
+        - cell "Seminole County Sanford, FL":
+          - text: Seminole County
+          - generic: Sanford, FL
+        - cell "0.825"
+        - cell "0.719"
+        - cell "COMMUNITY FBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Christopher James MB-000012 · Clearwater Clinical Group Orange County Orlando, FL 0.756 0.659 COMMUNITY NA Scoring inputs prepared No interactive review story Completed":
+        - cell "Christopher James MB-000012 · Clearwater Clinical Group":
+          - link "Christopher James":
+            - /url: /members/MB-000012?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Christopher James
+          - generic: MB-000012 · Clearwater Clinical Group
+        - cell "Orange County Orlando, FL":
+          - text: Orange County
+          - generic: Orlando, FL
+        - cell "0.756"
+        - cell "0.659"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Kimberly Gonzalez MB-000013 · Highland Grove Health Miami-Dade County Miami, FL 0.684 0.597 COMMUNITY PBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Kimberly Gonzalez MB-000013 · Highland Grove Health":
+          - link "Kimberly Gonzalez":
+            - /url: /members/MB-000013?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Kimberly Gonzalez
+          - generic: MB-000013 · Highland Grove Health
+        - cell "Miami-Dade County Miami, FL":
+          - text: Miami-Dade County
+          - generic: Miami, FL
+        - cell "0.684"
+        - cell "0.597"
+        - cell "COMMUNITY PBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Edward Nelson MB-000014 · Birchwood Community Practice Broward County Fort Lauderdale, FL 1.209 1.054 COMMUNITY FBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Edward Nelson MB-000014 · Birchwood Community Practice":
+          - link "Edward Nelson":
+            - /url: /members/MB-000014?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Edward Nelson
+          - generic: MB-000014 · Birchwood Community Practice
+        - cell "Broward County Fort Lauderdale, FL":
+          - text: Broward County
+          - generic: Fort Lauderdale, FL
+        - cell "1.209"
+        - cell "1.054"
+        - cell "COMMUNITY FBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Dorothy Baker MB-000015 · Riverbend Family Care Broward County Fort Lauderdale, FL 1.152 1.005 COMMUNITY NA Scoring inputs prepared No interactive review story Completed":
+        - cell "Dorothy Baker MB-000015 · Riverbend Family Care":
+          - link "Dorothy Baker":
+            - /url: /members/MB-000015?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Dorothy Baker
+          - generic: MB-000015 · Riverbend Family Care
+        - cell "Broward County Fort Lauderdale, FL":
+          - text: Broward County
+          - generic: Fort Lauderdale, FL
+        - cell "1.152"
+        - cell "1.005"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Ryan Brooks MB-000016 · Stonebridge Medical Partners Hillsborough County Tampa, FL 0.498 0.434 COMMUNITY PBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Ryan Brooks MB-000016 · Stonebridge Medical Partners":
+          - link "Ryan Brooks":
+            - /url: /members/MB-000016?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Ryan Brooks
+          - generic: MB-000016 · Stonebridge Medical Partners
+        - cell "Hillsborough County Tampa, FL":
+          - text: Hillsborough County
+          - generic: Tampa, FL
+        - cell "0.498"
+        - cell "0.434"
+        - cell "COMMUNITY PBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Amy Wood MB-000017 · Ashford Primary Care Orange County Orlando, FL 0.665 0.580 COMMUNITY FBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Amy Wood MB-000017 · Ashford Primary Care":
+          - link "Amy Wood":
+            - /url: /members/MB-000017?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Amy Wood
+          - generic: MB-000017 · Ashford Primary Care
+        - cell "Orange County Orlando, FL":
+          - text: Orange County
+          - generic: Orlando, FL
+        - cell "0.665"
+        - cell "0.580"
+        - cell "COMMUNITY FBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Benjamin Richardson MB-000018 · Fairhaven Community Health Duval County Jacksonville, FL 0.498 0.434 COMMUNITY NA Scoring inputs prepared No interactive review story Completed":
+        - cell "Benjamin Richardson MB-000018 · Fairhaven Community Health":
+          - link "Benjamin Richardson":
+            - /url: /members/MB-000018?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Benjamin Richardson
+          - generic: MB-000018 · Fairhaven Community Health
+        - cell "Duval County Jacksonville, FL":
+          - text: Duval County
+          - generic: Jacksonville, FL
+        - cell "0.498"
+        - cell "0.434"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Rebecca White MB-000019 · Woodland Clinical Partners Pinellas County St. Petersburg, FL 0.744 0.649 COMMUNITY PBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Rebecca White MB-000019 · Woodland Clinical Partners":
+          - link "Rebecca White":
+            - /url: /members/MB-000019?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Rebecca White
+          - generic: MB-000019 · Woodland Clinical Partners
+        - cell "Pinellas County St. Petersburg, FL":
+          - text: Pinellas County
+          - generic: St. Petersburg, FL
+        - cell "0.744"
+        - cell "0.649"
+        - cell "COMMUNITY PBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Steven Edwards MB-000020 · Elmstead Family Medicine Polk County Lakeland, FL 1.195 1.042 COMMUNITY FBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Steven Edwards MB-000020 · Elmstead Family Medicine":
+          - link "Steven Edwards":
+            - /url: /members/MB-000020?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Steven Edwards
+          - generic: MB-000020 · Elmstead Family Medicine
+        - cell "Polk County Lakeland, FL":
+          - text: Polk County
+          - generic: Lakeland, FL
+        - cell "1.195"
+        - cell "1.042"
+        - cell "COMMUNITY FBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Carolyn Williams MB-000021 · Foxglove Medical Group Lee County Fort Myers, FL 0.751 0.655 COMMUNITY NA Scoring inputs prepared No interactive review story Completed":
+        - cell "Carolyn Williams MB-000021 · Foxglove Medical Group":
+          - link "Carolyn Williams":
+            - /url: /members/MB-000021?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Carolyn Williams
+          - generic: MB-000021 · Foxglove Medical Group
+        - cell "Lee County Fort Myers, FL":
+          - text: Lee County
+          - generic: Fort Myers, FL
+        - cell "0.751"
+        - cell "0.655"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Jason Howard MB-000022 · Greenfield Health Practice Sarasota County Sarasota, FL 0.681 0.594 COMMUNITY PBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Jason Howard MB-000022 · Greenfield Health Practice":
+          - link "Jason Howard":
+            - /url: /members/MB-000022?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Jason Howard
+          - generic: MB-000022 · Greenfield Health Practice
+        - cell "Sarasota County Sarasota, FL":
+          - text: Sarasota County
+          - generic: Sarasota, FL
+        - cell "0.681"
+        - cell "0.594"
+        - cell "COMMUNITY PBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Amanda Carter MB-000023 · Larkspur Family Care Seminole County Sanford, FL 1.501 1.309 COMMUNITY FBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Amanda Carter MB-000023 · Larkspur Family Care":
+          - link "Amanda Carter":
+            - /url: /members/MB-000023?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Amanda Carter
+          - generic: MB-000023 · Larkspur Family Care
+        - cell "Seminole County Sanford, FL":
+          - text: Seminole County
+          - generic: Sanford, FL
+        - cell "1.501"
+        - cell "1.309"
+        - cell "COMMUNITY FBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "William Diaz MB-000024 · Summit Grove Medical Osceola County Kissimmee, FL 0.571 0.498 COMMUNITY NA Scoring inputs prepared No interactive review story Completed":
+        - cell "William Diaz MB-000024 · Summit Grove Medical":
+          - link "William Diaz":
+            - /url: /members/MB-000024?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: William Diaz
+          - generic: MB-000024 · Summit Grove Medical
+        - cell "Osceola County Kissimmee, FL":
+          - text: Osceola County
+          - generic: Kissimmee, FL
+        - cell "0.571"
+        - cell "0.498"
+        - cell "COMMUNITY NA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+      - row "Emily Cox MB-000025 · Bluebell Community Care Broward County Fort Lauderdale, FL 0.365 0.318 COMMUNITY PBA Scoring inputs prepared No interactive review story Completed":
+        - cell "Emily Cox MB-000025 · Bluebell Community Care":
+          - link "Emily Cox":
+            - /url: /members/MB-000025?tab=Risk+profile&config=ma_v28_py2027_forecast&basis=captured_baseline
+            - strong: Emily Cox
+          - generic: MB-000025 · Bluebell Community Care
+        - cell "Broward County Fort Lauderdale, FL":
+          - text: Broward County
+          - generic: Fort Lauderdale, FL
+        - cell "0.365"
+        - cell "0.318"
+        - cell "COMMUNITY PBA"
+        - cell "Scoring inputs prepared No interactive review story":
+          - text: Scoring inputs prepared
+          - generic: No interactive review story
+        - cell "Completed":
+          - generic: Completed
+  - generic: 10,000 matching members · Page 1
+  - button "Previous" [disabled]
+  - button "Next"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

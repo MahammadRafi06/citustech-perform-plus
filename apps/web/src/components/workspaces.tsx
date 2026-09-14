@@ -435,12 +435,12 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           <span>strong evidence</span>
         </div>
       </div>
-      {data.runs.some((r) => r.mode === "fixture") && route === "suspects" && (
+      {data.runs.some((r) => ["prepared_analysis", "fixture"].includes(r.mode)) && route === "suspects" && (
         <div className="run-result">
           <span className="subtle-tag">Prepared analysis</span>
           <span>
             {(() => {
-              const r = data.runs.find((r) => r.mode === "fixture")!;
+              const r = data.runs.find((r) => ["prepared_analysis", "fixture"].includes(r.mode))!;
               return `${new Date(r.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · ${r.members} ${r.members === 1 ? "finding" : "findings"} analyzed`;
             })()}
           </span>
@@ -483,7 +483,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       >
         <div className="definition-list">
           {data.runs
-            .filter((r) => r.mode === "fixture")
+            .filter((r) => ["prepared_analysis", "fixture"].includes(r.mode))
             .slice(0, 3)
             .map((r) => (
               <div key={r.id}>
@@ -793,7 +793,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             label="Review account"
             value={allocation}
             onChange={setAllocation}
-            options={assignmentOptions.map((owner) => ({ value: owner.id, label: `${owner.name} · ${label(owner.role)}` }))}
+            options={[{ value: "", label: "Choose a review account" }, ...assignmentOptions.map((owner) => ({ value: owner.id, label: `${owner.name} · ${label(owner.role)}` }))]}
           />
         )}
         <div className="form-field">
@@ -937,6 +937,7 @@ function MemberDirectory({ data, user }: WorkspaceProps) {
               <tr>
                 <th>Member</th>
                 <th>Plan & provider</th>
+                <th>Member county</th>
                 <th>Review context</th>
                 <th>Status</th>
                 <th>Next visit</th>
@@ -970,6 +971,7 @@ function MemberDirectory({ data, user }: WorkspaceProps) {
                     <strong>{m.provider}</strong>
                     <small>{m.plan}</small>
                   </td>
+                  <td>{m.county}<small>{m.city}{m.state ? `, ${m.state}` : ""}</small></td>
                   <td>{m.condition}</td>
                   <td>
                     <Status value={m.status} />
@@ -1064,8 +1066,11 @@ function MemberWorkspace({
     return () => window.removeEventListener("beforeunload", prevent);
   }, [note]);
   useEffect(() => {
-    if (o?.draft_note && o.review_state === "paused") setNote(o.draft_note);
-  }, [o?.draft_note, o?.review_state]);
+    if (o?.review_state === "paused") {
+      setNote(o.draft_note || "");
+      setDecision(o.draft_decision || "");
+    }
+  }, [o?.id, o?.draft_note, o?.draft_decision, o?.review_state]);
   const save = async () => {
     setBusy(true);
     try {
@@ -1136,6 +1141,7 @@ function MemberWorkspace({
           <Building2 size={14} />
           {m.provider}
         </span>
+        <span>{m.county}{m.state ? ` · ${m.state}` : ""}</span>
         <span>
           <CalendarDays size={14} />
           Next visit: {m.next_visit || "Not scheduled"}
@@ -1318,6 +1324,7 @@ function MemberWorkspace({
                                 o?.review_state === "paused"
                                   ? "start_review"
                                   : "pause_review",
+                              value: decision,
                               id,
                               finding_id: o?.id,
                               note,
@@ -1891,6 +1898,7 @@ function Scenarios({ data, user }: WorkspaceProps) {
 }
 function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
   const client = useQueryClient();
+  const risk = useRiskContext();
   const [tab, setTab] = useState("Users & access");
   const [resetOpen, setResetOpen] = useState(false);
   const [confirmation, setConfirmation] = useState("");
@@ -1932,7 +1940,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
           />
           <Metric
             label="Analysis runs"
-            value={String(data.runs.filter((r) => r.mode === "fixture").length)}
+            value={String(data.runs.filter((r) => ["prepared_analysis", "fixture"].includes(r.mode) && ["succeeded", "completed"].includes(r.status)).length)}
             note="Completed analysis actions"
             icon={<Sparkles size={18} />}
             accent="teal"
@@ -2118,10 +2126,13 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                       </div>
                     </td>
                     <td>
-                      <Select
+                      <select
+                        className="role-select"
+                        aria-label={`${u.name} role`}
                         value={u.role}
                         disabled={u.id === user.id}
-                        onValueChange={async (role) => {
+                        onChange={async (event) => {
+                          const role = event.target.value;
                           if (role === "provider" && u.role !== "provider") {
                             setProviderPractice("");
                             setProviderAccount(u);
@@ -2149,20 +2160,10 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                           }
                         }}
                       >
-                        <SelectTrigger
-                          className="role-select"
-                          aria-label={`${u.name} role`}
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {users.data?.roles.map((r) => (
-                            <SelectItem key={r} value={r}>
-                              {label(r)}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                        {users.data?.roles.map((r) => (
+                          <option key={r} value={r}>{label(r)}</option>
+                        ))}
+                      </select>
                       {u.role === "provider" && <small>{data.providers.find((practice) => practice.id === u.provider_id)?.name || u.provider_id}</small>}
                     </td>
                     <td>
@@ -2248,9 +2249,11 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                     ["External delivery", "Disabled"],
                   ]
                 : [
-                    ["Program", "MA Part C · non-PACE"],
-                    ["Service / payment year", "2026 / 2027"],
-                    ["Reference model pack", "Not installed"],
+                    ["Program", risk.configuration?.program || "Loading configuration"],
+                    ["Service window", `${risk.configuration?.service_start || "Not supplied"} — ${risk.configuration?.service_end || "Not supplied"}`],
+                    ["Payment / benefit year", String(risk.configuration?.year || "Not supplied")],
+                    ["Reference model pack", risk.configuration?.software_release || "Not supplied"],
+                    ["Model readiness", risk.configuration ? label(risk.configuration.status) : "Loading configuration"],
                     [
                       "Source policy",
                       "Signed encounter documentation required",

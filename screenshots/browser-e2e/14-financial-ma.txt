@@ -1,0 +1,217 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Risk analytics
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - heading "Risk analytics" [level=1]
+  - paragraph: CMS-HCC V28 · 2027 later-run forecast · captured baseline
+  - tablist "Reports":
+    - tab "AI Impact"
+    - tab "Executive"
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Suspecting"
+    - tab "Providers"
+    - tab "Retrieval"
+    - tab "Coding & QA"
+    - tab "Submissions"
+    - tab "Financial" [selected]
+    - tab "Data & AI"
+  - tabpanel:
+    - button "Calculate sensitivity"
+    - button "Retained sensitivities"
+    - heading "Simplified MA payment sensitivity" [level=2]
+    - paragraph: FINANCIAL-9c881a82756a43429db9dfe57b95fd60 · MA
+    - button "Export retained result" [active]
+    - generic: Baseline estimate
+    - strong: $7,932.66
+    - generic: Assumption-driven sensitivity
+    - generic: Scenario estimate
+    - strong: $14,714.14
+    - generic: Assumption-driven sensitivity
+    - generic: Estimated difference
+    - strong: $6,781.48
+    - generic: Assumption-driven sensitivity
+    - generic: Baseline estimate
+    - generic: Scenario estimate
+    - 'img "Selected assumptions: Baseline estimate $7,932.66; Scenario estimate $14,714.14. Monthly payment basis: −10%: Baseline estimate $7,139.39; Scenario estimate $13,242.72. Monthly payment basis: +10%: Baseline estimate $8,725.92; Scenario estimate $16,185.55"':
+      - generic: "0"
+      - generic: 5K
+      - generic: 10K
+      - generic: 15K
+      - generic: 20K
+      - generic "Selected assumptions"
+      - generic: $7,932.66
+      - generic: $14,714.14
+      - 'generic "Monthly payment basis: −10%"': Monthly payment basis:−10%
+      - generic: $7,139.39
+      - generic: $13,242.72
+      - 'generic "Monthly payment basis: +10%"': Monthly payment basis:+10%
+      - generic: $8,725.92
+      - generic: $16,185.55
+    - table "Financial components":
+      - rowgroup:
+        - row "Component Baseline Scenario Difference":
+          - columnheader "Component"
+          - columnheader "Baseline"
+          - columnheader "Scenario"
+          - columnheader "Difference"
+      - rowgroup:
+        - row "Assumed payment basis × saved monthly scores $7,932.66 $14,714.14 $6,781.48":
+          - cell "Assumed payment basis × saved monthly scores"
+          - cell "$7,932.66"
+          - cell "$14,714.14"
+          - cell "$6,781.48"
+    - navigation "Financial components pagination":
+      - status: 1–1 of 1 record
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 1
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page" [disabled]:
+      - button "Last page" [disabled]:
+    - table "Assumption sensitivities":
+      - rowgroup:
+        - row "Assumption sensitivity Baseline estimate Scenario estimate Difference":
+          - columnheader "Assumption sensitivity"
+          - columnheader "Baseline estimate"
+          - columnheader "Scenario estimate"
+          - columnheader "Difference"
+      - rowgroup:
+        - 'row "Monthly payment basis: −10% $7,139.39 $13,242.72 $6,103.33"':
+          - 'cell "Monthly payment basis: −10%"'
+          - cell "$7,139.39"
+          - cell "$13,242.72"
+          - cell "$6,103.33"
+        - 'row "Monthly payment basis: +10% $8,725.92 $16,185.55 $7,459.63"':
+          - 'cell "Monthly payment basis: +10%"'
+          - cell "$8,725.92"
+          - cell "$16,185.55"
+          - cell "$7,459.63"
+    - navigation "Assumption sensitivities pagination":
+      - status: 1–2 of 2 records
+      - generic: Rows per page
+      - combobox "Rows per page":
+        - option "10 / page" [selected]
+        - option "25 / page"
+        - option "50 / page"
+        - option "100 / page"
+      - generic: Page 1 of 1
+      - button "First page" [disabled]:
+      - button "Previous page" [disabled]:
+      - button "Next page" [disabled]:
+      - button "Last page" [disabled]:
+    - generic "Retained calculation and assumption basis"
+    - generic: "Actual payment: Unreconciled"
+    - generic: Complete
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
