@@ -1,6 +1,6 @@
 """Local-only Perform+ demo: protected fixtures, PostgreSQL state, real local RBAC."""
 from __future__ import annotations
-from . import display, assessment, risk_store, risk_workflow, people, florida_population
+from . import display, assessment, risk_store, risk_workflow, risk_inputs, people, florida_population
 from copy import deepcopy
 import csv
 import io
@@ -149,6 +149,7 @@ def initialize():
             conn.execute('INSERT INTO state VALUES (1,?)',(json.dumps(initial),))
         else:
             save_state(conn,get_state(conn,lock=True))
+        risk_inputs.mark_legacy_aca_stale(conn,get_state(conn)['members'])
 
 
 app=FastAPI(title='CitusTech Perform+ local demo',version='0.1.0',docs_url='/api/docs',openapi_url='/api/openapi.json')
@@ -431,7 +432,7 @@ def member_detail(id:str,finding:str='',u=Depends(user)):
     with db() as conn:
         s=get_state(conn);m=member(s,u,id)
         for o in s['opportunities']:
-            if o['member_id']==id:o['eligibility']=scoped_eligibility(s,u,id)
+            if o['member_id']==id:o['eligibility']=scoped_eligibility(s,u,id,o['id'])
         selected=resolve_finding(s,u,id,finding,required=bool(finding))
         fid=selected['id'] if selected else None
         return display.member(m)|{'selected_finding_id':fid,'finding_summary':assessment.member_summary(s,id),'summary':assessment.current_finding(s,id,fid)['summary'],'eligibility':scoped_eligibility(s,u,id,fid),'claims':assessment.claims(s,id,fid),'basis_key':assessment.basis_key(s,id,fid),'next_steps':assessment.next_steps(s,id,fid),'scenario':assessment.scenario(s,id),'audit_trace':assessment.audit_trace(s,id),'submissions':[display.submission(r) for r in s['submissions'] if r['member_id']==id],'documents':[display.document(d) for d in s.get('documents',[]) if d['member_id']==id and d.get('available',True) and d['source_status']!='not_loaded'], 'opportunities':[o for o in s['opportunities'] if o['member_id']==id], 'tasks':[t for t in s.get('tasks',[]) if t.get('member_id')==id], 'history':[dict(r) for r in conn.execute('SELECT * FROM events WHERE resource=? ORDER BY id DESC',(id,))]}

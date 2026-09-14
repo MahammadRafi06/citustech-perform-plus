@@ -1,0 +1,323 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Member risk profiles
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast"
+    - option "HHS-HCC V08 · 2026 benefit year" [selected]
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2026 · Benefit year diy
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - link "Back to members":
+    - /url: /members
+    - text: Back to members
+  - generic: MB-000005
+  - generic: CM
+  - heading "Casey Morgan" [level=1]
+  - paragraph: MB-000005 · 77 years · Female · Northstar Health
+  - text: Maple Ridge Health
+  - generic: Orange County · FL
+  - text: "Next visit: 2026-10-02"
+  - text: Clinical workflow · Medicare Advantage Part C · 2027
+  - generic: Review complete
+  - generic "Scenario dates are staged; saved actions retain their actual timestamps.": "Scenario date: 2026-09-12"
+  - generic: Clinical finding
+  - combobox "Clinical finding":
+    - option "Select a finding for clinical actions" [selected]
+    - option "Diabetes and chronic kidney disease · OP-0005"
+    - option "Blood pressure finding · assessment needed · OP-CASEY-BP"
+  - strong: Choose a clinical finding
+  - paragraph: Select a finding.
+  - tablist:
+    - tab "Risk profile"
+    - tab "Scoring inputs" [active] [selected]
+    - tab "Source analysis"
+    - tab "Overview"
+    - tab "Evidence & documents"
+    - tab "Opportunities"
+    - tab "Timeline"
+    - tab "Tasks"
+    - tab "Risk scenarios"
+    - tab "Score reconciliation"
+    - tab "Submissions"
+  - heading "Retained scoring inputs" [level=2]
+  - paragraph: Inputs for the selected member, configuration and score basis.
+  - term: Input snapshot
+  - definition: IN-8851070a4e83ed20a707750558875cc2224c7da9aa70481e0da524704c4b999d
+  - term: Member
+  - definition: MB-000005
+  - term: Date of birth
+  - definition: 1950-01-15
+  - term: Model sex input
+  - definition: "2"
+  - term: Original reason for entitlement
+  - definition: "0"
+  - term: Source coverage
+  - definition: Complete authored synthetic scoring inventory; clinical review preparation is separate.
+  - term: Fixture version
+  - definition: scoring-inputs-2026.2-identity
+  - heading "Diagnosis occurrence inventory" [level=2]
+  - paragraph: Occurrences retain their source, encounter, service date and eligibility classification.
+  - table:
+    - rowgroup:
+      - row "Diagnosis occurrence Source / encounter Service / source type Eligibility inputs":
+        - columnheader "Diagnosis occurrence"
+        - columnheader "Source / encounter"
+        - columnheader "Service / source type"
+        - columnheader "Eligibility inputs"
+    - rowgroup:
+      - 'row "E119 DX-MB-000005-1 CLAIM-MB-000005-1 ENC-MB-000005-1 2026-08-20 Professional Eligible service: Yes Audio only: No"':
+        - cell "E119 DX-MB-000005-1":
+          - strong: E119
+          - generic: DX-MB-000005-1
+        - cell "CLAIM-MB-000005-1 ENC-MB-000005-1":
+          - text: CLAIM-MB-000005-1
+          - generic: ENC-MB-000005-1
+        - cell "2026-08-20 Professional":
+          - text: 2026-08-20
+          - generic: Professional
+        - 'cell "Eligible service: Yes Audio only: No"':
+          - generic: "Eligible service: Yes"
+          - generic: "Audio only: No"
+      - 'row "N1832 DX-MB-000005-2 CLAIM-MB-000005-2 ENC-MB-000005-2 2026-08-20 Professional Eligible service: Yes Audio only: No"':
+        - cell "N1832 DX-MB-000005-2":
+          - strong: N1832
+          - generic: DX-MB-000005-2
+        - cell "CLAIM-MB-000005-2 ENC-MB-000005-2":
+          - text: CLAIM-MB-000005-2
+          - generic: ENC-MB-000005-2
+        - cell "2026-08-20 Professional":
+          - text: 2026-08-20
+          - generic: Professional
+        - 'cell "Eligible service: Yes Audio only: No"':
+          - generic: "Eligible service: Yes"
+          - generic: "Audio only: No"
+  - heading "Monthly enrollment inputs" [level=2]
+  - table:
+    - rowgroup:
+      - row "Month Dual / Medicaid Enrollment profile Other routing":
+        - columnheader "Month"
+        - columnheader "Dual / Medicaid"
+        - columnheader "Enrollment profile"
+        - columnheader "Other routing"
+    - rowgroup:
+      - 'row "2026-01 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-01"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-02 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-02"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-03 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-03"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-04 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-04"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-05 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-05"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-06 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-06"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-07 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-07"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-08 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-08"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+      - 'row "2026-09 none Medicaid: No Institutional: No New enrollee: No C-SNP: No ESRD: No PACE: No LIS: No"':
+        - cell "2026-09"
+        - 'cell "none Medicaid: No"':
+          - text: none
+          - generic: "Medicaid: No"
+        - 'cell "Institutional: No New enrollee: No C-SNP: No"':
+          - text: "Institutional: No"
+          - generic: "New enrollee: No"
+          - generic: "C-SNP: No"
+        - 'cell "ESRD: No PACE: No LIS: No"':
+          - text: "ESRD: No"
+          - generic: "PACE: No"
+          - generic: "LIS: No"
+  - heading "ACA eligibility and benefit inputs" [level=2]
+  - paragraph: "Metal: P · Csr indicator: 1 · Enrollment duration: 9 · Last enrollment date: 2026-09-30"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

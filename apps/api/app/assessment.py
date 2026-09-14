@@ -5,6 +5,7 @@ import hashlib
 import json
 from urllib.parse import urlencode
 from .people import ACCOUNT_NAMES
+from .clinical_fixtures import install_multi_finding_case
 
 CASE_IDS = [f'MB-{n:06}' for n in range(1, 7)]
 PROGRAM = {'program':'Medicare Advantage Part C', 'service_year':2026, 'payment_year':2027,
@@ -235,6 +236,7 @@ def completion(s, mid, intervention='coding_review', finding_id=None):
 def upgrade(s):
     """Add fields and retain existing source text, accounts, decisions and population totals."""
     s.setdefault('program_context',deepcopy(PROGRAM));s.setdefault('runs',[]);s.setdefault('tasks',[]);s.setdefault('provider_responses',[])
+    install_multi_finding_case(s)
     existing={d['id'] for d in s['documents']}
     for d in authored_documents():
         if d['id'] not in existing:s['documents'].append(d)

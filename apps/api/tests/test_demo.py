@@ -145,8 +145,8 @@ def test_superuser_preserves_clinical_and_independent_qa_gates():
     assert action(client,'review',id='MB-000001',value='resolved_supported',note='Signed current assessment inspected.').status_code==200
     assert action(client,'qa',id='MB-000001',value='passed').status_code==403
     assert action(login('qa'),'qa',id='MB-000001',value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
-    assert action(login('coder'),'review',id='MB-000005',value='resolved_supported',note='Source reviewed independently.').status_code==200
-    assert action(client,'qa',id='MB-000005',value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
+    assert action(login('coder'),'review',id='MB-000005',finding_id='OP-0005',value='resolved_supported',note='Source reviewed independently.').status_code==200
+    assert action(client,'qa',id='MB-000005',finding_id='OP-0005',value='passed',note='Reviewed the exact current source and decision; the disposition is supported.').status_code==200
 
 
 def test_campaign_dedup_and_frozen_comparison():

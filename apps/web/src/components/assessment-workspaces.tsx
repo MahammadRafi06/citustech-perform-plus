@@ -9,6 +9,7 @@ import type { AssignmentOption, Command, User, Opportunity } from "@/lib/types";
 
 export function EligibilityContext({ eligibility }: { eligibility?: {
   reviewable: boolean;
+  finding_selection_required?: boolean;
   support_allowed: boolean;
   reason: string;
   example_href?: string;
@@ -16,9 +17,9 @@ export function EligibilityContext({ eligibility }: { eligibility?: {
   if (!eligibility) return null;
   return (
     <div className="assessment-context">
-      <strong>{!eligibility.reviewable ? "Population record" : eligibility.support_allowed ? "Evidence available for review" : "Further review required"}</strong>
+      <strong>{eligibility.finding_selection_required ? "Choose a clinical finding" : !eligibility.reviewable ? "Population record" : eligibility.support_allowed ? "Evidence available for review" : "Further review required"}</strong>
       <p>{eligibility.reason}</p>
-      {!eligibility.reviewable && eligibility.example_href && (
+      {!eligibility.reviewable && !eligibility.finding_selection_required && eligibility.example_href && (
         <Link href={eligibility.example_href}>Open a complete case <ArrowRight size={14} /></Link>
       )}
     </div>

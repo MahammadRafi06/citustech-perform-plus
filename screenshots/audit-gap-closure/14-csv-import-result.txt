@@ -1,0 +1,202 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Models & data
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Models & data" [level=1]
+  - paragraph: Inspect model scope, calculation evidence and source readiness.
+  - tablist "Models and data views":
+    - tab "Model inventory"
+    - tab "Code explorer"
+    - tab "Scoring coverage"
+    - tab "Calculation runs"
+    - tab "External scores" [selected]
+    - tab "Source operations"
+  - generic: Florida Medicaid · externally supplied scores. Diagnosis changes require a refreshed score from the declared producer.
+  - heading "Import reconciliation" [level=2]
+  - paragraph: EXTERNAL_IMPORT-b9e5199e86ee41749dd1f633e6f5a0d3
+  - generic: Received
+  - strong: "2"
+  - generic: Rows in the submitted score set
+  - generic: Imported
+  - strong: "1"
+  - generic: Valid matched score records
+  - generic: Excluded
+  - strong: "1"
+  - generic: Retained import exceptions
+  - paragraph: Only valid matched scored members and their supplied coverage months enter score aggregates.
+  - table:
+    - rowgroup:
+      - row "Member Import exception":
+        - columnheader "Member"
+        - columnheader "Import exception"
+    - rowgroup:
+      - row "MB-000003 A finite nonnegative external score is required; no zero/one default is applied.":
+        - cell "MB-000003"
+        - cell "A finite nonnegative external score is required; no zero/one default is applied."
+  - generic: 4 declared cohort members absent from this file
+  - link "Inspect reported score basis":
+    - /url: /overview?config=medicaid_fl_external&basis=reported
+    - text: Inspect reported score basis
+  - link "MB-000005 · Imported score profile":
+    - /url: /members/MB-000005?tab=Risk+profile&config=medicaid_fl_external&basis=reported
+    - text: MB-000005 · Imported score profile
+  - heading "Score-set provenance" [level=2]
+  - paragraph: These fields stay with every imported result.
+  - text: Producer
+  - textbox "Producer":
+    - /placeholder: External scoring organization
+    - text: Synthetic native CSV verification
+  - text: Model and version
+  - textbox "Model and version": Authored relative-score reference fixture 1.0; no licensed grouper execution
+  - text: Florida program
+  - combobox "Florida program":
+    - option "MMA" [selected]
+    - option "LTC"
+    - option "dental"
+  - text: Rating period
+  - textbox "Rating period": "2026"
+  - text: Normalization basis
+  - textbox "Normalization basis":
+    - /placeholder: As declared by the score producer
+    - text: Raw scores only; no normalization supplied
+  - text: Calculated at
+  - textbox "Calculated at": 2026-09-01T00:00:00Z
+  - text: Coverage basis
+  - textbox "Coverage basis":
+    - /placeholder: Eligible covered months
+    - text: Six named synthetic members; valid matched scored rows contribute their supplied covered months
+  - checkbox "Synthetic input data" [checked]
+  - text: Synthetic input data
+  - heading "Import score records" [level=2]
+  - paragraph: Missing and invalid scores remain explicit exceptions.
+  - button "Load authored score-set example"
+  - text: CSV score file
+  - button "CSV score file"
+  - paragraph: "Required columns: member_id, rating_period, rate_cell, coverage_months, raw_score. Optional: normalized_score, state_factor, unscored_reason."
+  - generic: scores.csv · 2 records
+  - table:
+    - rowgroup:
+      - row "Member Rate cell Covered months Raw score":
+        - columnheader "Member"
+        - columnheader "Rate cell"
+        - columnheader "Covered months"
+        - columnheader "Raw score"
+    - rowgroup:
+      - row "MB-000005 MMA_A 12 1.180":
+        - cell "MB-000005"
+        - cell "MMA_A"
+        - cell "12"
+        - cell "1.180"
+      - row "MB-000003 MMA_A 12 Missing":
+        - cell "MB-000003"
+        - cell "MMA_A"
+        - cell "12"
+        - cell "Missing"
+  - button "Validate and import scores"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

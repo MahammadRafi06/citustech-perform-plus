@@ -48,6 +48,8 @@ export interface RiskCategory {
 }
 export interface RiskRun {
   id: string;
+  stale?: boolean;
+  stale_reason?: string | null;
   snapshot_id: string;
   member_id?: string;
   created_at: string;
@@ -84,6 +86,7 @@ export interface RiskDiagnosis {
 }
 export interface RiskMemberProfile {
   member_id: string;
+  identity: { dob: string; sex: number; profile_age: number; profile_age_reference_date: string };
   configuration: RiskConfiguration;
   readiness: { score_ready: boolean; review_ready: boolean; reasons: string[] };
   input_snapshot: { id: string; diagnoses?: RiskDiagnosis[]; age?: number; sex?: number; [key: string]: unknown };

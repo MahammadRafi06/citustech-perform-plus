@@ -28,6 +28,7 @@ export interface PreparedCode {
 }
 export interface ReviewEligibility {
   reviewable: boolean;
+  finding_selection_required?: boolean;
   support_allowed: boolean;
   transmission_configured?: boolean;
   allowed_decisions: string[];

@@ -1,0 +1,196 @@
+- alert: CitiusTech Perform+
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Document intake
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - heading "Document intake" [level=1]
+  - paragraph: Review source identity and eligibility before publishing.
+  - link "Back to Rowan Cameron":
+    - /url: /members/MB-000007?tab=Evidence%20%26%20documents&document=DOC-0010&returnTo=%2Fintake%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline
+    - text: Back to Rowan Cameron
+  - complementary "Sample documents":
+    - heading "Prepared source queue" [level=2]
+    - button "Later encounter example · completed September 18 DOC-0005 · 2026-09-18 · Published":
+      - text: Later encounter example · completed September 18
+      - generic: DOC-0005 · 2026-09-18 · Published
+    - button "Primary care note · signature missing DOC-0009 · 2026-08-30 · Remediation required":
+      - text: Primary care note · signature missing
+      - generic: DOC-0009 · 2026-08-30 · Remediation required
+    - button "Sample intake · signed primary care note DOC-0010 · 2026-08-27 · Published":
+      - text: Sample intake · signed primary care note
+      - generic: DOC-0010 · 2026-08-27 · Published
+    - button "Sample intake · mismatched member DOC-0011 · 2026-08-29 · Quarantined":
+      - text: Sample intake · mismatched member
+      - generic: DOC-0011 · 2026-08-29 · Quarantined
+    - button "Signed replacement · August 30 encounter DOC-RILEY-SIGNED · 2026-08-30 · Published":
+      - text: Signed replacement · August 30 encounter
+      - generic: DOC-RILEY-SIGNED · 2026-08-30 · Published
+  - region "Source document":
+    - generic: Source document
+    - combobox "Source document":
+      - option "Later encounter example · completed September 18"
+      - option "Primary care note · signature missing"
+      - option "Sample intake · signed primary care note" [selected]
+      - option "Sample intake · mismatched member"
+      - option "Signed replacement · August 30 encounter"
+    - button "Previous document page" [disabled]:
+    - generic: 1 / 1
+    - button "Next document page" [disabled]:
+    - button "Zoom out":
+    - generic: 100%
+    - button "Zoom in":
+    - button "Fit width":
+    - button "Find in document":
+    - generic: DOC-0010
+    - generic: Encounter 2026-08-27
+    - generic: signed
+    - generic: Synthetic source
+    - generic "Scrollable source page":
+      - article:
+        - heading "Sample intake · signed primary care note" [level=2]
+        - paragraph:
+          - text: MB-000007 · Willow Creek Family Practice
+          - text: 2026-08-27
+        - heading "Synthetic demonstration record" [level=3]
+        - paragraph: Rowan Cameron · MB-000007 · Service date 2026-08-27. This is a fictional record for demonstration.
+        - heading "Patient match" [level=3]
+        - paragraph: The synthetic member identifier and demographics match the selected member.
+        - heading "Source checks" [level=3]
+        - paragraph: The date, clinician signature metadata, and document pages are present. This prepared sample can be published to the member timeline after intake review.
+        - generic: Page 1 · DOC-0010 · Original source wording
+    - button "Complete source fixture"
+  - generic: Validation
+  - generic: Requested member ID
+  - textbox "Requested member ID": MB-000007
+  - generic: Source member
+  - strong: MB-000007
+  - generic: Encounter date
+  - strong: 2026-08-27
+  - generic: Practice
+  - strong: Willow Creek Family Practice
+  - generic: Signature
+  - strong: signed
+  - generic: Source eligibility
+  - generic: Usable
+  - paragraph: Scenario date 2026-09-12. Encounter dates remain as authored; saved actions use their actual timestamps.
+  - paragraph: Published and available for a fresh review. Previous decisions remain in the case history.
+  - generic "Next case steps":
+    - strong: Open complete review example
+    - generic: Coder continues this step
+    - link "Open workspace":
+      - /url: /reviews/MB-000001
+      - text: Open workspace
+  - button "Preview file"
+  - text: Preview file
+  - generic: Preview only — not uploaded
+  - paragraph: Published 9/13/2026, 10:47:55 PM. Coding review and independent QA are the next gates.
+  - button "Validate document"
+  - link "Open member record →":
+    - /url: /members/MB-000007?returnTo=%2Fintake%3Fconfig%3Dma_v28_py2027_forecast%26basis%3Dcaptured_baseline
+  - button "Document published" [disabled]
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

@@ -1,0 +1,247 @@
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=hhs_v08_by2026&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Member risk profiles
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast"
+    - option "HHS-HCC V08 · 2026 benefit year" [selected]
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2026 · Benefit year diy
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Validated for declared scope
+- main:
+  - link "Back to members":
+    - /url: /members
+    - text: Back to members
+  - generic: MB-000005
+  - generic: CM
+  - heading "Casey Morgan" [level=1]
+  - paragraph: MB-000005 · 77 years · Female · Northstar Health
+  - text: Maple Ridge Health
+  - generic: Orange County · FL
+  - text: "Next visit: 2026-10-02"
+  - text: Clinical workflow · Medicare Advantage Part C · 2027
+  - generic: Multiple findings
+  - generic "Scenario dates are staged; saved actions retain their actual timestamps.": "Scenario date: 2026-09-12"
+  - generic: Clinical finding
+  - combobox "Clinical finding":
+    - option "Select a finding for clinical actions" [selected]
+    - option "Diabetes and chronic kidney disease · OP-0005"
+    - option "Blood pressure finding · assessment needed · OP-CASEY-BP"
+  - strong: Population record
+  - paragraph: Select a finding.
+  - link "Open a complete case":
+    - /url: /reviews/MB-000001
+    - text: Open a complete case
+  - tablist:
+    - tab "Risk profile" [selected]
+    - tab "Scoring inputs"
+    - tab "Source analysis"
+    - tab "Overview"
+    - tab "Evidence & documents"
+    - tab "Opportunities"
+    - tab "Timeline"
+    - tab "Tasks"
+    - tab "Risk scenarios"
+    - tab "Score reconciliation"
+    - tab "Submissions"
+  - strong: Score-ready
+  - generic: Clinical review prepared
+  - link "Compare scenario":
+    - /url: /scenarios?member=MB-000005&config=hhs_v08_by2026&basis=captured_baseline
+    - text: Compare scenario
+  - button "Recalculate":
+    - text: Recalculate
+  - generic: Member identity · Date of birth 1950-01-15 · Female · Profile age 77 on 2027-02-01. Each model uses its own age reference date; date of birth stays the same.
+  - generic "Score stages":
+    - button "Captured baseline 0.684 Calculated" [pressed]:
+      - generic: Captured baseline
+      - strong: "0.684"
+      - generic: Calculated
+    - button "QA-supported scenario — No result":
+      - generic: QA-supported scenario
+      - strong: —
+      - generic: No result
+    - button "Submitted set — No result":
+      - generic: Submitted set
+      - strong: —
+      - generic: No result
+    - button "Accepted set — No result":
+      - generic: Accepted set
+      - strong: —
+      - generic: No result
+    - button "Eligible set — No result":
+      - generic: Eligible set
+      - strong: —
+      - generic: No result
+    - button "Reported result — No result":
+      - generic: Reported result
+      - strong: —
+      - generic: No result
+  - generic: Calculation snapshot
+  - combobox "Calculation snapshot":
+    - option "Current captured baseline"
+    - option "9/14/2026, 12:35:26 AM · Captured baseline · RUN-4c0d4e22c8114f81949f0dd40fb2cb55" [selected]
+    - option "9/12/2026, 10:18:21 PM · Captured baseline · RUN-b3312baf087e4a4986dd9f0dc1ddb657"
+  - paragraph: Historical calculation · original demographics, inputs and result are preserved in this snapshot.
+  - text: Captured baseline
+  - heading "HHS-HCC V08 · 2026" [level=2]
+  - paragraph: CHILD PLATINUM · HHS_HCC_software_package_V0826.141.E1_v2
+  - generic: Completed
+  - button "Export ledger":
+    - text: Export ledger
+  - generic: Calculated · Synthetic inputs
+  - generic: Raw HHS-HCC score
+  - strong: "2.507"
+  - generic: Output before applicable payment transformations
+  - generic: Adjusted score
+  - strong: "2.507"
+  - generic: Applied transformations are retained below
+  - generic "1 calculation note"
+  - tablist "Calculation details":
+    - tab "Factors" [selected]
+    - tab "Categories"
+    - tab "Monthly eligibility"
+    - tab "Exclusions (0)"
+    - tab "Provenance"
+  - table:
+    - rowgroup:
+      - row "Model factor Type / segment Coefficient Contribution":
+        - columnheader "Model factor"
+        - columnheader "Type / segment"
+        - columnheader "Coefficient"
+        - columnheader "Contribution"
+    - rowgroup:
+      - row "FAGE_LAST_15_20 FAGE_LAST_15_20 Demographic CHILD PLATINUM 0.286 0.286":
+        - cell "FAGE_LAST_15_20 FAGE_LAST_15_20":
+          - strong: FAGE_LAST_15_20
+          - generic: FAGE_LAST_15_20
+        - cell "Demographic CHILD PLATINUM":
+          - text: Demographic
+          - generic: CHILD PLATINUM
+        - cell "0.286"
+        - cell "0.286"
+      - row "G01 G01 Interaction CHILD PLATINUM 2.221 2.221":
+        - cell "G01 G01":
+          - strong: G01
+          - generic: G01
+        - cell "Interaction CHILD PLATINUM":
+          - text: Interaction
+          - generic: CHILD PLATINUM
+        - cell "2.221"
+        - cell "2.221"
+  - generic "Adjustment bridge"
+  - table:
+    - rowgroup:
+      - row "Transformation Factor Input Output":
+        - columnheader "Transformation"
+        - columnheader "Factor"
+        - columnheader "Input"
+        - columnheader "Output"
+    - rowgroup:
+      - row "csr Official package CSR table — 2.507 2.507":
+        - cell "csr Official package CSR table":
+          - text: csr
+          - generic: Official package CSR table
+        - cell "—"
+        - cell "2.507"
+        - cell "2.507"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- alert

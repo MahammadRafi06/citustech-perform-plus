@@ -11,7 +11,7 @@ export function EligibilityNotice({ eligibility }: { eligibility: Opportunity["e
   if (!eligibility || (eligibility.reviewable && eligibility.support_allowed)) return null;
   return <Notice>
     {eligibility.reason}
-    {!eligibility.reviewable && eligibility.example_href && <Link className="inline-flex items-center gap-1 ml-2" href={eligibility.example_href.replace(/^\/reviews\//, "/members/")}>Open a complete case <ArrowRight size={13} /></Link>}
+    {!eligibility.reviewable && !eligibility.finding_selection_required && eligibility.example_href && <Link className="inline-flex items-center gap-1 ml-2" href={eligibility.example_href.replace(/^\/reviews\//, "/members/")}>Open a complete case <ArrowRight size={13} /></Link>}
   </Notice>;
 }
 

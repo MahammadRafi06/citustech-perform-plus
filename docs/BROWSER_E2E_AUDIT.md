@@ -62,11 +62,13 @@ BUG-08 has matching 1910 × 932 [before](../screenshots/browser-e2e/19-unavailab
 - **Population:** 10,000 current; period comparison 9,600 matched and 400 current-only; 9,598 recapture pairs. Resumed historical run kept 400 ineligible records visible.
 - **Exports:** Parsed 18 CSV/JSON/ZIP files, including 10,000 overview members, 200 evaluation records, six operational reports, campaigns/submissions, retained-run inputs, geography filters, financial assumptions and recapture inventory. Audit ZIP integrity passed with 239 JSON entries. Geography member detail explicitly represents its current page.
 
-## Remaining TODOs and limits
+## Original gaps and closure
 
-- [ ] **Align cross-program fixture identities.** DATA-ACA-DEMOGRAPHICS: Casey's clinical header says 77 years; ACA inputs use DOB 2006-01-15 and CHILD PLATINUM. Resolve demographics, eligibility and expected scores together. Scoring evidence was preserved during this audit. [Screenshot](../screenshots/browser-e2e/27-aca-demographic-mismatch.jpg).
-- [ ] **Finish native attachment checks.** UPLOAD-CSV: chooser opened, but local attachment returned “Not allowed”. The ChatGPT Chrome extension needs “Allow access to file URLs”. Then recheck CSV validation/import and intake file preview. Authored feed import and fixture publishing passed independently.
-- [ ] **Provide a multi-finding clinical story before claiming that browser path.** Per-finding backend checks are separate evidence.
+**September 14 follow-up:** all three gaps below are closed. See [gap closure evidence](AUDIT_GAP_CLOSURE.md) for corrected identity, preserved history, independent two-finding QA and actual CSV/TXT/PDF browser attachments. Descriptions below retain the original observations.
+
+- [x] **Align cross-program fixture identities.** DATA-ACA-DEMOGRAPHICS: Casey's clinical header says 77 years; ACA inputs use DOB 2006-01-15 and CHILD PLATINUM. Resolve demographics, eligibility and expected scores together. Scoring evidence was preserved during this audit. [Screenshot](../screenshots/browser-e2e/27-aca-demographic-mismatch.jpg).
+- [x] **Finish native attachment checks.** UPLOAD-CSV: chooser opened, but local attachment returned “Not allowed”. The ChatGPT Chrome extension needs “Allow access to file URLs”. Then recheck CSV validation/import and intake file preview. Authored feed import and fixture publishing passed independently.
+- [x] **Provide a multi-finding clinical story before claiming that browser path.** Per-finding backend checks are separate evidence.
 
 Rendered desktop screenshots were inspected for content, clipping and blocked controls. No remaining blocking overlap was observed in inspected states. Minor wording issues remain, including singular/plural counts and internal analysis-mode labels. Screenshot 12 and an early annual-recapture text snapshot were premature; use screenshots 22 and 25. Earlier files remain as chronological evidence, not successful render proof.
 

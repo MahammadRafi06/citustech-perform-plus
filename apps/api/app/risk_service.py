@@ -99,7 +99,7 @@ def member_profile(conn, state, member, config_id, basis='captured_baseline'):
     if not score_ready:
         reasons.append('The selected configuration is not available for local calculation.')
     from . import risk_analytics
-    return {'member_id': member['id'], 'configuration': cfg,
+    return {'member_id': member['id'], 'configuration': cfg, 'identity': inputs.member_identity(member),
             'readiness': {'score_ready': score_ready, 'review_ready': review_ready, 'reasons': reasons},
             'input_snapshot': value, 'run': run, 'history': store.history(conn, member['id'], config_id),
             'stages': stages(conn, member['id'], config_id),

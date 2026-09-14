@@ -1,0 +1,181 @@
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Monitoring" [level=3]
+    - link "Risk overview":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk overview
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Risk analytics
+    - link "RAF & model lab":
+      - /url: /scenarios?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: RAF & model lab
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - link "Campaigns":
+      - /url: /campaigns?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Campaigns
+    - link "Chart chase":
+      - /url: /chase?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart chase
+    - link "Document intake":
+      - /url: /intake?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Document intake
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - link "Provider portfolio":
+      - /url: /providers?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Provider portfolio
+    - link "Pre-visit":
+      - /url: /previsit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Pre-visit
+    - heading "Governance" [level=3]
+    - link "Submissions":
+      - /url: /submissions?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Submissions
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+    - link "Models & data":
+      - /url: /data?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Models & data
+    - link "Agents":
+      - /url: /admin/ai/agents
+      - generic: Agents
+    - link "Administration":
+      - /url: /admin?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Administration
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Chart review
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: AM
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - link "Back to review queue":
+    - /url: /reviews
+    - text: Back to review queue
+  - link "Member 360":
+    - /url: /members/MB-000005
+    - text: Member 360
+  - heading "Casey Morgan" [level=1]
+  - paragraph: MB-000005 · 77 years · Female · Northstar Health
+  - paragraph: Service year 2026 · Payment year 2027
+  - generic: Review complete
+  - complementary:
+    - heading "Findings" [level=2]
+    - generic: 2 linked to this chart
+    - text: Finding
+    - combobox "Select finding to review":
+      - option "Select a finding" [selected]
+      - option "Diabetes and chronic kidney disease · OP-0005"
+      - option "Blood pressure finding · assessment needed · OP-CASEY-BP"
+    - heading "Choose a finding" [level=3]
+    - paragraph: Mixed evidence
+    - generic: Review complete
+    - strong: Assigned to
+    - paragraph: Unassigned
+    - strong: Due date
+    - paragraph: Not set
+  - region "Source document":
+    - generic: Source document
+    - combobox "Source document":
+      - option "Chronic condition follow-up" [selected]
+      - option "Blood pressure follow-up · assessment pending"
+    - button "Previous document page" [disabled]:
+    - generic: 1 / 1
+    - button "Next document page" [disabled]:
+    - button "Zoom out":
+    - generic: 100%
+    - button "Zoom in":
+    - button "Fit width":
+    - button "Find in document":
+    - generic: DOC-0008
+    - generic: Encounter 2026-08-25
+    - generic: signed
+    - generic: Synthetic source
+    - generic "Scrollable source page":
+      - article:
+        - heading "Chronic condition follow-up" [level=2]
+        - paragraph:
+          - text: MB-000005 · Maple Ridge Health
+          - text: 2026-08-25
+        - heading "Synthetic demonstration record" [level=3]
+        - paragraph: Casey Morgan · MB-000005 · Service date 2026-08-25. This is a fictional record for demonstration.
+        - heading "Assessment" [level=3]
+        - paragraph:
+          - mark: Diabetes mellitus and chronic kidney disease are both documented and assessed at this synthetic encounter.
+        - generic: Page 1 · DOC-0008 · Original source wording
+    - button "Complete source fixture"
+    - button "Linked passage"
+  - region "Finding and decision":
+    - heading "Review decision" [level=2]
+    - generic "Scrollable review context":
+      - heading "Choose a finding" [level=3]
+      - paragraph: Select an individual finding to inspect its evidence and review state.
+      - generic: Review complete
+      - generic: Select a finding.
+      - generic "Authored review context"
+      - generic "Next role and case steps"
+      - generic "Evidence provenance"
+      - generic "History and related work"
+    - paragraph: Select a finding.
+    - button "Save review and send to QA" [disabled]:
+      - text: Save review and send to QA
+    - button "Complete without a supported finding" [disabled]
+    - paragraph: Save a current review before sending it to independent QA.
+    - button "Pass QA" [disabled]
+    - button "Return for rework" [disabled]
+- region "Notifications alt+T"
+- alert

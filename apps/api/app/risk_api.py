@@ -104,7 +104,7 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
                 binding = ('asset_sha256', 'component_sha256', 'adapter_sha256', 'service_start', 'service_end')
                 if retained_cfg and any(retained_cfg.get(k) != cfg.get(k) for k in binding):
                     raise ValueError('The model configuration changed. Start a new batch; the earlier batch remains retained.')
-                if batch.get('fixture_version') != inputs.FIXTURE_VERSION:
+                if batch.get('fixture_version') != inputs.fixture_version(batch['config_id']):
                     raise ValueError('The scoring fixture changed. Start a new batch for the revised inputs.')
                 if batch.get('input_adapter_sha256') != input_adapter_identity():
                     raise ValueError('The input adapter changed or was not bound by this older batch. Start a new batch; retained results are unchanged.')
@@ -422,7 +422,7 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
             value = {'id': 'BATCH-' + uuid.uuid4().hex, 'config_id': request.config_id, 'status': 'queued',
                      'total': len(mids), 'succeeded': 0, 'failed': 0, 'processed': 0,
                      'member_ids': mids, 'pending_ids': mids.copy(), 'completed_ids': [], 'errors': [],
-                     'created_at': store.timestamp(), 'actor_id': u['id'], 'fixture_version': inputs.FIXTURE_VERSION}
+                     'created_at': store.timestamp(), 'actor_id': u['id'], 'fixture_version': inputs.fixture_version(request.config_id)}
             value.update(configuration_snapshot=cfg, input_adapter_sha256=input_adapter_identity())
             store.save_batch(conn, value)
         dispatch(value['id'])

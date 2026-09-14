@@ -1153,7 +1153,7 @@ function MemberWorkspace({
         <Status value={o?.status || m.status} />
         {m.scenario && <span title="Scenario dates are staged; saved actions retain their actual timestamps.">Scenario date: {m.scenario.date}</span>}
       </div>
-      {(m.opportunities?.length || 0) > 1 && <div className="risk-finding-select"><SelectField label="Clinical finding" value={o?.id || ""} onChange={setFindingId} options={[{ value: "", label: "Select a finding for clinical actions" }, ...(m.opportunities || []).map((item) => ({ value: item.id, label: `${item.condition} · ${item.id}` }))]} /></div>}
+      {(m.opportunities?.length || 0) > 1 && <div className="risk-finding-select"><SelectField label="Clinical finding" value={o?.id || ""} onChange={(value) => { setFindingId(value); setDocId(""); }} options={[{ value: "", label: "Select a finding for clinical actions" }, ...(m.opportunities || []).map((item) => ({ value: item.id, label: `${item.condition} · ${item.id}` }))]} /></div>}
       {!m.eligibility?.reviewable && <EligibilityContext eligibility={m.eligibility} />}
       <Tabs value={tab} onValueChange={setTab} className="member-tabs">
         <TabsList>
@@ -1224,7 +1224,7 @@ function MemberWorkspace({
                 <div className="review-form">
                   <div className="finding-title">
                     <span>REVIEW OPPORTUNITY</span>
-                    <h3>{m.condition}</h3>
+                    <h3>{o?.condition || m.condition}</h3>
                     <Status value={o?.evidence || m.evidence} />
                   </div>
                   <EligibilityContext eligibility={m.eligibility} />
@@ -1546,7 +1546,7 @@ function MemberWorkspace({
         <Panel title="Linked opportunities">
           <DataGrid
             rows={m.opportunities || []}
-            onRow={(finding) => { setFindingId(finding.id); setTab("Overview"); }}
+            onRow={(finding) => { setFindingId(finding.id); setDocId(""); setTab("Overview"); }}
             columns={[
               { accessorKey: "condition", header: "Condition" },
               { accessorKey: "type", header: "Type" },

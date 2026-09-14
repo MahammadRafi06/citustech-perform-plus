@@ -1,0 +1,167 @@
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /members
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - heading "Governance" [level=3]
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Chart review
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: DC
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - link "Back to review queue":
+    - /url: /reviews
+    - text: Back to review queue
+  - link "Member 360":
+    - /url: /members/MB-000005
+    - text: Member 360
+  - heading "Casey Morgan" [level=1]
+  - paragraph: MB-000005 · 77 years · Female · Northstar Health
+  - paragraph: Service year 2026 · Payment year 2027
+  - generic: Resolved unsupported
+  - complementary:
+    - heading "Findings" [level=2]
+    - generic: 2 linked to this chart
+    - text: Finding
+    - combobox "Select finding to review":
+      - option "Select a finding"
+      - option "Diabetes and chronic kidney disease · OP-0005"
+      - option "Blood pressure finding · assessment needed · OP-CASEY-BP" [selected]
+    - heading "Blood pressure finding · assessment needed" [level=3]
+    - paragraph: Limited evidence
+    - generic: Resolved unsupported
+    - generic: OP-CASEY-BP · Recommendation v1
+    - strong: Assigned to
+    - paragraph: Alex Chen
+    - strong: Due date
+    - paragraph: 2026-09-23
+  - region "Source document":
+    - generic: Source document
+    - combobox "Source document":
+      - option "Chronic condition follow-up"
+      - option "Blood pressure follow-up · assessment pending" [selected]
+    - button "Previous document page" [disabled]:
+    - generic: 1 / 1
+    - button "Next document page" [disabled]:
+    - button "Zoom out":
+    - generic: 100%
+    - button "Zoom in":
+    - button "Fit width":
+    - button "Find in document":
+    - generic: DOC-CASEY-BP
+    - generic: Encounter 2026-09-10
+    - generic: signed
+    - generic: Synthetic source
+    - generic "Scrollable source page":
+      - article:
+        - heading "Blood pressure follow-up · assessment pending" [level=2]
+        - paragraph:
+          - text: MB-000005 · Maple Ridge Health
+          - text: 2026-09-10
+        - heading "Synthetic demonstration record" [level=3]
+        - paragraph: Casey Morgan · MB-000005 · Service date 2026-09-10. This is a fictional record for demonstration.
+        - heading "Blood pressure assessment" [level=3]
+        - paragraph:
+          - mark: An elevated office blood pressure reading was recorded. The clinician has not established a hypertension diagnosis and requested further assessment. This observation does not establish hypertension.
+        - heading "Independent review question" [level=3]
+        - paragraph: Review whether current documentation supports a diagnosis. Request a neutral clarification or record a reasoned no-addition outcome. The diabetes and kidney disease review remains a separate finding.
+        - heading "Signature" [level=3]
+        - paragraph: Electronically signed by the synthetic treating clinician at Maple Ridge Health on September 10, 2026.
+        - generic: Page 1 · DOC-CASEY-BP · Original source wording
+    - button "Complete source fixture"
+    - button "Linked passage"
+    - button "Mark inspected":
+      - text: Mark inspected
+  - region "Finding and decision":
+    - heading "Independent QA" [level=2]
+    - generic: OP-CASEY-BP · Recommendation v1
+    - generic "Scrollable review context":
+      - heading "Blood pressure finding · assessment needed" [level=3]
+      - paragraph: The signed follow-up records an elevated blood pressure reading but no established hypertension diagnosis. Review this question separately from the chronic-condition finding.
+      - generic: Limited evidence
+      - generic: Resolved unsupported
+      - generic: Request a neutral assessment or record a reasoned no-addition outcome; a blood pressure observation alone does not support coding hypertension.
+      - generic "Finding-specific passages · 1"
+      - generic "Saved reviews and QA"
+      - generic: Resolved unsupported
+      - generic: Current review
+      - paragraph: DOC-CASEY-BP records a blood pressure observation and explicitly states that hypertension has not been established. No diagnosis addition is supported by this source.
+      - generic: superuser@perform.test · 9/14/2026, 9:32:20 AM · Recommendation v1
+      - paragraph:
+        - link "DOC-CASEY-BP · p. 1 · Blood pressure assessment":
+          - /url: /members/MB-000005?tab=Evidence%20%26%20documents&document=DOC-CASEY-BP&page=1&section=Blood%20pressure%20assessment
+          - text: DOC-CASEY-BP · p. 1 · Blood pressure assessment
+      - strong: QA · Passed
+      - paragraph: Independently inspected DOC-CASEY-BP. Hypertension is explicitly not established; the no-addition outcome is appropriate and separate from the chronic-condition finding.
+      - generic: qa@perform.test · 9/14/2026, 9:32:44 AM
+      - generic "Next role and case steps"
+      - generic "Next case steps":
+        - strong: Review current evidence
+        - generic: coder@perform.test continues this step
+        - link "Open workspace":
+          - /url: /reviews/MB-000005?finding=OP-CASEY-BP
+          - text: Open workspace
+      - generic "Evidence provenance"
+      - generic "History and related work"
+    - paragraph: Independent QA passed. The approved review is ready for the next case step.
+    - button "Pass QA" [disabled]
+    - button "Return for rework" [disabled]
+- region "Notifications alt+T"
+- alert

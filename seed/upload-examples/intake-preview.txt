@@ -1,0 +1,5 @@
+SYNTHETIC FILE PREVIEW
+
+Casey Morgan - MB-000005
+This local file tests document preview only.
+It must not create clinical evidence, publish a document, or change review eligibility.

@@ -143,15 +143,13 @@ export function ReviewWorkbench({
             <small>{m.opportunities?.length || 0} linked to this chart</small>
           </header>
           <div className="rail-body">
-            {(m.opportunities?.length || 0) > 1 && <label className="form-field">Finding<select aria-label="Select finding to review" value={o?.id || ""} onChange={(event) => setFindingId(event.target.value)}><option value="">Select a finding</option>{m.opportunities?.map((item) => <option key={item.id} value={item.id}>{item.condition} · {item.id}</option>)}</select></label>}
+            {(m.opportunities?.length || 0) > 1 && <label className="form-field">Finding<select aria-label="Select finding to review" value={o?.id || ""} onChange={(event) => { setFindingId(event.target.value); setDocId(""); }}><option value="">Select a finding</option>{m.opportunities?.map((item) => <option key={item.id} value={item.id}>{item.condition} · {item.id}</option>)}</select></label>}
             <div className="finding-card">
-              <h3>{m.condition}</h3>
+              <h3>{o?.condition || "Choose a finding"}</h3>
               <p>{o?.evidence || m.evidence} evidence</p>
               <Status value={o?.status || m.status} />
             </div>
-            <small>
-              {o?.id} · Recommendation v{o?.recommendation_version || o?.version}
-            </small>
+            {o && <small>{o.id} · Recommendation v{o.recommendation_version || o.version}</small>}
             <div className="review-context-item">
               <strong>Assigned to</strong>
               <p>{o?.owner || "Unassigned"}</p>
@@ -166,9 +164,9 @@ export function ReviewWorkbench({
           onSelect={(docId) => {
             setDocId(docId);
           }}
-          onInspect={() => {
+          onInspect={o ? () => {
             void run("open_evidence", "", `Inspected ${doc?.id}`);
-          }}
+          } : undefined}
         />
         <section
           className="decision-pane"
@@ -183,19 +181,17 @@ export function ReviewWorkbench({
                   ? "Independent QA"
                   : "Review context"}
             </h2>
-            <small>
-              {o?.id} · Recommendation v{o?.recommendation_version || o?.version}
-            </small>
+            {o && <small>{o.id} · Recommendation v{o.recommendation_version || o.version}</small>}
           </header>
           <div
             className="decision-scroll"
             tabIndex={0}
             aria-label="Scrollable review context"
           >
-            <h3>{m.condition}</h3>
+            <h3>{o?.condition || "Choose a finding"}</h3>
             <p className="body-copy">{m.summary}</p>
             <div className="badge-row">
-              <span>{o?.evidence} evidence</span>
+              {o && <span>{o.evidence} evidence</span>}
               <Status value={o?.status || m.status} />
             </div>
             <EligibilityNotice eligibility={eligibility} />
@@ -360,7 +356,7 @@ export function ReviewWorkbench({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  if (!query || query.startsWith("Please review the available history")) setQuery(`Please assess ${m.condition} in the current encounter. Available context: ${m.summary} Source: ${doc?.id || "not yet available"}, ${doc?.date || "date unavailable"}. Document whether the condition is supported, not supported, uncertain, or needs further information, with your clinical rationale.`);
+                  if (!query || query.startsWith("Please review the available history")) setQuery(`Please assess ${o?.condition || m.condition} in the current encounter. Available context: ${m.summary} Source: ${doc?.id || "not yet available"}, ${doc?.date || "date unavailable"}. Document whether the condition is supported, not supported, uncertain, or needs further information, with your clinical rationale.`);
                   setQueryOpen(true);
                 }}
               >

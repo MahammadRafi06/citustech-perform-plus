@@ -36,7 +36,13 @@ def test_retained_examples_match_actual_sources_and_disclose_model_limits():
     expected={'MB-000001':'current','MB-000002':'abstain','MB-000003':'abstain',
               'MB-000004':'conflicting','MB-000005':'current','MB-000006':'abstain'}
     for value in risk_ai.load_replays():
-        assert risk_ai.validate_replay(value,current,value['member_id'])['valid']
+        # Casey's new independent question adds a source after this frozen output.
+        # Keep the original model artifact; it must not claim to have seen that note.
+        original_sources = deepcopy(current)
+        if value['member_id'] == 'MB-000005':
+            assert issues(value, current) == {'STALE_SOURCE_SET'}
+            original_sources['documents'] = [d for d in original_sources['documents'] if d['id'] != 'DOC-CASEY-BP']
+        assert risk_ai.validate_replay(value,original_sources,value['member_id'])['valid']
         output=json.loads(value['raw_output'])
         assert output['status']==expected[value['member_id']] and output['clinical_authority'] is False
         assert value['provenance']['model_family']=='GPT-6'

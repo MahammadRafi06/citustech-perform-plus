@@ -1,0 +1,146 @@
+- alert
+- complementary:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /members
+    - img "CitiusTech"
+    - generic: Perform+
+    - generic: Risk adjustment
+  - generic "Northstar & Meridian":
+    - generic: Organization workspace
+    - strong: Northstar & Meridian
+  - navigation "Workspace navigation":
+    - heading "Review operations" [level=3]
+    - link "Suspect registry":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Suspect registry
+    - link "Chart review":
+      - /url: /reviews?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Chart review
+    - link "Coding QA":
+      - /url: /qa?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Coding QA
+    - heading "Members and providers" [level=3]
+    - link "Member risk profiles":
+      - /url: /members?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Member risk profiles
+    - heading "Governance" [level=3]
+    - link "Audit workspace":
+      - /url: /audit?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - generic: Audit workspace
+  - button "Workspace guide":
+    - generic: Workspace guide
+  - button "Collapse sidebar" [expanded]:
+- banner:
+  - button "Toggle navigation" [expanded]:
+  - generic: Member risk profiles
+  - button "Ask Perform+":
+    - generic: Ask Perform+
+  - textbox "Search members":
+    - /placeholder: Search members…
+  - generic: ↵
+  - button "Notifications":
+  - button "Account menu":
+    - generic: DC
+- generic "Risk calculation context":
+  - generic: Program & model
+  - combobox "Program and model configuration":
+    - option "CMS-HCC V28 · 2026 Midyear/Final"
+    - option "CMS-HCC V28 · 2027 Initial"
+    - option "CMS-HCC V28 · 2027 later-run forecast" [selected]
+    - option "HHS-HCC V08 · 2026 benefit year"
+    - option "CMS-HCC V24 · 2025 historical reference"
+    - option "RxHCC · 2027 MAPD initial"
+    - option "RxHCC · 2027 MAPD forecast"
+    - option "RxHCC · 2027 PDP initial"
+    - option "RxHCC · 2027 PDP forecast"
+    - option "Florida Medicaid · external scores"
+  - generic: Score basis
+  - combobox "Score basis":
+    - option "Captured baseline" [selected]
+    - option "QA-supported scenario"
+    - option "Submitted set"
+    - option "Accepted set"
+    - option "Eligible set"
+    - option "Reported result"
+    - option "Potential scenario"
+  - strong: 2027 · Forecast
+  - generic: Service dates 2026-01-01 — 2026-09-30
+  - generic: Active
+- main:
+  - link "Back to members":
+    - /url: /members
+    - text: Back to members
+  - generic: MB-000005
+  - generic: CM
+  - heading "Casey Morgan" [level=1]
+  - paragraph: MB-000005 · 77 years · Female · Northstar Health
+  - text: Maple Ridge Health
+  - generic: Orange County · FL
+  - text: "Next visit: 2026-10-02"
+  - text: Clinical workflow · Medicare Advantage Part C · 2027
+  - generic: Review complete
+  - generic "Scenario dates are staged; saved actions retain their actual timestamps.": "Scenario date: 2026-09-12"
+  - generic: Clinical finding
+  - combobox "Clinical finding":
+    - option "Select a finding for clinical actions" [selected]
+    - option "Diabetes and chronic kidney disease · OP-0005"
+    - option "Blood pressure finding · assessment needed · OP-CASEY-BP"
+  - strong: Choose a clinical finding
+  - paragraph: Select a finding.
+  - tablist:
+    - tab "Risk profile"
+    - tab "Scoring inputs"
+    - tab "Source analysis"
+    - tab "Overview"
+    - tab "Evidence & documents"
+    - tab "Opportunities" [active] [selected]
+    - tab "Timeline"
+    - tab "Tasks"
+    - tab "Risk scenarios"
+    - tab "Score reconciliation"
+    - tab "Submissions"
+  - heading "Linked opportunities" [level=2]
+  - textbox "Search records..."
+  - generic: Row density
+  - combobox "Row density":
+    - option "Comfortable" [selected]
+    - option "Compact"
+  - region "Search records table":
+    - table:
+      - rowgroup:
+        - row "Condition Type Status":
+          - columnheader "Condition":
+            - button "Condition"
+          - columnheader "Type":
+            - button "Type"
+          - columnheader "Status":
+            - button "Status"
+      - rowgroup:
+        - row "Diabetes and chronic kidney disease scenario_comparison Resolved supported":
+          - cell "Diabetes and chronic kidney disease"
+          - cell "scenario_comparison"
+          - cell "Resolved supported":
+            - generic: Resolved supported
+        - row "Blood pressure finding · assessment needed clinical_suspect Resolved unsupported":
+          - cell "Blood pressure finding · assessment needed"
+          - cell "clinical_suspect"
+          - cell "Resolved unsupported":
+            - generic: Resolved unsupported
+  - navigation "records pagination":
+    - status: 1–2 of 2 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page"
+      - option "25 / page" [selected]
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 1
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page" [disabled]:
+    - button "Last page" [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
