@@ -84,6 +84,8 @@ import type {
 } from "@/lib/types";
 import { formatRiskScore } from "@/lib/risk-client";
 import { api, label, num, download } from "@/lib/api";
+import { HIDDEN_MEMBER_TABS, WORKFLOW_ENABLED, hiddenByScope } from "@/lib/workflow-flags";
+import { RegistryInsights } from "./suspect-insights";
 import { toast } from "sonner";
 import {
   useDraft,
@@ -126,6 +128,13 @@ const exportSafe = (kind: string, u: User, ids: string[] = [], q = "") =>
     .catch((e) => toast.error(e.message));
 export function Workspaces(props: WorkspaceProps) {
   const { route, path } = props;
+  if (hiddenByScope(route))
+    return (
+      <Empty
+        title="This workspace is not part of this deployment"
+        description="This Perform+ deployment focuses on risk analytics and suspecting. Workflow workspaces remain available in the full product build."
+      />
+    );
   if (route === "members" && path.split("/")[2])
     return <MemberWorkspace key={path} {...props} id={path.split("/")[2]} />;
   if (route === "reviews" && path.split("/")[2])
@@ -358,7 +367,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               : "Prioritize findings, inspect evidence and assign the next review."
         }
       >
-        {can(user, "campaign") && (
+        {WORKFLOW_ENABLED && can(user, "campaign") && (
           <Button
             variant="outline"
             onClick={() => {
@@ -434,7 +443,18 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           <strong>{rows.filter((o) => o.evidence === "Strong").length}</strong>
           <span>strong evidence</span>
         </div>
+        <div>
+          <strong>{(() => { const deltas = rows.map((o) => marginal.data?.items.find((item) => item.finding_id === o.id)?.delta).filter((value): value is number => typeof value === "number"); return deltas.length ? `+${deltas.reduce((sum, value) => sum + value, 0).toFixed(3)}` : "—"; })()}</strong>
+          <span>calculated marginal effect · {num(rows.filter((o) => marginal.data?.items.find((item) => item.finding_id === o.id)?.delta == null).length)} not calculated</span>
+        </div>
+        <div>
+          <strong>{new Set(rows.map((o) => o.owner).filter(Boolean)).size}</strong>
+          <span>assigned owners</span>
+        </div>
       </div>
+      {route === "suspects" && (
+        <RegistryInsights rows={rows} />
+      )}
       {data.runs.some((r) => ["prepared_analysis", "fixture"].includes(r.mode)) && route === "suspects" && (
         <div className="run-result">
           <span className="subtle-tag">Prepared analysis</span>
@@ -519,7 +539,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             ["defer", "Defer selected"],
             ["suppress", "Suppress selected"],
           ]
-            .filter(([action]) => can(user, action))
+            .filter(([action]) => (WORKFLOW_ENABLED || action !== "request_evidence") && can(user, action))
             .map(([action, title]) => (
               <Button
                 key={action}
@@ -1118,7 +1138,7 @@ function MemberWorkspace({
           </p>
         </div>
         <div className="page-actions">
-          {can(user, "query") && m.eligibility?.reviewable && (
+          {WORKFLOW_ENABLED && can(user, "query") && m.eligibility?.reviewable && (
             <Button variant="outline" onClick={() => setQueryOpen(true)}>
               <Send size={15} />
               Create clarification task
@@ -1169,7 +1189,7 @@ function MemberWorkspace({
             "Risk scenarios",
             "Score reconciliation",
             "Submissions",
-          ].map((t) => (
+          ].filter((t) => WORKFLOW_ENABLED || !HIDDEN_MEMBER_TABS.has(t)).map((t) => (
             <TabsTrigger key={t} value={t}>
               {t}
             </TabsTrigger>
@@ -1194,7 +1214,7 @@ function MemberWorkspace({
             </div>
           )}
           <div
-            className={`review-layout ${!can(user, "review") ? "read-only" : ""}`}
+            className={`review-layout ${!WORKFLOW_ENABLED || !can(user, "review") ? "read-only" : ""}`}
           >
             <SourceDocument
               documents={m.documents || []}
@@ -1213,7 +1233,7 @@ function MemberWorkspace({
             <div className="review-side">
               <Panel
                 title={
-                  can(user, "review") ? "Reviewer decision" : "Review context"
+                  WORKFLOW_ENABLED && can(user, "review") ? "Reviewer decision" : "Review context"
                 }
                 subtitle={
                   o
@@ -1228,7 +1248,7 @@ function MemberWorkspace({
                     <Status value={o?.evidence || m.evidence} />
                   </div>
                   <EligibilityContext eligibility={m.eligibility} />
-                  {can(user, "review") && m.eligibility?.reviewable ? (
+                  {WORKFLOW_ENABLED && can(user, "review") && m.eligibility?.reviewable ? (
                     <>
                       <div className="decision-options">
                         {[
@@ -1389,7 +1409,7 @@ function MemberWorkspace({
                       </span>
                     </div>
                   )}
-                  {can(user, "qa") && (
+                  {WORKFLOW_ENABLED && can(user, "qa") && (
                     <div className="qa-actions">
                       <Notice>
                         {o?.reviewer === user.id || o?.reviewer === user.email
@@ -1441,14 +1461,14 @@ function MemberWorkspace({
               {!!m.next_steps?.length && <Panel title="Next step"><NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={id} findingId={o?.id} act={act} /></Panel>}
               <Panel title="Connected work">
                 <div className="connected-links">
-                  {user.screens.includes("previsit") && (
+                  {WORKFLOW_ENABLED && user.screens.includes("previsit") && (
                     <Link href={`/previsit?member=${id}`}>
                       <CalendarDays size={16} />
                       Provider assessment
                       <ArrowRight size={14} />
                     </Link>
                   )}
-                  {user.screens.includes("submissions") && (
+                  {WORKFLOW_ENABLED && user.screens.includes("submissions") && (
                     <Link href={`/submissions?member=${id}`}>
                       <Send size={16} />
                       Submission operations
@@ -1566,7 +1586,7 @@ function MemberWorkspace({
       ) : (
         <Panel title="Linked submission records" subtitle="Receiver outcomes are separate from review approval and payment reconciliation.">
           {m.submissions?.length ? <DataGrid rows={m.submissions} columns={[{ accessorKey: "id", header: "Record" }, { accessorKey: "type", header: "Operation" }, { accessorKey: "decision_id", header: "Approved decision" }, { accessorKey: "status", header: "Receiver status", cell: ({ getValue }) => <Status value={String(getValue())} /> }]} /> : <Empty title="No linked submission yet" description="An independently approved eligible decision can be prepared in Submission operations." />}
-          <div className="padded">{user.screens.includes("submissions") ? <Button asChild variant="outline"><Link href={`/submissions?member=${id}`}>Open submission operations<ArrowRight size={15} /></Link></Button> : <p className="body-copy">A submission analyst continues after independent QA approval.</p>}</div>
+          <div className="padded">{WORKFLOW_ENABLED && user.screens.includes("submissions") ? <Button asChild variant="outline"><Link href={`/submissions?member=${id}`}>Open submission operations<ArrowRight size={15} /></Link></Button> : <p className="body-copy">A submission analyst continues after independent QA approval.</p>}</div>
         </Panel>
       )}
       <Modal open={!!closingTask} onOpenChange={(open) => !open && setClosingTask(null)} title="Close follow-up task" description={closingTask?.title}>
@@ -2028,7 +2048,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                         Inspect source
                       </Link>
                     </Button>
-                    {user.screens.includes("intake") && (
+                    {WORKFLOW_ENABLED && user.screens.includes("intake") && (
                       <Button variant="outline" size="sm" asChild>
                         <Link href={`/intake?sample=${issue.id}&member=${issue.member_id}&returnTo=${encodeURIComponent("/data")}`}>
                           Open intake document

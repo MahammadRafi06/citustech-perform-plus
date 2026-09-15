@@ -36,8 +36,9 @@ import { RiskGeography } from "./risk-geography-ui";
 import { RiskAnalytics } from "./risk-analytics-ui";
 import { RiskFinancial } from "./risk-financial-ui";
 import { RiskOverview, useRiskContext } from "./risk-ui";
+import { WORKFLOW_ENABLED } from "@/lib/workflow-flags";
 
-const domainTabs = [
+const allDomainTabs = [
   "AI Impact",
   "Executive",
   "Risk & conditions",
@@ -50,6 +51,8 @@ const domainTabs = [
   "Financial scenarios",
   "Data & AI operations",
 ];
+const WORKFLOW_DOMAINS = new Set(["Providers", "Retrieval", "Coding & QA", "Submissions", "Data & AI operations"]);
+const domainTabs = allDomainTabs.filter((name) => WORKFLOW_ENABLED || !WORKFLOW_DOMAINS.has(name));
 export function Dashboard({
   data,
   user,
@@ -91,7 +94,7 @@ export function Dashboard({
     )
     .slice(0, 8);
   const caseLink = (o: Opportunity) =>
-    `/${user.screens.includes("reviews") ? "reviews" : "members"}/${o.member_id}`;
+    `/${WORKFLOW_ENABLED && user.screens.includes("reviews") ? "reviews" : "members"}/${o.member_id}`;
   const exportReport = () => {
     if (!risk.permissions.includes("export")) return;
     if (analytics && domain !== "AI Impact") {

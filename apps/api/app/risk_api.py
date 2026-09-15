@@ -278,6 +278,18 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
             except ValueError as exc:
                 bad(exc)
 
+    @router.get('/analytics/distribution')
+    def distribution(config_id: str = inputs.DEFAULT_CONFIG, basis: str = 'captured_baseline', prior_config_id: str | None = None, u=Depends(user)):
+        if basis not in inputs.BASES:
+            bad('Choose a supported score basis.')
+        with db() as conn:
+            s = get_state(conn)
+            from . import risk_analytics
+            try:
+                return risk_analytics.distribution(conn, s, allowed_members(s, u), config_id, basis, prior_config_id)
+            except ValueError as exc:
+                bad(exc)
+
     @router.get('/analytics/geography')
     def geography(config_id: str = inputs.DEFAULT_CONFIG, basis: str = 'captured_baseline',
                   county: str = '', provider_id: str = '', dimension: str = 'county',

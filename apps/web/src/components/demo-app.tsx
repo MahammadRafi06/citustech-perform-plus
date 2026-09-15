@@ -66,6 +66,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Toaster, toast } from "sonner";
 import { api, command, ApiError, label } from "@/lib/api";
+import { HIDDEN_ROUTES, WORKFLOW_ENABLED, hiddenByScope } from "@/lib/workflow-flags";
 import type { User, Snapshot, Command } from "@/lib/types";
 import { Dashboard } from "./dashboard";
 import { Workspaces } from "./workspaces";
@@ -103,28 +104,40 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
     group: "Review operations",
     items: [
       ["suspects", "Suspect registry", ScanLine],
-      ["reviews", "Chart review", ClipboardCheck],
-      ["qa", "Coding QA", ShieldCheck],
-      ["campaigns", "Campaigns", Layers3],
-      ["chase", "Chart chase", FileSearch],
-      ["intake", "Document intake", Upload],
+      ...(WORKFLOW_ENABLED
+        ? ([
+            ["reviews", "Chart review", ClipboardCheck],
+            ["qa", "Coding QA", ShieldCheck],
+            ["campaigns", "Campaigns", Layers3],
+            ["chase", "Chart chase", FileSearch],
+            ["intake", "Document intake", Upload],
+          ] as [string, string, LucideIcon][])
+        : []),
     ],
   },
   {
     group: "Members and providers",
     items: [
       ["members", "Member risk profiles", Users],
-      ["providers", "Provider portfolio", Building2],
-      ["previsit", "Pre-visit", CalendarCheck],
+      ...(WORKFLOW_ENABLED
+        ? ([
+            ["providers", "Provider portfolio", Building2],
+            ["previsit", "Pre-visit", CalendarCheck],
+          ] as [string, string, LucideIcon][])
+        : []),
     ],
   },
   {
     group: "Governance",
     items: [
-      ["submissions", "Submissions", Send],
-      ["audit", "Audit workspace", FolderCheck],
+      ...(WORKFLOW_ENABLED
+        ? ([
+            ["submissions", "Submissions", Send],
+            ["audit", "Audit workspace", FolderCheck],
+          ] as [string, string, LucideIcon][])
+        : []),
       ["data", "Models & data", Database],
-      ["agents", "Agents", Bot],
+      ...(WORKFLOW_ENABLED ? ([["agents", "Agents", Bot]] as [string, string, LucideIcon][]) : []),
       ["admin", "Administration", Settings],
     ],
   },
@@ -421,13 +434,15 @@ function Application() {
         <main
           className={`page-canvas route-${actualRoute} ${actualRoute === "reviews" && pathname.split("/")[2] ? "workbench-canvas" : ""}`}
         >
-          {!user.screens.includes(actualRoute) ? (
+          {!user.screens.includes(actualRoute) || hiddenByScope(actualRoute) ? (
             <div className="access-denied">
               <LockKeyhole size={40} />
-              <h1>This workspace needs a different role</h1>
+              <h1>{hiddenByScope(actualRoute) ? "This workspace is not part of this deployment" : "This workspace needs a different role"}</h1>
               <p>
-                You’re signed in as {label(user.role)}. Your account can access{" "}
-                {user.screens.map(label).join(", ")}.
+                {hiddenByScope(actualRoute)
+                  ? "This Perform+ deployment focuses on risk analytics and suspecting. Workflow workspaces remain available in the full product build."
+                  : <>You’re signed in as {label(user.role)}. Your account can access{" "}
+                {user.screens.filter((screen) => !HIDDEN_ROUTES.has(screen)).map(label).join(", ")}.</>}
               </p>
               <Button asChild>
                 <Link href={`/${user.screens[0]}`}>
@@ -452,7 +467,7 @@ function Application() {
               </Button>
             </div>
           ) : snapshot.data ? (
-            pathname.startsWith('/admin/ai') ? <AiConfiguration key={user.id} user={user} /> : actualRoute === "overview" ? <RiskOverview user={user} /> : actualRoute === "analytics" ? (
+            pathname.startsWith('/admin/ai') ? (hiddenByScope("agents") ? <Empty title="This workspace is not part of this deployment" description="Agents configuration remains available in the full product deployment." /> : <AiConfiguration key={user.id} user={user} />) : actualRoute === "overview" ? <RiskOverview user={user} /> : actualRoute === "analytics" ? (
               <Dashboard
                 data={snapshot.data}
                 user={user}

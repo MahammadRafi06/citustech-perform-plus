@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight, LoaderCircle } from "lucide-react";
+import { ResponsiveContainer, BarChart as ReBarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
 import { MonthlyTrend, PrevalenceTiles, ComparisonPlot } from "./report-visuals";
 import { Button } from "./ui/button";
 import { DataGrid, Empty, Panel, Status } from "./shared";
@@ -24,9 +25,10 @@ export function RiskAnalytics({ user, initialTab = "movement" }: { user: User; i
   const data = results.data;
   const selectedCategory = data?.category_prevalence.find((item) => item.category === category);
   const comparison = data?.comparison;
-  return <div className="risk-workspace"><div className="risk-tabs" role="tablist" aria-label="Risk analytics views">{[["movement", "Risk and stage movement"], ["conditions", "Condition prevalence"], ["recapture", "Annual recapture"], ["period", "Actual period comparison"]].map(([value, name]) => <button key={value} role="tab" aria-selected={tab === value} onClick={() => setTab(value)}>{name}</button>)}</div>
-    {tab !== "recapture" && context.permissions.includes("export") && <div className="risk-profile-toolbar"><span /><Button variant="outline" disabled={!data || !!results.error} onClick={() => downloadRiskJson({ configuration: context.configuration, score_basis: context.basis, prior_config_id: prior || null, analytics: data }, `risk-analytics-${context.configId}-${context.basis}.json`)}>Export retained analytics</Button></div>}
-    {tab === "recapture" ? <RiskRecapture user={user} /> : results.isPending ? <div className="risk-loading"><LoaderCircle className="animate-spin" size={18} />Reading stored risk analytics…</div> : results.error ? <Empty title="Risk analytics unavailable" description={results.error.message} /> : data ? <>
+  return <div className="risk-workspace"><div className="risk-tabs" role="tablist" aria-label="Risk analytics views">{[["movement", "Risk and stage movement"], ["distribution", "Score distribution"], ["conditions", "Condition prevalence"], ["recapture", "Annual recapture"], ["period", "Actual period comparison"]].map(([value, name]) => <button key={value} role="tab" aria-selected={tab === value} onClick={() => setTab(value)}>{name}</button>)}</div>
+    {(tab === "movement" || tab === "conditions" || tab === "period") && context.permissions.includes("export") && <div className="risk-profile-toolbar"><span /><Button variant="outline" disabled={!data || !!results.error} onClick={() => downloadRiskJson({ configuration: context.configuration, score_basis: context.basis, prior_config_id: prior || null, analytics: data }, `risk-analytics-${context.configId}-${context.basis}.json`)}>Export retained analytics</Button></div>}
+    {tab === "distribution" ? <ScoreDistribution user={user} />
+    : tab === "recapture" ? <RiskRecapture user={user} /> : results.isPending ? <div className="risk-loading"><LoaderCircle className="animate-spin" size={18} />Reading stored risk analytics…</div> : results.error ? <Empty title="Risk analytics unavailable" description={results.error.message} /> : data ? <>
       {data.stale && <div className="risk-notice">Some retained results have changed inputs. Stale member counts remain visible beside their score stages.</div>}
       {tab === "movement" ? <>
         <Panel title="Monthly calculated risk" subtitle={`${scoreBasisLabels[context.basis]} · ${data.weighting}`}>
@@ -44,4 +46,71 @@ export function RiskAnalytics({ user, initialTab = "movement" }: { user: User; i
       </>}
     </> : null}
   </div>;
+
+type DistributionResult = {
+  scored_members: number; scope_members: number; unscored_members: number; stale_members: number;
+  mean: number | null; median: number | null; definition: string; unit: string;
+  percentiles: { label: string; value: number | null }[];
+  histogram: { lower: number; upper: number; members: number }[];
+  movement: { status: string; reason?: string; matched_members?: number;
+    top_increase?: { member_id: string; name: string; prior: number; current: number; delta: number }[];
+    top_decrease?: { member_id: string; name: string; prior: number; current: number; delta: number }[] };
+};
+
+function ScoreDistribution({ user }: { user: User }) {
+  const context = useRiskContext();
+  const [prior, setPrior] = useState("");
+  const query = useQuery({
+    queryKey: ["risk", "distribution", user.id, context.configId, context.basis, prior],
+    queryFn: () => api<DistributionResult>(`/risk/analytics/distribution?${new URLSearchParams({ config_id: context.configId, basis: context.basis, ...(prior ? { prior_config_id: prior } : {}) })}`),
+    enabled: !!context.configId,
+  });
+  const data = query.data;
+  const movers = [
+    ...(data?.movement.top_increase || []).map((item) => ({ ...item, direction: "Largest increases" })),
+    ...(data?.movement.top_decrease || []).map((item) => ({ ...item, direction: "Largest decreases" })),
+  ];
+  if (query.isPending) return <div className="risk-loading"><LoaderCircle className="animate-spin" size={18} />Reading stored score distribution…</div>;
+  if (query.error) return <Empty title="Score distribution unavailable" description={query.error.message} />;
+  if (!data) return null;
+  return <>
+    {context.permissions.includes("export") && <div className="risk-profile-toolbar"><span /><Button variant="outline" onClick={() => downloadRiskJson({ configuration: context.configuration, score_basis: context.basis, prior_config_id: prior || null, distribution: data }, `risk-distribution-${context.configId}-${context.basis}.json`)}>Export distribution</Button></div>}
+    <div className="risk-metrics">
+      {[["Scored members", data.scored_members, 0], ["Mean member score", data.mean, 3], ["Median member score", data.median, 3], ["Unscored members", data.unscored_members, 0]].map(([title, value, precision]) => (
+        <div className="risk-metric" key={String(title)}><span>{title}</span><strong>{title === "Scored members" || title === "Unscored members" ? num(value as number) : formatRiskScore(value as number | null, precision as number)}</strong><small>{title === "Scored members" ? `${num(data.stale_members)} with stale inputs` : title === "Unscored members" ? "Excluded, never zero-filled" : "Per-member mean of retained monthly raw scores"}</small></div>
+      ))}
+    </div>
+    <Panel title="Raw score distribution" subtitle={data.definition}>
+      {data.histogram.length ? (
+        <div style={{ width: "100%", height: 280 }} role="img" aria-label="Histogram of per-member raw scores">
+          <ResponsiveContainer>
+            <ReBarChart data={data.histogram.map((bin) => ({ ...bin, range: `${formatRiskScore(bin.lower, 2)}–${formatRiskScore(bin.upper, 2)}` }))} margin={{ top: 8, right: 16, bottom: 4, left: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis dataKey="range" fontSize={11} interval={0} angle={-30} textAnchor="end" height={56} />
+              <YAxis allowDecimals={false} fontSize={11} />
+              <Tooltip formatter={(value) => [num(Number(value)), "Members"]} />
+              <Bar dataKey="members" fill="var(--brand, #0f52ba)" radius={[3, 3, 0, 0]} />
+            </ReBarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : <Empty title="No scored members" description="Run a completed population calculation for this configuration to build the distribution." />}
+    </Panel>
+    <div className="risk-grid-two">
+      <Panel title="Score percentiles" subtitle="Per-member distribution across the scored cohort.">
+        <PaginatedTable rows={data.percentiles} label="Score percentiles" scope={`${user.id}:${context.configId}:${context.basis}`} headers={<><th>Percentile</th><th>Member score</th></>}>
+          {(item) => <tr key={item.label}><td>{item.label}</td><td className="risk-number">{formatRiskScore(item.value, 3)}</td></tr>}
+        </PaginatedTable>
+      </Panel>
+      <Panel title="Top members by period change" subtitle="Requires a comparable prior configuration.">
+        <label className="risk-field-label">Prior configuration<select aria-label="Prior period configuration" value={prior} onChange={(event) => setPrior(event.target.value)}><option value="">Choose an actual prior input period</option>{context.configurations.filter((item) => item.id !== context.configId && item.program === context.configuration?.program).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+        {data.movement.status === "available" ? (
+          <PaginatedTable rows={movers} label="Period movers" scope={`${user.id}:${context.configId}:${context.basis}:${prior}`} headers={<><th>Member</th><th>Prior</th><th>Current</th><th>Change</th></>}>
+            {(item) => <tr key={`${item.member_id}-${item.direction}`}><td><strong>{item.name}</strong><small>{item.member_id}</small></td><td className="risk-number">{formatRiskScore(item.prior, 3)}</td><td className="risk-number">{formatRiskScore(item.current, 3)}</td><td className="risk-number">{formatRiskScore(item.delta, 3, true)}</td></tr>}
+          </PaginatedTable>
+        ) : <Empty title={data.movement.status === "unscored" ? "No matched members" : "No comparison selected"} description={data.movement.reason || "Choose a prior configuration from the same program and model to rank matched members."} />}
+      </Panel>
+    </div>
+  </>;
+}
+
 }

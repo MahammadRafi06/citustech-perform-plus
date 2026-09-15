@@ -142,6 +142,80 @@ def dashboard(conn, state, members, config_id, basis='captured_baseline', prior_
       'stages': stage_rows, 'comparison': comparison}
 
 
+def distribution(conn, state, members, config_id, basis='captured_baseline', prior_config_id=None):
+    """Per-member retained score distribution; missing scores excluded, never zero-filled."""
+    cfg = service.configuration(config_id, conn)
+    allowed = {m['id']: m for m in members}
+    external = config_id == service.EXTERNAL_CONFIG['id']
+
+    def rows(cid, selected_basis):
+        return [{**store.body(r), 'stale': r['stale']} for r in conn.execute('''
+          SELECT jsonb_build_object('id',r.id,'member_id',r.member_id,'raw_score',r.body->'raw_score',
+            'monthly_scores',r.body->'monthly_scores') AS body,s.stale
+          FROM risk_stages s JOIN risk_runs r ON r.id=s.run_id WHERE s.config_id=? AND s.score_basis=?''',
+          (cid, selected_basis)) if store.body(r)['member_id'] in allowed]
+
+    def member_value(run):
+        months = [Decimal(str(month['raw_score'])) for month in run.get('monthly_scores', [])
+                  if month.get('raw_score') is not None]
+        return (sum(months) / len(months)) if months else None
+
+    current = rows(config_id, basis)
+    values = {}
+    for run in current:
+        value = member_value(run)
+        if value is not None:
+            values[run['member_id']] = {'value': value, 'stale': bool(run['stale']), 'run_id': run['id']}
+    ordered = sorted(values.items(), key=lambda item: item[1]['value'])
+    scores = [item[1]['value'] for item in ordered]
+
+    def percentile(p):
+        if not scores:
+            return None
+        rank = (len(scores) - 1) * p
+        lower, upper = int(rank), min(int(rank) + 1, len(scores) - 1)
+        part = Decimal(str(rank - lower))
+        return float(scores[lower] + (scores[upper] - scores[lower]) * part)
+
+    bins = []
+    if len(scores) >= 2:
+        low, high = scores[0], scores[-1]
+        width = (high - low) / 12 if high > low else Decimal(1)
+        bins = [{'lower': float(low + width * index), 'upper': float(low + width * (index + 1)),
+                 'members': 0} for index in range(12)]
+        for score in scores:
+            index = min(int((score - low) / width), 11) if width else 0
+            bins[index]['members'] += 1
+    mean = float(sum(scores, Decimal(0)) / len(scores)) if scores else None
+    total = len(allowed)
+    movement = {'status': 'not_selected', 'reason': 'Select a comparable prior configuration.'}
+    if prior_config_id:
+        prior_cfg = service.configuration(prior_config_id, conn)
+        if prior_cfg['program'] != cfg['program'] or prior_cfg['model_version'] != cfg['model_version']:
+            movement = {'status': 'not_comparable', 'reason': 'Different model definitions require an explicit fixed-input model comparison.'}
+        else:
+            prior = {r['member_id']: member_value(r) for r in rows(prior_config_id, basis)}
+            movers = [{'member_id': mid, 'name': allowed[mid]['name'],
+                       'prior': float(prior[mid]), 'current': float(values[mid]['value']),
+                       'delta': float(values[mid]['value'] - prior[mid])}
+                      for mid in list(values) if prior.get(mid) is not None]
+            movers.sort(key=lambda item: -item['delta'])
+            movement = {'status': 'available' if movers else 'unscored', 'prior_config_id': prior_config_id,
+                        'matched_members': len(movers), 'top_increase': movers[:10],
+                        'top_decrease': sorted(movers, key=lambda item: item['delta'])[:10]}
+    return {'config_id': config_id, 'score_basis': basis,
+            'definition': 'Each member contributes the mean of their retained monthly raw scores; member-month weighting applies only at portfolio level. Missing scores are excluded, never zero-filled.',
+            'unit': 'score points', 'scored_members': len(scores), 'scope_members': total,
+            'unscored_members': total - len(scores),
+            'stale_members': sum(1 for item in values.values() if item['stale']),
+            'mean': mean, 'median': percentile(0.5),
+            'percentiles': [{'label': label, 'value': percentile(fraction)}
+                            for label, fraction in [('P10', 0.1), ('P25', 0.25), ('P50', 0.5), ('P75', 0.75), ('P90', 0.9), ('P95', 0.95)]],
+            'histogram': bins, 'movement': movement,
+            'external_feed': {'status': 'external'} if external else None}
+
+
+
 def opportunity_impact(conn, state, members, config_id, finding_ids, actor):
     all_findings = {f['id']: f for f in state['opportunities']}
     allowed = {m['id']: m for m in members}
