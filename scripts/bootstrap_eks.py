@@ -17,6 +17,8 @@ def main():
     parser.add_argument('--sha', required=True)
     parser.add_argument('--apply', action='store_true')
     args = parser.parse_args()
+    if (ROOT / 'deploy/DECOMMISSIONED').exists():
+        raise SystemExit('Perform+ AWS hosting is decommissioned. Restore infrastructure through an explicitly approved provisioning task before bootstrapping.')
     if not re.fullmatch('[0-9a-f]{40}', args.sha):
         raise SystemExit('A full source SHA is required')
     head = subprocess.check_output(['gh', 'api', f'repos/{REPO}/commits/main', '--jq', '.sha'], text=True).strip()

@@ -1,3 +1,5 @@
+> Hosting was decommissioned on September 15, 2026. The checklist below records the earlier deployment. See [current status](README.md).
+
 # Public EKS deployment
 
 Target: https://performplus.idaibhealth.com, AWS account 703671901662, region us-west-2, existing cluster meshalloc-control-plane.
