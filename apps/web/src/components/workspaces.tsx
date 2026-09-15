@@ -173,7 +173,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   const [priority, setPriority] = useUrlState("priority", "all");
   const [evidence, setEvidence] = useUrlState("evidence", "all");
   const [bulk, setBulk] = useState("");
-  const [allocation, setAllocation] = useDraft("bulk-owner", "");
   const [bulkNote, setBulkNote] = useDraft("bulk-note", "");
   const [selected, setSelected] = useDraft<string[]>(
     `registry-${route}-selected`,
@@ -191,9 +190,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   const [campaign, setCampaign] = useState(false);
   const [name, setName] = useState("");
   const [intervention, setIntervention] = useState("Retrospective review");
-  const assignmentOptions = (data.assignment_options || []).filter((owner) =>
-    owner.interventions.includes("coding_review") && selected.every((id) => owner.member_ids.includes(data.opportunities.find((o) => o.id === id)?.member_id || "")),
-  );
   const selectableIds = new Set(data.opportunities.filter((o) => o.eligibility?.reviewable).map((o) => o.id));
   useEffect(() => {
     setSelected((current) => current.filter((id) => selectableIds.has(id)));
@@ -298,7 +294,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       cell: ({ getValue }) => <Status value={String(getValue())} />,
     },
     { id: "marginal", header: "Marginal score effect", cell: ({ row }) => { const value = marginal.data?.items.find((item) => item.finding_id === row.original.id); return <span>{formatRiskScore(value?.delta, 3, true)}<small>{value?.stale ? "Inputs changed · recalculate" : value?.delta == null ? "Not calculated" : "Complete-member scenario"}</small></span>; } },
-    { accessorKey: "owner", header: "Owner" },
     {
       accessorKey: "due_date",
       header: "Due date",
@@ -364,7 +359,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             ? "Independent review, clear feedback and traceable decisions."
             : route === "reviews"
               ? "Your review queue, with source evidence at the center."
-              : "Prioritize findings, inspect evidence and assign the next review."
+              : "Prioritize findings, inspect evidence and review the recorded details."
         }
       >
         {WORKFLOW_ENABLED && can(user, "campaign") && (
@@ -446,10 +441,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
         <div>
           <strong>{(() => { const deltas = rows.map((o) => marginal.data?.items.find((item) => item.finding_id === o.id)?.delta).filter((value): value is number => typeof value === "number"); return deltas.length ? `+${deltas.reduce((sum, value) => sum + value, 0).toFixed(3)}` : "—"; })()}</strong>
           <span>calculated marginal effect · {num(rows.filter((o) => marginal.data?.items.find((item) => item.finding_id === o.id)?.delta == null).length)} not calculated</span>
-        </div>
-        <div>
-          <strong>{new Set(rows.map((o) => o.owner).filter(Boolean)).size}</strong>
-          <span>assigned owners</span>
         </div>
       </div>
       {route === "suspects" && (
@@ -534,7 +525,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             outside current filters
           </strong>
           {[
-            ["assign", "Assign to team"],
             ["request_evidence", "Request evidence"],
             ["defer", "Defer selected"],
             ["suppress", "Suppress selected"],
@@ -561,7 +551,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           rows={rows}
           columns={columns}
           onRow={(o) => setDetail(o)}
-          searchLabel="Search members, conditions or owners…"
+          searchLabel="Search members or conditions…"
           pageSize={25}
           selectedIds={data.opportunities
             .filter((o) => selected.includes(o.id))
@@ -757,10 +747,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                 <span>Due date</span>
                 <strong>{detail.due_date}</strong>
               </div>
-              <div>
-                <span>Assigned owner</span>
-                <strong>{detail.owner}</strong>
-              </div>
             </div>
             {detail.recommendation_history && (
               <>
@@ -808,19 +794,9 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
         title={`${label(bulk)} selected work`}
         description={`${selected.length} members · changes are validated together before saving`}
       >
-        {bulk === "assign" && (
-          <SelectField
-            label="Review account"
-            value={allocation}
-            onChange={setAllocation}
-            options={[{ value: "", label: "Choose a review account" }, ...assignmentOptions.map((owner) => ({ value: owner.id, label: `${owner.name} · ${label(owner.role)}` }))]}
-          />
-        )}
         <div className="form-field">
           <Label htmlFor="bulk-reason">
-            {bulk === "assign"
-              ? "Allocation note (optional)"
-              : "Reason / follow-up note"}
+            Reason / follow-up note
           </Label>
           <textarea
             id="bulk-reason"
@@ -830,7 +806,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           />
         </div>
         <Notice>
-          {bulk === "assign" ? "Each listed account can review every selected case. " : ""}
           Selected records remain selected if validation fails. Existing open
           evidence requests will be reused.
         </Notice>
@@ -838,7 +813,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           disabled={
             busy ||
             !selected.length ||
-            (bulk === "assign" && !assignmentOptions.some((owner) => owner.id === allocation)) ||
             (["defer", "suppress"].includes(bulk) && !bulkNote.trim())
           }
           onClick={async () => {
@@ -848,7 +822,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                 action: bulk,
                 member_ids: [...new Set(data.opportunities.filter((o) => selected.includes(o.id)).map((o) => o.member_id))],
         finding_ids: selected,
-                value: allocation,
                 note: bulkNote,
               });
               setBulk("");
@@ -1382,10 +1355,6 @@ function MemberWorkspace({
                         <strong>{o?.priority || m.priority}</strong>
                       </div>
                       <div>
-                        <span>Owner</span>
-                        <strong>{o?.owner || "Review team"}</strong>
-                      </div>
-                      <div>
                         <span>Source-through date</span>
                         <strong>{m.service_date}</strong>
                       </div>
@@ -1458,7 +1427,7 @@ function MemberWorkspace({
                   )}
                 </div>
               </Panel>
-              {!!m.next_steps?.length && <Panel title="Next step"><NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={id} findingId={o?.id} act={act} /></Panel>}
+              {WORKFLOW_ENABLED && !!m.next_steps?.length && <Panel title="Next step"><NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={id} findingId={o?.id} act={act} /></Panel>}
               <Panel title="Connected work">
                 <div className="connected-links">
                   {WORKFLOW_ENABLED && user.screens.includes("previsit") && (
@@ -1545,7 +1514,6 @@ function MemberWorkspace({
               columns={[
                 { accessorKey: "title", header: "Task" },
                 { accessorKey: "type", header: "Type", cell: ({ getValue }) => label(String(getValue())) },
-                { accessorKey: "owner", header: "Owner" },
                 { id: "closure", header: "Disposition", cell: ({ row }) => row.original.closure_reason ? <span>{label(row.original.closure_disposition || "closed")}<small>{row.original.closure_reason}</small></span> : user.permissions.includes("close_task") && !row.original.completion?.complete && (["query", "request_evidence"].includes(row.original.type) || ["pre_visit", "source_remediation"].includes(row.original.intervention || "")) ? <Button variant="ghost" size="sm" onClick={() => setClosingTask(row.original)}>Close with reason</Button> : "—" },
                 { id: "completion", header: "Completion basis", cell: ({ row }) => row.original.completion?.reason || "Awaiting workflow outcome" },
                 {
@@ -1778,7 +1746,7 @@ function Providers({ data, user, route, act }: WorkspaceProps) {
                     Save response
                   </Button>
                 </div>
-                {!!m.next_steps?.length && <NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={m.id} act={act} />}
+                {WORKFLOW_ENABLED && !!m.next_steps?.length && <NextSteps steps={m.next_steps} assignments={data.assignment_options} user={user} memberId={m.id} act={act} />}
                 {m.provider_response && (
                   <div className="saved-decision">
                     <CheckCircle2 size={16} />
@@ -2229,7 +2197,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
       ) : tab === "Workspace settings" ? (
         <Panel
           title="Workspace maintenance"
-          subtitle="Manage the starting dataset. Accounts and role assignments are preserved."
+          subtitle="Manage the starting dataset. Accounts and roles are preserved."
         >
           <div className="padded">
             <div className="tour-list">

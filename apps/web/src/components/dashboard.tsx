@@ -220,7 +220,7 @@ export function Dashboard({
                   <thead>
                     <tr>
                       <th>Member and finding</th>
-                      <th>Owner / due</th>
+                      <th>Evidence / due</th>
                       <th>Status</th>
                       <th>
                         <span className="sr-only">Action</span>
@@ -236,7 +236,7 @@ export function Dashboard({
                           <small>{o.condition}</small>
                         </td>
                         <td>
-                          {o.owner}
+                          {o.evidence ? `${o.evidence} evidence` : "Awaiting evidence"}
                           <small>
                             {new Date(
                               o.due_date + "T12:00:00",

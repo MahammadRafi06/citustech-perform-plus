@@ -23,16 +23,17 @@ const TYPE_COLORS = ["#0f52ba", "#0e7c86", "#6b7fd7", "#8a5fbf", "#4b8f3a", "#c2
 const EVIDENCE_COLORS = ["#0f52ba", "#4b8f3a", "#c2703d", "#6b7fd7", "#997a00"];
 
 export function RegistryInsights({ rows }: { rows: Opportunity[] }) {
-  const { types, evidence, owners, aging } = useMemo(() => {
+  const { types, evidence, priorities, aging } = useMemo(() => {
     const count = (key: (o: Opportunity) => string) => {
       const map = new Map<string, number>();
       for (const o of rows) map.set(key(o), (map.get(key(o)) || 0) + 1);
       return [...map.entries()].sort((a, b) => b[1] - a[1]);
     };
+    const priorityRank = (p: string) => ({ urgent: 0, high: 1, medium: 2, low: 3 } as Record<string, number>)[p.toLowerCase()] ?? 4;
     return {
       types: count((o) => label(o.type)).map(([name, value]) => ({ name, value })),
       evidence: count((o) => o.evidence || "Unrated").map(([name, value]) => ({ name, value })),
-      owners: count((o) => o.owner || "Unassigned"),
+      priorities: count((o) => o.priority || "Unknown").sort((a, b) => priorityRank(a[0]) - priorityRank(b[0])),
       aging: AGING_ORDER.map((bucket) => ({ name: bucket, value: rows.filter((o) => agingBucket(o.due_date, o.status) === bucket).length })).filter((item) => item.value > 0),
     };
   }, [rows]);
@@ -45,7 +46,7 @@ export function RegistryInsights({ rows }: { rows: Opportunity[] }) {
       <Panel title="Evidence strength" subtitle="Strong evidence carries the highest confirmation likelihood.">
         <CompositionRing items={ring(evidence, EVIDENCE_COLORS)} label="suspects" />
       </Panel>
-      <Panel title="Due-date aging" subtitle="Derived from assigned due dates; deferred and suppressed work is separate.">
+      <Panel title="Due-date aging" subtitle="Derived from recorded due dates; deferred and suppressed work is separate.">
         <ul className="insight-bars">
           {aging.map((item) => (
             <li key={item.name}>
@@ -56,9 +57,9 @@ export function RegistryInsights({ rows }: { rows: Opportunity[] }) {
           ))}
         </ul>
       </Panel>
-      <Panel title="Owner workload" subtitle="Top owners of the filtered suspect cohort.">
+      <Panel title="Priority mix" subtitle="Recorded triage priority of the filtered suspect cohort.">
         <ul className="insight-bars">
-          {owners.slice(0, 6).map(([name, value]) => (
+          {priorities.map(([name, value]) => (
             <li key={name}>
               <span>{name}</span>
               <span className="insight-bar" style={{ width: `${Math.max(4, (value / rows.length) * 100)}%` }} aria-hidden="true" />
