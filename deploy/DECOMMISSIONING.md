@@ -14,6 +14,7 @@ Requested scope: take Perform+ offline, delete its load balancer, and stop ongoi
 | Database disk and retained PV | `vol-057073dbb557e3193` / `pvc-997b9ce5-a7db-48d0-8d7e-3f0f25412a48` |
 | Container images and repositories | `perform-plus/api`, `perform-plus/ui`; six image digests removed from each |
 | Release function and logs | `perform-plus-release`, `/aws/lambda/perform-plus-release` |
+| Release network interfaces and security group | All four private Lambda interfaces; `sg-01a24e732d9b038bc` |
 | App DNS / certificate | `performplus.idaibhealth.com` alias and its ACM validation record; certificate `9afacb4f-6463-43f5-b95e-38024f8306cd` |
 | App release access | GitHub OIDC role, EKS release access entry, node and ingress roles/policies, launch template and release-specific cluster security-group rules |
 
@@ -26,13 +27,13 @@ No app disk snapshots or reserved public IP remain. The database archive is loca
 - `aws-ebs-csi-driver`, role `perform-plus-ebs-csi` and its existing `AmazonEBSCSIDriverPolicy` attachment. The driver was already being used by other apps, so removing it would have broken shared storage.
 - The controller and managed node plugin moved to existing `system` capacity. Its existing service-account role binding was explicitly restored and persisted in EKS addon configuration; no extra IAM policy or node was added. The driver is ACTIVE, controller 6/6, node plugin 3/3, and the separate staging plugin remains 3/3.
 
-The reviewed Terraform plan specifies **23 deletions and 3 forget-without-destroy operations**, with no creations or updates. The three shared storage resources use [Terraform's documented `removed` / `destroy=false` behavior](https://developer.hashicorp.com/terraform/language/block/removed). The active root contains no resource-creation blocks.
+The reviewed Terraform plan completed **23 deletions and 3 forget-without-destroy operations**, with no creations or updates. A subsequent Terraform plan returned **No changes** (exit 0). The three shared storage resources use [Terraform's documented `removed` / `destroy=false` behavior](https://developer.hashicorp.com/terraform/language/block/removed). The active root contains no resource-creation blocks.
 
 ## Final AWS network cleanup
 
-The deleted release function left four private Lambda interfaces and its security group (`sg-01a24e732d9b038bc`) pending AWS detachment. They have no public IPs, no remaining Lambda function reference, and no running app workload. AWS rejected manual detach of service-owned `ela-attach` attachments and deletion while in use. The saved Terraform apply is waiting for the security-group dependency to clear.
+AWS released all four private Lambda interfaces, and Terraform deleted the release security group (`sg-01a24e732d9b038bc`) after waiting 22 minutes 10 seconds for its dependencies. The saved apply completed successfully: **0 added, 0 changed, 23 destroyed**. Final provider queries return no remaining app Lambda interfaces or security groups.
 
-[AWS documents delayed Lambda interface cleanup and the execution-role dependency](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#configuration-vpc-enis). Final provider results and any remaining network objects are recorded in `.local/aws-deploy/teardown-20260915/verification.json`. This section is updated after cleanup finishes.
+[AWS documents delayed Lambda interface cleanup](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#configuration-vpc-enis). Final provider results are recorded in `.local/aws-deploy/teardown-20260915/verification.json`. No app network cleanup remains pending.
 
 ## Verification boundaries
 
