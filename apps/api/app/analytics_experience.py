@@ -6,7 +6,7 @@ Original findings and retained source excerpts keep their identities/provenance.
 """
 from __future__ import annotations
 
-from . import analytics_landing
+from . import analytics_landing, suspect_discovery
 from collections import Counter, defaultdict
 from copy import deepcopy
 from datetime import date, timedelta
@@ -17,7 +17,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.5'
+VERSION = 'analytics-population-2026.7'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -123,7 +123,7 @@ def canonicalize(findings, members, config, as_of=AS_OF):
         if category == 'DR': exposure = None
         member = member_map[row['member_id']]
         family = 'HCC' if config['program'] == 'MA' else 'RxHCC' if config['program'] == 'Part D' else 'HHS-HCC' if config['program'] == 'ACA' else 'Risk group'
-        groups[key] = dict(id=key, aliases=[row['id']], member_id=row['member_id'], condition=condition,
+        groups[key] = dict(id=key, aliases=[row['id']], member_id=row['member_id'], member_name=member.get('name', row['member_id']), discovery=deepcopy(row.get('discovery')), condition=condition,
             domain=domain, category=category, category_label=CATEGORIES.get(category, 'Unmapped'), direction=direction,
             legacy_type=row.get('type', 'authored_question'), rule_ids=[row.get('rule_id', 'RULE-' + row.get('type', category).upper())],
             rule_type=row.get('rule_type') or {'CG': 'Documentation match', 'RC': 'Historical gap', 'NC': 'Signal combination', 'SP': 'Specificity check', 'ST': 'Status persistence', 'OC': 'Representation integrity', 'DR': 'Source validation'}.get(category, 'Unmapped'),
@@ -339,7 +339,7 @@ def finance(cases, settings=None, visible_ids=None):
 
 
 def case_matches(c, context):
-    return (not context.get('band') or c['probability']['band'] == context['band']) and (not context.get('category') or c['category'] == context['category'] or context['category']=='capture' and c['category'] in {'CG','RC','NC','SP','ST'}) and (not context.get('condition') or c['domain'] == context['condition'] or c['hcc'] == context['condition']) and (not context.get('evidence') or c['evidence'] == context['evidence']) and (not context.get('rule') or c['rule_type'] == context['rule']) and (context.get('source') != 'retained' or c['source_available']) and (context.get('disposition', 'open') == 'all' or c['status'] == context.get('disposition', 'open')) and (not context.get('q') or context['q'].lower() in ' '.join([c['id'],*c['aliases'],c['member_id'],c['condition'],c['hcc']]).lower())
+    return suspect_discovery.matches(c, context.get('discovery')) and (not context.get('band') or c['probability']['band'] == context['band']) and (not context.get('category') or c['category'] == context['category'] or context['category']=='capture' and c['category'] in {'CG','RC','NC','SP','ST'}) and (not context.get('condition') or c['domain'] == context['condition'] or c['hcc'] == context['condition']) and (not context.get('evidence') or c['evidence'] == context['evidence']) and (not context.get('rule') or c['rule_type'] == context['rule']) and (context.get('source') != 'retained' or c['source_available']) and (context.get('disposition', 'open') == 'all' or c['status'] == context.get('disposition', 'open')) and (not context.get('q') or context['q'].lower() in ' '.join([c['id'],*c['aliases'],c['member_id'],c['condition'],c['hcc'],c.get('member_name',''),(c.get('discovery') or {}).get('signal',''),(c.get('discovery') or {}).get('label','')]).lower())
 
 
 def safe_ratio(n, d): return n/d if d else None
@@ -367,11 +367,12 @@ def build(state, members, config, context, *, include_evidence=True):
     rows = population(root, config, ctx)
     eligible_ids = {r['id'] for r in rows if r['eligible']}
     # Only globally stable extensions are used: filtering never invents new stories.
-    retained = state['opportunities'] + extensions(state['members'])
+    discovery_findings, discovery_documents = suspect_discovery.fixtures(state['members'])
+    retained = state['opportunities'] + extensions(state['members']) + discovery_findings
     questions = snapshot_questions(state['members'], ctx['snapshot'])
     questions += capture_questions(state['members'], retained, ctx['snapshot'])
     cases = canonicalize(retained + questions, root, config, ctx['snapshot'])
-    documents = {d['id']: d for d in state.get('documents', [])}
+    documents = {d['id']: d for d in discovery_documents + state.get('documents', [])}
     for c in cases:
         retained = [documents[k] for k in c['document_ids'] if k in documents and documents[k].get('member_id') == c['member_id']
                     and documents[k].get('source_member_id', c['member_id']) == c['member_id']
@@ -379,7 +380,7 @@ def build(state, members, config, context, *, include_evidence=True):
                     and documents[k].get('date', '1900-01-01') <= ctx['snapshot']
                     and (not documents[k].get('requires_publication') or documents[k].get('published_at'))]
         c['source_available'] = bool(retained)
-        c['sources'] = [dict(id=d['id'], title=d.get('title'), date=d.get('date'), status=d.get('source_status'),
+        c['sources'] = [dict(id=d['id'], title=d.get('title'), date=d.get('date'), status=d.get('source_status'), origin=d.get('origin', 'retained_record'),
             content_hash=digest(d), excerpts=[dict(page=p['number'], section=sec['heading'], text=sec['text'])
             for p in d.get('pages',[]) for sec in p.get('sections',[]) if sec.get('highlight')]) for d in retained] if include_evidence else []
         c['qualified'] = c['qualified'] and c['member_id'] in eligible_ids
@@ -391,8 +392,9 @@ def build(state, members, config, context, *, include_evidence=True):
         matching_members = {c['member_id'] for c in cases if ctx['condition'] in (c['domain'],c['hcc'])}
         rows = [r for r in rows if matching_indices.intersection(r['conditions']) or r['id'] in matching_members]
     current_ids = {r['id'] for r in rows}
+    discovery_groups = suspect_discovery.groups([c for c in cases if c['member_id'] in current_ids and case_matches(c, {**ctx, 'discovery':'any'}) and analytics_landing.opportunity_matches(c, ctx)])
     cases = [c for c in cases if c['member_id'] in current_ids and case_matches(c, ctx) and analytics_landing.opportunity_matches(c, ctx)]
-    cases.sort(key=lambda c: (-{'High':3,'Medium':2,'Low':1}.get(c['probability']['band'],0),
+    cases.sort(key=lambda c: ((c.get('discovery') or {}).get('rank', 999) if ctx.get('discovery') else 0, -{'High':3,'Medium':2,'Low':1}.get(c['probability']['band'],0),
         -(c['probability']['base'] or 0)*(c['delta'] or 0), c['analysis_date'], c['id']))
     scores = [r for r in rows if r['score'] is not None]
     eligible = sum(r['eligible'] for r in rows); mean = weighted(scores)
@@ -473,7 +475,7 @@ def build(state, members, config, context, *, include_evidence=True):
         bases=bases, trend=trend, histogram=histogram, percentiles={name:quantile(values,q) for name,q in [('p25',.25),('median',.5),('p75',.75),('p90',.9)]},
         prevalence=prevalence, counties=counties, practices=practices,
         categories=group_counts('category_label'), rules=group_counts('rule_type'), hccs=group_counts('hcc'), conditions=group_counts('domain'),
-        bands=bands, evidence_matrix=matrix, cases=cases, financial=financial,
+        bands=bands, evidence_matrix=matrix, cases=cases, financial=financial, discovery_groups=discovery_groups,
         ai=deepcopy(state['comparison']), reports=[dict(id=i,title=t,question=q,view=v) for i,t,q,v in REPORTS],
         method=dict(id=VERSION, probability=METHOD, landing='Authored sample closure chances, provider coding outcomes, demographic attributes and counterfactual model bridge. Provider closures count supported and unsupported rule outcomes; added conditions are distinct member-condition pairs. No workflow or clinical events are created. V24/V28 bridge increments are not model coefficients. Social-needs and race attributes are independently authored, never inferred from identity or geography.', source_count='Retained source documents and authored metadata are counted separately; source copies are aliases, not independent corroboration.', score='Authored synthetic population; program, payment-year and initial/forecast presentation multipliers produce distinct views. Raw/adjusted values and snapshot progression are presentation assumptions, not CMS model calculations.',
             headline_order='Baseline < accepted <= submitted < potential, including at three displayed decimals. Populated presentation cohorts use at least 0.006 authored opportunity to keep all score stages visible; this floor is never a native model result or a financial input.',
@@ -494,6 +496,7 @@ def build(state, members, config, context, *, include_evidence=True):
     result['providers'] = [{k:v for k,v in provider.items() if k!='series'} for provider in result['landing']['providers']]
     result['method']['provider_capture'] = 'Confirmed member-condition-rule outcomes divided by identified member-condition-rule outcomes through the reporting month. Reuses the provider outcome series; not chart transmission or operational activity. Open suspects include all current open flags in the conditions list, including data issues, separate from the historical outcome cohort.'
     result['method']['provider_recapture'] = 'Prior-year member-condition pairs confirmed again divided by all prior-year pairs in the eligible provider panel. Reconciles to condition prevalence and recapture totals.'
+    result['method']['discovery'] = 'Authored clinical-context cases for synthetic members only. Invisible, timeline, disconnected, specificity, recapture and conflicting-evidence patterns are descriptive categories, not measured failures of an ML model. Source records are separately authored fixtures with their own identities and provenance; retained records are never changed.'
     result['snapshot_hash'] = digest(result)
     return result
 

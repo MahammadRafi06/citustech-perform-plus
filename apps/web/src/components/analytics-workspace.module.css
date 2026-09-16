@@ -173,3 +173,15 @@
 .disclosure { border-top:1px solid var(--border); margin-top:18px; padding-top:16px; font-size:13px; color:var(--text-secondary); }
 .disclosure summary { cursor:pointer; color:var(--blue); margin-bottom:14px; }
 .disclosure p { line-height:1.8; margin-top:15px; overflow-wrap:anywhere; }
+
+/* Context-first suspect inspection, shared CT table styling. */
+.discoveryCondition { width:23%; min-width:215px; }
+.discoveryCondition button { line-height:1.5; }
+.discoveryKind { width:14%; min-width:135px; font-weight:600; }
+.discoveryKind small { font-weight:400; }
+.discoverySignal { width:35%; min-width:240px; line-height:1.6; }
+.discoverySignal small { margin-top:7px!important; line-height:1.6; }
+.discoveryLink { display:flex; align-items:center; gap:3px; margin-top:9px; white-space:nowrap; font-size:12px; }
+
+.sourceRecord { margin-top:16px; }
+.sourceRecord + .sourceRecord { padding-top:16px; border-top:1px solid var(--border); }

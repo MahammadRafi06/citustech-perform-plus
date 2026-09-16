@@ -6,9 +6,12 @@ export interface AnalysisContext {
   snapshot: string; stage: string; basis: AnalysisBasis; run_month: string; contract: string;
   counties: string[]; practices: string[]; category: string; condition: string; evidence: string; band: string;
   rule: string; source: string; disposition: string; q: string; freshness: string; financial: FinancialSettings;
+  discovery?: string;
   closure?: string; age_band?: string; gender?: string; race?: string; zip?: string; social_need?: string;
 }
 export interface SuspectCase {
+  discovery?: {kind:string;label:string;signal:string;coded_view:string;why_missed:string;confirm:string;record_count:number;rank:number;origin:string;comparison_basis:string;version:string} | null;
+  member_name?: string;
   id: string; aliases: string[]; member_id: string; condition: string; domain: string;
   category: string; category_label: string; direction: string; legacy_type: string;
   rule_ids: string[]; rule_type: string; hcc: string; mapping_origin: string; evidence: string;
@@ -18,7 +21,7 @@ export interface SuspectCase {
   source_available: boolean; provider_id: string; provider: string; county: string; contract: string;
   qualified: boolean; summary: string; countercheck: string; authored_extension: boolean;
   recommendation_history: {version: number; summary: string; created_at: string}[];
-  sources: {id: string; title: string; date: string; status: string; content_hash: string; excerpts: {page: number; section: string; text: string}[]}[];
+  sources: {origin?:string; id: string; title: string; date: string; status: string; content_hash: string; excerpts: {page: number; section: string; text: string}[]}[];
 }
 export interface GeoRow {
   id: string; name: string; members: number | null; eligible: number | null; scored: number | null;
@@ -46,6 +49,7 @@ export interface FinancialResult extends MoneyTotals {
   assumptions: FinancialSettings & {eligibility: string; corrections: string; impact: string; origin: string; probability_method: string};
 }
 export interface AnalysisReport {
+  discovery_groups?: {id:string;name:string;description:string;count:number}[];
   landing?: LandingAnalytics;
   version: string; context: AnalysisContext; config: {id: string; name: string; program: string; year: number; model_version: string};
   origin: string; origin_label: string; as_of: string; filter_hash: string; input_hash: string; scope_hash: string; snapshot_hash: string;
