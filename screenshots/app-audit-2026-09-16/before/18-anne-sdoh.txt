@@ -1,0 +1,87 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Anne Foster
+  - generic: AF
+  - heading "Anne Foster" [level=1]
+  - text: M-559214 · MA PPO
+  - text: Age 67 · Female
+  - generic: "57"
+  - text: Composite Impact
+  - generic: "58"
+  - text: Risk Impact
+  - generic: "55"
+  - text: Quality Impact
+  - generic: "70"
+  - text: Stars Impact
+  - generic: 1 Quality Gap
+  - generic: 1 HCC Opportunity
+  - generic: SDOH screening needed
+  - generic: New Member
+  - button "Back to Member List"
+  - tablist "Anne Foster profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement" [active] [selected]
+  - tabpanel "SDOH & Engagement":
+    - table:
+      - rowgroup:
+        - row "Domain Indicator Source Action":
+          - columnheader "Domain"
+          - columnheader "Indicator"
+          - columnheader "Source"
+          - columnheader "Action"
+      - rowgroup:
+        - row "Housing No identified need Member screening Monitor":
+          - cell "Housing"
+          - cell "No identified need"
+          - cell "Member screening"
+          - cell "Monitor"
+        - row "Transportation Unknown - not yet screened Pending Complete SDOH screening":
+          - cell "Transportation"
+          - cell "Unknown - not yet screened"
+          - cell "Pending"
+          - cell "Complete SDOH screening"
+        - row "Digital access SMS available Contact preference Send welcome/outreach series":
+          - cell "Digital access"
+          - cell "SMS available"
+          - cell "Contact preference"
+          - cell "Send welcome/outreach series"
+    - paragraph: "Preferred channel: SMS | Preferred language: English | Outreach consent: Active"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

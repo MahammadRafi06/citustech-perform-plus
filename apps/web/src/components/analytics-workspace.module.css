@@ -126,6 +126,7 @@
 .detail { display:flex; flex-direction:column; gap:21px; font-size:14px; }
 .detail h3 { margin:0 0 8px; font-size:16px; font-weight:700; }
 .detail p { color:var(--text-secondary); line-height:1.8; margin:0; }
+.detail .banner {display:grid;gap:8px;align-items:start;}
 .detailMeta { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:17px; background:#f8fafc; border:1px solid var(--border); border-radius:var(--panel-radius); }
 .detailMeta span { display:block; color:var(--text-muted); margin-bottom:5px; font-size:13px; }
 .detailMeta strong { font-size:14px; font-weight:600; }
@@ -178,3 +179,5 @@
 
 .sourceRecord { margin-top:16px; }
 .sourceRecord + .sourceRecord { padding-top:16px; border-top:1px solid var(--border); }
+
+.memberLink {display:inline-flex;align-items:center;gap:4px;color:var(--sapphire);font-weight:600;text-decoration:underline;text-underline-offset:3px;}

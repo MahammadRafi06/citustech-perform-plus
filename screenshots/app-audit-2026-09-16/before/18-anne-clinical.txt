@@ -1,0 +1,156 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Anne Foster
+  - generic: AF
+  - heading "Anne Foster" [level=1]
+  - text: M-559214 · MA PPO
+  - text: Age 67 · Female
+  - generic: "57"
+  - text: Composite Impact
+  - generic: "58"
+  - text: Risk Impact
+  - generic: "55"
+  - text: Quality Impact
+  - generic: "70"
+  - text: Stars Impact
+  - generic: 1 Quality Gap
+  - generic: 1 HCC Opportunity
+  - generic: SDOH screening needed
+  - generic: New Member
+  - button "Back to Member List"
+  - tablist "Anne Foster profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data" [active] [selected]
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Clinical Data":
+    - paragraph: Reflects completed encounters, results and current clinical state only. No appointment scheduling data is available in source systems.
+    - heading "Active Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Onset Year Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Onset Year"
+          - columnheader "Status"
+      - rowgroup:
+        - row "No active diagnoses documented yet for this member.":
+          - cell "No active diagnoses documented yet for this member."
+    - heading "Historical / Resolved Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Status"
+      - rowgroup:
+        - row "No historical or resolved diagnoses on file.":
+          - cell "No historical or resolved diagnoses on file."
+    - heading "Lab Results" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Test Result Interpretation Source":
+          - columnheader "Date"
+          - columnheader "Test"
+          - columnheader "Result"
+          - columnheader "Interpretation"
+          - columnheader "Source"
+      - rowgroup:
+        - row "04/15/2026 Comprehensive Metabolic Panel + CBC Within normal limits Normal Central Lab":
+          - cell "04/15/2026"
+          - cell "Comprehensive Metabolic Panel + CBC"
+          - cell "Within normal limits"
+          - cell "Normal"
+          - cell "Central Lab"
+    - heading "Procedures Performed" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Procedure Code Provider":
+          - columnheader "Date"
+          - columnheader "Procedure"
+          - columnheader "Code"
+          - columnheader "Provider"
+      - rowgroup:
+        - row "04/15/2026 Baseline labs - comprehensive metabolic panel + CBC 80053, 85025 Central Lab":
+          - cell "04/15/2026"
+          - cell "Baseline labs - comprehensive metabolic panel + CBC"
+          - cell "80053, 85025"
+          - cell "Central Lab"
+        - row "04/02/2026 Initial Annual Wellness Visit + depression screening (PHQ-2) G0438, G0444 Dr. P. Nguyen":
+          - cell "04/02/2026"
+          - cell "Initial Annual Wellness Visit + depression screening (PHQ-2)"
+          - cell "G0438, G0444"
+          - cell "Dr. P. Nguyen"
+    - heading "Active Medications" [level=3]
+    - table:
+      - rowgroup:
+        - row "Medication Dose / Frequency Start Year Prescriber":
+          - columnheader "Medication"
+          - columnheader "Dose / Frequency"
+          - columnheader "Start Year"
+          - columnheader "Prescriber"
+      - rowgroup:
+        - row "No active medications on file.":
+          - cell "No active medications on file."
+    - heading "Prescription Refill History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Medication Supply Pharmacy":
+          - columnheader "Date"
+          - columnheader "Medication"
+          - columnheader "Supply"
+          - columnheader "Pharmacy"
+      - rowgroup:
+        - row "No refill history on file for this member.":
+          - cell "No refill history on file for this member."
+    - heading "Allergies" [level=3]
+    - table:
+      - rowgroup:
+        - row "Allergen Reaction Severity Date Noted":
+          - columnheader "Allergen"
+          - columnheader "Reaction"
+          - columnheader "Severity"
+          - columnheader "Date Noted"
+      - rowgroup:
+        - row "No Known Drug Allergies (NKDA) - self-reported — — Noted 04/2026":
+          - cell "No Known Drug Allergies (NKDA) - self-reported"
+          - cell "—"
+          - cell "—"
+          - cell "Noted 04/2026"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

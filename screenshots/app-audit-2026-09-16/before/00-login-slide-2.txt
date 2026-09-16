@@ -1,0 +1,60 @@
+- banner:
+  - img "CitiusTech"
+  - generic: Perform+
+  - generic: Organization workspace
+  - strong: Northstar & Meridian
+- region "Discover Perform+":
+  - 'article "2 of 4: Clinical clarity"':
+    - paragraph: Evidence at your fingertips
+    - heading "Every finding. The full picture." [level=2]:
+      - text: Every finding.
+      - generic: The full picture.
+    - paragraph: Open a suspected condition and see its supporting documents, dates and explanation in one place.
+    - paragraph: Source to decision, in one view.
+    - paragraph: Perform+
+    - heading "Evidence you can follow" [level=3]
+    - strong: Find the source
+    - paragraph: Open the clinical context behind a finding.
+    - strong: Make an informed decision
+    - paragraph: Compare the finding with the member’s clinical history.
+    - strong: Keep the reasoning
+    - paragraph: Keep document references and previous explanations.
+    - paragraph: Clear context. Clear source links.
+  - group "Choose a capability slide":
+    - 'button "Show slide 1: AI assistance"':
+      - generic: "01"
+      - text: AI assistance
+    - 'button "Show slide 2: Clinical clarity" [active]':
+      - generic: "02"
+      - text: Clinical clarity
+    - 'button "Show slide 3: Everyday ease"':
+      - generic: "03"
+      - text: Everyday ease
+    - 'button "Show slide 4: Risk insights"':
+      - generic: "04"
+      - text: Risk insights
+  - button "Previous slide":
+  - button "Play slideshow":
+  - button "Next slide":
+  - generic: CitiusTech · Perform+
+  - generic: Evidence. Insight. Action.
+- region "Welcome back":
+  - heading "Welcome back" [level=1]
+  - paragraph: Sign in to your Perform+ workspace.
+  - generic: Email address
+  - textbox "Email address":
+    - /placeholder: you@organization.com
+  - generic: Password
+  - textbox "Password":
+    - /placeholder: Enter your password
+  - button "Show password":
+  - button "Sign in"
+  - paragraph: Sign in with
+  - group "Sign in with":
+    - img "Microsoft Entra"
+    - img "Okta"
+  - paragraph:
+    - strong: Need access?
+    - text: Your workspace administrator can help.
+- region "Notifications alt+T"
+- alert

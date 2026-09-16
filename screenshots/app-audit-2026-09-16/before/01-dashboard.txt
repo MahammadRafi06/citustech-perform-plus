@@ -1,0 +1,712 @@
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Dashboard" [level=1]
+  - paragraph: A clearer view of population risk and the opportunities ahead.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - group "Score view":
+    - button "Baseline 1.014 RAF · Starting average score" [pressed]:
+      - text: Baseline
+      - strong: "1.014"
+      - generic: RAF · Starting average score
+    - button "Potential scenarios 1.056 RAF · Possible score if suspects are confirmed":
+      - text: Potential scenarios
+      - strong: "1.056"
+      - generic: RAF · Possible score if suspects are confirmed
+    - button "Submitted 1.040 RAF · Score for submitted diagnoses":
+      - text: Submitted
+      - strong: "1.040"
+      - generic: RAF · Score for submitted diagnoses
+    - button "Accepted 1.037 RAF · Score for accepted diagnoses":
+      - text: Accepted
+      - strong: "1.037"
+      - generic: RAF · Score for accepted diagnoses
+  - heading "RAF trend" [level=2]
+  - paragraph: How average risk scores change over time
+  - button "Explore risk":
+    - text: Explore risk
+  - generic: Baseline
+  - generic: Potential
+  - generic: Submitted
+  - generic: Accepted
+  - img "Risk score trend across six reporting months":
+    - application:
+      - generic: Apr
+      - generic: May
+      - generic: Jun
+      - generic: Jul
+      - generic: Aug
+      - generic: Sep
+      - generic: "0.89"
+      - generic: "0.94"
+      - generic: "1.00"
+      - generic: "1.05"
+      - generic: "1.10"
+  - heading "Risk distribution" [level=2]
+  - paragraph: Baseline · members with scores
+  - img "Scored member distribution by score interval":
+    - application:
+      - generic: 0–0.5
+      - generic: 0.5–1
+      - generic: 1–1.5
+      - generic: 1.5–2
+      - generic: 2–3
+      - generic: 3+
+      - generic: "0"
+      - generic: 2k
+      - generic: 3k
+      - generic: 5k
+      - generic: 6k
+  - paragraph: Middle score 0.974 · 90% of members score below 1.450 · 9,799 members with scores
+  - heading "Most common conditions (HCCs)" [level=2]
+  - paragraph: The five most common conditions across your population
+  - button "Explore":
+    - text: Explore
+  - 'img "Member counts across the five most common conditions. Chronic kidney disease: 3,325, 33.5% of included members; Cardiovascular conditions: 2,976, 30.0% of included members; Diabetes with complications: 2,350, 23.7% of included members; COPD: 2,008, 20.2% of included members; Heart failure: 1,967, 19.8% of included members"':
+    - application
+  - strong: 12,626
+  - generic: condition records
+  - 'button "Chronic kidney disease: 3,325 members, 33.5% of included members"':
+    - generic "Chronic kidney disease":
+      - text: Chronic kidney disease
+      - generic: 33.5% of included members
+    - strong: 3,325
+  - 'button "Cardiovascular conditions: 2,976 members, 30.0% of included members"':
+    - generic "Cardiovascular conditions":
+      - text: Cardiovascular conditions
+      - generic: 30.0% of included members
+    - strong: 2,976
+  - 'button "Diabetes with complications: 2,350 members, 23.7% of included members"':
+    - generic "Diabetes with complications":
+      - text: Diabetes with complications
+      - generic: 23.7% of included members
+    - strong: 2,350
+  - 'button "COPD: 2,008 members, 20.2% of included members"':
+    - generic "COPD":
+      - text: COPD
+      - generic: 20.2% of included members
+    - strong: 2,008
+  - 'button "Heart failure: 1,967 members, 19.8% of included members"':
+    - generic "Heart failure":
+      - text: Heart failure
+      - generic: 19.8% of included members
+    - strong: 1,967
+  - paragraph: Slices show condition counts within these five groups. A member may have more than one condition.
+  - heading "Risk by geography" [level=2]
+  - paragraph: The five largest county populations, with average RAF
+  - button "Compare":
+    - text: Compare
+  - 'img "Included members across the five largest counties. Broward: 1,200, 1.091 average RAF; Orange: 1,058, 0.931 average RAF; Duval: 994, 0.969 average RAF; Hillsborough: 951, 1.101 average RAF; Palm Beach: 903, 0.918 average RAF"':
+    - application
+  - strong: 5,106
+  - generic: members shown
+  - 'button "Broward: 1,200 members, 1.091 average RAF"':
+    - generic "Broward":
+      - text: Broward
+      - generic: 1.091 average RAF
+    - strong: 1,200
+  - 'button "Orange: 1,058 members, 0.931 average RAF"':
+    - generic "Orange":
+      - text: Orange
+      - generic: 0.931 average RAF
+    - strong: 1,058
+  - 'button "Duval: 994 members, 0.969 average RAF"':
+    - generic "Duval":
+      - text: Duval
+      - generic: 0.969 average RAF
+    - strong: "994"
+  - 'button "Hillsborough: 951 members, 1.101 average RAF"':
+    - generic "Hillsborough":
+      - text: Hillsborough
+      - generic: 1.101 average RAF
+    - strong: "951"
+  - 'button "Palm Beach: 903 members, 0.918 average RAF"':
+    - generic "Palm Beach":
+      - text: Palm Beach
+      - generic: 0.918 average RAF
+    - strong: "903"
+  - paragraph: Slice size reflects included members. Average scores are weighted by covered months.
+  - heading "Practice opportunity" [level=2]
+  - paragraph: The five practices with the most members with possible additions
+  - button "Compare":
+    - text: Compare
+  - 'img "Members with possible additions across the five leading practices. Northbrook Family Care: 84, 254.5 per 1,000 included members; Silver Birch Medical: 75, 227.3 per 1,000 included members; Parkhaven Clinical Partners: 75, 225.9 per 1,000 included members; Greenfield Health Practice: 74, 226.3 per 1,000 included members; Oakstone Primary Care: 74, 221.6 per 1,000 included members"':
+    - application
+  - strong: "382"
+  - generic: members with gaps
+  - 'button "Northbrook Family Care: 84 members, 254.5 per 1,000 included members"':
+    - generic "Northbrook Family Care":
+      - text: Northbrook Family Care
+      - generic: 254.5 per 1,000 included members
+    - strong: "84"
+  - 'button "Silver Birch Medical: 75 members, 227.3 per 1,000 included members"':
+    - generic "Silver Birch Medical":
+      - text: Silver Birch Medical
+      - generic: 227.3 per 1,000 included members
+    - strong: "75"
+  - 'button "Parkhaven Clinical Partners: 75 members, 225.9 per 1,000 included members"':
+    - generic "Parkhaven Clinical Partners":
+      - text: Parkhaven Clinical Partners
+      - generic: 225.9 per 1,000 included members
+    - strong: "75"
+  - 'button "Greenfield Health Practice: 74 members, 226.3 per 1,000 included members"':
+    - generic "Greenfield Health Practice":
+      - text: Greenfield Health Practice
+      - generic: 226.3 per 1,000 included members
+    - strong: "74"
+  - 'button "Oakstone Primary Care: 74 members, 221.6 per 1,000 included members"':
+    - generic "Oakstone Primary Care":
+      - text: Oakstone Primary Care
+      - generic: 221.6 per 1,000 included members
+    - strong: "74"
+  - paragraph: Members with possible additions in these five practices. Each member is counted once.
+  - generic: 01 / Find the opportunity
+  - heading "Which suspects are worth a closer look?" [level=2]
+  - paragraph: Chance of closure meets expected RAF gain. Larger circles represent more members.
+  - text: Condition
+  - combobox "Opportunity condition":
+    - option "All conditions" [selected]
+    - option "COPD"
+    - option "Cardiovascular conditions"
+    - option "Chronic kidney disease"
+    - option "Depression"
+    - option "Diabetes with complications"
+    - option "Heart failure"
+    - option "Persistent status"
+    - option "Unmapped clinical concept"
+  - generic: Expected RAF gain per suspect
+  - button "Explore high-value, likely-to-close cases":
+    - text: Explore high-value, likely-to-close cases
+  - 'img "Suspect opportunity matrix: chance of closure, expected score gain and member count"':
+    - application:
+      - generic: 0%
+      - generic: 25%
+      - generic: 50%
+      - generic: 75%
+      - generic: 100%
+      - generic: Chance of closure
+      - generic: "0.00"
+      - generic: "0.07"
+      - generic: "0.15"
+      - generic: "0.23"
+      - generic: "0.30"
+  - text: Inspect a group
+  - combobox "Inspect opportunity group":
+    - option "Priority opportunity" [selected]
+    - option "COPD · 30% chance · 77 members"
+    - option "COPD · 55% chance · 67 members"
+    - option "COPD · 80% chance · 71 members"
+    - option "Cardiovascular · 30% chance · 64 members"
+    - option "Cardiovascular · 55% chance · 80 members"
+    - option "Cardiovascular · 80% chance · 90 members"
+    - option "Cardiovascular · 90% chance · 76 members"
+    - option "Kidney disease · 30% chance · 144 members"
+    - option "Kidney disease · 55% chance · 121 members"
+    - option "Kidney disease · 80% chance · 147 members"
+    - option "Kidney disease · 90% chance · 133 members"
+    - option "Depression · 30% chance · 79 members"
+    - option "Depression · 55% chance · 70 members"
+    - option "Depression · 80% chance · 64 members"
+    - option "Depression · 90% chance · 59 members"
+    - option "Diabetes · 30% chance · 71 members"
+    - option "Diabetes · 55% chance · 69 members"
+    - option "Diabetes · 80% chance · 68 members"
+    - option "Diabetes · 90% chance · 81 members"
+    - option "Heart failure · 30% chance · 77 members"
+    - option "Heart failure · 55% chance · 62 members"
+    - option "Heart failure · 80% chance · 71 members"
+    - option "Heart failure · 90% chance · 74 members"
+  - complementary:
+    - text: Priority opportunity
+    - heading "High value. More likely to close." [level=3]
+    - strong: "504"
+    - generic: members · 504 suspected conditions
+    - paragraph: At least 65% chance of closure and 0.140 expected RAF gain per suspect.
+    - button "View suspected conditions":
+      - text: View suspected conditions
+    - generic: The list keeps your filters and can be exported.
+  - generic: Closure estimates use assumed access to care. Expected gain = possible score increase × chance of confirmation. These are separate estimates; gains are not added across overlapping diagnoses.
+  - generic: 02 / Confirm past conditions
+  - heading "What still needs confirming this year?" [level=2]
+  - paragraph: Prior-year member–condition pairs, split into confirmed again and still missing. Each member can have several conditions.
+  - button "By practice" [pressed]
+  - button "By month"
+  - text: Prior-year conditions
+  - strong: 16,442
+  - strong: 13,183
+  - generic: Confirmed again
+  - strong: 3,259
+  - generic: Still missing
+  - strong: 80% confirmed
+  - paragraph: Select a heatmap cell to compare a condition within a practice or month.
+  - generic: Share confirmed again
+  - generic: Lower
+  - generic: Higher
+  - button "Previous heatmap columns" [disabled]:
+  - generic: 1 / 5
+  - button "Next heatmap columns":
+  - strong: Northbrook Family Care
+  - strong: Lakeside Medical Group
+  - strong: Cedar Grove Primary Care
+  - strong: Westhaven Clinical Partners
+  - strong: Maple Ridge Health
+  - strong: Brookfield Community Care
+  - generic "Diabetes with complications": Diabetes
+  - 'button "Diabetes, Northbrook Family Care: 90% confirmed"': 90%
+  - 'button "Diabetes, Lakeside Medical Group: 79% confirmed"': 79%
+  - 'button "Diabetes, Cedar Grove Primary Care: 78% confirmed"': 78%
+  - 'button "Diabetes, Westhaven Clinical Partners: 81% confirmed"': 81%
+  - 'button "Diabetes, Maple Ridge Health: 76% confirmed"': 76%
+  - 'button "Diabetes, Brookfield Community Care: 87% confirmed"': 87%
+  - generic "Heart failure"
+  - 'button "Heart failure, Northbrook Family Care: 86% confirmed"': 86%
+  - 'button "Heart failure, Lakeside Medical Group: 65% confirmed"': 65%
+  - 'button "Heart failure, Cedar Grove Primary Care: 77% confirmed"': 77%
+  - 'button "Heart failure, Westhaven Clinical Partners: 97% confirmed"': 97%
+  - 'button "Heart failure, Maple Ridge Health: 80% confirmed"': 80%
+  - 'button "Heart failure, Brookfield Community Care: 89% confirmed"': 89%
+  - generic "Chronic kidney disease": Kidney disease
+  - 'button "Kidney disease, Northbrook Family Care: 77% confirmed"': 77%
+  - 'button "Kidney disease, Lakeside Medical Group: 84% confirmed"': 84%
+  - 'button "Kidney disease, Cedar Grove Primary Care: 82% confirmed"': 82%
+  - 'button "Kidney disease, Westhaven Clinical Partners: 90% confirmed"': 90%
+  - 'button "Kidney disease, Maple Ridge Health: 75% confirmed"': 75%
+  - 'button "Kidney disease, Brookfield Community Care: 83% confirmed"': 83%
+  - generic "COPD"
+  - 'button "COPD, Northbrook Family Care: 77% confirmed"': 77%
+  - 'button "COPD, Lakeside Medical Group: 79% confirmed"': 79%
+  - 'button "COPD, Cedar Grove Primary Care: 89% confirmed"': 89%
+  - 'button "COPD, Westhaven Clinical Partners: 85% confirmed"': 85%
+  - 'button "COPD, Maple Ridge Health: 72% confirmed"': 72%
+  - 'button "COPD, Brookfield Community Care: 84% confirmed"': 84%
+  - generic "Depression"
+  - 'button "Depression, Northbrook Family Care: not shown to protect small groups" [disabled]': —
+  - 'button "Depression, Lakeside Medical Group: 75% confirmed"': 75%
+  - 'button "Depression, Cedar Grove Primary Care: 75% confirmed"': 75%
+  - 'button "Depression, Westhaven Clinical Partners: 88% confirmed"': 88%
+  - 'button "Depression, Maple Ridge Health: 79% confirmed"': 79%
+  - 'button "Depression, Brookfield Community Care: 80% confirmed"': 80%
+  - generic "Obesity"
+  - 'button "Obesity, Northbrook Family Care: 84% confirmed"': 84%
+  - 'button "Obesity, Lakeside Medical Group: 78% confirmed"': 78%
+  - 'button "Obesity, Cedar Grove Primary Care: 85% confirmed"': 85%
+  - 'button "Obesity, Westhaven Clinical Partners: 85% confirmed"': 85%
+  - 'button "Obesity, Maple Ridge Health: 78% confirmed"': 78%
+  - 'button "Obesity, Brookfield Community Care: 80% confirmed"': 80%
+  - generic "Cardiovascular conditions": Cardiovascular
+  - 'button "Cardiovascular, Northbrook Family Care: 80% confirmed"': 80%
+  - 'button "Cardiovascular, Lakeside Medical Group: 81% confirmed"': 81%
+  - 'button "Cardiovascular, Cedar Grove Primary Care: 83% confirmed"': 83%
+  - 'button "Cardiovascular, Westhaven Clinical Partners: 86% confirmed"': 86%
+  - 'button "Cardiovascular, Maple Ridge Health: 71% confirmed"': 71%
+  - 'button "Cardiovascular, Brookfield Community Care: 88% confirmed"': 88%
+  - generic "HIV"
+  - 'button "HIV, Northbrook Family Care: not shown to protect small groups" [disabled]': —
+  - 'button "HIV, Lakeside Medical Group: not shown to protect small groups" [disabled]': —
+  - 'button "HIV, Cedar Grove Primary Care: not shown to protect small groups" [disabled]': —
+  - 'button "HIV, Westhaven Clinical Partners: not shown to protect small groups" [disabled]': —
+  - 'button "HIV, Maple Ridge Health: not shown to protect small groups" [disabled]': —
+  - 'button "HIV, Brookfield Community Care: no conditions" [disabled]': —
+  - generic "Persistent status": Ongoing health status
+  - 'button "Ongoing health status, Northbrook Family Care: not shown to protect small groups" [disabled]': —
+  - 'button "Ongoing health status, Lakeside Medical Group: not shown to protect small groups" [disabled]': —
+  - 'button "Ongoing health status, Cedar Grove Primary Care: not shown to protect small groups" [disabled]': —
+  - 'button "Ongoing health status, Westhaven Clinical Partners: not shown to protect small groups" [disabled]': —
+  - 'button "Ongoing health status, Maple Ridge Health: not shown to protect small groups" [disabled]': —
+  - 'button "Ongoing health status, Brookfield Community Care: not shown to protect small groups" [disabled]': —
+  - generic "Cancer status"
+  - 'button "Cancer status, Northbrook Family Care: not shown to protect small groups" [disabled]': —
+  - 'button "Cancer status, Lakeside Medical Group: not shown to protect small groups" [disabled]': —
+  - 'button "Cancer status, Cedar Grove Primary Care: not shown to protect small groups" [disabled]': —
+  - 'button "Cancer status, Westhaven Clinical Partners: not shown to protect small groups" [disabled]': —
+  - 'button "Cancer status, Maple Ridge Health: not shown to protect small groups" [disabled]': —
+  - 'button "Cancer status, Brookfield Community Care: not shown to protect small groups" [disabled]': —
+  - generic: Monthly cells show cumulative confirmations; the funnel shows the full selected period. — means no conditions or a value withheld to protect small groups. A missing confirmation does not establish that a condition is still present.
+  - generic: 03 / Compare model impact
+  - 'heading "V24 → V28: where does the score change?" [level=2]'
+  - paragraph: How disease families contribute to the projected score change.
+  - text: Disease family
+  - combobox "Model comparison disease family":
+    - option "All families" [selected]
+    - option "Metabolic"
+    - option "Cardiovascular"
+    - option "Kidney"
+    - option "Respiratory"
+    - option "Other conditions"
+  - text: Estimated score change
+  - strong: "+0.034"
+  - text: Estimated annual payment difference
+  - strong: +$4M
+  - img "Projected V24 to V28 risk score waterfall":
+    - application:
+      - generic: V24
+      - generic: Metabolic
+      - generic: Cardiovascular
+      - generic: Kidney
+      - generic: Respiratory
+      - generic: Other conditions
+      - generic: V28
+      - generic: "0.89"
+      - generic: "0.95"
+      - generic: "1.01"
+      - generic: "1.07"
+      - generic: "1.11"
+      - generic: "1.014"
+      - generic: "-0.042"
+      - generic: "0.058"
+      - generic: "-0.020"
+      - generic: "0.023"
+      - generic: "0.015"
+      - generic: "1.047"
+  - generic: Projected score (zoomed axis)
+  - generic: Increase
+  - generic: Decrease
+  - text: Modeled score changes; separate from a full CMS model calculation. Payment estimate assumes $1,000 per RAF point per month over 12 months; it is not the financial forecast.
+  - link "CMS model reference ↗":
+    - /url: https://www.cms.gov/medicare/payment/medicare-advantage-rates-statistics/risk-adjustment
+  - generic: 04 / Compare provider outcomes
+  - heading "Are suspects becoming confirmed conditions?" [level=2]
+  - paragraph: Additional conditions confirmed, suspect rules closed and the share of rules closed.
+  - text: Specialty
+  - combobox "Provider specialty":
+    - option "All specialties" [selected]
+    - option "Family medicine"
+    - option "Internal medicine"
+    - option "Geriatrics"
+  - text: Provider
+  - combobox "Outcome provider":
+    - option "All providers" [selected]
+    - option "Dr. Emily Carter · Northbrook Family Care"
+    - option "Dr. Daniel Reyes · Lakeside Medical Group"
+    - option "Dr. Maya Thompson · Cedar Grove Primary Care"
+    - option "Dr. Olivia Grant · Westhaven Clinical Partners"
+    - option "Dr. Ethan Brooks · Maple Ridge Health"
+    - option "Dr. Sofia Bennett · Brookfield Community Care"
+    - option "Dr. Olivia Carter · Willow Creek Family Practice"
+    - option "Dr. Rafael Torres · Silver Birch Medical"
+    - option "Dr. Sarah Mitchell · Oakstone Primary Care"
+    - option "Dr. Anthony Wilson · Meadowvale Health Partners"
+    - option "Dr. Isabel Garcia · Pinecrest Family Medicine"
+    - option "Dr. David Morgan · Clearwater Clinical Group"
+    - option "Dr. Aisha Patel · Highland Grove Health"
+    - option "Dr. Carlos Hernandez · Birchwood Community Practice"
+    - option "Dr. Emily Nguyen · Riverbend Family Care"
+    - option "Dr. Matthew Reed · Stonebridge Medical Partners"
+    - option "Dr. Grace Thompson · Ashford Primary Care"
+    - option "Dr. Luis Perez · Fairhaven Community Health"
+    - option "Dr. Nina Johnson · Woodland Clinical Partners"
+    - option "Dr. Andrew Hall · Elmstead Family Medicine"
+    - option "Dr. Rachel Adams · Foxglove Medical Group"
+    - option "Dr. Kevin Lopez · Greenfield Health Practice"
+    - option "Dr. Maria Collins · Larkspur Family Care"
+    - option "Dr. Robert Kim · Summit Grove Medical"
+    - option "Dr. Ana Santos · Bluebell Community Care"
+    - option "Dr. Jason Mitchell · Kingswood Health Partners"
+    - option "Dr. Fatima Hassan · Hawthorne Family Practice"
+    - option "Dr. Eric Lewis · Cloverfield Primary Care"
+    - option "Dr. Julia Scott · Rosewood Medical Group"
+    - option "Dr. Steven Walker · Parkhaven Clinical Partners"
+  - strong: 9,021
+  - generic: Additional HCCs confirmed
+  - strong: 11,818
+  - text: Suspect rules closed
+  - strong: 72%
+  - text: Rules closed / identified
+  - 'img "Provider outcomes: confirmed conditions and closed rules by month, with closure rate"':
+    - application:
+      - generic: Jan
+      - generic: Feb
+      - generic: Mar
+      - generic: Apr
+      - generic: May
+      - generic: Jun
+      - generic: Jul
+      - generic: Aug
+      - generic: Sep
+      - generic: "0"
+      - generic: "350"
+      - generic: "700"
+      - generic: "1050"
+      - generic: "1400"
+      - generic: 0%
+      - generic: 25%
+      - generic: 50%
+      - generic: 75%
+      - generic: 100%
+  - generic: Rules closed
+  - generic: Additional HCCs
+  - generic: Closure rate
+  - generic: Historical outcomes, separate from the open suspect list. Closed rules include supported and unsupported findings; additions count distinct member–condition pairs. Rates use rules identified in the same month. No operational activity is measured.
+  - generic: 05 / Understand social needs
+  - heading "Where do health risks and social needs overlap?" [level=2]
+  - paragraph: Compare county risk scores and recorded social needs. Select a county to inspect its scores and member counts.
+  - text: Age
+  - combobox "Social needs Age":
+    - option "All ages" [selected]
+    - option "Under 65"
+    - option "65–74"
+    - option "75–84"
+    - option "85+"
+  - text: Gender
+  - combobox "Social needs Gender":
+    - option "All genders" [selected]
+    - option "Female"
+    - option "Male"
+    - option "Not recorded"
+  - text: ZIP code
+  - combobox "Social needs ZIP code":
+    - option "All ZIP codes" [selected]
+    - option "32202"
+    - option "32771"
+    - option "32801"
+    - option "33130"
+    - option "33301"
+    - option "33401"
+    - option "33602"
+    - option "33701"
+    - option "33801"
+    - option "33901"
+    - option "34236"
+    - option "34741"
+  - text: Race
+  - combobox "Social needs Race":
+    - option "All races" [selected]
+    - option "White"
+    - option "Black"
+    - option "Asian"
+    - option "Other / multiple"
+    - option "Not recorded"
+  - text: Social need / Z-code
+  - combobox "Social needs Social need / Z-code":
+    - option "All social needs" [selected]
+    - option "No recorded social need"
+    - option "Food insecurity · Z59.41"
+    - option "Transportation insecurity · Z59.82"
+    - option "Housing instability · Z59.811"
+  - generic: These filters apply to the whole dashboard.
+  - heading "County risk & social needs" [level=3]
+  - generic: Baseline · 12 counties shown
+  - generic: County · size shows members
+  - generic: Selected county
+  - generic: Above both county midpoints
+  - generic: Members with a recorded social need
+  - 'group "Florida counties: risk scores and social needs. Select a circle or use the county comparison list."':
+    - application:
+      - 'button "Select Broward: 1.091 Average RAF, 38% with social needs, 1,200 members"'
+      - 'button "Select Duval: 0.969 Average RAF, 54% with social needs, 994 members"'
+      - 'button "Select Hillsborough: 1.101 Average RAF, 51% with social needs, 951 members"'
+      - 'button "Select Lee: 0.983 Average RAF, 34% with social needs, 666 members"'
+      - 'button "Select Orange: 0.931 Average RAF, 27% with social needs, 1,058 members"'
+      - 'button "Select Osceola: 0.950 Average RAF, 28% with social needs, 619 members"'
+      - 'button "Select Palm Beach: 0.918 Average RAF, 34% with social needs, 903 members"'
+      - 'button "Select Pinellas: 1.038 Average RAF, 30% with social needs, 649 members"'
+      - 'button "Select Polk: 0.918 Average RAF, 59% with social needs, 767 members"'
+      - 'button "Select Sarasota: 1.099 Average RAF, 55% with social needs, 657 members"'
+      - 'button "Select Seminole: 1.090 Average RAF, 37% with social needs, 596 members"'
+      - 'button "Select Miami-Dade: 1.081 Average RAF, 63% with social needs, 871 members" [pressed]':
+        - generic: Miami-Dade
+      - generic: "0.87"
+      - generic: "0.93"
+      - generic: "0.99"
+      - generic: "1.05"
+      - generic: "1.11"
+      - generic: "1.15"
+      - generic: Average RAF
+      - generic: 0%
+      - generic: 25%
+      - generic: 50%
+      - generic: 75%
+      - generic: 100%
+  - paragraph:
+    - text: "Dashed lines mark the middle county on each measure:"
+    - strong: 1.010 RAF
+    - text: and
+    - strong: 38% with social needs
+    - text: . The shaded area is above both; these are comparison guides, not clinical thresholds.
+  - complementary "County comparison":
+    - generic: Selected county
+    - heading "Miami-Dade" [level=3]
+    - strong: "1.081"
+    - generic: Average RAF
+    - strong: 63%
+    - generic: With social needs
+    - paragraph: 552 of 871 members have a recorded social need.
+    - button "Explore Miami-Dade":
+      - text: Explore Miami-Dade
+    - text: Compare counties
+    - combobox "Rank counties by":
+      - option "Social-needs share" [selected]
+      - option "Average RAF"
+      - option "Member count"
+    - group "Select a county":
+      - button "Miami-Dade 871 members 63%" [pressed]:
+        - text: Miami-Dade
+        - generic: 871 members
+        - strong: 63%
+      - button "Polk 767 members 59%":
+        - text: Polk
+        - generic: 767 members
+        - strong: 59%
+      - button "Sarasota 657 members 55%":
+        - text: Sarasota
+        - generic: 657 members
+        - strong: 55%
+      - button "Duval 994 members 54%":
+        - text: Duval
+        - generic: 994 members
+        - strong: 54%
+      - button "Hillsborough 951 members 51%":
+        - text: Hillsborough
+        - generic: 951 members
+        - strong: 51%
+      - button "Broward 1,200 members 38%":
+        - text: Broward
+        - generic: 1,200 members
+        - strong: 38%
+      - button "Seminole 596 members 37%":
+        - text: Seminole
+        - generic: 596 members
+        - strong: 37%
+      - button "Palm Beach 903 members 34%":
+        - text: Palm Beach
+        - generic: 903 members
+        - strong: 34%
+      - button "Lee 666 members 34%":
+        - text: Lee
+        - generic: 666 members
+        - strong: 34%
+      - button "Pinellas 649 members 30%":
+        - text: Pinellas
+        - generic: 649 members
+        - strong: 30%
+      - button "Osceola 619 members 28%":
+        - text: Osceola
+        - generic: 619 members
+        - strong: 28%
+      - button "Orange 1,058 members 27%":
+        - text: Orange
+        - generic: 1,058 members
+        - strong: 27%
+  - generic: Groups under 20 members and a related group are protected. Social-needs information is separate from medical-record evidence; an unrecorded need does not mean no need exists.
+  - heading "Where to focus next" [level=2]
+  - paragraph: Suspected conditions and possible coding improvements
+  - button "View suspected conditions":
+    - text: View suspected conditions
+  - button "Missing diagnosis code 840":
+    - generic "Missing diagnosis code"
+    - generic: "840"
+  - button "Confirm past conditions 674":
+    - generic "Confirm past conditions"
+    - generic: "674"
+  - button "More diagnosis detail 403":
+    - generic "More diagnosis detail"
+    - generic: "403"
+  - button "Possible overcoding 150":
+    - generic "Possible overcoding"
+    - generic: "150"
+  - button "Possible new condition 145":
+    - generic "Possible new condition"
+    - generic: "145"
+  - button "Data issues 130":
+    - generic "Data issues"
+    - generic: "130"
+  - button "Ongoing health status 6":
+    - generic "Ongoing health status"
+    - generic: "6"
+  - heading "Rules find possible gaps" [level=3]
+  - paragraph: Rules check member details, documents and condition history to find possible gaps.
+  - heading "AI explains the evidence" [level=3]
+  - paragraph: Explanations highlight supporting evidence, dates and conflicting information.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- alert
+- generic: "0.87"

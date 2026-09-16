@@ -1,0 +1,176 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Maria Santos
+  - generic: MS
+  - heading "Maria Santos" [level=1]
+  - text: M-104829 · MA PPO
+  - text: Age 74 · Female
+  - generic: "88"
+  - text: Composite Impact
+  - generic: "95"
+  - text: Risk Impact
+  - generic: "88"
+  - text: Quality Impact
+  - generic: "90"
+  - text: Stars Impact
+  - generic: 4 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "Maria Santos profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization" [active] [selected]
+    - tab "SDOH & Engagement"
+  - tabpanel "Claims & Utilization":
+    - generic: TOTAL CLAIMS (2026)
+    - generic: "6"
+    - generic: Current-year claims shown
+    - generic: CHRONIC CONDITIONS
+    - generic: "3"
+    - generic: Diabetes, CKD Stage 3, Hypertension
+    - generic: OPEN QUALITY GAPS
+    - generic: "4"
+    - generic: See Quality, Stars & Opportunities
+    - generic: OPEN HCC OPPORTUNITIES
+    - generic: "3"
+    - generic: See Risk Adjustment
+    - generic: TOTAL PAID (2026, SHOWN)
+    - generic: $3,724
+    - generic: Paid amounts from claims below
+    - generic: PCP / SPECIALIST VISITS
+    - generic: 2 / 1
+    - generic: Ambulatory encounters shown
+    - generic: ED / URGENT VISITS
+    - generic: "1"
+    - generic: Utilization signal
+    - generic: PHARMACY FILLS
+    - generic: "1"
+    - generic: Adherence evidence
+    - heading "Claims History" [level=3]
+    - table:
+      - rowgroup:
+        - row "DOS Claim Provider Specialty POS Diagnosis Procedure Allowed Paid Status Relevance":
+          - columnheader "DOS"
+          - columnheader "Claim"
+          - columnheader "Provider"
+          - columnheader "Specialty"
+          - columnheader "POS"
+          - columnheader "Diagnosis"
+          - columnheader "Procedure"
+          - columnheader "Allowed"
+          - columnheader "Paid"
+          - columnheader "Status"
+          - columnheader "Relevance"
+      - rowgroup:
+        - row "07/18/2026 CLM-882104 Dr. A. Carter Primary Care 11 Office I10, E11.9 99214 $170 $148 Paid CBP + diabetes evidence":
+          - cell "07/18/2026"
+          - cell "CLM-882104"
+          - cell "Dr. A. Carter"
+          - cell "Primary Care"
+          - cell "11 Office"
+          - cell "I10, E11.9"
+          - cell "99214"
+          - cell "$170"
+          - cell "$148"
+          - cell "Paid"
+          - cell "CBP + diabetes evidence"
+        - row "06/22/2026 CLM-841260 Central Lab Laboratory 81 Lab E11.9 83036, 80061, 80053 $145 $126 Paid GSD/KED + HCC evidence":
+          - cell "06/22/2026"
+          - cell "CLM-841260"
+          - cell "Central Lab"
+          - cell "Laboratory"
+          - cell "81 Lab"
+          - cell "E11.9"
+          - cell "83036, 80061, 80053"
+          - cell "$145"
+          - cell "$126"
+          - cell "Paid"
+          - cell "GSD/KED + HCC evidence"
+        - row "05/03/2026 CLM-770142 City Hospital Emergency 23 ED R07.9 99284, 93010 $3,294 $2,864 Paid Utilization + arrhythmia review":
+          - cell "05/03/2026"
+          - cell "CLM-770142"
+          - cell "City Hospital"
+          - cell "Emergency"
+          - cell "23 ED"
+          - cell "R07.9"
+          - cell "99284, 93010"
+          - cell "$3,294"
+          - cell "$2,864"
+          - cell "Paid"
+          - cell "Utilization + arrhythmia review"
+        - row "04/14/2026 CLM-713406 Dr. R. Shah Cardiology 11 Office I49.9 99204, 93000 $474 $412 Paid HCC 226 suspect evidence":
+          - cell "04/14/2026"
+          - cell "CLM-713406"
+          - cell "Dr. R. Shah"
+          - cell "Cardiology"
+          - cell "11 Office"
+          - cell "I49.9"
+          - cell "99204, 93000"
+          - cell "$474"
+          - cell "$412"
+          - cell "Paid"
+          - cell "HCC 226 suspect evidence"
+        - row "03/12/2026 CLM-655910 Retail Pharmacy Pharmacy Pharmacy E11.9 NDC 00169-1833 $48 $42 Paid Medication adherence evidence":
+          - cell "03/12/2026"
+          - cell "CLM-655910"
+          - cell "Retail Pharmacy"
+          - cell "Pharmacy"
+          - cell "Pharmacy"
+          - cell "E11.9"
+          - cell "NDC 00169-1833"
+          - cell "$48"
+          - cell "$42"
+          - cell "Paid"
+          - cell "Medication adherence evidence"
+        - row "01/15/2026 CLM-601203 Dr. A. Carter Primary Care 11 Office Z00.00 G0439 $152 $132 Paid Annual wellness visit":
+          - cell "01/15/2026"
+          - cell "CLM-601203"
+          - cell "Dr. A. Carter"
+          - cell "Primary Care"
+          - cell "11 Office"
+          - cell "Z00.00"
+          - cell "G0439"
+          - cell "$152"
+          - cell "$132"
+          - cell "Paid"
+          - cell "Annual wellness visit"
+    - button "Show Prior Claims"
+    - text: Loads all remaining history into this table, then this control is removed
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

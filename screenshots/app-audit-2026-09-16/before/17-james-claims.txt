@@ -1,0 +1,152 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: James Patel
+  - generic: JP
+  - heading "James Patel" [level=1]
+  - text: M-441098 · MA PPO
+  - text: Age 76 · Male
+  - generic: "70"
+  - text: Composite Impact
+  - generic: "82"
+  - text: Risk Impact
+  - generic: "68"
+  - text: Quality Impact
+  - generic: "66"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "James Patel profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization" [active] [selected]
+    - tab "SDOH & Engagement"
+  - tabpanel "Claims & Utilization":
+    - generic: TOTAL CLAIMS (2026)
+    - generic: "4"
+    - generic: Current-year claims shown
+    - generic: CHRONIC CONDITIONS
+    - generic: "2"
+    - generic: CKD (coded Stage 3a; labs suggest Stage 4), Hypertension
+    - generic: OPEN QUALITY GAPS
+    - generic: "2"
+    - generic: See Quality, Stars & Opportunities
+    - generic: OPEN HCC OPPORTUNITIES
+    - generic: "3"
+    - generic: See Risk Adjustment
+    - generic: TOTAL PAID (2026, SHOWN)
+    - generic: $326
+    - generic: Paid amounts from claims below
+    - generic: PCP / SPECIALIST VISITS
+    - generic: 0 / 1
+    - generic: Ambulatory encounters shown
+    - generic: ED / URGENT VISITS
+    - generic: "0"
+    - generic: Utilization signal
+    - generic: PHARMACY FILLS
+    - generic: "1"
+    - generic: Adherence evidence
+    - heading "Claims History" [level=3]
+    - table:
+      - rowgroup:
+        - row "DOS Claim Provider Specialty POS Diagnosis Procedure Allowed Paid Status Relevance":
+          - columnheader "DOS"
+          - columnheader "Claim"
+          - columnheader "Provider"
+          - columnheader "Specialty"
+          - columnheader "POS"
+          - columnheader "Diagnosis"
+          - columnheader "Procedure"
+          - columnheader "Allowed"
+          - columnheader "Paid"
+          - columnheader "Status"
+          - columnheader "Relevance"
+      - rowgroup:
+        - row "06/30/2026 CLM-770511 Dr. L. Chen Nephrology 11 Office N18.31 99214 $193 $168 Paid KED evidence; coded CKD Stage 3a (see Risk Adjustment for Stage 4 lab evidence)":
+          - cell "06/30/2026"
+          - cell "CLM-770511"
+          - cell "Dr. L. Chen"
+          - cell "Nephrology"
+          - cell "11 Office"
+          - cell "N18.31"
+          - cell "99214"
+          - cell "$193"
+          - cell "$168"
+          - cell "Paid"
+          - cell "KED evidence; coded CKD Stage 3a (see Risk Adjustment for Stage 4 lab evidence)"
+        - row "08/02/2026 CLM-745510 Central Lab Laboratory 81 Lab N18.4 82043, 82570 $71 $62 Paid Repeated low eGFR requires clinician reconciliation of CKD stage (see Risk Adjustment); uACR ordered same encounter, result not returned - KED gap remains open":
+          - cell "08/02/2026"
+          - cell "CLM-745510"
+          - cell "Central Lab"
+          - cell "Laboratory"
+          - cell "81 Lab"
+          - cell "N18.4"
+          - cell "82043, 82570"
+          - cell "$71"
+          - cell "$62"
+          - cell "Paid"
+          - cell "Repeated low eGFR requires clinician reconciliation of CKD stage (see Risk Adjustment); uACR ordered same encounter, result not returned - KED gap remains open"
+        - row "04/14/2026 CLM-741002 Central Lab Laboratory 81 Lab N18.4 82043, 82570 $71 $62 Paid eGFR 24 supports Stage 4 (see Risk Adjustment); uACR ordered same encounter, result not returned - KED gap remains open":
+          - cell "04/14/2026"
+          - cell "CLM-741002"
+          - cell "Central Lab"
+          - cell "Laboratory"
+          - cell "81 Lab"
+          - cell "N18.4"
+          - cell "82043, 82570"
+          - cell "$71"
+          - cell "$62"
+          - cell "Paid"
+          - cell "eGFR 24 supports Stage 4 (see Risk Adjustment); uACR ordered same encounter, result not returned - KED gap remains open"
+        - row "02/06/2026 CLM-712804 Retail Pharmacy Pharmacy Pharmacy I10, N18.4 NDC 00378-0221 $39 $34 Paid ACE inhibitor adherence evidence":
+          - cell "02/06/2026"
+          - cell "CLM-712804"
+          - cell "Retail Pharmacy"
+          - cell "Pharmacy"
+          - cell "Pharmacy"
+          - cell "I10, N18.4"
+          - cell "NDC 00378-0221"
+          - cell "$39"
+          - cell "$34"
+          - cell "Paid"
+          - cell "ACE inhibitor adherence evidence"
+    - button "Show Prior Claims"
+    - text: Loads all remaining history into this table, then this control is removed
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

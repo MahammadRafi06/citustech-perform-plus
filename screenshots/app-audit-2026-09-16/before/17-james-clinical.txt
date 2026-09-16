@@ -1,0 +1,191 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: James Patel
+  - generic: JP
+  - heading "James Patel" [level=1]
+  - text: M-441098 · MA PPO
+  - text: Age 76 · Male
+  - generic: "70"
+  - text: Composite Impact
+  - generic: "82"
+  - text: Risk Impact
+  - generic: "68"
+  - text: Quality Impact
+  - generic: "66"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "James Patel profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data" [active] [selected]
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Clinical Data":
+    - paragraph: Reflects completed encounters, results and current clinical state only. No appointment scheduling data is available in source systems.
+    - heading "Active Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Onset Year Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Onset Year"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Chronic Kidney Disease, Stage 3a (coded) N18.31 2020 Active - CKD stage requires clinician reconciliation":
+          - cell "Chronic Kidney Disease, Stage 3a (coded)"
+          - cell "N18.31"
+          - cell "2020"
+          - cell "Active - CKD stage requires clinician reconciliation"
+        - row "Essential Hypertension I10 2010 Active":
+          - cell "Essential Hypertension"
+          - cell "I10"
+          - cell "2010"
+          - cell "Active"
+    - heading "Historical / Resolved Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Acute kidney injury on CKD N17.9 Resolved 2023":
+          - cell "Acute kidney injury on CKD"
+          - cell "N17.9"
+          - cell "Resolved 2023"
+    - heading "Lab Results" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Test Result Interpretation Source":
+          - columnheader "Date"
+          - columnheader "Test"
+          - columnheader "Result"
+          - columnheader "Interpretation"
+          - columnheader "Source"
+      - rowgroup:
+        - 'row "04/14/2026 eGFR 24 mL/min/1.73m² Low (Stage 4 range: <30) Central Lab"':
+          - cell "04/14/2026"
+          - cell "eGFR"
+          - cell "24 mL/min/1.73m²"
+          - 'cell "Low (Stage 4 range: <30)"'
+          - cell "Central Lab"
+        - 'row "08/02/2026 eGFR 22 mL/min/1.73m² Low (Stage 4 range: <30) Central Lab"':
+          - cell "08/02/2026"
+          - cell "eGFR"
+          - cell "22 mL/min/1.73m²"
+          - 'cell "Low (Stage 4 range: <30)"'
+          - cell "Central Lab"
+    - heading "Procedures Performed" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Procedure Code Provider":
+          - columnheader "Date"
+          - columnheader "Procedure"
+          - columnheader "Code"
+          - columnheader "Provider"
+      - rowgroup:
+        - row "06/30/2026 Nephrology office visit 99214 Dr. L. Chen":
+          - cell "06/30/2026"
+          - cell "Nephrology office visit"
+          - cell "99214"
+          - cell "Dr. L. Chen"
+        - row "08/02/2026 Labs - creatinine, eGFR (22); uACR ordered, result not returned 82043, 82570 Central Lab":
+          - cell "08/02/2026"
+          - cell "Labs - creatinine, eGFR (22); uACR ordered, result not returned"
+          - cell "82043, 82570"
+          - cell "Central Lab"
+        - row "04/14/2026 Labs - creatinine, eGFR (24); uACR ordered, result not returned 82043, 82570 Central Lab":
+          - cell "04/14/2026"
+          - cell "Labs - creatinine, eGFR (24); uACR ordered, result not returned"
+          - cell "82043, 82570"
+          - cell "Central Lab"
+    - button "Show Prior Procedures"
+    - text: Each click loads the next earlier period into this same table
+    - heading "Active Medications" [level=3]
+    - table:
+      - rowgroup:
+        - row "Medication Dose / Frequency Start Year Prescriber":
+          - columnheader "Medication"
+          - columnheader "Dose / Frequency"
+          - columnheader "Start Year"
+          - columnheader "Prescriber"
+      - rowgroup:
+        - row "lisinopril 20 MG Oral Tablet Once daily (QD) 2010 Dr. A. Carter":
+          - cell "lisinopril 20 MG Oral Tablet"
+          - cell "Once daily (QD)"
+          - cell "2010"
+          - cell "Dr. A. Carter"
+        - row "sodium bicarbonate 650 MG Oral Tablet Twice daily (BID) 2023 Dr. L. Chen":
+          - cell "sodium bicarbonate 650 MG Oral Tablet"
+          - cell "Twice daily (BID)"
+          - cell "2023"
+          - cell "Dr. L. Chen"
+    - heading "Prescription Refill History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Medication Supply Pharmacy":
+          - columnheader "Date"
+          - columnheader "Medication"
+          - columnheader "Supply"
+          - columnheader "Pharmacy"
+      - rowgroup:
+        - row "02/06/2026 lisinopril 20 MG Oral Tablet 90-day supply Retail Pharmacy":
+          - cell "02/06/2026"
+          - cell "lisinopril 20 MG Oral Tablet"
+          - cell "90-day supply"
+          - cell "Retail Pharmacy"
+    - button "Show Prior Refills"
+    - text: Loads all remaining history into this table, then this control is removed
+    - heading "Allergies" [level=3]
+    - table:
+      - rowgroup:
+        - row "Allergen Reaction Severity Date Noted":
+          - columnheader "Allergen"
+          - columnheader "Reaction"
+          - columnheader "Severity"
+          - columnheader "Date Noted"
+      - rowgroup:
+        - row "Contrast dye Anaphylaxis Severe Noted 2021":
+          - cell "Contrast dye"
+          - cell "Anaphylaxis"
+          - cell "Severe"
+          - cell "Noted 2021"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

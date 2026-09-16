@@ -1,0 +1,127 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: James Patel
+  - generic: JP
+  - heading "James Patel" [level=1]
+  - text: M-441098 · MA PPO
+  - text: Age 76 · Male
+  - generic: "70"
+  - text: Composite Impact
+  - generic: "82"
+  - text: Risk Impact
+  - generic: "68"
+  - text: Quality Impact
+  - generic: "66"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "James Patel profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities" [active] [selected]
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Quality, Stars & Opportunities":
+    - generic: OPEN QUALITY GAPS
+    - generic: "2"
+    - generic: Detailed below
+    - generic: STARS-LINKED MEASURES
+    - generic: "1"
+    - generic: Of 2 open gaps
+    - generic: RISK-LINKED GAPS
+    - generic: "1"
+    - generic: Overlap with HCC review
+    - generic: OPPORTUNITY CLOSURE PROBABILITY
+    - generic: 58%
+    - generic: Average across open gaps
+    - generic "How is Opportunity Closure Probability calculated for this member?"
+    - heading "Measures & Gaps in Care" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Status Latest Result / Evidence Required Action Expiry Source Stars-Linked Risk-Linked":
+          - columnheader "Measure"
+          - columnheader "Status"
+          - columnheader "Latest Result / Evidence"
+          - columnheader "Required Action"
+          - columnheader "Expiry"
+          - columnheader "Source"
+          - columnheader "Stars-Linked"
+          - columnheader "Risk-Linked"
+      - rowgroup:
+        - 'row "KED: Kidney Health Evaluation Open eGFR present; uACR ordered on 04/14 and 08/02 but no result value returned (lab interface pending) Redraw/confirm uACR result for numerator credit 12/31/2026 Lab + claim No Yes"':
+          - 'cell "KED: Kidney Health Evaluation"'
+          - cell "Open":
+            - generic: Open
+          - cell "eGFR present; uACR ordered on 04/14 and 08/02 but no result value returned (lab interface pending)"
+          - cell "Redraw/confirm uACR result for numerator credit"
+          - cell "12/31/2026"
+          - cell "Lab + claim"
+          - cell "No"
+          - cell "Yes"
+        - 'row "CBP: Controlling Blood Pressure Open 146/92 on 06/30 Obtain controlled BP reading 12/31/2026 EHR + claim Yes No"':
+          - 'cell "CBP: Controlling Blood Pressure"'
+          - cell "Open":
+            - generic: Open
+          - cell "146/92 on 06/30"
+          - cell "Obtain controlled BP reading"
+          - cell "12/31/2026"
+          - cell "EHR + claim"
+          - cell "Yes"
+          - cell "No"
+    - heading "Stars Contract Context" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Weight Contract Rate Next Cut Point Contract Closures Needed Member Contribution if Closed":
+          - columnheader "Measure"
+          - columnheader "Weight"
+          - columnheader "Contract Rate"
+          - columnheader "Next Cut Point"
+          - columnheader "Contract Closures Needed"
+          - columnheader "Member Contribution if Closed"
+      - rowgroup:
+        - row "CBP 3 69.00% 70.20% 221 +1 numerator if closed":
+          - cell "CBP"
+          - cell "3"
+          - cell "69.00%"
+          - cell "70.20%"
+          - cell "221"
+          - cell "+1 numerator if closed"
+    - generic "Why is this member's Stars impact 66?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

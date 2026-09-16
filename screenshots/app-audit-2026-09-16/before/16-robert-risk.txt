@@ -1,0 +1,145 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Robert Klein
+  - generic: RK
+  - heading "Robert Klein" [level=1]
+  - text: M-204175 · MA HMO
+  - text: Age 71 · Male
+  - generic: "78"
+  - text: Composite Impact
+  - generic: "91"
+  - text: Risk Impact
+  - generic: "70"
+  - text: Quality Impact
+  - generic: "75"
+  - text: Stars Impact
+  - generic: 3 Quality Gaps
+  - generic: 4 HCC Opportunities
+  - generic: 1 Audit-Risk HCC
+  - generic: Social isolation Flag
+  - button "Back to Member List"
+  - tablist "Robert Klein profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment" [active] [selected]
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Risk Adjustment":
+    - generic: CMS-HCC V28 · Payment year 2026. Current RAF reflects accepted contributions. Projected RAF adds clinically confirmed opportunities pending acceptance. Potential RAF adds unconfirmed opportunities. Suspects require clinician documentation and coding validation; confidence scores do not establish a diagnosis. See source and scoring notes below.
+    - generic: CURRENT RAF
+    - generic: "1.220"
+    - generic: Accepted contributions
+    - generic: PROJECTED RAF
+    - generic: "1.400"
+    - generic: Current + 0.180 validated
+    - generic: POTENTIAL RAF
+    - generic: "1.600"
+    - generic: Current + 0.380 raw opportunity
+    - generic: HCC BREAKDOWN
+    - generic: 1 / 1 / 1 / 1
+    - generic: Validated / Recapture / Suspect / Audit-Risk (of 4)
+    - generic: VALIDATED OPPORTUNITY VALUE
+    - generic: $2,160
+    - generic: 0.180 RAF × $12,000/pt
+    - generic: ADDITIONAL POTENTIAL VALUE
+    - generic: $2,400
+    - generic: unvalidated recapture/suspect only
+    - generic: TOTAL RAF OPPORTUNITY VALUE
+    - generic: $4,560
+    - generic: validated + additional
+    - generic: AUDIT EXPOSURE (SEPARATE)
+    - generic: $1,932
+    - generic: Already in Current RAF; single-member clawback risk. If extrapolated across the audited sample (RAF Audit Phase 5), total exposure could be materially higher.
+    - heading "HCC Opportunities (Validated, Recapture, Suspect & Audit-Risk)" [level=3]
+    - table:
+      - rowgroup:
+        - row "HCC / Condition Category RAF Delta Confidence RAF Inclusion Status Evidence MEAT/TAMPER / Compliance Note":
+          - columnheader "HCC / Condition"
+          - columnheader "Category"
+          - columnheader "RAF Delta"
+          - columnheader "Confidence"
+          - columnheader "RAF Inclusion Status"
+          - columnheader "Evidence"
+          - columnheader "MEAT/TAMPER / Compliance Note"
+      - rowgroup:
+        - row "HCC 85 COPD with respiratory failure Validated 0.180 90% Included in Projected RAF (validated, pending acceptance) Prior HCC, pulmonology note, O2 use MEAT evidence located":
+          - cell "HCC 85 COPD with respiratory failure"
+          - cell "Validated":
+            - generic: Validated
+          - cell "0.180"
+          - cell "90%"
+          - cell "Included in Projected RAF (validated, pending acceptance)"
+          - cell "Prior HCC, pulmonology note, O2 use"
+          - cell "MEAT evidence located"
+        - row "HCC 111 COPD Complication Recapture Opportunity 0.070 71% Potential (not yet included in RAF) Prior-year (2025) HCC not yet re-documented this period Recapture encounter not yet completed":
+          - cell "HCC 111 COPD Complication"
+          - cell "Recapture Opportunity":
+            - generic: Recapture Opportunity
+          - cell "0.070"
+          - cell "71%"
+          - cell "Potential (not yet included in RAF)"
+          - cell "Prior-year (2025) HCC not yet re-documented this period"
+          - cell "Recapture encounter not yet completed"
+        - row "HCC 108 Vascular disease High-Risk HCC Suspect Opportunity 0.130 60% Potential (not yet included in RAF) Claim only, no recent note Assessment absent. Flagged per RAF Audit Phase 4 High-Risk HCC Concentration testing (vascular disease is an OIG-identified high-error category).":
+          - cell "HCC 108 Vascular disease High-Risk HCC":
+            - text: HCC 108 Vascular disease
+            - generic: High-Risk HCC
+          - cell "Suspect Opportunity":
+            - generic: Suspect Opportunity
+          - cell "0.130"
+          - cell "60%"
+          - cell "Potential (not yet included in RAF)"
+          - cell "Claim only, no recent note"
+          - cell "Assessment absent. Flagged per RAF Audit Phase 4 High-Risk HCC Concentration testing (vascular disease is an OIG-identified high-error category)."
+        - row "HCC 48 Morbid Obesity High-Risk HCC Unsupported HCC (Upcoding Risk) 0.161 32% Included in Current RAF (audit-risk) Single telehealth encounter (POS 02) on 03/14/2026; no BMI, weight, nutrition counseling, or follow-up documented; no corroborating labs, vitals, or specialist encounter found anywhere else in claims or clinical history. MEAT/TAMPER not demonstrated - recommend chart review prior to RADV/HCC resubmission. Flagged per RAF Audit Phase 4 High-Risk HCC Concentration testing (morbid obesity is an OIG-identified high-error category).":
+          - cell "HCC 48 Morbid Obesity High-Risk HCC":
+            - text: HCC 48 Morbid Obesity
+            - generic: High-Risk HCC
+          - cell "Unsupported HCC (Upcoding Risk)":
+            - generic: Unsupported HCC (Upcoding Risk)
+          - cell "0.161"
+          - cell "32%"
+          - cell "Included in Current RAF (audit-risk)"
+          - cell "Single telehealth encounter (POS 02) on 03/14/2026; no BMI, weight, nutrition counseling, or follow-up documented; no corroborating labs, vitals, or specialist encounter found anywhere else in claims or clinical history."
+          - cell "MEAT/TAMPER not demonstrated - recommend chart review prior to RADV/HCC resubmission. Flagged per RAF Audit Phase 4 High-Risk HCC Concentration testing (morbid obesity is an OIG-identified high-error category)."
+    - paragraph: "Validated: clinically confirmed, pending submission or acceptance; reflected in Projected RAF. Recapture Opportunity: a prior-year HCC recurring without current-year re-documentation (per RAF Audit Phase 4, Chronic Condition Persistence testing). Specificity Review: a currently coded HCC whose own current-year evidence supports a higher-specificity/higher-severity code than what was submitted - distinct from recapture because the gap originates in this period's own documentation, not a prior-year lapse (per RAF Audit Phase 4, Coding Guideline Accuracy testing). Suspect Opportunity: a potential new HCC identified from claims/clinical evidence, pending clinician review. Unsupported HCC / Audit-Risk (Possible Upcoding): an HCC already reflected in Current RAF whose supporting evidence is insufficient (MEAT/TAMPER not demonstrated), creating potential overpayment/clawback exposure rather than upside (per RAF Audit Phase 4, Unsupported HCC Rate testing)."
+    - paragraph: "Reconciliation: 1.220 + 0.180 validated = 1.400 projected. 1.220 + 0.380 total raw opportunity (excludes audit-risk) = 1.600 potential."
+    - paragraph: Audit exposure of $1,932 (0.161 RAF) is already included within Current RAF above and is shown separately because it represents compliance/clawback risk, not additional revenue. This is a single-member estimated figure only; RAF Audit Phase 5 (Extrapolated Exposure) would project population-level recoupment risk from the sample-level unsupported HCC rate.
+    - paragraph: Planning value uses an assumed rate of $12,000 per RAF point and is not an actual plan-specific PMPM or revenue figure.
+    - generic "Why is HCC confidence scored this way?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

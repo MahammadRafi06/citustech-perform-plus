@@ -1,0 +1,136 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Ellen Brooks
+  - generic: EB
+  - heading "Ellen Brooks" [level=1]
+  - text: M-318820 · MA PPO
+  - text: Age 68 · Female
+  - generic: "79"
+  - text: Composite Impact
+  - generic: "61"
+  - text: Risk Impact
+  - generic: "92"
+  - text: Quality Impact
+  - generic: "94"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 2 HCC Opportunities
+  - button "Back to Member List"
+  - tablist "Ellen Brooks profile sections":
+    - tab "Summary" [active] [selected]
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Summary":
+    - heading "Member summary" [level=3]
+    - generic: Ellen Brooks is a long-term member (continuous enrollment since 2022). The member has documented Diabetes. There are 2 open quality opportunities, and 2 risk-adjustment opportunities under clinical review (0.06 RAF validated, 0.08 additional potential pending evidence). Screening indicates no significant access barriers; member prefers digital engagement channels. Based on composite impact (79/100), this member is a moderate priority for coordinated outreach.
+    - generic "Why this composite score (79)?"
+    - heading "Areas to explore" [level=3]
+    - text: "Close: GSD: Glycemic Status Assessment"
+    - paragraph: Order A1c test
+    - text: "Close: Statin Therapy - Diabetes"
+    - paragraph: Prescribe/confirm statin
+    - text: Review HCC 40 Rheumatoid arthritis
+    - paragraph: Clinician validation and documentation required before submission
+    - text: Address Digital access
+    - paragraph: Digital outreach preferred
+    - heading "Member Demographics & Identifiers" [level=3]
+    - table:
+      - rowgroup:
+        - row "Member Name DOB Age Sex Member ID Member SSUI Enrollment SSUI Custom ID 1 Custom ID 2":
+          - columnheader "Member Name"
+          - columnheader "DOB"
+          - columnheader "Age"
+          - columnheader "Sex"
+          - columnheader "Member ID"
+          - columnheader "Member SSUI"
+          - columnheader "Enrollment SSUI"
+          - columnheader "Custom ID 1"
+          - columnheader "Custom ID 2"
+      - rowgroup:
+        - row "Ellen Brooks 11/02/1957 68 Female M-318820 77310284490031 31122 CTP-902317 LEG-118820":
+          - cell "Ellen Brooks"
+          - cell "11/02/1957"
+          - cell "68"
+          - cell "Female"
+          - cell "M-318820"
+          - cell "77310284490031"
+          - cell "31122"
+          - cell "CTP-902317"
+          - cell "LEG-118820"
+    - table:
+      - rowgroup:
+        - row "Address City County State ZIP Phone Email":
+          - columnheader "Address"
+          - columnheader "City"
+          - columnheader "County"
+          - columnheader "State"
+          - columnheader "ZIP"
+          - columnheader "Phone"
+          - columnheader "Email"
+      - rowgroup:
+        - row "88 Lakeview Terrace Tampa Hillsborough County FL 33606 (813) 555-0339 e.brooks@example.test":
+          - cell "88 Lakeview Terrace"
+          - cell "Tampa"
+          - cell "Hillsborough County"
+          - cell "FL"
+          - cell "33606"
+          - cell "(813) 555-0339"
+          - cell "e.brooks@example.test"
+    - table:
+      - rowgroup:
+        - row "Race Race Source Race Source Method Ethnicity Ethnicity Source Preferred Language Written Language":
+          - columnheader "Race"
+          - columnheader "Race Source"
+          - columnheader "Race Source Method"
+          - columnheader "Ethnicity"
+          - columnheader "Ethnicity Source"
+          - columnheader "Preferred Language"
+          - columnheader "Written Language"
+      - rowgroup:
+        - row "Asian Member enrollment Direct Not Hispanic or Latino Member enrollment English English":
+          - cell "Asian"
+          - cell "Member enrollment"
+          - cell "Direct"
+          - cell "Not Hispanic or Latino"
+          - cell "Member enrollment"
+          - cell "English"
+          - cell "English"
+    - paragraph: "Member is a long-term member: Long-term member (continuous enrollment since 2022)."
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

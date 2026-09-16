@@ -1,0 +1,165 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Robert Klein
+  - generic: RK
+  - heading "Robert Klein" [level=1]
+  - text: M-204175 · MA HMO
+  - text: Age 71 · Male
+  - generic: "78"
+  - text: Composite Impact
+  - generic: "91"
+  - text: Risk Impact
+  - generic: "70"
+  - text: Quality Impact
+  - generic: "75"
+  - text: Stars Impact
+  - generic: 3 Quality Gaps
+  - generic: 4 HCC Opportunities
+  - generic: 1 Audit-Risk HCC
+  - generic: Social isolation Flag
+  - button "Back to Member List"
+  - tablist "Robert Klein profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization" [active] [selected]
+    - tab "SDOH & Engagement"
+  - tabpanel "Claims & Utilization":
+    - generic: TOTAL CLAIMS (2026)
+    - generic: "5"
+    - generic: Current-year claims shown
+    - generic: CHRONIC CONDITIONS
+    - generic: "2"
+    - generic: CHF, COPD
+    - generic: OPEN QUALITY GAPS
+    - generic: "3"
+    - generic: See Quality, Stars & Opportunities
+    - generic: OPEN HCC OPPORTUNITIES
+    - generic: "4"
+    - generic: See Risk Adjustment
+    - generic: TOTAL PAID (2026, SHOWN)
+    - generic: $3,260
+    - generic: Paid amounts from claims below
+    - generic: PCP / SPECIALIST VISITS
+    - generic: 0 / 2
+    - generic: Ambulatory encounters shown
+    - generic: ED / URGENT VISITS
+    - generic: "1"
+    - generic: Utilization signal
+    - generic: PHARMACY FILLS
+    - generic: "1"
+    - generic: Adherence evidence
+    - heading "Claims History" [level=3]
+    - table:
+      - rowgroup:
+        - row "DOS Claim Provider Specialty POS Diagnosis Procedure Allowed Paid Status Relevance":
+          - columnheader "DOS"
+          - columnheader "Claim"
+          - columnheader "Provider"
+          - columnheader "Specialty"
+          - columnheader "POS"
+          - columnheader "Diagnosis"
+          - columnheader "Procedure"
+          - columnheader "Allowed"
+          - columnheader "Paid"
+          - columnheader "Status"
+          - columnheader "Relevance"
+      - rowgroup:
+        - row "07/02/2026 CLM-901221 Dr. J. Lee Pulmonology 11 Office J44.1 94010 $214 $186 Paid COPD spirometry evidence":
+          - cell "07/02/2026"
+          - cell "CLM-901221"
+          - cell "Dr. J. Lee"
+          - cell "Pulmonology"
+          - cell "11 Office"
+          - cell "J44.1"
+          - cell "94010"
+          - cell "$214"
+          - cell "$186"
+          - cell "Paid"
+          - cell "COPD spirometry evidence"
+        - row "06/10/2026 CLM-884410 City Cardiology Cardiology 11 Office I50.9 99214, 93306 $612 $532 Paid CHF evidence + echocardiogram":
+          - cell "06/10/2026"
+          - cell "CLM-884410"
+          - cell "City Cardiology"
+          - cell "Cardiology"
+          - cell "11 Office"
+          - cell "I50.9"
+          - cell "99214, 93306"
+          - cell "$612"
+          - cell "$532"
+          - cell "Paid"
+          - cell "CHF evidence + echocardiogram"
+        - row "04/28/2026 CLM-820044 City Hospital Emergency 23 ED R06.02 99283 $2,772 $2,410 Paid Utilization signal":
+          - cell "04/28/2026"
+          - cell "CLM-820044"
+          - cell "City Hospital"
+          - cell "Emergency"
+          - cell "23 ED"
+          - cell "R06.02"
+          - cell "99283"
+          - cell "$2,772"
+          - cell "$2,410"
+          - cell "Paid"
+          - cell "Utilization signal"
+        - 'row "03/14/2026 CLM-808812 Telehealth Associates Telehealth 02 Telehealth E66.01 99213-95 $85 $74 Paid Audit-risk: sole basis for HCC 48 - no BMI/weight, no follow-up"':
+          - cell "03/14/2026"
+          - cell "CLM-808812"
+          - cell "Telehealth Associates"
+          - cell "Telehealth"
+          - cell "02 Telehealth"
+          - cell "E66.01"
+          - cell "99213-95"
+          - cell "$85"
+          - cell "$74"
+          - cell "Paid"
+          - 'cell "Audit-risk: sole basis for HCC 48 - no BMI/weight, no follow-up"'
+        - row "02/15/2026 CLM-802210 Retail Pharmacy Pharmacy Pharmacy J44.1, I50.9 NDC 00093-7267 $67 $58 Paid CHF/COPD adherence evidence":
+          - cell "02/15/2026"
+          - cell "CLM-802210"
+          - cell "Retail Pharmacy"
+          - cell "Pharmacy"
+          - cell "Pharmacy"
+          - cell "J44.1, I50.9"
+          - cell "NDC 00093-7267"
+          - cell "$67"
+          - cell "$58"
+          - cell "Paid"
+          - cell "CHF/COPD adherence evidence"
+    - button "Show Prior Claims"
+    - text: Loads all remaining history into this table, then this control is removed
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

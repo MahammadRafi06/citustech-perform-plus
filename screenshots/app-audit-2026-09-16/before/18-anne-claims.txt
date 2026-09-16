@@ -1,0 +1,128 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Anne Foster
+  - generic: AF
+  - heading "Anne Foster" [level=1]
+  - text: M-559214 · MA PPO
+  - text: Age 67 · Female
+  - generic: "57"
+  - text: Composite Impact
+  - generic: "58"
+  - text: Risk Impact
+  - generic: "55"
+  - text: Quality Impact
+  - generic: "70"
+  - text: Stars Impact
+  - generic: 1 Quality Gap
+  - generic: 1 HCC Opportunity
+  - generic: SDOH screening needed
+  - generic: New Member
+  - button "Back to Member List"
+  - tablist "Anne Foster profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization" [active] [selected]
+    - tab "SDOH & Engagement"
+  - tabpanel "Claims & Utilization":
+    - generic: TOTAL CLAIMS (2026)
+    - generic: "2"
+    - generic: Current-year claims shown
+    - generic: CHRONIC CONDITIONS
+    - generic: "0"
+    - generic: None documented yet
+    - generic: OPEN QUALITY GAPS
+    - generic: "1"
+    - generic: See Quality, Stars & Opportunities
+    - generic: OPEN HCC OPPORTUNITIES
+    - generic: "1"
+    - generic: See Risk Adjustment
+    - generic: TOTAL PAID (2026, SHOWN)
+    - generic: $231
+    - generic: Paid amounts from claims below
+    - generic: PCP / SPECIALIST VISITS
+    - generic: 1 / 0
+    - generic: Ambulatory encounters shown
+    - generic: ED / URGENT VISITS
+    - generic: "0"
+    - generic: Utilization signal
+    - generic: PHARMACY FILLS
+    - generic: "0"
+    - generic: Adherence evidence
+    - heading "Claims History" [level=3]
+    - table:
+      - rowgroup:
+        - row "DOS Claim Provider Specialty POS Diagnosis Procedure Allowed Paid Status Relevance":
+          - columnheader "DOS"
+          - columnheader "Claim"
+          - columnheader "Provider"
+          - columnheader "Specialty"
+          - columnheader "POS"
+          - columnheader "Diagnosis"
+          - columnheader "Procedure"
+          - columnheader "Allowed"
+          - columnheader "Paid"
+          - columnheader "Status"
+          - columnheader "Relevance"
+      - rowgroup:
+        - row "04/02/2026 CLM-660810 Dr. P. Nguyen Primary Care 11 Office Z00.00 G0438, G0444 $198 $173 Paid Initial AWV + positive PHQ-2 depression screen (MDD suspect evidence)":
+          - cell "04/02/2026"
+          - cell "CLM-660810"
+          - cell "Dr. P. Nguyen"
+          - cell "Primary Care"
+          - cell "11 Office"
+          - cell "Z00.00"
+          - cell "G0438, G0444"
+          - cell "$198"
+          - cell "$173"
+          - cell "Paid"
+          - cell "Initial AWV + positive PHQ-2 depression screen (MDD suspect evidence)"
+        - row "04/15/2026 CLM-671002 Central Lab Laboratory 81 Lab Z00.00 80053, 85025 $67 $58 Paid Baseline labs - new member profile":
+          - cell "04/15/2026"
+          - cell "CLM-671002"
+          - cell "Central Lab"
+          - cell "Laboratory"
+          - cell "81 Lab"
+          - cell "Z00.00"
+          - cell "80053, 85025"
+          - cell "$67"
+          - cell "$58"
+          - cell "Paid"
+          - cell "Baseline labs - new member profile"
+    - paragraph: No prior-year claims history available for this member.
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

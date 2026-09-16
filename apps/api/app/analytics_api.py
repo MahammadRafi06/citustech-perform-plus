@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
 
-from . import analytics_experience as model, risk_service, risk_store
+from . import analytics_experience as model, risk_service, risk_store, member360_analytics
 
 _CACHE = OrderedDict()
 _LOCK = RLock()
@@ -38,11 +38,16 @@ def register(app, *, db, user, get_state, allowed_members, permit, roles):
         if not set(roles[u['role']]['screens']) & {'overview','analytics','suspects','providers'}:
             fail('Your role does not have analytics or suspect-inspection access.',403)
 
+    def scoped_members(state, u):
+        return allowed_members(state, u) + member360_analytics.members_for(u, roles)
+
     def make(conn, u, config_id, context):
         access(u)
-        state=get_state(conn); members=allowed_members(state,u)
+        state=get_state(conn); members=scoped_members(state,u)
         try: config=risk_service.configuration(config_id,conn)
         except ValueError as e: fail(str(e))
+        if config['program'] != 'MA':
+            members = [m for m in members if not m.get('profile_reference')]
         key=model.digest([config_id,context,sorted(m['id'] for m in members),
             [(m['id'],m.get('county'),m['provider_id'],m.get('provider'),m.get('age'),m.get('sex'),m.get('condition')) for m in members],
             state['opportunities'],state.get('documents',[]),model.VERSION,model.METHOD,roles[u['role']]['actions']])
@@ -63,7 +68,7 @@ def register(app, *, db, user, get_state, allowed_members, permit, roles):
         row=conn.execute('SELECT body FROM risk_records WHERE id=? AND kind=?',(sid,'analytics_report')).fetchone()
         value=risk_store.body(row)
         if not value or value['actor_id']!=u['id']: fail('Saved report is unavailable.',404)
-        current={m['id'] for m in allowed_members(get_state(conn),u)}
+        current={m['id'] for m in scoped_members(get_state(conn),u)}
         if not set(value['member_scope']) <= current:
             fail('Your authorized scope changed. Create a new authorized report from the current filters; the original snapshot is unchanged.',403)
         if value.get('included_evidence') and 'open_evidence' not in roles[u['role']]['actions']:
@@ -83,7 +88,7 @@ def register(app, *, db, user, get_state, allowed_members, permit, roles):
     def reports(u=Depends(user)):
         access(u)
         with db() as conn:
-            current={m['id'] for m in allowed_members(get_state(conn),u)}
+            current={m['id'] for m in scoped_members(get_state(conn),u)}
             items=[]
             for v in risk_store.records(conn,'analytics_report',limit=100):
                 if v['actor_id']!=u['id']: continue
@@ -136,6 +141,8 @@ def register(app, *, db, user, get_state, allowed_members, permit, roles):
             candidates=[c for c in report['cases'] if c['id'] in requested]
             if not requested or len(candidates)!=len(requested): fail('Select authorized cases from the current report.')
             if body.mode=='calculated':
+                if any(c.get('profile_reference') for c in candidates):
+                    fail('Member 360 reference cases require validated model inputs before calculation.',409)
                 from collections import defaultdict
                 from . import risk_inputs
                 state=get_state(conn)
@@ -184,6 +191,8 @@ def register(app, *, db, user, get_state, allowed_members, permit, roles):
                     if old: exclusions.append({'id':old['id'],'reason':'Overlapping member/category proposal'})
                     joint[key]=c
                 else: exclusions.append({'id':c['id'],'reason':'Overlapping member/category proposal'})
+            if not joint:
+                fail('The selected conditions have no compatible score estimate. Inspect their member profiles and model mapping first.',409)
             pop={r['id']:r for r in model.population(members,report['config'],body.context)}
             weighted_delta=sum(c['delta']*pop[c['member_id']]['weight'] for c in joint.values() if pop[c['member_id']]['score'] is not None)
             denominator=report['summary']['member_months']

@@ -1,0 +1,60 @@
+- banner:
+  - img "CitiusTech"
+  - generic: Perform+
+  - generic: Organization workspace
+  - strong: Northstar & Meridian
+- region "Discover Perform+":
+  - 'article "3 of 4: Everyday ease"':
+    - paragraph: Designed for your day
+    - heading "Less switching. More progress." [level=2]:
+      - text: Less switching.
+      - generic: More progress.
+    - paragraph: Compare counties and practices, explore suspected conditions and estimate possible revenue. Keep the same filters as you move between reports.
+    - paragraph: Your reports. One clear view.
+    - paragraph: Perform+
+    - heading "From questions to answers" [level=3]
+    - strong: Know where to start
+    - paragraph: Find the groups with the largest opportunities.
+    - strong: Compare populations
+    - paragraph: See how risk differs across counties and practices.
+    - strong: Share useful reports
+    - paragraph: Save results and download them with their assumptions.
+    - paragraph: Less searching. More understanding.
+  - group "Choose a capability slide":
+    - 'button "Show slide 1: AI assistance"':
+      - generic: "01"
+      - text: AI assistance
+    - 'button "Show slide 2: Clinical clarity"':
+      - generic: "02"
+      - text: Clinical clarity
+    - 'button "Show slide 3: Everyday ease" [active]':
+      - generic: "03"
+      - text: Everyday ease
+    - 'button "Show slide 4: Risk insights"':
+      - generic: "04"
+      - text: Risk insights
+  - button "Previous slide":
+  - button "Play slideshow":
+  - button "Next slide":
+  - generic: CitiusTech · Perform+
+  - generic: Evidence. Insight. Action.
+- region "Welcome back":
+  - heading "Welcome back" [level=1]
+  - paragraph: Sign in to your Perform+ workspace.
+  - generic: Email address
+  - textbox "Email address":
+    - /placeholder: you@organization.com
+  - generic: Password
+  - textbox "Password":
+    - /placeholder: Enter your password
+  - button "Show password":
+  - button "Sign in"
+  - paragraph: Sign in with
+  - group "Sign in with":
+    - img "Microsoft Entra"
+    - img "Okta"
+  - paragraph:
+    - strong: Need access?
+    - text: Your workspace administrator can help.
+- region "Notifications alt+T"
+- alert

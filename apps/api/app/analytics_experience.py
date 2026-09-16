@@ -6,7 +6,7 @@ Original findings and retained source excerpts keep their identities/provenance.
 """
 from __future__ import annotations
 
-from . import analytics_landing, suspect_discovery
+from . import analytics_landing, suspect_discovery, member360_analytics
 from collections import Counter, defaultdict
 from copy import deepcopy
 from datetime import date, timedelta
@@ -17,7 +17,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.7'
+VERSION = 'analytics-population-2026.8'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -35,7 +35,7 @@ CATALOG = [
     ('Persistent status', '409', .16), ('Cancer status', '23', .26),
 ]
 CONTRACTS = [('H1032', 'H1032 · Northstar Health'), ('H5594', 'H5594 · Meridian Advantage'),
-             ('H7618', 'H7618 · Gulf Coast Partners'), ('unknown', 'Unassigned contract')]
+             ('H7618', 'H7618 · Gulf Coast Partners'), ('H1234', 'H1234 · Central MA Network'), ('unknown', 'Unassigned contract')]
 REPORTS = [
     ('R01', 'Executive risk summary', 'How is population risk changing?', 'overview'),
     ('R02', 'Risk distribution & condition burden', 'What drives the risk mix?', 'risk'),
@@ -123,11 +123,11 @@ def canonicalize(findings, members, config, as_of=AS_OF):
         if category == 'DR': exposure = None
         member = member_map[row['member_id']]
         family = 'HCC' if config['program'] == 'MA' else 'RxHCC' if config['program'] == 'Part D' else 'HHS-HCC' if config['program'] == 'ACA' else 'Risk group'
-        groups[key] = dict(id=key, aliases=[row['id']], member_id=row['member_id'], member_name=member.get('name', row['member_id']), discovery=deepcopy(row.get('discovery')), condition=condition,
-            domain=domain, category=category, category_label=CATEGORIES.get(category, 'Unmapped'), direction=direction,
+        groups[key] = dict(id=key, aliases=[row['id']], member_id=row['member_id'], member_name=member.get('name', row['member_id']), profile_reference=deepcopy(row.get('profile_reference')), discovery=deepcopy(row.get('discovery')), condition=condition,
+            domain=condition if row.get('profile_reference') else domain, category=category, category_label=CATEGORIES.get(category, 'Unmapped'), direction=direction,
             legacy_type=row.get('type', 'authored_question'), rule_ids=[row.get('rule_id', 'RULE-' + row.get('type', category).upper())],
             rule_type=row.get('rule_type') or {'CG': 'Documentation match', 'RC': 'Historical gap', 'NC': 'Signal combination', 'SP': 'Specificity check', 'ST': 'Status persistence', 'OC': 'Representation integrity', 'DR': 'Source validation'}.get(category, 'Unmapped'),
-            hcc='Mapping unresolved' if domain_index is None else f'HCC {hcc}' if config['program'] == 'MA' else f'Risk group {domain_index+1:02}',
+            hcc='Model mapping pending' if row.get('profile_reference') else 'Mapping unresolved' if domain_index is None else f'HCC {hcc}' if config['program'] == 'MA' else f'Risk group {domain_index+1:02}',
             mapping_origin='Authored analytic grouping; confirm native mapping before calculation',
             evidence=evidence, status=status, raw_status=row.get('status', 'unknown'), probability=p,
             delta=exposure, impact_basis='Illustrative adjusted-score equivalent', analysis_date=updated,
@@ -229,6 +229,13 @@ def population(members, config, context):
     multiplier *= {2024:.975, 2025:.988, 2026:1, 2027:1.015}.get(config['year'], 1)
     multiplier *= 1.008 if config.get('run_type') == 'forecast' else .993 if config.get('run_type') == 'initial' else 1
     for m in members:
+        if m.get('profile_reference'):
+            # No validated baseline or current-model condition map was supplied.
+            # Keep identity/filter membership; never invent a comparable RAF.
+            result.append(dict(id=m['id'], provider_id=m['provider_id'], provider=m['provider'],
+                county=m['county'], contract=contract_for(m), eligible=True, stale=False,
+                score=None, raw=None, weight=12, conditions=[], recaptured=False))
+            continue
         n = number(m['id'] + ':population')
         # Intentionally varied authored condition mix, not an estimate of Florida prevalence.
         thresholds = [1300, 850, 1100, 900, 750, 1300, 650, 65, 180, 420]
@@ -368,7 +375,7 @@ def build(state, members, config, context, *, include_evidence=True):
     eligible_ids = {r['id'] for r in rows if r['eligible']}
     # Only globally stable extensions are used: filtering never invents new stories.
     discovery_findings, discovery_documents = suspect_discovery.fixtures(state['members'])
-    retained = state['opportunities'] + extensions(state['members']) + discovery_findings
+    retained = state['opportunities'] + extensions(state['members']) + discovery_findings + member360_analytics.fixtures(members)
     questions = snapshot_questions(state['members'], ctx['snapshot'])
     questions += capture_questions(state['members'], retained, ctx['snapshot'])
     cases = canonicalize(retained + questions, root, config, ctx['snapshot'])
@@ -396,6 +403,7 @@ def build(state, members, config, context, *, include_evidence=True):
     cases = [c for c in cases if c['member_id'] in current_ids and case_matches(c, ctx) and analytics_landing.opportunity_matches(c, ctx)]
     cases.sort(key=lambda c: ((c.get('discovery') or {}).get('rank', 999) if ctx.get('discovery') else 0, -{'High':3,'Medium':2,'Low':1}.get(c['probability']['band'],0),
         -(c['probability']['base'] or 0)*(c['delta'] or 0), c['analysis_date'], c['id']))
+    cases = member360_analytics.prioritize(cases)
     scores = [r for r in rows if r['score'] is not None]
     eligible = sum(r['eligible'] for r in rows); mean = weighted(scores)
     winners, _ = frozen_selection(root_cases)
@@ -497,6 +505,7 @@ def build(state, members, config, context, *, include_evidence=True):
     result['method']['provider_capture'] = 'Confirmed member-condition-rule outcomes divided by identified member-condition-rule outcomes through the reporting month. Reuses the provider outcome series; not chart transmission or operational activity. Open suspects include all current open flags in the conditions list, including data issues, separate from the historical outcome cohort.'
     result['method']['provider_recapture'] = 'Prior-year member-condition pairs confirmed again divided by all prior-year pairs in the eligible provider panel. Reconciles to condition prevalence and recapture totals.'
     result['method']['discovery'] = 'Authored clinical-context cases for synthetic members only. Invisible, timeline, disconnected, specificity, recapture and conflicting-evidence patterns are descriptive categories, not measured failures of an ML model. Source records are separately authored fixtures with their own identities and provenance; retained records are never changed.'
+    result['method']['member360'] = 'Matching Member 360 profiles appear first in member-based lists, round-robin in member-list order. Filters and provider scope still apply. Reference profiles have no validated baseline/model mapping; their RAF and financial impact are excluded from scored aggregates. Reference year, HCC labels, confidence and deltas remain separately identified with the source hash. No original clinical documents or CMS receiver events are asserted.'
     result['snapshot_hash'] = digest(result)
     return result
 

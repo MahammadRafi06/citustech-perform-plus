@@ -1,0 +1,425 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Suspected conditions" [level=1]
+  - paragraph: Analyze suspected conditions and inspect the evidence behind each one.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Suspected condition views":
+    - tab "All opportunities"
+    - tab "Possible additions"
+    - tab "Possible overcoding"
+    - tab "Data issues"
+    - tab "Conditions list" [active] [selected]
+  - region "Clinical context gap categories":
+    - generic: Beyond diagnosis codes
+    - heading "Find the gaps hidden in the clinical story" [level=2]
+    - paragraph: Connect narrative, timing and related records to surface suspects a code-only screen can overlook.
+    - strong: "120"
+    - generic: context gaps
+    - strong: "100"
+    - generic: possible additions shown
+    - strong: "20"
+    - generic: coding checks shown
+    - button "Invisible gaps, 20 gaps":
+      - strong: "20"
+      - heading "Invisible gaps" [level=3]
+      - paragraph: A diagnosis is buried in narrative, not the coded record.
+    - button "Timeline gaps, 20 gaps":
+      - strong: "20"
+      - heading "Timeline gaps" [level=3]
+      - paragraph: The signal emerges across several visits.
+    - button "Disconnected evidence, 20 gaps":
+      - strong: "20"
+      - heading "Disconnected evidence" [level=3]
+      - paragraph: Relevant details sit in different records.
+    - button "Missing specificity, 20 gaps":
+      - strong: "20"
+      - heading "Missing specificity" [level=3]
+      - paragraph: The record contains detail that the code leaves out.
+    - button "Recapture gaps, 20 gaps":
+      - strong: "20"
+      - heading "Recapture gaps" [level=3]
+      - paragraph: A persistent condition needs current-year confirmation.
+    - button "Conflicting evidence, 20 gaps":
+      - strong: "20"
+      - heading "Conflicting evidence" [level=3]
+      - paragraph: Later context challenges an existing label.
+    - generic: Discovery patterns · every gap still needs confirmation
+    - button "Show all context gaps" [disabled]:
+      - text: Show all context gaps
+  - heading "Conditions worth a closer look" [level=2]
+  - paragraph: Inspect the clinical signal, the context that could be missed and the evidence behind each gap.
+  - textbox "Search suspected conditions":
+    - /placeholder: Find a condition, member or clinical signal…
+  - combobox "Discovery pattern":
+    - option "All context gaps" [selected]
+    - option "Invisible gaps"
+    - option "Timeline gaps"
+    - option "Disconnected evidence"
+    - option "Missing specificity"
+    - option "Recapture gaps"
+    - option "Conflicting evidence"
+    - option "All signals"
+  - combobox "Suspect category":
+    - option "All categories" [selected]
+    - option "All possible additions"
+    - option "Not yet classified"
+    - option "Missing diagnosis code"
+    - option "Confirm past conditions"
+    - option "Possible new condition"
+    - option "More diagnosis detail"
+    - option "Ongoing health status"
+    - option "Possible overcoding"
+    - option "Data issues"
+  - combobox "Case status":
+    - option "Open cases" [selected]
+    - option "All statuses"
+    - option "Resolved"
+    - option "Unknown status"
+  - combobox "Source availability":
+    - option "All source types" [selected]
+    - option "Cases with documents"
+  - button "Export all filtered":
+    - text: Export all filtered
+  - table "Clinical context conditions list":
+    - rowgroup:
+      - row "Select Condition / member Gap type Clinical signal Evidence Estimated score change":
+        - columnheader "Select"
+        - columnheader "Condition / member"
+        - columnheader "Gap type"
+        - columnheader "Clinical signal"
+        - columnheader "Evidence"
+        - columnheader "Estimated score change"
+    - rowgroup:
+      - 'row "Select CASE-25a0e96290a041 COPD documented outside the coded record Morgan Reed · MB-000002 Broward County Invisible gaps Missing diagnosis code Pulmonology assessment names COPD; the encounter extract contains only shortness of breath. Why it can be missed: A code-only screen sees a symptom. The diagnosis appears in the specialist assessment text. Strong 2 linked records Inspect evidence +0.180 Planning estimate"':
+        - cell "Select CASE-25a0e96290a041":
+          - checkbox "Select CASE-25a0e96290a041"
+        - cell "COPD documented outside the coded record Morgan Reed · MB-000002 Broward County":
+          - button "COPD documented outside the coded record":
+            - strong: COPD documented outside the coded record
+          - generic: Morgan Reed · MB-000002
+          - generic: Broward County
+        - cell "Invisible gaps Missing diagnosis code":
+          - text: Invisible gaps
+          - generic: Missing diagnosis code
+        - 'cell "Pulmonology assessment names COPD; the encounter extract contains only shortness of breath. Why it can be missed: A code-only screen sees a symptom. The diagnosis appears in the specialist assessment text."':
+          - text: Pulmonology assessment names COPD; the encounter extract contains only shortness of breath.
+          - generic: "Why it can be missed: A code-only screen sees a symptom. The diagnosis appears in the specialist assessment text."
+        - cell "Strong 2 linked records Inspect evidence":
+          - text: Strong
+          - generic: 2 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.180 Planning estimate":
+          - text: "+0.180"
+          - generic: Planning estimate
+      - 'row "Select CASE-c99b36778ca97b Depression detail buried in the assessment Edward Nelson · MB-000014 Broward County Invisible gaps Missing diagnosis code Behavioral health documents recurrent major depression; the coded record lists insomnia only. Why it can be missed: A diagnosis mentioned in the assessment may be absent from structured diagnosis features. Strong 2 linked records Inspect evidence +0.100 Planning estimate"':
+        - cell "Select CASE-c99b36778ca97b":
+          - checkbox "Select CASE-c99b36778ca97b"
+        - cell "Depression detail buried in the assessment Edward Nelson · MB-000014 Broward County":
+          - button "Depression detail buried in the assessment":
+            - strong: Depression detail buried in the assessment
+          - generic: Edward Nelson · MB-000014
+          - generic: Broward County
+        - cell "Invisible gaps Missing diagnosis code":
+          - text: Invisible gaps
+          - generic: Missing diagnosis code
+        - 'cell "Behavioral health documents recurrent major depression; the coded record lists insomnia only. Why it can be missed: A diagnosis mentioned in the assessment may be absent from structured diagnosis features."':
+          - text: Behavioral health documents recurrent major depression; the coded record lists insomnia only.
+          - generic: "Why it can be missed: A diagnosis mentioned in the assessment may be absent from structured diagnosis features."
+        - cell "Strong 2 linked records Inspect evidence":
+          - text: Strong
+          - generic: 2 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.100 Planning estimate":
+          - text: "+0.100"
+          - generic: Planning estimate
+      - 'row "Select CASE-c51b3e16e367dc Persistent kidney-function decline Avery Brooks · MB-000003 Broward County Timeline gaps Possible new condition eGFR values of 48, 46 and 43 span five months; no CKD diagnosis appears in the coded record. Why it can be missed: A single-visit screen can miss persistence when the measurements are not connected over time. Moderate 3 linked records Inspect evidence Assess first Diagnosis needs confirmation"':
+        - cell "Select CASE-c51b3e16e367dc":
+          - checkbox "Select CASE-c51b3e16e367dc"
+        - cell "Persistent kidney-function decline Avery Brooks · MB-000003 Broward County":
+          - button "Persistent kidney-function decline":
+            - strong: Persistent kidney-function decline
+          - generic: Avery Brooks · MB-000003
+          - generic: Broward County
+        - cell "Timeline gaps Possible new condition":
+          - text: Timeline gaps
+          - generic: Possible new condition
+        - 'cell "eGFR values of 48, 46 and 43 span five months; no CKD diagnosis appears in the coded record. Why it can be missed: A single-visit screen can miss persistence when the measurements are not connected over time."':
+          - text: eGFR values of 48, 46 and 43 span five months; no CKD diagnosis appears in the coded record.
+          - generic: "Why it can be missed: A single-visit screen can miss persistence when the measurements are not connected over time."
+        - cell "Moderate 3 linked records Inspect evidence":
+          - text: Moderate
+          - generic: 3 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "Assess first Diagnosis needs confirmation":
+          - text: Assess first
+          - generic: Diagnosis needs confirmation
+      - 'row "Select CASE-3c9be2b85f296a Repeated severe-obesity signals without a diagnosis Jordan Ellis · MB-000001 Miami-Dade County Timeline gaps Possible new condition BMI remains above 40 across three visits, but there is no corresponding clinical diagnosis. Why it can be missed: Repeated measurements may be separated from the assessment, and a measurement is not itself a diagnosis. Moderate 3 linked records Inspect evidence Assess first Diagnosis needs confirmation"':
+        - cell "Select CASE-3c9be2b85f296a":
+          - checkbox "Select CASE-3c9be2b85f296a"
+        - cell "Repeated severe-obesity signals without a diagnosis Jordan Ellis · MB-000001 Miami-Dade County":
+          - button "Repeated severe-obesity signals without a diagnosis":
+            - strong: Repeated severe-obesity signals without a diagnosis
+          - generic: Jordan Ellis · MB-000001
+          - generic: Miami-Dade County
+        - cell "Timeline gaps Possible new condition":
+          - text: Timeline gaps
+          - generic: Possible new condition
+        - 'cell "BMI remains above 40 across three visits, but there is no corresponding clinical diagnosis. Why it can be missed: Repeated measurements may be separated from the assessment, and a measurement is not itself a diagnosis."':
+          - text: BMI remains above 40 across three visits, but there is no corresponding clinical diagnosis.
+          - generic: "Why it can be missed: Repeated measurements may be separated from the assessment, and a measurement is not itself a diagnosis."
+        - cell "Moderate 3 linked records Inspect evidence":
+          - text: Moderate
+          - generic: 3 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "Assess first Diagnosis needs confirmation":
+          - text: Assess first
+          - generic: Diagnosis needs confirmation
+      - 'row "Select CASE-67bf3200e643c8 Heart failure lost between care settings Taylor Quinn · MB-000004 Pinellas County Disconnected evidence Missing diagnosis code A discharge assessment documents chronic heart failure; the primary care problem list omits it. Why it can be missed: A model limited to the primary care extract may never receive the hospital assessment. Strong 2 linked records Inspect evidence +0.200 Planning estimate"':
+        - cell "Select CASE-67bf3200e643c8":
+          - checkbox "Select CASE-67bf3200e643c8"
+        - cell "Heart failure lost between care settings Taylor Quinn · MB-000004 Pinellas County":
+          - button "Heart failure lost between care settings":
+            - strong: Heart failure lost between care settings
+          - generic: Taylor Quinn · MB-000004
+          - generic: Pinellas County
+        - cell "Disconnected evidence Missing diagnosis code":
+          - text: Disconnected evidence
+          - generic: Missing diagnosis code
+        - 'cell "A discharge assessment documents chronic heart failure; the primary care problem list omits it. Why it can be missed: A model limited to the primary care extract may never receive the hospital assessment."':
+          - text: A discharge assessment documents chronic heart failure; the primary care problem list omits it.
+          - generic: "Why it can be missed: A model limited to the primary care extract may never receive the hospital assessment."
+        - cell "Strong 2 linked records Inspect evidence":
+          - text: Strong
+          - generic: 2 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.200 Planning estimate":
+          - text: "+0.200"
+          - generic: Planning estimate
+      - 'row "Select CASE-60046dce6b2b1c Diabetic kidney disease split across records Casey Morgan · MB-000005 Orange County Disconnected evidence More diagnosis detail Nephrology documents diabetic kidney disease while primary care still lists uncomplicated diabetes. Why it can be missed: Separate diagnosis features do not preserve the clinician-documented relationship between conditions. Strong 2 linked records Inspect evidence +0.060 Planning estimate"':
+        - cell "Select CASE-60046dce6b2b1c":
+          - checkbox "Select CASE-60046dce6b2b1c"
+        - cell "Diabetic kidney disease split across records Casey Morgan · MB-000005 Orange County":
+          - button "Diabetic kidney disease split across records":
+            - strong: Diabetic kidney disease split across records
+          - generic: Casey Morgan · MB-000005
+          - generic: Orange County
+        - cell "Disconnected evidence More diagnosis detail":
+          - text: Disconnected evidence
+          - generic: More diagnosis detail
+        - 'cell "Nephrology documents diabetic kidney disease while primary care still lists uncomplicated diabetes. Why it can be missed: Separate diagnosis features do not preserve the clinician-documented relationship between conditions."':
+          - text: Nephrology documents diabetic kidney disease while primary care still lists uncomplicated diabetes.
+          - generic: "Why it can be missed: Separate diagnosis features do not preserve the clinician-documented relationship between conditions."
+        - cell "Strong 2 linked records Inspect evidence":
+          - text: Strong
+          - generic: 2 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.060 Planning estimate":
+          - text: "+0.060"
+          - generic: Planning estimate
+      - 'row "Select CASE-85b8ef8a4a727b Diabetic neuropathy detail not carried into the code Christopher James · MB-000012 Orange County Missing specificity More diagnosis detail The clinician explicitly links neuropathy to diabetes; the encounter code remains uncomplicated diabetes. Why it can be missed: The model may detect diabetes but lose the complication relationship contained in free text. Strong 2 linked records Inspect evidence +0.050 Planning estimate"':
+        - cell "Select CASE-85b8ef8a4a727b":
+          - checkbox "Select CASE-85b8ef8a4a727b"
+        - cell "Diabetic neuropathy detail not carried into the code Christopher James · MB-000012 Orange County":
+          - button "Diabetic neuropathy detail not carried into the code":
+            - strong: Diabetic neuropathy detail not carried into the code
+          - generic: Christopher James · MB-000012
+          - generic: Orange County
+        - cell "Missing specificity More diagnosis detail":
+          - text: Missing specificity
+          - generic: More diagnosis detail
+        - 'cell "The clinician explicitly links neuropathy to diabetes; the encounter code remains uncomplicated diabetes. Why it can be missed: The model may detect diabetes but lose the complication relationship contained in free text."':
+          - text: The clinician explicitly links neuropathy to diabetes; the encounter code remains uncomplicated diabetes.
+          - generic: "Why it can be missed: The model may detect diabetes but lose the complication relationship contained in free text."
+        - cell "Strong 2 linked records Inspect evidence":
+          - text: Strong
+          - generic: 2 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.050 Planning estimate":
+          - text: "+0.050"
+          - generic: Planning estimate
+      - 'row "Select CASE-6386cf210b2338 Documented CKD stage missing from the code Karen Foster · MB-000011 Seminole County Missing specificity More diagnosis detail Nephrology specifies CKD stage 3b; the structured diagnosis remains unspecified CKD. Why it can be missed: Recognizing the disease is not enough when stage detail is only present in the assessment. Strong 2 linked records Inspect evidence +0.030 Planning estimate"':
+        - cell "Select CASE-6386cf210b2338":
+          - checkbox "Select CASE-6386cf210b2338"
+        - cell "Documented CKD stage missing from the code Karen Foster · MB-000011 Seminole County":
+          - button "Documented CKD stage missing from the code":
+            - strong: Documented CKD stage missing from the code
+          - generic: Karen Foster · MB-000011
+          - generic: Seminole County
+        - cell "Missing specificity More diagnosis detail":
+          - text: Missing specificity
+          - generic: More diagnosis detail
+        - 'cell "Nephrology specifies CKD stage 3b; the structured diagnosis remains unspecified CKD. Why it can be missed: Recognizing the disease is not enough when stage detail is only present in the assessment."':
+          - text: Nephrology specifies CKD stage 3b; the structured diagnosis remains unspecified CKD.
+          - generic: "Why it can be missed: Recognizing the disease is not enough when stage detail is only present in the assessment."
+        - cell "Strong 2 linked records Inspect evidence":
+          - text: Strong
+          - generic: 2 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.030 Planning estimate":
+          - text: "+0.030"
+          - generic: Planning estimate
+      - 'row "Select CASE-568b913c61fecc Amputation status absent from current-year codes Riley Parker · MB-000006 Duval County Recapture gaps Ongoing health status A prosthetic follow-up confirms persistent left below-knee amputation status; current-year codes omit the status. Why it can be missed: A current-year-only screen can drop a persistent status when the related encounter uses a different code. Strong 3 linked records Inspect evidence +0.120 Planning estimate"':
+        - cell "Select CASE-568b913c61fecc":
+          - checkbox "Select CASE-568b913c61fecc"
+        - cell "Amputation status absent from current-year codes Riley Parker · MB-000006 Duval County":
+          - button "Amputation status absent from current-year codes":
+            - strong: Amputation status absent from current-year codes
+          - generic: Riley Parker · MB-000006
+          - generic: Duval County
+        - cell "Recapture gaps Ongoing health status":
+          - text: Recapture gaps
+          - generic: Ongoing health status
+        - 'cell "A prosthetic follow-up confirms persistent left below-knee amputation status; current-year codes omit the status. Why it can be missed: A current-year-only screen can drop a persistent status when the related encounter uses a different code."':
+          - text: A prosthetic follow-up confirms persistent left below-knee amputation status; current-year codes omit the status.
+          - generic: "Why it can be missed: A current-year-only screen can drop a persistent status when the related encounter uses a different code."
+        - cell "Strong 3 linked records Inspect evidence":
+          - text: Strong
+          - generic: 3 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.120 Planning estimate":
+          - text: "+0.120"
+          - generic: Planning estimate
+      - 'row "Select CASE-3a67e6cceb8c84 Stable COPD missing from the current year Jose Davis · MB-000010 Sarasota County Recapture gaps Confirm past conditions COPD was captured last year and is assessed as stable this year, but only the preventive-visit code appears. Why it can be missed: A quiet year with stable symptoms may offer few new coded events despite current clinical assessment. Strong 3 linked records Inspect evidence +0.160 Planning estimate"':
+        - cell "Select CASE-3a67e6cceb8c84":
+          - checkbox "Select CASE-3a67e6cceb8c84"
+        - cell "Stable COPD missing from the current year Jose Davis · MB-000010 Sarasota County":
+          - button "Stable COPD missing from the current year":
+            - strong: Stable COPD missing from the current year
+          - generic: Jose Davis · MB-000010
+          - generic: Sarasota County
+        - cell "Recapture gaps Confirm past conditions":
+          - text: Recapture gaps
+          - generic: Confirm past conditions
+        - 'cell "COPD was captured last year and is assessed as stable this year, but only the preventive-visit code appears. Why it can be missed: A quiet year with stable symptoms may offer few new coded events despite current clinical assessment."':
+          - text: COPD was captured last year and is assessed as stable this year, but only the preventive-visit code appears.
+          - generic: "Why it can be missed: A quiet year with stable symptoms may offer few new coded events despite current clinical assessment."
+        - cell "Strong 3 linked records Inspect evidence":
+          - text: Strong
+          - generic: 3 linked records
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.160 Planning estimate":
+          - text: "+0.160"
+          - generic: Planning estimate
+  - navigation "Clinical context conditions list pagination":
+    - status: 1–10 of 120 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 12
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page":
+    - button "Last page":
+  - paragraph: These are evidence patterns, not measured miss rates for a particular ML model. Open a condition to see why it was flagged and check its evidence. A flag does not confirm a diagnosis.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

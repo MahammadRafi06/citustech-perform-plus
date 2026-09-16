@@ -1,0 +1,120 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Ellen Brooks
+  - generic: EB
+  - heading "Ellen Brooks" [level=1]
+  - text: M-318820 · MA PPO
+  - text: Age 68 · Female
+  - generic: "79"
+  - text: Composite Impact
+  - generic: "61"
+  - text: Risk Impact
+  - generic: "92"
+  - text: Quality Impact
+  - generic: "94"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 2 HCC Opportunities
+  - button "Back to Member List"
+  - tablist "Ellen Brooks profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment" [active] [selected]
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Risk Adjustment":
+    - generic: CMS-HCC V28 · Payment year 2026. Current RAF reflects accepted contributions. Projected RAF adds clinically confirmed opportunities pending acceptance. Potential RAF adds unconfirmed opportunities. Suspects require clinician documentation and coding validation; confidence scores do not establish a diagnosis. See source and scoring notes below.
+    - generic: CURRENT RAF
+    - generic: "0.920"
+    - generic: Accepted contributions
+    - generic: PROJECTED RAF
+    - generic: "0.980"
+    - generic: Current + 0.060 validated
+    - generic: POTENTIAL RAF
+    - generic: "1.060"
+    - generic: Current + 0.140 raw opportunity
+    - generic: HCC BREAKDOWN
+    - generic: 1 / 0 / 1 / 0
+    - generic: Validated / Recapture / Suspect / Audit-Risk (of 2)
+    - generic: VALIDATED OPPORTUNITY VALUE
+    - generic: $720
+    - generic: 0.060 RAF × $12,000/pt
+    - generic: ADDITIONAL POTENTIAL VALUE
+    - generic: $960
+    - generic: unvalidated recapture/suspect only
+    - generic: TOTAL RAF OPPORTUNITY VALUE
+    - generic: $1,680
+    - generic: validated + additional
+    - generic: AUDIT EXPOSURE (SEPARATE)
+    - generic: $0
+    - generic: No audit-risk HCCs flagged for this member
+    - heading "HCC Opportunities (Validated, Recapture, Suspect & Audit-Risk)" [level=3]
+    - table:
+      - rowgroup:
+        - row "HCC / Condition Category RAF Delta Confidence RAF Inclusion Status Evidence MEAT/TAMPER / Compliance Note":
+          - columnheader "HCC / Condition"
+          - columnheader "Category"
+          - columnheader "RAF Delta"
+          - columnheader "Confidence"
+          - columnheader "RAF Inclusion Status"
+          - columnheader "Evidence"
+          - columnheader "MEAT/TAMPER / Compliance Note"
+      - rowgroup:
+        - row "HCC 18 Diabetes without complication Validated 0.060 88% Included in Projected RAF (validated, pending acceptance) Prior HCC, pharmacy fill history MEAT evidence located":
+          - cell "HCC 18 Diabetes without complication"
+          - cell "Validated":
+            - generic: Validated
+          - cell "0.060"
+          - cell "88%"
+          - cell "Included in Projected RAF (validated, pending acceptance)"
+          - cell "Prior HCC, pharmacy fill history"
+          - cell "MEAT evidence located"
+        - row "HCC 40 Rheumatoid arthritis Suspect Opportunity 0.080 55% Potential (not yet included in RAF) Problem list entry from prior-year record; no corroborating encounter in current claims data Assessment absent":
+          - cell "HCC 40 Rheumatoid arthritis"
+          - cell "Suspect Opportunity":
+            - generic: Suspect Opportunity
+          - cell "0.080"
+          - cell "55%"
+          - cell "Potential (not yet included in RAF)"
+          - cell "Problem list entry from prior-year record; no corroborating encounter in current claims data"
+          - cell "Assessment absent"
+    - paragraph: "Validated: clinically confirmed, pending submission or acceptance; reflected in Projected RAF. Recapture Opportunity: a prior-year HCC recurring without current-year re-documentation (per RAF Audit Phase 4, Chronic Condition Persistence testing). Specificity Review: a currently coded HCC whose own current-year evidence supports a higher-specificity/higher-severity code than what was submitted - distinct from recapture because the gap originates in this period's own documentation, not a prior-year lapse (per RAF Audit Phase 4, Coding Guideline Accuracy testing). Suspect Opportunity: a potential new HCC identified from claims/clinical evidence, pending clinician review. Unsupported HCC / Audit-Risk (Possible Upcoding): an HCC already reflected in Current RAF whose supporting evidence is insufficient (MEAT/TAMPER not demonstrated), creating potential overpayment/clawback exposure rather than upside (per RAF Audit Phase 4, Unsupported HCC Rate testing)."
+    - paragraph: "Reconciliation: 0.920 + 0.060 validated = 0.980 projected. 0.920 + 0.140 total raw opportunity (excludes audit-risk) = 1.060 potential."
+    - paragraph: Planning value uses an assumed rate of $12,000 per RAF point and is not an actual plan-specific PMPM or revenue figure.
+    - generic "Why is HCC confidence scored this way?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

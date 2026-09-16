@@ -1,0 +1,225 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Maria Santos
+  - generic: MS
+  - heading "Maria Santos" [level=1]
+  - text: M-104829 · MA PPO
+  - text: Age 74 · Female
+  - generic: "88"
+  - text: Composite Impact
+  - generic: "95"
+  - text: Risk Impact
+  - generic: "88"
+  - text: Quality Impact
+  - generic: "90"
+  - text: Stars Impact
+  - generic: 4 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "Maria Santos profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data" [active] [selected]
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Clinical Data":
+    - paragraph: Reflects completed encounters, results and current clinical state only. No appointment scheduling data is available in source systems.
+    - heading "Active Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Onset Year Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Onset Year"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Type 2 Diabetes Mellitus with diabetic nephropathy E11.21 2019 Active":
+          - cell "Type 2 Diabetes Mellitus with diabetic nephropathy"
+          - cell "E11.21"
+          - cell "2019"
+          - cell "Active"
+        - row "Chronic Kidney Disease, Stage 3 N18.3 2021 Active":
+          - cell "Chronic Kidney Disease, Stage 3"
+          - cell "N18.3"
+          - cell "2021"
+          - cell "Active"
+        - row "Essential Hypertension I10 2015 Active":
+          - cell "Essential Hypertension"
+          - cell "I10"
+          - cell "2015"
+          - cell "Active"
+        - row "Hyperlipidemia E78.5 2018 Active":
+          - cell "Hyperlipidemia"
+          - cell "E78.5"
+          - cell "2018"
+          - cell "Active"
+    - heading "Historical / Resolved Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Community-acquired pneumonia J18.9 Resolved 2023":
+          - cell "Community-acquired pneumonia"
+          - cell "J18.9"
+          - cell "Resolved 2023"
+        - row "Acute bronchitis J20.9 Resolved 2022":
+          - cell "Acute bronchitis"
+          - cell "J20.9"
+          - cell "Resolved 2022"
+    - heading "Lab Results" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Test Result Interpretation Source":
+          - columnheader "Date"
+          - columnheader "Test"
+          - columnheader "Result"
+          - columnheader "Interpretation"
+          - columnheader "Source"
+      - rowgroup:
+        - row "06/22/2026 Hemoglobin A1c 8.6% High (goal <7.0%) Central Lab":
+          - cell "06/22/2026"
+          - cell "Hemoglobin A1c"
+          - cell "8.6%"
+          - cell "High (goal <7.0%)"
+          - cell "Central Lab"
+        - 'row "06/22/2026 eGFR 54 mL/min/1.73m² Reduced (Stage 3 range: 30-59) Central Lab"':
+          - cell "06/22/2026"
+          - cell "eGFR"
+          - cell "54 mL/min/1.73m²"
+          - 'cell "Reduced (Stage 3 range: 30-59)"'
+          - cell "Central Lab"
+    - heading "Procedures Performed" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Procedure Code Provider":
+          - columnheader "Date"
+          - columnheader "Procedure"
+          - columnheader "Code"
+          - columnheader "Provider"
+      - rowgroup:
+        - row "07/18/2026 Office visit, established patient (level 4) 99214 Dr. A. Carter":
+          - cell "07/18/2026"
+          - cell "Office visit, established patient (level 4)"
+          - cell "99214"
+          - cell "Dr. A. Carter"
+        - row "06/22/2026 Comprehensive metabolic panel + Hemoglobin A1c 80053, 83036 Central Lab":
+          - cell "06/22/2026"
+          - cell "Comprehensive metabolic panel + Hemoglobin A1c"
+          - cell "80053, 83036"
+          - cell "Central Lab"
+        - row "05/03/2026 ED visit with ECG 99284, 93010 City Hospital":
+          - cell "05/03/2026"
+          - cell "ED visit with ECG"
+          - cell "99284, 93010"
+          - cell "City Hospital"
+        - row "04/14/2026 Cardiology consult with ECG 99204, 93000 Dr. R. Shah":
+          - cell "04/14/2026"
+          - cell "Cardiology consult with ECG"
+          - cell "99204, 93000"
+          - cell "Dr. R. Shah"
+    - button "Show Prior Procedures"
+    - text: Each click loads the next earlier period into this same table
+    - heading "Active Medications" [level=3]
+    - table:
+      - rowgroup:
+        - row "Medication Dose / Frequency Start Year Prescriber":
+          - columnheader "Medication"
+          - columnheader "Dose / Frequency"
+          - columnheader "Start Year"
+          - columnheader "Prescriber"
+      - rowgroup:
+        - row "metFORMIN HCl 1000 MG Oral Tablet Twice daily (BID) 2019 Dr. A. Carter":
+          - cell "metFORMIN HCl 1000 MG Oral Tablet"
+          - cell "Twice daily (BID)"
+          - cell "2019"
+          - cell "Dr. A. Carter"
+        - row "lisinopril 20 MG Oral Tablet Once daily (QD) 2016 Dr. A. Carter":
+          - cell "lisinopril 20 MG Oral Tablet"
+          - cell "Once daily (QD)"
+          - cell "2016"
+          - cell "Dr. A. Carter"
+        - row "atorvastatin calcium 40 MG Oral Tablet Once daily (QD) 2019 Dr. A. Carter":
+          - cell "atorvastatin calcium 40 MG Oral Tablet"
+          - cell "Once daily (QD)"
+          - cell "2019"
+          - cell "Dr. A. Carter"
+    - heading "Prescription Refill History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Medication Supply Pharmacy":
+          - columnheader "Date"
+          - columnheader "Medication"
+          - columnheader "Supply"
+          - columnheader "Pharmacy"
+      - rowgroup:
+        - row "03/12/2026 metFORMIN HCl 1000 MG Oral Tablet 90-day supply Retail Pharmacy":
+          - cell "03/12/2026"
+          - cell "metFORMIN HCl 1000 MG Oral Tablet"
+          - cell "90-day supply"
+          - cell "Retail Pharmacy"
+        - row "02/10/2026 lisinopril 20 MG Oral Tablet 90-day supply Retail Pharmacy":
+          - cell "02/10/2026"
+          - cell "lisinopril 20 MG Oral Tablet"
+          - cell "90-day supply"
+          - cell "Retail Pharmacy"
+    - button "Show Prior Refills"
+    - text: Loads all remaining history into this table, then this control is removed
+    - heading "Allergies" [level=3]
+    - table:
+      - rowgroup:
+        - row "Allergen Reaction Severity Date Noted":
+          - columnheader "Allergen"
+          - columnheader "Reaction"
+          - columnheader "Severity"
+          - columnheader "Date Noted"
+      - rowgroup:
+        - row "Penicillin Rash Moderate Noted 2010":
+          - cell "Penicillin"
+          - cell "Rash"
+          - cell "Moderate"
+          - cell "Noted 2010"
+        - row "Sulfa drugs Hives Mild Noted 2015":
+          - cell "Sulfa drugs"
+          - cell "Hives"
+          - cell "Mild"
+          - cell "Noted 2015"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

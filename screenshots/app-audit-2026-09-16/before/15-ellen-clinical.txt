@@ -1,0 +1,169 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Ellen Brooks
+  - generic: EB
+  - heading "Ellen Brooks" [level=1]
+  - text: M-318820 · MA PPO
+  - text: Age 68 · Female
+  - generic: "79"
+  - text: Composite Impact
+  - generic: "61"
+  - text: Risk Impact
+  - generic: "92"
+  - text: Quality Impact
+  - generic: "94"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 2 HCC Opportunities
+  - button "Back to Member List"
+  - tablist "Ellen Brooks profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data" [active] [selected]
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Clinical Data":
+    - paragraph: Reflects completed encounters, results and current clinical state only. No appointment scheduling data is available in source systems.
+    - heading "Active Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Onset Year Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Onset Year"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Type 2 Diabetes Mellitus without complications E11.9 2022 Active":
+          - cell "Type 2 Diabetes Mellitus without complications"
+          - cell "E11.9"
+          - cell "2022"
+          - cell "Active"
+    - heading "Historical / Resolved Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Pre-diabetes / impaired fasting glucose R73.03 Resolved 2022 - progressed to diabetes diagnosis":
+          - cell "Pre-diabetes / impaired fasting glucose"
+          - cell "R73.03"
+          - cell "Resolved 2022 - progressed to diabetes diagnosis"
+    - heading "Lab Results" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Test Result Interpretation Source":
+          - columnheader "Date"
+          - columnheader "Test"
+          - columnheader "Result"
+          - columnheader "Interpretation"
+          - columnheader "Source"
+      - rowgroup:
+        - row "05/20/2026 Hemoglobin A1c Pending Specimen quantity-not-sufficient on original draw; redraw ordered 08/28/2026, result not yet returned Central Lab":
+          - cell "05/20/2026"
+          - cell "Hemoglobin A1c"
+          - cell "Pending"
+          - cell "Specimen quantity-not-sufficient on original draw; redraw ordered 08/28/2026, result not yet returned"
+          - cell "Central Lab"
+    - heading "Procedures Performed" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Procedure Code Provider":
+          - columnheader "Date"
+          - columnheader "Procedure"
+          - columnheader "Code"
+          - columnheader "Provider"
+      - rowgroup:
+        - row "07/09/2026 Office visit, established patient 99213 Dr. M. Owusu":
+          - cell "07/09/2026"
+          - cell "Office visit, established patient"
+          - cell "99213"
+          - cell "Dr. M. Owusu"
+        - row "05/20/2026 Lab draw, Hemoglobin A1c pending 83036 Central Lab":
+          - cell "05/20/2026"
+          - cell "Lab draw, Hemoglobin A1c pending"
+          - cell "83036"
+          - cell "Central Lab"
+    - button "Show Prior Procedures"
+    - text: Each click loads the next earlier period into this same table
+    - heading "Active Medications" [level=3]
+    - table:
+      - rowgroup:
+        - row "Medication Dose / Frequency Start Year Prescriber":
+          - columnheader "Medication"
+          - columnheader "Dose / Frequency"
+          - columnheader "Start Year"
+          - columnheader "Prescriber"
+      - rowgroup:
+        - row "metFORMIN HCl 500 MG Oral Tablet Twice daily (BID) 2022 Dr. M. Owusu":
+          - cell "metFORMIN HCl 500 MG Oral Tablet"
+          - cell "Twice daily (BID)"
+          - cell "2022"
+          - cell "Dr. M. Owusu"
+    - heading "Prescription Refill History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Medication Supply Pharmacy":
+          - columnheader "Date"
+          - columnheader "Medication"
+          - columnheader "Supply"
+          - columnheader "Pharmacy"
+      - rowgroup:
+        - row "01/18/2026 metFORMIN HCl 500 MG Oral Tablet 90-day supply; no statin fill Retail Pharmacy":
+          - cell "01/18/2026"
+          - cell "metFORMIN HCl 500 MG Oral Tablet"
+          - cell "90-day supply; no statin fill"
+          - cell "Retail Pharmacy"
+    - button "Show Prior Refills"
+    - text: Loads all remaining history into this table, then this control is removed
+    - heading "Allergies" [level=3]
+    - table:
+      - rowgroup:
+        - row "Allergen Reaction Severity Date Noted":
+          - columnheader "Allergen"
+          - columnheader "Reaction"
+          - columnheader "Severity"
+          - columnheader "Date Noted"
+      - rowgroup:
+        - row "No Known Drug Allergies (NKDA) — — Noted 2022":
+          - cell "No Known Drug Allergies (NKDA)"
+          - cell "—"
+          - cell "—"
+          - cell "Noted 2022"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

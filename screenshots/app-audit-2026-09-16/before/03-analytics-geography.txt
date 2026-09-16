@@ -1,0 +1,355 @@
+- alert
+- generic: "55"
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Risk analytics" [level=1]
+  - paragraph: Compare risk scores, suspected conditions and revenue opportunities.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Analytics reports":
+    - tab "Risk & conditions"
+    - tab "Geography" [active] [selected]
+    - tab "Provider"
+    - tab "Score scenarios"
+    - tab "Financial"
+    - tab "AI results"
+  - generic: County comparison
+  - heading "How counties compare on RAF" [level=2]
+  - paragraph: Eight highest county averages against the selected population
+  - strong: "1.014"
+  - generic: population RAF
+  - generic: Population average
+  - generic: County average
+  - img "County average risk score compared with the population average":
+    - generic: "0.93"
+    - generic: "0.98"
+    - generic: "1.04"
+    - generic: "1.09"
+    - generic: "1.14"
+    - 'button "Hillsborough: Population average 1.01, County average 1.10"':
+      - generic: Hillsborough
+      - generic: 1.01 → 1.10
+    - 'button "Sarasota: Population average 1.01, County average 1.10"':
+      - generic: Sarasota
+      - generic: 1.01 → 1.10
+    - 'button "Broward: Population average 1.01, County average 1.09"':
+      - generic: Broward
+      - generic: 1.01 → 1.09
+    - 'button "Seminole: Population average 1.01, County average 1.09"':
+      - generic: Seminole
+      - generic: 1.01 → 1.09
+    - 'button "Miami-Dade: Population average 1.01, County average 1.08"':
+      - generic: Miami-Dade
+      - generic: 1.01 → 1.08
+    - 'button "Pinellas: Population average 1.01, County average 1.04"':
+      - generic: Pinellas
+      - generic: 1.01 → 1.04
+    - 'button "Lee: Population average 1.01, County average 0.98"':
+      - generic: Lee
+      - generic: 1.01 → 0.98
+    - 'button "Duval: Population average 1.01, County average 0.97"':
+      - generic: Duval
+      - generic: 1.01 → 0.97
+  - generic: The score axis focuses on the shown range. Differences reflect member mix, not quality of care. Select a county to filter.
+  - generic: Opportunity concentration
+  - heading "Where the opportunity is concentrated" [level=2]
+  - paragraph: Five counties with the most members with possible additions
+  - 'img "members shown. Broward: 236; Duval: 205; Palm Beach: 189; Orange: 185; Miami-Dade: 183"':
+    - application
+  - strong: "998"
+  - generic: members shown
+  - button "Broward 23.6% of shown total 236":
+    - text: Broward
+    - generic: 23.6% of shown total
+    - strong: "236"
+  - button "Duval 20.5% of shown total 205":
+    - text: Duval
+    - generic: 20.5% of shown total
+    - strong: "205"
+  - button "Palm Beach 18.9% of shown total 189":
+    - text: Palm Beach
+    - generic: 18.9% of shown total
+    - strong: "189"
+  - button "Orange 18.5% of shown total 185":
+    - text: Orange
+    - generic: 18.5% of shown total
+    - strong: "185"
+  - button "Miami-Dade 18.3% of shown total 183":
+    - text: Miami-Dade
+    - generic: 18.3% of shown total
+    - strong: "183"
+  - generic: Each member is counted once within a county. Only groups that pass the small-population privacy rules are shown.
+  - heading "Risk by Florida county" [level=2]
+  - paragraph: Compare member groups; differences do not measure quality of care
+  - combobox "Geography metric":
+    - option "Average risk score" [selected]
+    - option "Possible additions / 1,000"
+    - option "Members with scores"
+  - button "Hillsborough 1.101 951 members included":
+    - generic: Hillsborough
+    - strong: "1.101"
+    - text: 951 members included
+  - button "Sarasota 1.099 657 members included":
+    - generic: Sarasota
+    - strong: "1.099"
+    - text: 657 members included
+  - button "Broward 1.091 1,200 members included":
+    - generic: Broward
+    - strong: "1.091"
+    - text: 1,200 members included
+  - button "Seminole 1.090 596 members included":
+    - generic: Seminole
+    - strong: "1.090"
+    - text: 596 members included
+  - button "Miami-Dade 1.081 871 members included":
+    - generic: Miami-Dade
+    - strong: "1.081"
+    - text: 871 members included
+  - button "Pinellas 1.038 649 members included":
+    - generic: Pinellas
+    - strong: "1.038"
+    - text: 649 members included
+  - button "Lee 0.983 666 members included":
+    - generic: Lee
+    - strong: "0.983"
+    - text: 666 members included
+  - button "Duval 0.969 994 members included":
+    - generic: Duval
+    - strong: "0.969"
+    - text: 994 members included
+  - button "Osceola 0.950 619 members included":
+    - generic: Osceola
+    - strong: "0.950"
+    - text: 619 members included
+  - button "Orange 0.931 1,058 members included":
+    - generic: Orange
+    - strong: "0.931"
+    - text: 1,058 members included
+  - button "Polk 0.918 767 members included":
+    - generic: Polk
+    - strong: "0.918"
+    - text: 767 members included
+  - button "Palm Beach 0.918 903 members included":
+    - generic: Palm Beach
+    - strong: "0.918"
+    - text: 903 members included
+  - heading "Risk and possible additions" [level=2]
+  - paragraph: Each circle is a group; larger circles mean more members
+  - img "Scatterplot of group score and capture members per 1,000 eligible":
+    - application:
+      - generic: "0.87"
+      - generic: "0.94"
+      - generic: "1.02"
+      - generic: "1.09"
+      - generic: "1.15"
+      - generic: Average risk score
+      - generic: "0"
+      - generic: "55"
+      - generic: "110"
+      - generic: "165"
+      - generic: "220"
+  - generic: More than 95% have scores
+  - generic: 95% or fewer have scores
+  - paragraph: The vertical axis shows members with possible additions per 1,000. The horizontal axis shows average risk score.
+  - heading "County comparison" [level=2]
+  - paragraph: Select a county to filter reports. Combine it with the Practices filter to compare provider panels within that county.
+  - table "Geographic risk comparisons":
+    - rowgroup:
+      - row "County Members included Score Possible additions / 1,000 Suspected conditions With scores":
+        - columnheader "County"
+        - columnheader "Members included"
+        - columnheader "Score"
+        - columnheader "Possible additions / 1,000"
+        - columnheader "Suspected conditions"
+        - columnheader "With scores"
+    - rowgroup:
+      - row "Hillsborough County 951 1.101 190.3 208 98.7%":
+        - cell "Hillsborough County":
+          - button "Hillsborough County"
+        - cell "951"
+        - cell "1.101"
+        - cell "190.3"
+        - cell "208"
+        - cell "98.7%"
+      - row "Sarasota County 657 1.099 213.1 166 98.3%":
+        - cell "Sarasota County":
+          - button "Sarasota County"
+        - cell "657"
+        - cell "1.099"
+        - cell "213.1"
+        - cell "166"
+        - cell "98.3%"
+      - row "Broward County 1,200 1.091 196.7 283 99.2%":
+        - cell "Broward County":
+          - button "Broward County"
+        - cell "1,200"
+        - cell "1.091"
+        - cell "196.7"
+        - cell "283"
+        - cell "99.2%"
+      - row "Seminole County 596 1.090 198.0 142 98.5%":
+        - cell "Seminole County":
+          - button "Seminole County"
+        - cell "596"
+        - cell "1.090"
+        - cell "198.0"
+        - cell "142"
+        - cell "98.5%"
+      - row "Miami-Dade County 871 1.081 210.1 215 98.7%":
+        - cell "Miami-Dade County":
+          - button "Miami-Dade County"
+        - cell "871"
+        - cell "1.081"
+        - cell "210.1"
+        - cell "215"
+        - cell "98.7%"
+      - row "Pinellas County 649 1.038 197.2 151 99.5%":
+        - cell "Pinellas County":
+          - button "Pinellas County"
+        - cell "649"
+        - cell "1.038"
+        - cell "197.2"
+        - cell "151"
+        - cell "99.5%"
+      - row "Lee County 666 0.983 208.7 165 98.9%":
+        - cell "Lee County":
+          - button "Lee County"
+        - cell "666"
+        - cell "0.983"
+        - cell "208.7"
+        - cell "165"
+        - cell "98.9%"
+      - row "Duval County 994 0.969 206.2 241 98.0%":
+        - cell "Duval County":
+          - button "Duval County"
+        - cell "994"
+        - cell "0.969"
+        - cell "206.2"
+        - cell "241"
+        - cell "98.0%"
+      - row "Osceola County 619 0.950 190.6 134 97.9%":
+        - cell "Osceola County":
+          - button "Osceola County"
+        - cell "619"
+        - cell "0.950"
+        - cell "190.6"
+        - cell "134"
+        - cell "97.9%"
+      - row "Orange County 1,058 0.931 174.9 227 98.2%":
+        - cell "Orange County":
+          - button "Orange County"
+        - cell "1,058"
+        - cell "0.931"
+        - cell "174.9"
+        - cell "227"
+        - cell "98.2%"
+  - navigation "Geographic risk comparisons pagination":
+    - status: 1–10 of 12 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 2
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page":
+    - button "Last page":
+  - paragraph: Values for small groups and related totals are protected here and in downloads. Compare individual providers in the Provider tab.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

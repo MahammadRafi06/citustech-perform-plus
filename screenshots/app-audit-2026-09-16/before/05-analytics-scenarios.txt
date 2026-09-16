@@ -1,0 +1,568 @@
+- alert
+- generic: "0.60"
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Risk analytics" [level=1]
+  - paragraph: Compare risk scores, suspected conditions and revenue opportunities.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Analytics reports":
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Provider"
+    - tab "Score scenarios" [active] [selected]
+    - tab "Financial"
+    - tab "AI results"
+  - text: Baseline
+  - strong: "1.014"
+  - text: Starting score
+  - text: Accepted
+  - strong: "1.037"
+  - text: +0.023 from baseline
+  - text: Submitted
+  - strong: "1.040"
+  - text: +0.026 from baseline
+  - text: Potential
+  - strong: "1.056"
+  - text: +0.042 from baseline
+  - generic: Score composition
+  - heading "What makes up the baseline" [level=2]
+  - paragraph: Estimated contributions from members and their conditions
+  - img "Estimated baseline score components":
+    - application
+  - strong: "1.014"
+  - generic: baseline score
+  - text: Age & member details
+  - generic: 36.0% of baseline
+  - strong: "0.365"
+  - text: Health conditions
+  - generic: 53.0% of baseline
+  - strong: "0.537"
+  - text: Combined conditions
+  - generic: 11.0% of baseline
+  - strong: "0.112"
+  - generic: Estimated shares of the baseline, not calculated CMS coefficients. Model calculation with source documents remains available below.
+  - generic: Score outlook
+  - heading "From baseline to potential" [level=2]
+  - paragraph: Compare four score views for the same population
+  - strong: "+0.042"
+  - generic: potential score increase
+  - img "Baseline, accepted, submitted and potential score comparison":
+    - application:
+      - generic: Baseline
+      - generic: Accepted
+      - generic: Submitted
+      - generic: Potential
+      - generic: "0.00"
+      - generic: "0.30"
+      - generic: "0.60"
+      - generic: "0.90"
+      - generic: "1.16"
+  - generic: Potential assumes suspected conditions are confirmed. Submitted and accepted scores remain separate score sets, not guaranteed stages.
+  - generic: Monthly headroom
+  - heading "How much score opportunity remains?" [level=2]
+  - paragraph: Baseline and potential across the available reporting months
+  - generic: Baseline
+  - generic: Potential
+  - img "Monthly baseline versus potential scores":
+    - generic: "0.898"
+    - generic: "0.947"
+    - generic: "0.997"
+    - generic: "1.046"
+    - generic: "1.096"
+    - 'generic "Apr: Baseline 0.938, Potential 0.980"':
+      - generic: Apr
+      - generic: 0.938 → 0.980
+    - 'generic "May: Baseline 0.953, Potential 0.995"':
+      - generic: May
+      - generic: 0.953 → 0.995
+    - 'generic "Jun: Baseline 0.968, Potential 1.010"':
+      - generic: Jun
+      - generic: 0.968 → 1.010
+    - 'generic "Jul: Baseline 0.983, Potential 1.025"':
+      - generic: Jul
+      - generic: 0.983 → 1.025
+    - 'generic "Aug: Baseline 0.999, Potential 1.041"':
+      - generic: Aug
+      - generic: 0.999 → 1.041
+    - 'generic "Sep: Baseline 1.014, Potential 1.056"':
+      - generic: Sep
+      - generic: 1.014 → 1.056
+  - generic: Both scores use the same population and covered-month weighting. This is score opportunity, not a forecast of realized payment.
+  - generic: Population profile
+  - heading "The score mix behind the average" [level=2]
+  - paragraph: Scored members grouped by their current score range
+  - 'img "scored members. 0–0.5: 473; 0.5–1: 4,724; 1–1.5: 3,799; 1.5–2: 496; 2–3: 306; 3+: 1"':
+    - application
+  - strong: 9,799
+  - generic: scored members
+  - button "0–0.5 4.8% of shown total 473" [disabled]:
+    - text: 0–0.5
+    - generic: 4.8% of shown total
+    - strong: "473"
+  - button "0.5–1 48.2% of shown total 4,724" [disabled]:
+    - text: 0.5–1
+    - generic: 48.2% of shown total
+    - strong: 4,724
+  - button "1–1.5 38.8% of shown total 3,799" [disabled]:
+    - text: 1–1.5
+    - generic: 38.8% of shown total
+    - strong: 3,799
+  - button "1.5–2 5.1% of shown total 496" [disabled]:
+    - text: 1.5–2
+    - generic: 5.1% of shown total
+    - strong: "496"
+  - button "2–3 3.1% of shown total 306" [disabled]:
+    - text: 2–3
+    - generic: 3.1% of shown total
+    - strong: "306"
+  - button "3+ 0.0% of shown total 1" [disabled]:
+    - text: 3+
+    - generic: 0.0% of shown total
+    - strong: "1"
+  - generic: The distribution follows the selected score view and population filters. Each scored member appears in one range.
+  - heading "Try a score scenario" [level=2]
+  - paragraph: Select suspected conditions to estimate their combined score change
+  - combobox "Scenario calculation mode":
+    - option "Planning estimate" [selected]
+    - option "Model calculation using documents"
+  - combobox "Scenario operation":
+    - option "Additions & corrections" [selected]
+    - option "Additions only"
+    - option "Corrections only"
+  - generic: 0 selected conditions
+  - button "Calculate & save scenario" [disabled]:
+    - text: Calculate & save scenario
+  - table "Suspected condition list":
+    - rowgroup:
+      - row "Select Condition / member ID Category Evidence Chance of confirmation Estimated score change Analysis date":
+        - columnheader "Select"
+        - columnheader "Condition / member ID"
+        - columnheader "Category"
+        - columnheader "Evidence"
+        - columnheader "Chance of confirmation"
+        - columnheader "Estimated score change"
+        - columnheader "Analysis date"
+    - rowgroup:
+      - row "Select CASE-02e5ef3ead29c8 Heart failure MB-000833 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-02e5ef3ead29c8":
+          - checkbox "Select CASE-02e5ef3ead29c8"
+        - cell "Heart failure MB-000833 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000833 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-04c8d7504f4d68 Heart failure MB-000121 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-04c8d7504f4d68":
+          - checkbox "Select CASE-04c8d7504f4d68"
+        - cell "Heart failure MB-000121 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000121 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-0d26c0589be7b5 Heart failure MB-000025 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-0d26c0589be7b5":
+          - checkbox "Select CASE-0d26c0589be7b5"
+        - cell "Heart failure MB-000025 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000025 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-0dd62bddafb44b Heart failure MB-000169 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-0dd62bddafb44b":
+          - checkbox "Select CASE-0dd62bddafb44b"
+        - cell "Heart failure MB-000169 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000169 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-1d4c0a843a3de2 Heart failure MB-000201 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-1d4c0a843a3de2":
+          - checkbox "Select CASE-1d4c0a843a3de2"
+        - cell "Heart failure MB-000201 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000201 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-1db17b76efccb6 Heart failure MB-000809 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-1db17b76efccb6":
+          - checkbox "Select CASE-1db17b76efccb6"
+        - cell "Heart failure MB-000809 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000809 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-2017917bf8eee0 Heart failure MB-000713 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-2017917bf8eee0":
+          - checkbox "Select CASE-2017917bf8eee0"
+        - cell "Heart failure MB-000713 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000713 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-27d9c2c94f212b Heart failure MB-000057 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-27d9c2c94f212b":
+          - checkbox "Select CASE-27d9c2c94f212b"
+        - cell "Heart failure MB-000057 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000057 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-2aeb153ff67506 Heart failure MB-000769 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-2aeb153ff67506":
+          - checkbox "Select CASE-2aeb153ff67506"
+        - cell "Heart failure MB-000769 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000769 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+      - row "Select CASE-306565a10008c7 Heart failure MB-000105 · HCC 226 · 1 signal Missing diagnosis code Potential addition Strong Case details High If reviewed within 30 days +0.310 Planning estimate 2026-09-01 Current analysis":
+        - cell "Select CASE-306565a10008c7":
+          - checkbox "Select CASE-306565a10008c7"
+        - cell "Heart failure MB-000105 · HCC 226 · 1 signal":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: MB-000105 · HCC 226 · 1 signal
+        - cell "Missing diagnosis code Potential addition":
+          - text: Missing diagnosis code
+          - generic: Potential addition
+        - cell "Strong Case details":
+          - text: Strong
+          - generic: Case details
+        - cell "High If reviewed within 30 days":
+          - text: High
+          - generic: If reviewed within 30 days
+        - cell "+0.310 Planning estimate":
+          - text: "+0.310"
+          - generic: Planning estimate
+        - cell "2026-09-01 Current analysis":
+          - text: 2026-09-01
+          - generic: Current analysis
+  - navigation "Suspected condition list pagination":
+    - status: 1–10 of 2,349 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 235
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page":
+    - button "Last page":
+  - paragraph: Model calculation needs a supported model and the required source documents. Use Planning estimate to explore cases without complete model inputs.
+  - heading "Model availability" [level=2]
+  - paragraph: Check which models can calculate scores from source data
+  - table "Model configuration coverage":
+    - rowgroup:
+      - row "Program & model Calculation status Report data":
+        - columnheader "Program & model"
+        - columnheader "Calculation status"
+        - columnheader "Report data"
+    - rowgroup:
+      - row "2026 CMS-HCC V28 Midyear/Final Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2026 CMS-HCC V28 Midyear/Final":
+          - strong: 2026 CMS-HCC V28 Midyear/Final
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2027 CMS-HCC V28 Initial Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2027 CMS-HCC V28 Initial":
+          - strong: 2027 CMS-HCC V28 Initial
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2027 CMS-HCC V28 Forecast Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2027 CMS-HCC V28 Forecast":
+          - strong: 2027 CMS-HCC V28 Forecast
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2026 HHS-HCC V08 Benefit year Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2026 HHS-HCC V08 Benefit year":
+          - strong: 2026 HHS-HCC V08 Benefit year
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2025 CMS-HCC V24 Reference Waiting for reference data Report data available Separate from actual model calculations":
+        - cell "2025 CMS-HCC V24 Reference":
+          - strong: 2025 CMS-HCC V24 Reference
+        - cell "Waiting for reference data"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2027 RxHCC MA-PD Initial Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2027 RxHCC MA-PD Initial":
+          - strong: 2027 RxHCC MA-PD Initial
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2027 RxHCC MA-PD Forecast Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2027 RxHCC MA-PD Forecast":
+          - strong: 2027 RxHCC MA-PD Forecast
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2027 RxHCC PDP Initial Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2027 RxHCC PDP Initial":
+          - strong: 2027 RxHCC PDP Initial
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2027 RxHCC PDP Forecast Checked for supported members Report data available Separate from actual model calculations":
+        - cell "2027 RxHCC PDP Forecast":
+          - strong: 2027 RxHCC PDP Forecast
+        - cell "Checked for supported members"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+      - row "2024 CMS-HCC Blend · 67% V24 and 33% V28 Not calculated yet Report data available Separate from actual model calculations":
+        - cell "2024 CMS-HCC Blend · 67% V24 and 33% V28":
+          - strong: 2024 CMS-HCC Blend · 67% V24 and 33% V28
+        - cell "Not calculated yet"
+        - cell "Report data available Separate from actual model calculations":
+          - text: Report data available
+          - generic: Separate from actual model calculations
+  - navigation "Model configuration coverage pagination":
+    - status: 1–10 of 12 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 2
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page":
+    - button "Last page":
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

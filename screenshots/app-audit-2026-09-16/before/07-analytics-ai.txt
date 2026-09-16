@@ -1,0 +1,204 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Risk analytics" [level=1]
+  - paragraph: Compare risk scores, suspected conditions and revenue opportunities.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Analytics reports":
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Provider"
+    - tab "Score scenarios"
+    - tab "Financial"
+    - tab "AI results" [active] [selected]
+  - generic: Reference comparison · 200 charts, 100 with AI and 100 without. These results stay the same when you filter the population.
+  - generic: AI flags supported by evidence
+  - strong: 80.0%
+  - text: 108 supported flags / 135 AI flags
+  - generic: Known conditions found by AI
+  - strong: 90.0%
+  - text: 108 found / 120 known conditions
+  - generic: AI flags confirmed by reviewers
+  - strong: 77.78%
+  - text: 105 reviewer confirmations / 135 AI flags
+  - generic: Less review time
+  - strong: 38.9%
+  - text: 36 → 22 minutes per chart
+  - generic: AI detection
+  - heading "Signal quality at a glance" [level=2]
+  - paragraph: Performance against the independent condition reference
+  - 'img "Flags supported: 80.0%"':
+    - application
+  - strong: 80.0%
+  - generic: 108 / 135 flags
+  - strong: Flags supported
+  - 'img "Conditions found: 90.0%"':
+    - application
+  - strong: 90.0%
+  - generic: 108 / 120 conditions
+  - strong: Conditions found
+  - generic: "Correct flags: 108 of 135. Known conditions found: 108 of 120. These reference measures do not change with population filters."
+  - generic: Reviewer comparison
+  - heading "The difference with AI assistance" [level=2]
+  - paragraph: Two equal reference groups, with and without AI
+  - generic: Manual
+  - generic: AI-assisted
+  - img "Manual and AI-assisted reviewer quality across supported flags, detected conditions and balanced accuracy":
+    - application:
+      - generic: Supported
+      - generic: Found
+      - generic: Balanced
+  - generic: Flags supported
+  - text: Manual
+  - generic: 93.3%
+  - text: AI-assisted
+  - strong: 97.1%
+  - generic: Conditions found
+  - text: Manual
+  - generic: 70.0%
+  - text: AI-assisted
+  - strong: 85.0%
+  - generic: Balanced score
+  - text: Manual
+  - generic: 80.0%
+  - text: AI-assisted
+  - strong: 90.7%
+  - generic: "Balanced score is the F1 score: the harmonic mean of supported flags and conditions found. Reviewer results are separate from AI-only accuracy."
+  - generic: Reference checks
+  - heading "What the AI got right and missed" [level=2]
+  - paragraph: 1,000 checks against the independent reference
+  - strong: 96.1%
+  - generic: checks matched the reference
+  - generic: Condition present
+  - generic: Condition absent
+  - generic: AI flagged
+  - generic: Correct flags
+  - strong: "108"
+  - generic: 10.8% of checks
+  - generic: Incorrect flags
+  - strong: "27"
+  - generic: 2.7% of checks
+  - generic: AI did not flag
+  - generic: Missed conditions
+  - strong: "12"
+  - generic: 1.2% of checks
+  - generic: Correctly left unflagged
+  - strong: "853"
+  - generic: 85.3% of checks
+  - generic: 853 true negatives + 108 true positives = 961 correct checks. Reviewer confirmations use a separate denominator.
+  - generic: Review efficiency
+  - heading "More time for clinical judgment" [level=2]
+  - paragraph: Average time per chart in the reference comparison
+  - strong: 14 min
+  - generic: saved per chart
+  - strong: 38.9%
+  - generic: less review time
+  - generic: Manual review
+  - strong: 36 min
+  - generic: AI-assisted review
+  - strong: 22 min
+  - generic: Reference group averages, not measured day-to-day performance. Each comparison group contains 100 charts.
+  - heading "How rules and AI work together" [level=2]
+  - paragraph: Rules check the data. AI helps explain the results.
+  - heading "Rules and calculations" [level=3]
+  - paragraph: Check member and document details, match diagnosis codes and calculate scores.
+  - heading "Clear explanations" [level=3]
+  - paragraph: Summaries show the timeline, supporting evidence and conflicting information.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

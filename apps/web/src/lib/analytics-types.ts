@@ -12,6 +12,7 @@ export interface AnalysisContext {
 export interface SuspectCase {
   discovery?: {kind:string;label:string;signal:string;coded_view:string;why_missed:string;confirm:string;record_count:number;rank:number;origin:string;comparison_basis:string;version:string} | null;
   member_name?: string;
+  profile_reference?: {member_id:string;year:number;category:string;confidence:string;hcc:string|null;delta:number;inclusion:string;source_sha256:string} | null;
   id: string; aliases: string[]; member_id: string; condition: string; domain: string;
   category: string; category_label: string; direction: string; legacy_type: string;
   rule_ids: string[]; rule_type: string; hcc: string; mapping_origin: string; evidence: string;

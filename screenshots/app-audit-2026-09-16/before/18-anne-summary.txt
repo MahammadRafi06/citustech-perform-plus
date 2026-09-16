@@ -1,0 +1,138 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Anne Foster
+  - generic: AF
+  - heading "Anne Foster" [level=1]
+  - text: M-559214 · MA PPO
+  - text: Age 67 · Female
+  - generic: "57"
+  - text: Composite Impact
+  - generic: "58"
+  - text: Risk Impact
+  - generic: "55"
+  - text: Quality Impact
+  - generic: "70"
+  - text: Stars Impact
+  - generic: 1 Quality Gap
+  - generic: 1 HCC Opportunity
+  - generic: SDOH screening needed
+  - generic: New Member
+  - button "Back to Member List"
+  - tablist "Anne Foster profile sections":
+    - tab "Summary" [active] [selected]
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Summary":
+    - heading "Member summary" [level=3]
+    - generic: Anne Foster is a new member (enrolled 6 months ago on 03/01/2026; limited claims history on file). The member has documented no chronic conditions documented yet. There is 1 open quality opportunity, and 1 risk-adjustment opportunity under clinical review (0 RAF validated, 0.12 additional potential pending evidence). Transportation status has not yet been screened and digital engagement is available; no adverse SDOH need has been confirmed to date. Based on composite impact (57/100), this member is a developing priority for coordinated outreach.
+    - generic "Why this composite score (57)?"
+    - heading "Areas to explore" [level=3]
+    - text: "Close: Breast Cancer Screening"
+    - paragraph: Schedule mammogram
+    - text: Review Major depressive disorder
+    - paragraph: Clinician validation and documentation required before submission
+    - text: Address Transportation
+    - paragraph: Complete SDOH screening
+    - text: Address Digital access
+    - paragraph: Send welcome/outreach series
+    - heading "Member Demographics & Identifiers" [level=3]
+    - table:
+      - rowgroup:
+        - row "Member Name DOB Age Sex Member ID Member SSUI Enrollment SSUI Custom ID 1 Custom ID 2":
+          - columnheader "Member Name"
+          - columnheader "DOB"
+          - columnheader "Age"
+          - columnheader "Sex"
+          - columnheader "Member ID"
+          - columnheader "Member SSUI"
+          - columnheader "Enrollment SSUI"
+          - columnheader "Custom ID 1"
+          - columnheader "Custom ID 2"
+      - rowgroup:
+        - row "Anne Foster 09/30/1958 67 Female M-559214 50219087741183 32410 CTP-102955 LEG-559214":
+          - cell "Anne Foster"
+          - cell "09/30/1958"
+          - cell "67"
+          - cell "Female"
+          - cell "M-559214"
+          - cell "50219087741183"
+          - cell "32410"
+          - cell "CTP-102955"
+          - cell "LEG-559214"
+    - table:
+      - rowgroup:
+        - row "Address City County State ZIP Phone Email":
+          - columnheader "Address"
+          - columnheader "City"
+          - columnheader "County"
+          - columnheader "State"
+          - columnheader "ZIP"
+          - columnheader "Phone"
+          - columnheader "Email"
+      - rowgroup:
+        - row "230 Birchwood Ct Tampa Hillsborough County FL 33610 (813) 555-0587 a.foster@example.test":
+          - cell "230 Birchwood Ct"
+          - cell "Tampa"
+          - cell "Hillsborough County"
+          - cell "FL"
+          - cell "33610"
+          - cell "(813) 555-0587"
+          - cell "a.foster@example.test"
+    - table:
+      - rowgroup:
+        - row "Race Race Source Race Source Method Ethnicity Ethnicity Source Preferred Language Written Language":
+          - columnheader "Race"
+          - columnheader "Race Source"
+          - columnheader "Race Source Method"
+          - columnheader "Ethnicity"
+          - columnheader "Ethnicity Source"
+          - columnheader "Preferred Language"
+          - columnheader "Written Language"
+      - rowgroup:
+        - row "White Member enrollment Direct Not Hispanic or Latino Member enrollment English English":
+          - cell "White"
+          - cell "Member enrollment"
+          - cell "Direct"
+          - cell "Not Hispanic or Latino"
+          - cell "Member enrollment"
+          - cell "English"
+          - cell "English"
+    - paragraph: "Member is a new-member profile: New member (enrolled 6 months ago on 03/01/2026; limited claims history on file)."
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

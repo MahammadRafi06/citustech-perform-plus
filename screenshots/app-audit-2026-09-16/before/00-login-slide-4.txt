@@ -1,0 +1,60 @@
+- banner:
+  - img "CitiusTech"
+  - generic: Perform+
+  - generic: Organization workspace
+  - strong: Northstar & Meridian
+- region "Discover Perform+":
+  - 'article "4 of 4: Risk insights"':
+    - paragraph: From detail to direction
+    - heading "Know what changed. See what matters." [level=2]:
+      - text: Know what changed.
+      - generic: See what matters.
+    - paragraph: Follow risk scores over time, compare current and potential results, and see which conditions drive the difference.
+    - paragraph: Clear scores. Useful comparisons.
+    - paragraph: Perform+
+    - heading "Insight at every level" [level=3]
+    - strong: Understand the population
+    - paragraph: See common conditions and the spread of risk scores.
+    - strong: Explain the result
+    - paragraph: See which data and assumptions shaped the result.
+    - strong: See the bigger picture
+    - paragraph: Compare trends, potential revenue and coding risks.
+    - paragraph: From source evidence to population trends.
+  - group "Choose a capability slide":
+    - 'button "Show slide 1: AI assistance"':
+      - generic: "01"
+      - text: AI assistance
+    - 'button "Show slide 2: Clinical clarity"':
+      - generic: "02"
+      - text: Clinical clarity
+    - 'button "Show slide 3: Everyday ease"':
+      - generic: "03"
+      - text: Everyday ease
+    - 'button "Show slide 4: Risk insights" [active]':
+      - generic: "04"
+      - text: Risk insights
+  - button "Previous slide":
+  - button "Play slideshow":
+  - button "Next slide":
+  - generic: CitiusTech · Perform+
+  - generic: Evidence. Insight. Action.
+- region "Welcome back":
+  - heading "Welcome back" [level=1]
+  - paragraph: Sign in to your Perform+ workspace.
+  - generic: Email address
+  - textbox "Email address":
+    - /placeholder: you@organization.com
+  - generic: Password
+  - textbox "Password":
+    - /placeholder: Enter your password
+  - button "Show password":
+  - button "Sign in"
+  - paragraph: Sign in with
+  - group "Sign in with":
+    - img "Microsoft Entra"
+    - img "Okta"
+  - paragraph:
+    - strong: Need access?
+    - text: Your workspace administrator can help.
+- region "Notifications alt+T"
+- alert

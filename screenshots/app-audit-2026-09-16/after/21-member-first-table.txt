@@ -1,0 +1,139 @@
+Select	Condition / member	Gap type	Clinical signal	Evidence	Estimated score change
+	Vascular Disease
+Maria Santos
+ · M-104829
+Hillsborough County
+	Recapture gaps
+Confirm past conditions
+	Prior-year (2025) HCC not yet re-documented; CKD/HTN comorbidity supports recapture likelihood
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Moderate
+Member profile summary
+Inspect evidence
+	+0.095
+2026 reference · mapping pending
+
+	Rheumatoid arthritis
+Ellen Brooks
+ · M-318820
+Hillsborough County
+	Disconnected evidence
+Possible new condition
+	Problem list entry from prior-year record; no corroborating encounter in current claims data
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Limited
+Member profile summary
+Inspect evidence
+	+0.080
+2026 reference · mapping pending
+
+	COPD Complication
+Robert Klein
+ · M-204175
+Hillsborough County
+	Recapture gaps
+Confirm past conditions
+	Prior-year (2025) HCC not yet re-documented this period
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Moderate
+Member profile summary
+Inspect evidence
+	+0.070
+2026 reference · mapping pending
+
+	CKD Stage 4 (Specificity Review)
+James Patel
+ · M-441098
+Hillsborough County
+	Missing specificity
+More diagnosis detail
+	eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4).
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Moderate
+Member profile summary
+Inspect evidence
+	+0.185
+2026 reference · mapping pending
+
+	Major depressive disorder
+Anne Foster
+ · M-559214
+Hillsborough County
+	Disconnected evidence
+Possible new condition
+	Positive depression screening (PHQ-2, G0444) during new member wellness visit; no follow-up assessment, diagnosis, or treatment on file
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Limited
+Member profile summary
+Inspect evidence
+	+0.120
+2026 reference · mapping pending
+
+	Heart arrhythmia
+Maria Santos
+ · M-104829
+Hillsborough County
+	Disconnected evidence
+Possible new condition
+	ECG + cardiology claim
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Limited
+Member profile summary
+Inspect evidence
+	+0.241
+2026 reference · mapping pending
+
+	Vascular disease
+Robert Klein
+ · M-204175
+Hillsborough County
+	Disconnected evidence
+Possible new condition
+	Claim only, no recent note
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Limited
+Member profile summary
+Inspect evidence
+	+0.130
+2026 reference · mapping pending
+
+	Specified heart arrhythmia
+James Patel
+ · M-441098
+Hillsborough County
+	Disconnected evidence
+Possible new condition
+	Single ECG mention
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Limited
+Member profile summary
+Inspect evidence
+	+0.140
+2026 reference · mapping pending
+
+	Morbid Obesity
+Robert Klein
+ · M-204175
+Hillsborough County
+	Conflicting evidence
+Possible overcoding
+	Single telehealth encounter (POS 02) on 03/14/2026; no BMI, weight, nutrition counseling, or follow-up documented; no corroborating labs, vitals, or specialist encounter found anywhere else in claims or clinical history.
+Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+	Limited
+Member profile summary
+Inspect evidence
+	−0.161
+2026 reference · mapping pending
+
+	COPD documented outside the coded record
+Morgan Reed · MB-000002
+Broward County
+	Invisible gaps
+Missing diagnosis code
+	Pulmonology assessment names COPD; the encounter extract contains only shortness of breath.
+Why it can be missed: A code-only screen sees a symptom. The diagnosis appears in the specialist assessment text.
+	Strong
+2 linked records
+Inspect evidence
+	+0.180
+Planning estimate

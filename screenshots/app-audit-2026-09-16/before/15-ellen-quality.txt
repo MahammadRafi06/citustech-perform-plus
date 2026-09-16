@@ -1,0 +1,133 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Ellen Brooks
+  - generic: EB
+  - heading "Ellen Brooks" [level=1]
+  - text: M-318820 · MA PPO
+  - text: Age 68 · Female
+  - generic: "79"
+  - text: Composite Impact
+  - generic: "61"
+  - text: Risk Impact
+  - generic: "92"
+  - text: Quality Impact
+  - generic: "94"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 2 HCC Opportunities
+  - button "Back to Member List"
+  - tablist "Ellen Brooks profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities" [active] [selected]
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Quality, Stars & Opportunities":
+    - generic: OPEN QUALITY GAPS
+    - generic: "2"
+    - generic: Detailed below
+    - generic: STARS-LINKED MEASURES
+    - generic: "2"
+    - generic: Of 2 open gaps
+    - generic: RISK-LINKED GAPS
+    - generic: "0"
+    - generic: Overlap with HCC review
+    - generic: OPPORTUNITY CLOSURE PROBABILITY
+    - generic: 81%
+    - generic: Average across open gaps
+    - generic "How is Opportunity Closure Probability calculated for this member?"
+    - heading "Measures & Gaps in Care" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Status Latest Result / Evidence Required Action Expiry Source Stars-Linked Risk-Linked":
+          - columnheader "Measure"
+          - columnheader "Status"
+          - columnheader "Latest Result / Evidence"
+          - columnheader "Required Action"
+          - columnheader "Expiry"
+          - columnheader "Source"
+          - columnheader "Stars-Linked"
+          - columnheader "Risk-Linked"
+      - rowgroup:
+        - 'row "GSD: Glycemic Status Assessment Open No current-year A1c on file Order A1c test 12/31/2026 Lab + claim Yes No"':
+          - 'cell "GSD: Glycemic Status Assessment"'
+          - cell "Open":
+            - generic: Open
+          - cell "No current-year A1c on file"
+          - cell "Order A1c test"
+          - cell "12/31/2026"
+          - cell "Lab + claim"
+          - cell "Yes"
+          - cell "No"
+        - row "Statin Therapy - Diabetes Open No statin fill on file Prescribe/confirm statin 12/31/2026 Pharmacy Yes No":
+          - cell "Statin Therapy - Diabetes"
+          - cell "Open":
+            - generic: Open
+          - cell "No statin fill on file"
+          - cell "Prescribe/confirm statin"
+          - cell "12/31/2026"
+          - cell "Pharmacy"
+          - cell "Yes"
+          - cell "No"
+    - heading "Stars Contract Context" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Weight Contract Rate Next Cut Point Contract Closures Needed Member Contribution if Closed":
+          - columnheader "Measure"
+          - columnheader "Weight"
+          - columnheader "Contract Rate"
+          - columnheader "Next Cut Point"
+          - columnheader "Contract Closures Needed"
+          - columnheader "Member Contribution if Closed"
+      - rowgroup:
+        - row "GSD 3 70.60% 72.00% 180 +1 numerator if closed":
+          - cell "GSD"
+          - cell "3"
+          - cell "70.60%"
+          - cell "72.00%"
+          - cell "180"
+          - cell "+1 numerator if closed"
+        - row "Statin Therapy - Diabetes 1 76.79% 78.50% 165 +1 numerator if closed":
+          - cell "Statin Therapy - Diabetes"
+          - cell "1"
+          - cell "76.79%"
+          - cell "78.50%"
+          - cell "165"
+          - cell "+1 numerator if closed"
+    - generic "Why is this member's Stars impact 94?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

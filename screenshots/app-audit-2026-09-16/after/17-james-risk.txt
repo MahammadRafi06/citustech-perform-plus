@@ -1,0 +1,129 @@
+- alert
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: James Patel
+  - generic: JP
+  - heading "James Patel" [level=1]
+  - text: M-441098 · MA PPO
+  - text: Age 76 · Male
+  - generic: "70"
+  - text: Composite Impact
+  - generic: "82"
+  - text: Risk Impact
+  - generic: "68"
+  - text: Quality Impact
+  - generic: "66"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "James Patel profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment" [selected]
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Risk Adjustment":
+    - generic: CMS-HCC V28 · Payment year 2026. Current RAF reflects accepted contributions. Projected RAF adds clinically confirmed opportunities pending acceptance. Potential RAF adds unconfirmed opportunities. Suspects require clinician documentation and coding validation; confidence scores do not establish a diagnosis. See source and scoring notes below.
+    - generic: CURRENT RAF
+    - generic: "1.050"
+    - generic: Accepted contributions
+    - generic: PROJECTED RAF
+    - generic: "1.125"
+    - generic: Current + 0.075 validated
+    - generic: POTENTIAL RAF
+    - generic: "1.450"
+    - generic: Current + 0.400 raw opportunity
+    - generic: HCC BREAKDOWN
+    - generic: 1 / 0 / 1 / 1 / 0
+    - generic: Validated / Recapture / Specificity Review / Suspect / Audit-Risk (of 3)
+    - generic: VALIDATED OPPORTUNITY VALUE
+    - generic: $900
+    - generic: 0.075 RAF × $12,000/pt
+    - generic: ADDITIONAL POTENTIAL VALUE
+    - generic: $3,900
+    - generic: unvalidated recapture/suspect only
+    - generic: TOTAL RAF OPPORTUNITY VALUE
+    - generic: $4,800
+    - generic: validated + additional
+    - generic: AUDIT EXPOSURE (SEPARATE)
+    - generic: $0
+    - generic: No audit-risk HCCs flagged for this member
+    - heading "HCC Opportunities (Validated, Recapture, Suspect & Audit-Risk)" [level=3]
+    - table:
+      - rowgroup:
+        - row "HCC / Condition Category RAF Delta Confidence RAF Inclusion Status Evidence MEAT/TAMPER / Compliance Note":
+          - columnheader "HCC / Condition"
+          - columnheader "Category"
+          - columnheader "RAF Delta"
+          - columnheader "Confidence"
+          - columnheader "RAF Inclusion Status"
+          - columnheader "Evidence"
+          - columnheader "MEAT/TAMPER / Compliance Note"
+      - rowgroup:
+        - row "HCC 329 CKD Stage 3a (Currently Coded) Validated 0.075 95% Included in Projected RAF (validated, pending acceptance) Nephrology office visit 06/30/2026 coded N18.31 (Stage 3a) MEAT evidence located for Stage 3a":
+          - cell "HCC 329 CKD Stage 3a (Currently Coded)"
+          - cell "Validated":
+            - generic: Validated
+          - cell "0.075"
+          - cell "95%"
+          - cell "Included in Projected RAF (validated, pending acceptance)"
+          - cell "Nephrology office visit 06/30/2026 coded N18.31 (Stage 3a)"
+          - cell "MEAT evidence located for Stage 3a"
+        - 'row "HCC 328 CKD Stage 4 (Specificity Review) Specificity Review 0.185 88% Potential (not yet included in RAF) eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4). Specificity Review: this year''s own lab evidence supports higher specificity than currently coded - not a prior-year lapse. Request clinician reconciliation of CKD stage before any coding or submission change (ICD-10-CM code-selection accuracy review)."':
+          - cell "HCC 328 CKD Stage 4 (Specificity Review)"
+          - cell "Specificity Review":
+            - generic: Specificity Review
+          - cell "0.185"
+          - cell "88%"
+          - cell "Potential (not yet included in RAF)"
+          - cell "eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4)."
+          - 'cell "Specificity Review: this year''s own lab evidence supports higher specificity than currently coded - not a prior-year lapse. Request clinician reconciliation of CKD stage before any coding or submission change (ICD-10-CM code-selection accuracy review)."'
+        - row "HCC 96 Specified heart arrhythmia Suspect Opportunity 0.140 58% Potential (not yet included in RAF) Single ECG mention Assessment absent":
+          - cell "HCC 96 Specified heart arrhythmia"
+          - cell "Suspect Opportunity":
+            - generic: Suspect Opportunity
+          - cell "0.140"
+          - cell "58%"
+          - cell "Potential (not yet included in RAF)"
+          - cell "Single ECG mention"
+          - cell "Assessment absent"
+    - paragraph: "Validated: clinically confirmed, pending submission or acceptance; reflected in Projected RAF. Recapture Opportunity: a prior-year HCC recurring without current-year re-documentation (per RAF Audit Phase 4, Chronic Condition Persistence testing). Specificity Review: a currently coded HCC whose own current-year evidence supports a higher-specificity/higher-severity code than what was submitted - distinct from recapture because the gap originates in this period's own documentation, not a prior-year lapse (per RAF Audit Phase 4, Coding Guideline Accuracy testing). Suspect Opportunity: a potential new HCC identified from claims/clinical evidence, pending clinician review. Unsupported HCC / Audit-Risk (Possible Upcoding): an HCC already reflected in Current RAF whose supporting evidence is insufficient (MEAT/TAMPER not demonstrated), creating potential overpayment/clawback exposure rather than upside (per RAF Audit Phase 4, Unsupported HCC Rate testing)."
+    - paragraph: "Reconciliation: 1.050 + 0.075 validated = 1.125 projected. 1.050 + 0.400 total raw opportunity (excludes audit-risk) = 1.450 potential."
+    - paragraph: Planning value uses an assumed rate of $12,000 per RAF point and is not an actual plan-specific PMPM or revenue figure.
+    - generic "Why is HCC confidence scored this way?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

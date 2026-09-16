@@ -19,7 +19,7 @@
 .member360-workspace .m360-open { white-space:nowrap; }
 .member360-workspace .m360-pagination { display:flex; align-items:center; gap:12px; padding-top:14px; font-size:13px; color:var(--comment); }
 .member360-workspace .m360-pagination > span:first-child { margin-right:auto; }
-.member360-workspace .m360-pagination label { display:flex; align-items:center; gap:8px; }
+.member360-workspace .m360-pagination label { display:flex; align-items:center; gap:10px; white-space:nowrap; }
 .member360-workspace .m360-pagination select, .member360-workspace .m360-pagination button { border:1px solid var(--line); border-radius:3px; padding:5px 10px; color:var(--comment); background:white; cursor:pointer; height:var(--control-height); }
 .member360-workspace button:disabled { opacity:.45; cursor:default; }
 .member360-workspace .m360-empty { text-align:center; padding:28px; }
@@ -40,3 +40,5 @@
 .member360-workspace .m360-source p { max-width:1150px; }
 .member360-workspace .m360-hash { font-size:12px; overflow-wrap:anywhere; }
 .member360-workspace .checkdrop-item { display:flex; font-weight:400; margin-bottom:0; }
+
+.member360-workspace .m360-pagination select {min-width:88px;}

@@ -1,0 +1,113 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Anne Foster
+  - generic: AF
+  - heading "Anne Foster" [level=1]
+  - text: M-559214 · MA PPO
+  - text: Age 67 · Female
+  - generic: "57"
+  - text: Composite Impact
+  - generic: "58"
+  - text: Risk Impact
+  - generic: "55"
+  - text: Quality Impact
+  - generic: "70"
+  - text: Stars Impact
+  - generic: 1 Quality Gap
+  - generic: 1 HCC Opportunity
+  - generic: SDOH screening needed
+  - generic: New Member
+  - button "Back to Member List"
+  - tablist "Anne Foster profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution" [active] [selected]
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Enrollment & Attribution":
+    - heading "Enrollment History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Start End Contract PBP Product Plan MBI Subscriber ID Dual / LIS Status":
+          - columnheader "Start"
+          - columnheader "End"
+          - columnheader "Contract"
+          - columnheader "PBP"
+          - columnheader "Product"
+          - columnheader "Plan"
+          - columnheader "MBI"
+          - columnheader "Subscriber ID"
+          - columnheader "Dual / LIS"
+          - columnheader "Status"
+      - rowgroup:
+        - row "03/01/2026 12/31/2026 H1234 001 MA PPO Advantage Gold PPO 5FQ1XM7LC93 SUB-559214 Not dual eligible Active":
+          - cell "03/01/2026"
+          - cell "12/31/2026"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA PPO"
+          - cell "Advantage Gold PPO"
+          - cell "5FQ1XM7LC93"
+          - cell "SUB-559214"
+          - cell "Not dual eligible"
+          - cell "Active"
+    - heading "Provider Attribution" [level=3]
+    - table:
+      - rowgroup:
+        - row "Effective End PCP NPI Group Network Market Method Confidence":
+          - columnheader "Effective"
+          - columnheader "End"
+          - columnheader "PCP"
+          - columnheader "NPI"
+          - columnheader "Group"
+          - columnheader "Network"
+          - columnheader "Market"
+          - columnheader "Method"
+          - columnheader "Confidence"
+      - rowgroup:
+        - row "03/01/2026 Current Dr. P. Nguyen 1508827734 Harbor Primary Care Central MA Network Tampa Claims plurality (recent) Medium":
+          - cell "03/01/2026"
+          - cell "Current"
+          - cell "Dr. P. Nguyen"
+          - cell "1508827734"
+          - cell "Harbor Primary Care"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Claims plurality (recent)"
+          - cell "Medium"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

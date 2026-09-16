@@ -1,0 +1,166 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?category=DR&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?category=DR&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?category=DR&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?category=DR&config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Suspected conditions" [level=1]
+  - paragraph: Analyze suspected conditions and inspect the evidence behind each one.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - button "Reset 1 filters":
+    - text: Reset 1 filters
+  - generic: Data issues
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Suspected condition views":
+    - tab "All opportunities"
+    - tab "Possible additions"
+    - tab "Possible overcoding"
+    - tab "Data issues" [selected]
+    - tab "Conditions list"
+  - generic: Suspected conditions
+  - strong: "130"
+  - text: 130 document and case signals
+  - generic: Members with flagged conditions
+  - strong: "130"
+  - text: Included members who match a rule; each counted once
+  - generic: Cases with documents
+  - strong: "0"
+  - text: Original document quotes available
+  - generic: Cases without an estimate
+  - strong: "130"
+  - text: Listed even when the score change is unknown
+  - heading "Suspects by category" [level=2]
+  - paragraph: Each distinct suspected condition is counted once
+  - combobox "Suspect grouping":
+    - option "By category" [selected]
+    - option "By rule type"
+    - option "By HCC"
+  - button "Data issues 130":
+    - generic "Data issues"
+    - generic: "130"
+  - paragraph: A member may have more than one suspected condition. Member totals count each person once.
+  - heading "Evidence profile" [level=2]
+  - paragraph: Overcoding and data issues are shown separately from possible additions
+  - 'img "Strong: 61; Moderate: 42; Limited: 27; Unknown: 0"':
+    - application:
+      - generic: "130"
+      - generic: suspected conditions
+  - generic: Strong · 61
+  - generic: Moderate · 42
+  - generic: Limited · 27
+  - generic: Unknown · 0
+  - heading "Understanding data issues" [level=2]
+  - paragraph: Evidence determines whether a diagnosis is supported
+  - heading "Keep data checks separate" [level=3]
+  - paragraph: Data issues do not receive a chance-of-confirmation estimate. Resolve missing or conflicting inputs before interpreting a score.
+  - heading "Check the source details" [level=3]
+  - paragraph: Check member identity, dates, eligibility and missing information against the original sources.
+  - heading "Suspects by condition" [level=2]
+  - paragraph: Conditions with the most flags; members may appear in several groups
+  - button "Inspect cases":
+    - text: Inspect cases
+  - button "Cardiovascular conditions 130":
+    - generic "Cardiovascular conditions"
+    - generic: "130"
+  - heading "Rules identify. AI explains." [level=2]
+  - paragraph: Rules find gaps; AI helps explain them. Evidence is still required.
+  - heading "01 · Rules find possible gaps" [level=3]
+  - paragraph: Rules check member details, source documents and condition history. Each result keeps a link to the rule and original signals.
+  - heading "02 · AI explains the findings" [level=3]
+  - paragraph: Explanations show dates, conflicting evidence and other possible interpretations. One drug, measurement or old label is not enough to confirm a diagnosis.
+  - button "Inspect supporting evidence":
+    - text: Inspect supporting evidence
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

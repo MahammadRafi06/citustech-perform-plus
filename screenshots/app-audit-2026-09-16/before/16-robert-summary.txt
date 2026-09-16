@@ -1,0 +1,138 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Robert Klein
+  - generic: RK
+  - heading "Robert Klein" [level=1]
+  - text: M-204175 · MA HMO
+  - text: Age 71 · Male
+  - generic: "78"
+  - text: Composite Impact
+  - generic: "91"
+  - text: Risk Impact
+  - generic: "70"
+  - text: Quality Impact
+  - generic: "75"
+  - text: Stars Impact
+  - generic: 3 Quality Gaps
+  - generic: 4 HCC Opportunities
+  - generic: 1 Audit-Risk HCC
+  - generic: Social isolation Flag
+  - button "Back to Member List"
+  - tablist "Robert Klein profile sections":
+    - tab "Summary" [active] [selected]
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Summary":
+    - heading "Member summary" [level=3]
+    - generic: Robert Klein is a long-term member (continuous enrollment since 2019). The member has documented CHF, COPD. There are 3 open quality opportunities, and 4 risk-adjustment opportunities under clinical review (0.18 RAF validated, 0.2 additional potential pending evidence). This member has 1 HCC flagged for audit-risk review; see Risk Adjustment for details. Screening indicates one or more SDOH factors that may affect access or adherence. Based on composite impact (78/100), this member is a moderate priority for coordinated outreach.
+    - generic "Why this composite score (78)?"
+    - heading "Areas to explore" [level=3]
+    - text: "Close: COPD: Spirometry Monitoring"
+    - paragraph: Confirm & submit pending result
+    - text: "Close: CHF: Medication Adherence"
+    - paragraph: Refill and adherence support
+    - text: "Close: AWV: Annual Wellness Visit"
+    - paragraph: Schedule annual wellness visit
+    - text: Review HCC 108 Vascular disease
+    - paragraph: Clinician validation and documentation required before submission
+    - heading "Member Demographics & Identifiers" [level=3]
+    - table:
+      - rowgroup:
+        - row "Member Name DOB Age Sex Member ID Member SSUI Enrollment SSUI Custom ID 1 Custom ID 2":
+          - columnheader "Member Name"
+          - columnheader "DOB"
+          - columnheader "Age"
+          - columnheader "Sex"
+          - columnheader "Member ID"
+          - columnheader "Member SSUI"
+          - columnheader "Enrollment SSUI"
+          - columnheader "Custom ID 1"
+          - columnheader "Custom ID 2"
+      - rowgroup:
+        - row "Robert Klein 02/14/1955 71 Male M-204175 84421093771102 30841 CTP-771244 LEG-662091":
+          - cell "Robert Klein"
+          - cell "02/14/1955"
+          - cell "71"
+          - cell "Male"
+          - cell "M-204175"
+          - cell "84421093771102"
+          - cell "30841"
+          - cell "CTP-771244"
+          - cell "LEG-662091"
+    - table:
+      - rowgroup:
+        - row "Address City County State ZIP Phone Email":
+          - columnheader "Address"
+          - columnheader "City"
+          - columnheader "County"
+          - columnheader "State"
+          - columnheader "ZIP"
+          - columnheader "Phone"
+          - columnheader "Email"
+      - rowgroup:
+        - row "1420 Ridgeview Ave Tampa Hillsborough County FL 33607 (813) 555-0212 r.klein@example.test":
+          - cell "1420 Ridgeview Ave"
+          - cell "Tampa"
+          - cell "Hillsborough County"
+          - cell "FL"
+          - cell "33607"
+          - cell "(813) 555-0212"
+          - cell "r.klein@example.test"
+    - table:
+      - rowgroup:
+        - row "Race Race Source Race Source Method Ethnicity Ethnicity Source Preferred Language Written Language":
+          - columnheader "Race"
+          - columnheader "Race Source"
+          - columnheader "Race Source Method"
+          - columnheader "Ethnicity"
+          - columnheader "Ethnicity Source"
+          - columnheader "Preferred Language"
+          - columnheader "Written Language"
+      - rowgroup:
+        - row "Black or African American Member enrollment Direct Not Hispanic or Latino Member enrollment English English":
+          - cell "Black or African American"
+          - cell "Member enrollment"
+          - cell "Direct"
+          - cell "Not Hispanic or Latino"
+          - cell "Member enrollment"
+          - cell "English"
+          - cell "English"
+    - paragraph: "Member is a long-term member: Long-term member (continuous enrollment since 2019)."
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

@@ -1,0 +1,139 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Ellen Brooks
+  - generic: EB
+  - heading "Ellen Brooks" [level=1]
+  - text: M-318820 · MA PPO
+  - text: Age 68 · Female
+  - generic: "79"
+  - text: Composite Impact
+  - generic: "61"
+  - text: Risk Impact
+  - generic: "92"
+  - text: Quality Impact
+  - generic: "94"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 2 HCC Opportunities
+  - button "Back to Member List"
+  - tablist "Ellen Brooks profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization" [active] [selected]
+    - tab "SDOH & Engagement"
+  - tabpanel "Claims & Utilization":
+    - generic: TOTAL CLAIMS (2026)
+    - generic: "3"
+    - generic: Current-year claims shown
+    - generic: CHRONIC CONDITIONS
+    - generic: "1"
+    - generic: Diabetes
+    - generic: OPEN QUALITY GAPS
+    - generic: "2"
+    - generic: See Quality, Stars & Opportunities
+    - generic: OPEN HCC OPPORTUNITIES
+    - generic: "2"
+    - generic: See Risk Adjustment
+    - generic: TOTAL PAID (2026, SHOWN)
+    - generic: $218
+    - generic: Paid amounts from claims below
+    - generic: PCP / SPECIALIST VISITS
+    - generic: 1 / 0
+    - generic: Ambulatory encounters shown
+    - generic: ED / URGENT VISITS
+    - generic: "0"
+    - generic: Utilization signal
+    - generic: PHARMACY FILLS
+    - generic: "1"
+    - generic: Adherence evidence
+    - heading "Claims History" [level=3]
+    - table:
+      - rowgroup:
+        - row "DOS Claim Provider Specialty POS Diagnosis Procedure Allowed Paid Status Relevance":
+          - columnheader "DOS"
+          - columnheader "Claim"
+          - columnheader "Provider"
+          - columnheader "Specialty"
+          - columnheader "POS"
+          - columnheader "Diagnosis"
+          - columnheader "Procedure"
+          - columnheader "Allowed"
+          - columnheader "Paid"
+          - columnheader "Status"
+          - columnheader "Relevance"
+      - rowgroup:
+        - row "07/09/2026 CLM-955120 Dr. M. Owusu Primary Care 11 Office E11.9 99213 $152 $132 Paid GSD evidence":
+          - cell "07/09/2026"
+          - cell "CLM-955120"
+          - cell "Dr. M. Owusu"
+          - cell "Primary Care"
+          - cell "11 Office"
+          - cell "E11.9"
+          - cell "99213"
+          - cell "$152"
+          - cell "$132"
+          - cell "Paid"
+          - cell "GSD evidence"
+        - row "05/20/2026 CLM-902231 Central Lab Laboratory 81 Lab E11.9 83036 $55 $48 Paid GSD evidence":
+          - cell "05/20/2026"
+          - cell "CLM-902231"
+          - cell "Central Lab"
+          - cell "Laboratory"
+          - cell "81 Lab"
+          - cell "E11.9"
+          - cell "83036"
+          - cell "$55"
+          - cell "$48"
+          - cell "Paid"
+          - cell "GSD evidence"
+        - row "01/18/2026 CLM-861007 Retail Pharmacy Pharmacy Pharmacy E11.9 NDC 00169-1833 $44 $38 Paid Metformin fill; no statin fill on record":
+          - cell "01/18/2026"
+          - cell "CLM-861007"
+          - cell "Retail Pharmacy"
+          - cell "Pharmacy"
+          - cell "Pharmacy"
+          - cell "E11.9"
+          - cell "NDC 00169-1833"
+          - cell "$44"
+          - cell "$38"
+          - cell "Paid"
+          - cell "Metformin fill; no statin fill on record"
+    - button "Show Prior Claims"
+    - text: Loads all remaining history into this table, then this control is removed
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

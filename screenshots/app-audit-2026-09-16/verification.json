@@ -1,0 +1,54 @@
+{
+  "environment": "http://localhost:3000",
+  "profile_links": [
+    {
+      "name": "Maria Santos",
+      "member_id": "M-104829",
+      "risk_pane_verified": true
+    },
+    {
+      "name": "Ellen Brooks",
+      "member_id": "M-318820",
+      "risk_pane_verified": true
+    },
+    {
+      "name": "Robert Klein",
+      "member_id": "M-204175",
+      "risk_pane_verified": true
+    },
+    {
+      "name": "James Patel",
+      "member_id": "M-441098",
+      "risk_pane_verified": true
+    },
+    {
+      "name": "Anne Foster",
+      "member_id": "M-559214",
+      "risk_pane_verified": true
+    }
+  ],
+  "default_first_five": [
+    "M-104829",
+    "M-318820",
+    "M-204175",
+    "M-441098",
+    "M-559214"
+  ],
+  "linked_open_findings": 9,
+  "contract_filter": "H1234",
+  "contract_filtered_findings": 9,
+  "pagination_css": {
+    "whiteSpace": "nowrap",
+    "selectWidth": 88,
+    "headerHeight": 111
+  },
+  "raf_tiles": {
+    "baseline": 1.014,
+    "accepted": 1.037,
+    "submitted": 1.04,
+    "potential": 1.056
+  },
+  "expected_net_revenue": 1838578,
+  "clinical_store_changed": false,
+  "public_deployment_in_this_task": false
+}

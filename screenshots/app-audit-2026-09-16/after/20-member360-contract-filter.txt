@@ -1,0 +1,433 @@
+- alert
+- generic: "0.87"
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?contract=H1234&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?contract=H1234&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?contract=H1234&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?contract=H1234&config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Suspected conditions" [level=1]
+  - paragraph: Analyze suspected conditions and inspect the evidence behind each one.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts"
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+    - option "H1234 · Central MA Network" [selected]
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - button "Reset 1 filters":
+    - text: Reset 1 filters
+  - text: Population analysis
+  - generic: 5 members included
+  - generic: 34 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Suspected condition views":
+    - tab "All opportunities"
+    - tab "Possible additions"
+    - tab "Possible overcoding"
+    - tab "Data issues"
+    - tab "Conditions list" [selected]
+  - region "Clinical context gap categories":
+    - generic: Beyond diagnosis codes
+    - heading "Find the gaps hidden in the clinical story" [level=2]
+    - paragraph: Connect narrative, timing and related records to surface suspects a code-only screen can overlook.
+    - strong: "9"
+    - generic: context gaps
+    - strong: "8"
+    - generic: possible additions shown
+    - strong: "1"
+    - generic: coding checks shown
+    - button "Invisible gaps, 0 gaps":
+      - strong: "0"
+      - heading "Invisible gaps" [level=3]
+      - paragraph: A diagnosis is buried in narrative, not the coded record.
+    - button "Timeline gaps, 0 gaps":
+      - strong: "0"
+      - heading "Timeline gaps" [level=3]
+      - paragraph: The signal emerges across several visits.
+    - button "Disconnected evidence, 5 gaps":
+      - strong: "5"
+      - heading "Disconnected evidence" [level=3]
+      - paragraph: Relevant details sit in different records.
+    - button "Missing specificity, 1 gaps":
+      - strong: "1"
+      - heading "Missing specificity" [level=3]
+      - paragraph: The record contains detail that the code leaves out.
+    - button "Recapture gaps, 2 gaps":
+      - strong: "2"
+      - heading "Recapture gaps" [level=3]
+      - paragraph: A persistent condition needs current-year confirmation.
+    - button "Conflicting evidence, 1 gaps":
+      - strong: "1"
+      - heading "Conflicting evidence" [level=3]
+      - paragraph: Later context challenges an existing label.
+    - generic: Discovery patterns · every gap still needs confirmation
+    - button "Show all context gaps" [disabled]:
+      - text: Show all context gaps
+  - heading "Conditions worth a closer look" [level=2]
+  - paragraph: Inspect the clinical signal, the context that could be missed and the evidence behind each gap.
+  - textbox "Search suspected conditions":
+    - /placeholder: Find a condition, member or clinical signal…
+  - combobox "Discovery pattern":
+    - option "All context gaps" [selected]
+    - option "Invisible gaps"
+    - option "Timeline gaps"
+    - option "Disconnected evidence"
+    - option "Missing specificity"
+    - option "Recapture gaps"
+    - option "Conflicting evidence"
+    - option "All signals"
+  - combobox "Suspect category":
+    - option "All categories" [selected]
+    - option "All possible additions"
+    - option "Not yet classified"
+    - option "Missing diagnosis code"
+    - option "Confirm past conditions"
+    - option "Possible new condition"
+    - option "More diagnosis detail"
+    - option "Ongoing health status"
+    - option "Possible overcoding"
+    - option "Data issues"
+  - combobox "Case status":
+    - option "Open cases" [selected]
+    - option "All statuses"
+    - option "Resolved"
+    - option "Unknown status"
+  - combobox "Source availability":
+    - option "All source types" [selected]
+    - option "Cases with documents"
+  - button "Export all filtered":
+    - text: Export all filtered
+  - table "Clinical context conditions list":
+    - rowgroup:
+      - row "Select Condition / member Gap type Clinical signal Evidence Estimated score change":
+        - columnheader "Select"
+        - columnheader "Condition / member"
+        - columnheader "Gap type"
+        - columnheader "Clinical signal"
+        - columnheader "Evidence"
+        - columnheader "Estimated score change"
+    - rowgroup:
+      - 'row "Select CASE-83c27c4c460dbd Vascular Disease Maria Santos · M-104829 Hillsborough County Recapture gaps Confirm past conditions Prior-year (2025) HCC not yet re-documented; CKD/HTN comorbidity supports recapture likelihood Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Moderate Member profile summary Inspect evidence +0.095 2026 reference · mapping pending"':
+        - cell "Select CASE-83c27c4c460dbd":
+          - checkbox "Select CASE-83c27c4c460dbd"
+        - cell "Vascular Disease Maria Santos · M-104829 Hillsborough County":
+          - button "Vascular Disease":
+            - strong: Vascular Disease
+          - link "Maria Santos":
+            - /url: /member360?member=M-104829&tab=risk
+            - text: Maria Santos
+          - text: · M-104829
+          - generic: Hillsborough County
+        - cell "Recapture gaps Confirm past conditions":
+          - text: Recapture gaps
+          - generic: Confirm past conditions
+        - 'cell "Prior-year (2025) HCC not yet re-documented; CKD/HTN comorbidity supports recapture likelihood Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: Prior-year (2025) HCC not yet re-documented; CKD/HTN comorbidity supports recapture likelihood
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Moderate Member profile summary Inspect evidence":
+          - text: Moderate
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.095 2026 reference · mapping pending":
+          - text: "+0.095"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-36133bab0b7a0e Rheumatoid arthritis Ellen Brooks · M-318820 Hillsborough County Disconnected evidence Possible new condition Problem list entry from prior-year record; no corroborating encounter in current claims data Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Limited Member profile summary Inspect evidence +0.080 2026 reference · mapping pending"':
+        - cell "Select CASE-36133bab0b7a0e":
+          - checkbox "Select CASE-36133bab0b7a0e"
+        - cell "Rheumatoid arthritis Ellen Brooks · M-318820 Hillsborough County":
+          - button "Rheumatoid arthritis":
+            - strong: Rheumatoid arthritis
+          - link "Ellen Brooks":
+            - /url: /member360?member=M-318820&tab=risk
+            - text: Ellen Brooks
+          - text: · M-318820
+          - generic: Hillsborough County
+        - cell "Disconnected evidence Possible new condition":
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - 'cell "Problem list entry from prior-year record; no corroborating encounter in current claims data Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: Problem list entry from prior-year record; no corroborating encounter in current claims data
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Limited Member profile summary Inspect evidence":
+          - text: Limited
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.080 2026 reference · mapping pending":
+          - text: "+0.080"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-7d1b6b023ce038 COPD Complication Robert Klein · M-204175 Hillsborough County Recapture gaps Confirm past conditions Prior-year (2025) HCC not yet re-documented this period Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Moderate Member profile summary Inspect evidence +0.070 2026 reference · mapping pending"':
+        - cell "Select CASE-7d1b6b023ce038":
+          - checkbox "Select CASE-7d1b6b023ce038"
+        - cell "COPD Complication Robert Klein · M-204175 Hillsborough County":
+          - button "COPD Complication":
+            - strong: COPD Complication
+          - link "Robert Klein":
+            - /url: /member360?member=M-204175&tab=risk
+            - text: Robert Klein
+          - text: · M-204175
+          - generic: Hillsborough County
+        - cell "Recapture gaps Confirm past conditions":
+          - text: Recapture gaps
+          - generic: Confirm past conditions
+        - 'cell "Prior-year (2025) HCC not yet re-documented this period Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: Prior-year (2025) HCC not yet re-documented this period
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Moderate Member profile summary Inspect evidence":
+          - text: Moderate
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.070 2026 reference · mapping pending":
+          - text: "+0.070"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-0a179332ee8528 CKD Stage 4 (Specificity Review) James Patel · M-441098 Hillsborough County Missing specificity More diagnosis detail eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4). Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Moderate Member profile summary Inspect evidence +0.185 2026 reference · mapping pending"':
+        - cell "Select CASE-0a179332ee8528":
+          - checkbox "Select CASE-0a179332ee8528"
+        - cell "CKD Stage 4 (Specificity Review) James Patel · M-441098 Hillsborough County":
+          - button "CKD Stage 4 (Specificity Review)":
+            - strong: CKD Stage 4 (Specificity Review)
+          - link "James Patel":
+            - /url: /member360?member=M-441098&tab=risk
+            - text: James Patel
+          - text: · M-441098
+          - generic: Hillsborough County
+        - cell "Missing specificity More diagnosis detail":
+          - text: Missing specificity
+          - generic: More diagnosis detail
+        - 'cell "eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4). Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4).
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Moderate Member profile summary Inspect evidence":
+          - text: Moderate
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.185 2026 reference · mapping pending":
+          - text: "+0.185"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-43095f953af462 Major depressive disorder Anne Foster · M-559214 Hillsborough County Disconnected evidence Possible new condition Positive depression screening (PHQ-2, G0444) during new member wellness visit; no follow-up assessment, diagnosis, or treatment on file Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Limited Member profile summary Inspect evidence +0.120 2026 reference · mapping pending"':
+        - cell "Select CASE-43095f953af462":
+          - checkbox "Select CASE-43095f953af462"
+        - cell "Major depressive disorder Anne Foster · M-559214 Hillsborough County":
+          - button "Major depressive disorder":
+            - strong: Major depressive disorder
+          - link "Anne Foster":
+            - /url: /member360?member=M-559214&tab=risk
+            - text: Anne Foster
+          - text: · M-559214
+          - generic: Hillsborough County
+        - cell "Disconnected evidence Possible new condition":
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - 'cell "Positive depression screening (PHQ-2, G0444) during new member wellness visit; no follow-up assessment, diagnosis, or treatment on file Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: Positive depression screening (PHQ-2, G0444) during new member wellness visit; no follow-up assessment, diagnosis, or treatment on file
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Limited Member profile summary Inspect evidence":
+          - text: Limited
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.120 2026 reference · mapping pending":
+          - text: "+0.120"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-b1c7d554bcb04f Heart arrhythmia Maria Santos · M-104829 Hillsborough County Disconnected evidence Possible new condition ECG + cardiology claim Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Limited Member profile summary Inspect evidence +0.241 2026 reference · mapping pending"':
+        - cell "Select CASE-b1c7d554bcb04f":
+          - checkbox "Select CASE-b1c7d554bcb04f"
+        - cell "Heart arrhythmia Maria Santos · M-104829 Hillsborough County":
+          - button "Heart arrhythmia":
+            - strong: Heart arrhythmia
+          - link "Maria Santos":
+            - /url: /member360?member=M-104829&tab=risk
+            - text: Maria Santos
+          - text: · M-104829
+          - generic: Hillsborough County
+        - cell "Disconnected evidence Possible new condition":
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - 'cell "ECG + cardiology claim Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: ECG + cardiology claim
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Limited Member profile summary Inspect evidence":
+          - text: Limited
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.241 2026 reference · mapping pending":
+          - text: "+0.241"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-d864d6bffaf8f3 Vascular disease Robert Klein · M-204175 Hillsborough County Disconnected evidence Possible new condition Claim only, no recent note Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Limited Member profile summary Inspect evidence +0.130 2026 reference · mapping pending"':
+        - cell "Select CASE-d864d6bffaf8f3":
+          - checkbox "Select CASE-d864d6bffaf8f3"
+        - cell "Vascular disease Robert Klein · M-204175 Hillsborough County":
+          - button "Vascular disease":
+            - strong: Vascular disease
+          - link "Robert Klein":
+            - /url: /member360?member=M-204175&tab=risk
+            - text: Robert Klein
+          - text: · M-204175
+          - generic: Hillsborough County
+        - cell "Disconnected evidence Possible new condition":
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - 'cell "Claim only, no recent note Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: Claim only, no recent note
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Limited Member profile summary Inspect evidence":
+          - text: Limited
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.130 2026 reference · mapping pending":
+          - text: "+0.130"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-85ee692b0b74ec Specified heart arrhythmia James Patel · M-441098 Hillsborough County Disconnected evidence Possible new condition Single ECG mention Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Limited Member profile summary Inspect evidence +0.140 2026 reference · mapping pending"':
+        - cell "Select CASE-85ee692b0b74ec":
+          - checkbox "Select CASE-85ee692b0b74ec"
+        - cell "Specified heart arrhythmia James Patel · M-441098 Hillsborough County":
+          - button "Specified heart arrhythmia":
+            - strong: Specified heart arrhythmia
+          - link "James Patel":
+            - /url: /member360?member=M-441098&tab=risk
+            - text: James Patel
+          - text: · M-441098
+          - generic: Hillsborough County
+        - cell "Disconnected evidence Possible new condition":
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - 'cell "Single ECG mention Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: Single ECG mention
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Limited Member profile summary Inspect evidence":
+          - text: Limited
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "+0.140 2026 reference · mapping pending":
+          - text: "+0.140"
+          - generic: 2026 reference · mapping pending
+      - 'row "Select CASE-9d87ae4a3836a9 Morbid Obesity Robert Klein · M-204175 Hillsborough County Conflicting evidence Possible overcoding Single telehealth encounter (POS 02) on 03/14/2026; no BMI, weight, nutrition counseling, or follow-up documented; no corroborating labs, vitals, or specialist encounter found anywhere else in claims or clinical history. Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record. Limited Member profile summary Inspect evidence −0.161 2026 reference · mapping pending"':
+        - cell "Select CASE-9d87ae4a3836a9":
+          - checkbox "Select CASE-9d87ae4a3836a9"
+        - cell "Morbid Obesity Robert Klein · M-204175 Hillsborough County":
+          - button "Morbid Obesity":
+            - strong: Morbid Obesity
+          - link "Robert Klein":
+            - /url: /member360?member=M-204175&tab=risk
+            - text: Robert Klein
+          - text: · M-204175
+          - generic: Hillsborough County
+        - cell "Conflicting evidence Possible overcoding":
+          - text: Conflicting evidence
+          - generic: Possible overcoding
+        - 'cell "Single telehealth encounter (POS 02) on 03/14/2026; no BMI, weight, nutrition counseling, or follow-up documented; no corroborating labs, vitals, or specialist encounter found anywhere else in claims or clinical history. Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."':
+          - text: Single telehealth encounter (POS 02) on 03/14/2026; no BMI, weight, nutrition counseling, or follow-up documented; no corroborating labs, vitals, or specialist encounter found anywhere else in claims or clinical history.
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell "Limited Member profile summary Inspect evidence":
+          - text: Limited
+          - generic: Member profile summary
+          - button "Inspect evidence":
+            - text: Inspect evidence
+        - cell "−0.161 2026 reference · mapping pending":
+          - text: −0.161
+          - generic: 2026 reference · mapping pending
+  - navigation "Clinical context conditions list pagination":
+    - status: 1–9 of 9 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 1
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page" [disabled]:
+    - button "Last page" [disabled]:
+  - paragraph: These are evidence patterns, not measured miss rates for a particular ML model. Open a condition to see why it was flagged and check its evidence. A flag does not confirm a diagnosis.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

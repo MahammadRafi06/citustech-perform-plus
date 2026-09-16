@@ -1,0 +1,201 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Robert Klein
+  - generic: RK
+  - heading "Robert Klein" [level=1]
+  - text: M-204175 · MA HMO
+  - text: Age 71 · Male
+  - generic: "78"
+  - text: Composite Impact
+  - generic: "91"
+  - text: Risk Impact
+  - generic: "70"
+  - text: Quality Impact
+  - generic: "75"
+  - text: Stars Impact
+  - generic: 3 Quality Gaps
+  - generic: 4 HCC Opportunities
+  - generic: 1 Audit-Risk HCC
+  - generic: Social isolation Flag
+  - button "Back to Member List"
+  - tablist "Robert Klein profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data" [active] [selected]
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Clinical Data":
+    - paragraph: Reflects completed encounters, results and current clinical state only. No appointment scheduling data is available in source systems.
+    - heading "Active Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Onset Year Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Onset Year"
+          - columnheader "Status"
+      - rowgroup:
+        - row "COPD with acute exacerbation history J44.1 2018 Active":
+          - cell "COPD with acute exacerbation history"
+          - cell "J44.1"
+          - cell "2018"
+          - cell "Active"
+        - row "Congestive Heart Failure, chronic systolic I50.22 2020 Active":
+          - cell "Congestive Heart Failure, chronic systolic"
+          - cell "I50.22"
+          - cell "2020"
+          - cell "Active"
+        - row "Essential Hypertension I10 2012 Active":
+          - cell "Essential Hypertension"
+          - cell "I10"
+          - cell "2012"
+          - cell "Active"
+        - 'row "Morbid Obesity (audit-risk: single-source code) E66.01 2026 Coded - unconfirmed, see Risk Adjustment"':
+          - 'cell "Morbid Obesity (audit-risk: single-source code)"'
+          - cell "E66.01"
+          - cell "2026"
+          - cell "Coded - unconfirmed, see Risk Adjustment"
+    - heading "Historical / Resolved Diagnoses" [level=3]
+    - table:
+      - rowgroup:
+        - row "Diagnosis ICD-10 Status":
+          - columnheader "Diagnosis"
+          - columnheader "ICD-10"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Acute respiratory failure J96.00 Resolved 2024 - post ED stay":
+          - cell "Acute respiratory failure"
+          - cell "J96.00"
+          - cell "Resolved 2024 - post ED stay"
+    - heading "Lab Results" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Test Result Interpretation Source":
+          - columnheader "Date"
+          - columnheader "Test"
+          - columnheader "Result"
+          - columnheader "Interpretation"
+          - columnheader "Source"
+      - rowgroup:
+        - row "06/10/2026 BNP (B-type Natriuretic Peptide) 420 pg/mL Elevated (CHF-consistent) City Cardiology":
+          - cell "06/10/2026"
+          - cell "BNP (B-type Natriuretic Peptide)"
+          - cell "420 pg/mL"
+          - cell "Elevated (CHF-consistent)"
+          - cell "City Cardiology"
+    - heading "Procedures Performed" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Procedure Code Provider":
+          - columnheader "Date"
+          - columnheader "Procedure"
+          - columnheader "Code"
+          - columnheader "Provider"
+      - rowgroup:
+        - row "07/02/2026 Spirometry 94010 Dr. J. Lee":
+          - cell "07/02/2026"
+          - cell "Spirometry"
+          - cell "94010"
+          - cell "Dr. J. Lee"
+        - row "06/10/2026 Echocardiogram 93306 City Cardiology":
+          - cell "06/10/2026"
+          - cell "Echocardiogram"
+          - cell "93306"
+          - cell "City Cardiology"
+        - row "04/28/2026 ED visit with chest X-ray 99283, 71046 City Hospital":
+          - cell "04/28/2026"
+          - cell "ED visit with chest X-ray"
+          - cell "99283, 71046"
+          - cell "City Hospital"
+    - button "Show Prior Procedures"
+    - text: Each click loads the next earlier period into this same table
+    - heading "Active Medications" [level=3]
+    - table:
+      - rowgroup:
+        - row "Medication Dose / Frequency Start Year Prescriber":
+          - columnheader "Medication"
+          - columnheader "Dose / Frequency"
+          - columnheader "Start Year"
+          - columnheader "Prescriber"
+      - rowgroup:
+        - row "tiotropium bromide 18 MCG Inhalation Capsule Once daily (QD) 2018 Dr. J. Lee":
+          - cell "tiotropium bromide 18 MCG Inhalation Capsule"
+          - cell "Once daily (QD)"
+          - cell "2018"
+          - cell "Dr. J. Lee"
+        - row "furosemide 40 MG Oral Tablet Once daily (QD) 2020 City Cardiology":
+          - cell "furosemide 40 MG Oral Tablet"
+          - cell "Once daily (QD)"
+          - cell "2020"
+          - cell "City Cardiology"
+        - row "lisinopril 10 MG Oral Tablet Once daily (QD) 2012 Dr. J. Lee":
+          - cell "lisinopril 10 MG Oral Tablet"
+          - cell "Once daily (QD)"
+          - cell "2012"
+          - cell "Dr. J. Lee"
+    - heading "Prescription Refill History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Date Medication Supply Pharmacy":
+          - columnheader "Date"
+          - columnheader "Medication"
+          - columnheader "Supply"
+          - columnheader "Pharmacy"
+      - rowgroup:
+        - row "02/15/2026 tiotropium bromide 18 MCG Inhalation Capsule + furosemide 40 MG Oral Tablet 30-day supply Retail Pharmacy":
+          - cell "02/15/2026"
+          - cell "tiotropium bromide 18 MCG Inhalation Capsule + furosemide 40 MG Oral Tablet"
+          - cell "30-day supply"
+          - cell "Retail Pharmacy"
+    - button "Show Prior Refills"
+    - text: Loads all remaining history into this table, then this control is removed
+    - heading "Allergies" [level=3]
+    - table:
+      - rowgroup:
+        - row "Allergen Reaction Severity Date Noted":
+          - columnheader "Allergen"
+          - columnheader "Reaction"
+          - columnheader "Severity"
+          - columnheader "Date Noted"
+      - rowgroup:
+        - row "No Known Drug Allergies (NKDA) — — Noted 2019":
+          - cell "No Known Drug Allergies (NKDA)"
+          - cell "—"
+          - cell "—"
+          - cell "Noted 2019"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

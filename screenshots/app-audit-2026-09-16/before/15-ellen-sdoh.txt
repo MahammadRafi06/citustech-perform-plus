@@ -1,0 +1,85 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Ellen Brooks
+  - generic: EB
+  - heading "Ellen Brooks" [level=1]
+  - text: M-318820 · MA PPO
+  - text: Age 68 · Female
+  - generic: "79"
+  - text: Composite Impact
+  - generic: "61"
+  - text: Risk Impact
+  - generic: "92"
+  - text: Quality Impact
+  - generic: "94"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 2 HCC Opportunities
+  - button "Back to Member List"
+  - tablist "Ellen Brooks profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement" [active] [selected]
+  - tabpanel "SDOH & Engagement":
+    - table:
+      - rowgroup:
+        - row "Domain Indicator Source Action":
+          - columnheader "Domain"
+          - columnheader "Indicator"
+          - columnheader "Source"
+          - columnheader "Action"
+      - rowgroup:
+        - row "Food access No identified need Member screening Monitor":
+          - cell "Food access"
+          - cell "No identified need"
+          - cell "Member screening"
+          - cell "Monitor"
+        - row "Transportation No identified need Member screening Monitor":
+          - cell "Transportation"
+          - cell "No identified need"
+          - cell "Member screening"
+          - cell "Monitor"
+        - row "Digital access SMS + portal active Contact preference Digital outreach preferred":
+          - cell "Digital access"
+          - cell "SMS + portal active"
+          - cell "Contact preference"
+          - cell "Digital outreach preferred"
+    - paragraph: "Preferred channel: SMS | Preferred language: English | Outreach consent: Active"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

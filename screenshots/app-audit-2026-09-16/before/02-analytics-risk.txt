@@ -1,0 +1,368 @@
+- alert
+- generic: "0.87"
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Risk analytics" [level=1]
+  - paragraph: Compare risk scores, suspected conditions and revenue opportunities.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Analytics reports":
+    - tab "Risk & conditions" [selected]
+    - tab "Geography"
+    - tab "Provider"
+    - tab "Score scenarios"
+    - tab "Financial"
+    - tab "AI results"
+  - generic: Average risk score
+  - strong: "1.014"
+  - text: 102,904 covered months used in the average
+  - generic: Middle risk score
+  - strong: "0.974"
+  - text: Half of scored members are below this value
+  - generic: Past conditions confirmed again
+  - strong: 80.2%
+  - text: 13,183 of 16,442 recorded conditions across members
+  - generic: Members with possible additions
+  - strong: 1,985
+  - text: Each member counted once
+  - generic: Condition mix
+  - heading "Where the condition burden sits" [level=2]
+  - paragraph: Eight most common condition groups · select a tile to explore
+  - strong: 16,185
+  - generic: condition records shown
+  - img "Treemap of common conditions by member count":
+  - button "Kidney disease 3,325":
+    - generic: Kidney disease
+    - strong: 3,325
+  - button "Cardiovascular 2,976":
+    - generic: Cardiovascular
+    - strong: 2,976
+  - button "Diabetes 2,350":
+    - generic: Diabetes
+    - strong: 2,350
+  - button "COPD 2,008":
+    - generic: COPD
+    - strong: 2,008
+  - button "Heart failure 1,967":
+    - generic: Heart failure
+    - strong: 1,967
+  - button "Depression 1,861":
+    - generic: Depression
+    - strong: 1,861
+  - button "Obesity 1,279":
+    - generic: Obesity
+    - strong: 1,279
+  - button "Cancer status 419":
+    - generic: Cancer status
+    - strong: "419"
+  - generic: Tile size reflects member-condition counts. Members with several conditions appear in more than one group.
+  - generic: Annual recapture
+  - heading "Confirmed again. Gaps still open." [level=2]
+  - paragraph: Prior-year conditions across the selected population
+  - strong: 80.2%
+  - generic: confirmed again
+  - 'img "still missing. Confirmed again: 13,183; Still missing: 3,259"':
+    - application
+  - strong: 3,259
+  - generic: still missing
+  - button "Confirmed again 80.2% of shown total 13,183" [disabled]:
+    - text: Confirmed again
+    - generic: 80.2% of shown total
+    - strong: 13,183
+  - button "Still missing 19.8% of shown total 3,259" [disabled]:
+    - text: Still missing
+    - generic: 19.8% of shown total
+    - strong: 3,259
+  - button "Kidney disease 662":
+    - generic: Kidney disease
+    - strong: "662"
+  - button "Cardiovascular 615":
+    - generic: Cardiovascular
+    - strong: "615"
+  - button "Diabetes 428":
+    - generic: Diabetes
+    - strong: "428"
+  - button "COPD 409":
+    - generic: COPD
+    - strong: "409"
+  - button "Heart failure 389":
+    - generic: Heart failure
+    - strong: "389"
+  - generic: The gauge and condition gaps use the same prior-year member-condition pairs as the table below.
+  - heading "Members by risk score" [level=2]
+  - paragraph: Number of members in each score range
+  - img "Scored member distribution by score interval":
+    - application:
+      - generic: 0–0.5
+      - generic: 0.5–1
+      - generic: 1–1.5
+      - generic: 1.5–2
+      - generic: 2–3
+      - generic: 3+
+      - generic: "0"
+      - generic: 2k
+      - generic: 3k
+      - generic: 5k
+      - generic: 6k
+  - paragraph: Middle score 0.974 · 90% of members score below 1.450 · 9,799 members with scores
+  - heading "Risk score trend" [level=2]
+  - paragraph: Same population, model and score type
+  - generic: Baseline
+  - generic: Potential
+  - generic: Submitted
+  - generic: Accepted
+  - img "Risk score trend across six reporting months":
+    - application:
+      - generic: Apr
+      - generic: May
+      - generic: Jun
+      - generic: Jul
+      - generic: Aug
+      - generic: Sep
+      - generic: "0.89"
+      - generic: "0.94"
+      - generic: "1.00"
+      - generic: "1.05"
+      - generic: "1.10"
+  - heading "Common conditions & yearly confirmation" [level=2]
+  - paragraph: How common each condition is, and how many past conditions are confirmed again
+  - table "Conditions and yearly confirmation":
+    - rowgroup:
+      - row "Condition / category Members included Share of members Past conditions Confirmed again Still missing Confirmed (%)":
+        - columnheader "Condition / category"
+        - columnheader "Members included"
+        - columnheader "Share of members"
+        - columnheader "Past conditions"
+        - columnheader "Confirmed again"
+        - columnheader "Still missing"
+        - columnheader "Confirmed (%)"
+    - rowgroup:
+      - row "Chronic kidney disease HCC 328 · condition grouping 3,325 33.5% 3,325 2,663 662 80.1%":
+        - cell "Chronic kidney disease HCC 328 · condition grouping":
+          - button "Chronic kidney disease":
+            - strong: Chronic kidney disease
+          - generic: HCC 328 · condition grouping
+        - cell "3,325"
+        - cell "33.5%"
+        - cell "3,325"
+        - cell "2,663"
+        - cell "662"
+        - cell "80.1%":
+          - generic: 80.1%
+      - row "Cardiovascular conditions HCC 238 · condition grouping 2,976 30.0% 2,976 2,361 615 79.3%":
+        - cell "Cardiovascular conditions HCC 238 · condition grouping":
+          - button "Cardiovascular conditions":
+            - strong: Cardiovascular conditions
+          - generic: HCC 238 · condition grouping
+        - cell "2,976"
+        - cell "30.0%"
+        - cell "2,976"
+        - cell "2,361"
+        - cell "615"
+        - cell "79.3%":
+          - generic: 79.3%
+      - row "Diabetes with complications HCC 37 · condition grouping 2,350 23.7% 2,350 1,922 428 81.8%":
+        - cell "Diabetes with complications HCC 37 · condition grouping":
+          - button "Diabetes with complications":
+            - strong: Diabetes with complications
+          - generic: HCC 37 · condition grouping
+        - cell "2,350"
+        - cell "23.7%"
+        - cell "2,350"
+        - cell "1,922"
+        - cell "428"
+        - cell "81.8%":
+          - generic: 81.8%
+      - row "COPD HCC 280 · condition grouping 2,008 20.2% 2,008 1,599 409 79.6%":
+        - cell "COPD HCC 280 · condition grouping":
+          - button "COPD":
+            - strong: COPD
+          - generic: HCC 280 · condition grouping
+        - cell "2,008"
+        - cell "20.2%"
+        - cell "2,008"
+        - cell "1,599"
+        - cell "409"
+        - cell "79.6%":
+          - generic: 79.6%
+      - row "Heart failure HCC 226 · condition grouping 1,967 19.8% 1,967 1,578 389 80.2%":
+        - cell "Heart failure HCC 226 · condition grouping":
+          - button "Heart failure":
+            - strong: Heart failure
+          - generic: HCC 226 · condition grouping
+        - cell "1,967"
+        - cell "19.8%"
+        - cell "1,967"
+        - cell "1,578"
+        - cell "389"
+        - cell "80.2%":
+          - generic: 80.2%
+      - row "Depression HCC 155 · condition grouping 1,861 18.7% 1,861 1,511 350 81.2%":
+        - cell "Depression HCC 155 · condition grouping":
+          - button "Depression":
+            - strong: Depression
+          - generic: HCC 155 · condition grouping
+        - cell "1,861"
+        - cell "18.7%"
+        - cell "1,861"
+        - cell "1,511"
+        - cell "350"
+        - cell "81.2%":
+          - generic: 81.2%
+      - row "Obesity HCC 48 · condition grouping 1,279 12.9% 1,279 1,011 268 79.0%":
+        - cell "Obesity HCC 48 · condition grouping":
+          - button "Obesity":
+            - strong: Obesity
+          - generic: HCC 48 · condition grouping
+        - cell "1,279"
+        - cell "12.9%"
+        - cell "1,279"
+        - cell "1,011"
+        - cell "268"
+        - cell "79.0%":
+          - generic: 79.0%
+      - row "Cancer status HCC 23 · condition grouping 419 4.2% 419 330 89 78.8%":
+        - cell "Cancer status HCC 23 · condition grouping":
+          - button "Cancer status":
+            - strong: Cancer status
+          - generic: HCC 23 · condition grouping
+        - cell "419"
+        - cell "4.2%"
+        - cell "419"
+        - cell "330"
+        - cell "89"
+        - cell "78.8%":
+          - generic: 78.8%
+      - row "Persistent status HCC 409 · condition grouping 188 1.9% 188 153 35 81.4%":
+        - cell "Persistent status HCC 409 · condition grouping":
+          - button "Persistent status":
+            - strong: Persistent status
+          - generic: HCC 409 · condition grouping
+        - cell "188"
+        - cell "1.9%"
+        - cell "188"
+        - cell "153"
+        - cell "35"
+        - cell "81.4%":
+          - generic: 81.4%
+      - row "HIV HCC 1 · condition grouping 69 0.7% 69 55 14 79.7%":
+        - cell "HIV HCC 1 · condition grouping":
+          - button "HIV":
+            - strong: HIV
+          - generic: HCC 1 · condition grouping
+        - cell "69"
+        - cell "0.7%"
+        - cell "69"
+        - cell "55"
+        - cell "14"
+        - cell "79.7%":
+          - generic: 79.7%
+  - navigation "Conditions and yearly confirmation pagination":
+    - status: 1–10 of 10 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 1
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page" [disabled]:
+    - button "Last page" [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

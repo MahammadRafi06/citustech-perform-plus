@@ -1,0 +1,87 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Robert Klein
+  - generic: RK
+  - heading "Robert Klein" [level=1]
+  - text: M-204175 · MA HMO
+  - text: Age 71 · Male
+  - generic: "78"
+  - text: Composite Impact
+  - generic: "91"
+  - text: Risk Impact
+  - generic: "70"
+  - text: Quality Impact
+  - generic: "75"
+  - text: Stars Impact
+  - generic: 3 Quality Gaps
+  - generic: 4 HCC Opportunities
+  - generic: 1 Audit-Risk HCC
+  - generic: Social isolation Flag
+  - button "Back to Member List"
+  - tablist "Robert Klein profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement" [active] [selected]
+  - tabpanel "SDOH & Engagement":
+    - table:
+      - rowgroup:
+        - row "Domain Indicator Source Action":
+          - columnheader "Domain"
+          - columnheader "Indicator"
+          - columnheader "Source"
+          - columnheader "Action"
+      - rowgroup:
+        - row "Transportation No identified need Member screening Monitor":
+          - cell "Transportation"
+          - cell "No identified need"
+          - cell "Member screening"
+          - cell "Monitor"
+        - row "Social isolation Potential concern Member screening Care manager check-in":
+          - cell "Social isolation"
+          - cell "Potential concern"
+          - cell "Member screening"
+          - cell "Care manager check-in"
+        - row "Digital access Limited Contact preference Prefer phone outreach":
+          - cell "Digital access"
+          - cell "Limited"
+          - cell "Contact preference"
+          - cell "Prefer phone outreach"
+    - paragraph: "Preferred channel: SMS | Preferred language: English | Outreach consent: Active"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

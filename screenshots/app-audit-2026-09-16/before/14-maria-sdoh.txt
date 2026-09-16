@@ -1,0 +1,86 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Maria Santos
+  - generic: MS
+  - heading "Maria Santos" [level=1]
+  - text: M-104829 · MA PPO
+  - text: Age 74 · Female
+  - generic: "88"
+  - text: Composite Impact
+  - generic: "95"
+  - text: Risk Impact
+  - generic: "88"
+  - text: Quality Impact
+  - generic: "90"
+  - text: Stars Impact
+  - generic: 4 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "Maria Santos profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement" [active] [selected]
+  - tabpanel "SDOH & Engagement":
+    - table:
+      - rowgroup:
+        - row "Domain Indicator Source Action":
+          - columnheader "Domain"
+          - columnheader "Indicator"
+          - columnheader "Source"
+          - columnheader "Action"
+      - rowgroup:
+        - row "Transportation Potential barrier Member screening Offer ride benefit":
+          - cell "Transportation"
+          - cell "Potential barrier"
+          - cell "Member screening"
+          - cell "Offer ride benefit"
+        - row "Food access No identified need Member screening Monitor":
+          - cell "Food access"
+          - cell "No identified need"
+          - cell "Member screening"
+          - cell "Monitor"
+        - row "Digital access SMS available Contact preference Send reminder":
+          - cell "Digital access"
+          - cell "SMS available"
+          - cell "Contact preference"
+          - cell "Send reminder"
+    - paragraph: "Preferred channel: SMS | Preferred language: English | Outreach consent: Active"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

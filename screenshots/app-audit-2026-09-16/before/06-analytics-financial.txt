@@ -1,0 +1,290 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Risk analytics" [level=1]
+  - paragraph: Compare risk scores, suspected conditions and revenue opportunities.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Analytics reports":
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Provider"
+    - tab "Score scenarios"
+    - tab "Financial" [active] [selected]
+    - tab "AI results"
+  - generic: Total opportunity
+  - strong: $5,002,800
+  - text: If all 1,977 selected findings are confirmed and paid
+  - generic: Likely opportunity
+  - strong: $2,407,532
+  - text: Allows for review rates and supporting evidence
+  - generic: Coding deductions
+  - strong: "-$328,200"
+  - text: Estimated reduction from correcting overcoding
+  - generic: Net revenue · incomplete
+  - strong: $1,838,578
+  - text: 5 corrections still need an estimate
+  - heading "How the revenue estimate adds up" [level=2]
+  - paragraph: Start with the total opportunity, then apply the forecast assumptions
+  - img "Total opportunity to estimated net revenue":
+    - application:
+      - generic: Total opportunity
+      - generic: Review & evidence
+      - generic: Payment estimate
+      - generic: Coding deductions
+      - generic: Net revenue
+      - generic: $0
+      - generic: $1.5m
+      - generic: $3.0m
+      - generic: $4.5m
+      - generic: $6.0m
+  - paragraph: Likely opportunity × expected payment rate − coding deductions = estimated net revenue.
+  - heading "Revenue over time" [level=2]
+  - paragraph: Running total across the forecast months
+  - generic: Conservative
+  - generic: Expected
+  - generic: Optimistic
+  - img "Conservative expected and optimistic revenue forecasts":
+    - application:
+      - generic: Jan
+      - generic: Feb
+      - generic: Mar
+      - generic: Apr
+      - generic: May
+      - generic: Jun
+      - generic: Jul
+      - generic: Aug
+      - generic: Sep
+      - generic: Oct
+      - generic: Nov
+      - generic: Dec
+      - generic: $0
+      - generic: $800k
+      - generic: $1.6m
+      - generic: $2.4m
+      - generic: $3.2m
+  - generic: Value retained
+  - heading "From opportunity to expected revenue" [level=2]
+  - paragraph: How each forecast assumption changes the amount
+  - strong: 36.8%
+  - generic: of total opportunity
+  - generic: Total opportunity
+  - strong: $5M
+  - generic: Starting value
+  - generic: Likely opportunity
+  - strong: $2.41M
+  - generic: 48.1% retained
+  - generic: Expected payment
+  - strong: $2.17M
+  - generic: 43.3% retained
+  - generic: Net revenue
+  - strong: $1.84M
+  - generic: 36.8% retained
+  - generic: Estimated additional revenue after coding deductions, before operating costs.
+  - generic: Monthly outlook
+  - heading "Expected revenue, month by month" [level=2]
+  - paragraph: Additional net revenue in each forecast month
+  - strong: $1.84M
+  - generic: total expected net revenue
+  - img "Monthly expected additional net revenue":
+    - application:
+      - generic: Jan
+      - generic: Feb
+      - generic: Mar
+      - generic: Apr
+      - generic: May
+      - generic: Jun
+      - generic: Jul
+      - generic: Aug
+      - generic: Sep
+      - generic: Oct
+      - generic: Nov
+      - generic: Dec
+      - generic: $0
+      - generic: $40K
+      - generic: $80K
+      - generic: $120K
+      - generic: $160K
+  - generic: Monthly amounts sum to the Expected scenario. The chart responds to forecast dates, review rates, payment rates and deductions.
+  - heading "Adjust the forecast" [level=2]
+  - paragraph: Change the assumptions to see how the estimate changes
+  - text: Cases reviewed (%)
+  - spinbutton "Cases reviewed percentage": "75"
+  - generic: Share reviewed within 30 days
+  - text: Expected payment rate (%)
+  - spinbutton "Expected payment rate percentage": "90"
+  - generic: Share of likely value expected to be paid
+  - text: $ per RAF point / month
+  - spinbutton "Dollars per RAF point per month": "1000"
+  - generic: Per member; a planning estimate
+  - text: Forecast starts
+  - textbox "Forecast starts": 2027-01
+  - generic: First month shown in the forecast
+  - text: Forecast length (months)
+  - spinbutton "Forecast length in months": "12"
+  - generic: How many months to include
+  - text: Payments start in month
+  - spinbutton "Payments start in month": "1"
+  - generic: 1 means the first forecast month
+  - strong: Chance of confirmation
+  - generic: Estimated from evidence strength. Assumes confirmation within 90 days if reviewed within 30.
+  - button "Update forecast":
+    - text: Update forecast
+  - paragraph: Review and payment rates change the Expected scenario. Dollar amount, dates and timing apply to all three. Coding deductions begin in month 1. Members are assumed to stay covered throughout the forecast.
+  - paragraph: These estimates use assumed score changes and payment rates. They are not actual CMS payments. Costs are not included.
+  - heading "Compare revenue forecasts" [level=2]
+  - paragraph: 1,977 selected findings · one possible addition per member · 50 additional overlapping findings left out
+  - table "Revenue forecast comparison":
+    - rowgroup:
+      - row "Forecast Cases reviewed Payment rate Total opportunity Likely opportunity Coding deductions Net revenue":
+        - columnheader "Forecast"
+        - columnheader "Cases reviewed"
+        - columnheader "Payment rate"
+        - columnheader "Total opportunity"
+        - columnheader "Likely opportunity"
+        - columnheader "Coding deductions"
+        - columnheader "Net revenue"
+    - rowgroup:
+      - row "Conservative Lower chance of confirmation 50% 70% $5,002,800 $1,356,135 -$328,200 $621,095":
+        - cell "Conservative Lower chance of confirmation":
+          - strong: Conservative
+          - generic: Lower chance of confirmation
+        - cell "50%"
+        - cell "70%"
+        - cell "$5,002,800"
+        - cell "$1,356,135"
+        - cell "-$328,200"
+        - cell "$621,095":
+          - strong: $621,095
+      - row "Expected Standard chance of confirmation 75% 90% $5,002,800 $2,407,532 -$328,200 $1,838,578":
+        - cell "Expected Standard chance of confirmation":
+          - strong: Expected
+          - generic: Standard chance of confirmation
+        - cell "75%"
+        - cell "90%"
+        - cell "$5,002,800"
+        - cell "$2,407,532"
+        - cell "-$328,200"
+        - cell "$1,838,578":
+          - strong: $1,838,578
+      - row "Optimistic Higher chance of confirmation 90% 100% $5,002,800 $3,339,290 -$328,200 $3,011,090":
+        - cell "Optimistic Higher chance of confirmation":
+          - strong: Optimistic
+          - generic: Higher chance of confirmation
+        - cell "90%"
+        - cell "100%"
+        - cell "$5,002,800"
+        - cell "$3,339,290"
+        - cell "-$328,200"
+        - cell "$3,011,090":
+          - strong: $3,011,090
+  - navigation "Revenue forecast comparison pagination":
+    - status: 1–3 of 3 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 1
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page" [disabled]:
+    - button "Last page" [disabled]:
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

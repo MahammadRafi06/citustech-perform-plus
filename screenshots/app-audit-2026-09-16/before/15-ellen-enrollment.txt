@@ -1,0 +1,122 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Ellen Brooks
+  - generic: EB
+  - heading "Ellen Brooks" [level=1]
+  - text: M-318820 · MA PPO
+  - text: Age 68 · Female
+  - generic: "79"
+  - text: Composite Impact
+  - generic: "61"
+  - text: Risk Impact
+  - generic: "92"
+  - text: Quality Impact
+  - generic: "94"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 2 HCC Opportunities
+  - button "Back to Member List"
+  - tablist "Ellen Brooks profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution" [active] [selected]
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Enrollment & Attribution":
+    - heading "Enrollment History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Start End Contract PBP Product Plan MBI Subscriber ID Dual / LIS Status":
+          - columnheader "Start"
+          - columnheader "End"
+          - columnheader "Contract"
+          - columnheader "PBP"
+          - columnheader "Product"
+          - columnheader "Plan"
+          - columnheader "MBI"
+          - columnheader "Subscriber ID"
+          - columnheader "Dual / LIS"
+          - columnheader "Status"
+      - rowgroup:
+        - row "01/01/2026 12/31/2026 H1234 001 MA PPO Advantage Gold PPO 7RM4TX8VD22 SUB-318820 Not dual eligible Active":
+          - cell "01/01/2026"
+          - cell "12/31/2026"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA PPO"
+          - cell "Advantage Gold PPO"
+          - cell "7RM4TX8VD22"
+          - cell "SUB-318820"
+          - cell "Not dual eligible"
+          - cell "Active"
+        - row "01/01/2022 12/31/2025 H1234 001 MA PPO Advantage Gold PPO 7RM4TX8VD22 SUB-318820 Not dual eligible Complete":
+          - cell "01/01/2022"
+          - cell "12/31/2025"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA PPO"
+          - cell "Advantage Gold PPO"
+          - cell "7RM4TX8VD22"
+          - cell "SUB-318820"
+          - cell "Not dual eligible"
+          - cell "Complete"
+    - heading "Provider Attribution" [level=3]
+    - table:
+      - rowgroup:
+        - row "Effective End PCP NPI Group Network Market Method Confidence":
+          - columnheader "Effective"
+          - columnheader "End"
+          - columnheader "PCP"
+          - columnheader "NPI"
+          - columnheader "Group"
+          - columnheader "Network"
+          - columnheader "Market"
+          - columnheader "Method"
+          - columnheader "Confidence"
+      - rowgroup:
+        - row "01/01/2022 Current Dr. M. Owusu 1659031147 Northside Medical Central MA Network Tampa Prospective PCP High":
+          - cell "01/01/2022"
+          - cell "Current"
+          - cell "Dr. M. Owusu"
+          - cell "1659031147"
+          - cell "Northside Medical"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Prospective PCP"
+          - cell "High"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

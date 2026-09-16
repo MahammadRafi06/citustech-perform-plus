@@ -1,0 +1,154 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Maria Santos
+  - generic: MS
+  - heading "Maria Santos" [level=1]
+  - text: M-104829 · MA PPO
+  - text: Age 74 · Female
+  - generic: "88"
+  - text: Composite Impact
+  - generic: "95"
+  - text: Risk Impact
+  - generic: "88"
+  - text: Quality Impact
+  - generic: "90"
+  - text: Stars Impact
+  - generic: 4 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "Maria Santos profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities" [active] [selected]
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Quality, Stars & Opportunities":
+    - generic: OPEN QUALITY GAPS
+    - generic: "4"
+    - generic: Detailed below
+    - generic: STARS-LINKED MEASURES
+    - generic: "2"
+    - generic: Of 4 open gaps
+    - generic: RISK-LINKED GAPS
+    - generic: "1"
+    - generic: Overlap with HCC review
+    - generic: OPPORTUNITY CLOSURE PROBABILITY
+    - generic: 74%
+    - generic: Average across open gaps
+    - generic "How is Opportunity Closure Probability calculated for this member?"
+    - heading "Measures & Gaps in Care" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Status Latest Result / Evidence Required Action Expiry Source Stars-Linked Risk-Linked":
+          - columnheader "Measure"
+          - columnheader "Status"
+          - columnheader "Latest Result / Evidence"
+          - columnheader "Required Action"
+          - columnheader "Expiry"
+          - columnheader "Source"
+          - columnheader "Stars-Linked"
+          - columnheader "Risk-Linked"
+      - rowgroup:
+        - row "CBP Open 152/94 on 07/18 Controlled BP reading 12/31/2026 EHR + claim Yes No":
+          - cell "CBP"
+          - cell "Open":
+            - generic: Open
+          - cell "152/94 on 07/18"
+          - cell "Controlled BP reading"
+          - cell "12/31/2026"
+          - cell "EHR + claim"
+          - cell "Yes"
+          - cell "No"
+        - row "KED Open eGFR present; uACR missing Complete kidney evaluation 12/31/2026 Lab + claim No Yes":
+          - cell "KED"
+          - cell "Open":
+            - generic: Open
+          - cell "eGFR present; uACR missing"
+          - cell "Complete kidney evaluation"
+          - cell "12/31/2026"
+          - cell "Lab + claim"
+          - cell "No"
+          - cell "Yes"
+        - row "GSD Eye Exam Open No current-year exam Schedule retinal exam 12/31/2026 Claim No No":
+          - cell "GSD Eye Exam"
+          - cell "Open":
+            - generic: Open
+          - cell "No current-year exam"
+          - cell "Schedule retinal exam"
+          - cell "12/31/2026"
+          - cell "Claim"
+          - cell "No"
+          - cell "No"
+        - row "Medication Adherence - Diabetes At risk PDC 76% Refill support to reach threshold 12/31/2026 Pharmacy Yes No":
+          - cell "Medication Adherence - Diabetes"
+          - cell "At risk":
+            - generic: At risk
+          - cell "PDC 76%"
+          - cell "Refill support to reach threshold"
+          - cell "12/31/2026"
+          - cell "Pharmacy"
+          - cell "Yes"
+          - cell "No"
+    - heading "Stars Contract Context" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Weight Contract Rate Next Cut Point Contract Closures Needed Member Contribution if Closed":
+          - columnheader "Measure"
+          - columnheader "Weight"
+          - columnheader "Contract Rate"
+          - columnheader "Next Cut Point"
+          - columnheader "Contract Closures Needed"
+          - columnheader "Member Contribution if Closed"
+      - rowgroup:
+        - row "CBP 3 69.00% 70.20% 221 +1 numerator if closed":
+          - cell "CBP"
+          - cell "3"
+          - cell "69.00%"
+          - cell "70.20%"
+          - cell "221"
+          - cell "+1 numerator if closed"
+        - row "Medication Adherence - Diabetes 3 79.40% 81.00% 162 +1 numerator if year-end compliant":
+          - cell "Medication Adherence - Diabetes"
+          - cell "3"
+          - cell "79.40%"
+          - cell "81.00%"
+          - cell "162"
+          - cell "+1 numerator if year-end compliant"
+    - generic "Why is this member's Stars impact 90?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

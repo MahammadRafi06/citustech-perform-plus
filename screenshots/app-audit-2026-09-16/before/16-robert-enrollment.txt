@@ -1,0 +1,145 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Robert Klein
+  - generic: RK
+  - heading "Robert Klein" [level=1]
+  - text: M-204175 · MA HMO
+  - text: Age 71 · Male
+  - generic: "78"
+  - text: Composite Impact
+  - generic: "91"
+  - text: Risk Impact
+  - generic: "70"
+  - text: Quality Impact
+  - generic: "75"
+  - text: Stars Impact
+  - generic: 3 Quality Gaps
+  - generic: 4 HCC Opportunities
+  - generic: 1 Audit-Risk HCC
+  - generic: Social isolation Flag
+  - button "Back to Member List"
+  - tablist "Robert Klein profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution" [active] [selected]
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Enrollment & Attribution":
+    - heading "Enrollment History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Start End Contract PBP Product Plan MBI Subscriber ID Dual / LIS Status":
+          - columnheader "Start"
+          - columnheader "End"
+          - columnheader "Contract"
+          - columnheader "PBP"
+          - columnheader "Product"
+          - columnheader "Plan"
+          - columnheader "MBI"
+          - columnheader "Subscriber ID"
+          - columnheader "Dual / LIS"
+          - columnheader "Status"
+      - rowgroup:
+        - row "01/01/2026 12/31/2026 H1234 001 MA HMO Advantage Complete HMO 8LN2RT4KX19 SUB-204175 Partial dual / LIS 2 Active":
+          - cell "01/01/2026"
+          - cell "12/31/2026"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA HMO"
+          - cell "Advantage Complete HMO"
+          - cell "8LN2RT4KX19"
+          - cell "SUB-204175"
+          - cell "Partial dual / LIS 2"
+          - cell "Active"
+        - row "01/01/2025 12/31/2025 H1234 001 MA HMO Advantage Complete HMO 8LN2RT4KX19 SUB-204175 Partial dual / LIS 2 Complete":
+          - cell "01/01/2025"
+          - cell "12/31/2025"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA HMO"
+          - cell "Advantage Complete HMO"
+          - cell "8LN2RT4KX19"
+          - cell "SUB-204175"
+          - cell "Partial dual / LIS 2"
+          - cell "Complete"
+        - row "03/01/2019 12/31/2024 H1234 001 MA HMO Advantage Complete HMO 8LN2RT4KX19 SUB-204175 Partial dual / LIS 2 Complete":
+          - cell "03/01/2019"
+          - cell "12/31/2024"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA HMO"
+          - cell "Advantage Complete HMO"
+          - cell "8LN2RT4KX19"
+          - cell "SUB-204175"
+          - cell "Partial dual / LIS 2"
+          - cell "Complete"
+    - heading "Provider Attribution" [level=3]
+    - table:
+      - rowgroup:
+        - row "Effective End PCP NPI Group Network Market Method Confidence":
+          - columnheader "Effective"
+          - columnheader "End"
+          - columnheader "PCP"
+          - columnheader "NPI"
+          - columnheader "Group"
+          - columnheader "Network"
+          - columnheader "Market"
+          - columnheader "Method"
+          - columnheader "Confidence"
+      - rowgroup:
+        - row "01/01/2026 Current Dr. J. Lee 1836227704 Harbor Primary Care Central MA Network Tampa Prospective PCP High":
+          - cell "01/01/2026"
+          - cell "Current"
+          - cell "Dr. J. Lee"
+          - cell "1836227704"
+          - cell "Harbor Primary Care"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Prospective PCP"
+          - cell "High"
+        - row "03/01/2019 12/31/2025 Dr. J. Lee 1836227704 Harbor Primary Care Central MA Network Tampa Claims plurality Medium":
+          - cell "03/01/2019"
+          - cell "12/31/2025"
+          - cell "Dr. J. Lee"
+          - cell "1836227704"
+          - cell "Harbor Primary Care"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Claims plurality"
+          - cell "Medium"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

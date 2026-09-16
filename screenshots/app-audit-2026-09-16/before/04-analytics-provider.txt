@@ -1,0 +1,420 @@
+- alert
+- generic: "30"
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Risk analytics" [level=1]
+  - paragraph: Compare risk scores, suspected conditions and revenue opportunities.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Analytics reports":
+    - tab "Risk & conditions"
+    - tab "Geography"
+    - tab "Provider" [active] [selected]
+    - tab "Score scenarios"
+    - tab "Financial"
+    - tab "AI results"
+  - generic: Panel size
+  - strong: 9,931
+  - text: Eligible members across 30 providers shown
+  - generic: Average RAF
+  - strong: "1.014"
+  - text: Weighted by covered months with a score
+  - generic: Suspect capture rate
+  - strong: 54.9%
+  - text: 9,021 confirmed / 16,442 identified
+  - generic: Recapture rate
+  - strong: 80.2%
+  - text: 13,183 of 16,442 past conditions confirmed again
+  - generic: Provider comparison
+  - heading "Capture and recapture, side by side" [level=2]
+  - paragraph: Eight providers with the most open suspects
+  - generic: Suspect capture
+  - generic: Chronic recapture
+  - img "Suspect capture and chronic recapture rates by provider":
+    - generic: 0.0%
+    - generic: 25.0%
+    - generic: 50.0%
+    - generic: 75.0%
+    - generic: 100.0%
+    - 'button "Dr. Emily Carter: Suspect capture 44.2%, Chronic recapture 81.8%"':
+      - generic: Dr. Emily Carter
+      - generic: 44.2% → 81.8%
+    - 'button "Dr. Kevin Lopez: Suspect capture 49.4%, Chronic recapture 78.9%"':
+      - generic: Dr. Kevin Lopez
+      - generic: 49.4% → 78.9%
+    - 'button "Dr. Rafael Torres: Suspect capture 49.3%, Chronic recapture 81.7%"':
+      - generic: Dr. Rafael Torres
+      - generic: 49.3% → 81.7%
+    - 'button "Dr. Steven Walker: Suspect capture 61.3%, Chronic recapture 80.7%"':
+      - generic: Dr. Steven Walker
+      - generic: 61.3% → 80.7%
+    - 'button "Dr. Sarah Mitchell: Suspect capture 57.0%, Chronic recapture 79.7%"':
+      - generic: Dr. Sarah Mitchell
+      - generic: 57.0% → 79.7%
+    - 'button "Dr. Daniel Reyes: Suspect capture 51.5%, Chronic recapture 78.2%"':
+      - generic: Dr. Daniel Reyes
+      - generic: 51.5% → 78.2%
+    - 'button "Dr. Maya Thompson: Suspect capture 53.4%, Chronic recapture 81.7%"':
+      - generic: Dr. Maya Thompson
+      - generic: 53.4% → 81.7%
+    - 'button "Dr. Ethan Brooks: Suspect capture 55.2%, Chronic recapture 74.8%"':
+      - generic: Dr. Ethan Brooks
+      - generic: 55.2% → 74.8%
+  - generic: Capture measures confirmed suspect findings. Recapture measures past conditions confirmed again; their denominators differ.
+  - generic: Condition outcomes
+  - heading "How identified suspects resolve" [level=2]
+  - paragraph: Monthly outcomes across the selected provider panels
+  - generic: Confirmed
+  - generic: Closed, not confirmed
+  - generic: Not closed
+  - img "Confirmed, unsupported and unresolved suspect outcomes by month":
+    - application:
+      - generic: Jan
+      - generic: Feb
+      - generic: Mar
+      - generic: Apr
+      - generic: May
+      - generic: Jun
+      - generic: Jul
+      - generic: Aug
+      - generic: Sep
+      - generic: "0"
+      - generic: "500"
+      - generic: "1000"
+      - generic: "1500"
+      - generic: "2000"
+  - generic: Historical condition outcomes, separate from the current open-suspect list. No chart-sending or operational activity is counted.
+  - heading "Risk & capture performance" [level=2]
+  - paragraph: Each circle is a provider; larger circles represent larger panels
+  - img "Provider average risk score and suspect capture rate, sized by panel size":
+    - application:
+      - generic: "0.88"
+      - generic: "0.95"
+      - generic: "1.02"
+      - generic: "1.09"
+      - generic: "1.15"
+      - generic: Average RAF
+      - generic: 0%
+      - generic: 25%
+      - generic: 50%
+      - generic: 75%
+      - generic: 100%
+  - generic: Recapture 80% or higher
+  - generic: Recapture below 80%
+  - paragraph: Select a provider to filter the population. Differences in risk reflect the member mix, not quality of care.
+  - heading "Open suspects & recapture" [level=2]
+  - paragraph: Eight providers with the most open suspects in the selected population
+  - img "Open suspects and recapture rate by provider":
+    - application:
+      - generic: Carter
+      - generic: Lopez
+      - generic: Torres
+      - generic: Walker
+      - generic: Mitchell
+      - generic: Reyes
+      - generic: Thompson
+      - generic: Brooks
+      - generic: "0"
+      - generic: "30"
+      - generic: "60"
+      - generic: "90"
+      - generic: "120"
+      - generic: 0%
+      - generic: 25%
+      - generic: 50%
+      - generic: 75%
+      - generic: 100%
+  - generic: Open suspects
+  - generic: Recapture rate
+  - paragraph: Open suspects are current flagged conditions. Recapture measures prior-year conditions confirmed again.
+  - heading "Provider comparison" [level=2]
+  - paragraph: Compare provider panels, confirmed conditions and remaining opportunities
+  - textbox "Search providers":
+    - /placeholder: Find a provider, practice or specialty…
+  - combobox "Sort providers":
+    - option "Most open suspects" [selected]
+    - option "Largest panel"
+    - option "Highest average score"
+    - option "Highest capture rate"
+    - option "Highest recapture rate"
+  - generic: 30 providers
+  - table "Provider performance":
+    - rowgroup:
+      - row "Provider Name Panel Size Average RAF Suspect Capture Rate (%) Recapture Rate (%) Open Suspects":
+        - columnheader "Provider Name"
+        - columnheader "Panel Size"
+        - columnheader "Average RAF"
+        - columnheader "Suspect Capture Rate (%)"
+        - columnheader "Recapture Rate (%)"
+        - columnheader "Open Suspects"
+    - rowgroup:
+      - row "Dr. Emily Carter Northbrook Family Care · Family medicine 330 1.078 44.2% 247 / 559 identified 81.8% 457 / 559 past conditions View open suspects for Dr. Emily Carter":
+        - cell "Dr. Emily Carter Northbrook Family Care · Family medicine":
+          - button "Dr. Emily Carter":
+            - strong: Dr. Emily Carter
+          - generic: Northbrook Family Care · Family medicine
+        - cell "330"
+        - cell "1.078"
+        - cell "44.2% 247 / 559 identified":
+          - text: 44.2%
+          - generic: 247 / 559 identified
+        - cell "81.8% 457 / 559 past conditions":
+          - text: 81.8%
+          - generic: 457 / 559 past conditions
+        - cell "View open suspects for Dr. Emily Carter":
+          - button "View open suspects for Dr. Emily Carter":
+            - text: "101"
+      - row "Dr. Kevin Lopez Greenfield Health Practice · Geriatrics 327 1.093 49.4% 258 / 522 identified 78.9% 412 / 522 past conditions View open suspects for Dr. Kevin Lopez":
+        - cell "Dr. Kevin Lopez Greenfield Health Practice · Geriatrics":
+          - button "Dr. Kevin Lopez":
+            - strong: Dr. Kevin Lopez
+          - generic: Greenfield Health Practice · Geriatrics
+        - cell "327"
+        - cell "1.093"
+        - cell "49.4% 258 / 522 identified":
+          - text: 49.4%
+          - generic: 258 / 522 identified
+        - cell "78.9% 412 / 522 past conditions":
+          - text: 78.9%
+          - generic: 412 / 522 past conditions
+        - cell "View open suspects for Dr. Kevin Lopez":
+          - button "View open suspects for Dr. Kevin Lopez":
+            - text: "90"
+      - row "Dr. Rafael Torres Silver Birch Medical · Family medicine 330 0.956 49.3% 274 / 556 identified 81.7% 454 / 556 past conditions View open suspects for Dr. Rafael Torres":
+        - cell "Dr. Rafael Torres Silver Birch Medical · Family medicine":
+          - button "Dr. Rafael Torres":
+            - strong: Dr. Rafael Torres
+          - generic: Silver Birch Medical · Family medicine
+        - cell "330"
+        - cell "0.956"
+        - cell "49.3% 274 / 556 identified":
+          - text: 49.3%
+          - generic: 274 / 556 identified
+        - cell "81.7% 454 / 556 past conditions":
+          - text: 81.7%
+          - generic: 454 / 556 past conditions
+        - cell "View open suspects for Dr. Rafael Torres":
+          - button "View open suspects for Dr. Rafael Torres":
+            - text: "89"
+      - row "Dr. Steven Walker Parkhaven Clinical Partners · Geriatrics 332 0.936 61.3% 331 / 540 identified 80.7% 436 / 540 past conditions View open suspects for Dr. Steven Walker":
+        - cell "Dr. Steven Walker Parkhaven Clinical Partners · Geriatrics":
+          - button "Dr. Steven Walker":
+            - strong: Dr. Steven Walker
+          - generic: Parkhaven Clinical Partners · Geriatrics
+        - cell "332"
+        - cell "0.936"
+        - cell "61.3% 331 / 540 identified":
+          - text: 61.3%
+          - generic: 331 / 540 identified
+        - cell "80.7% 436 / 540 past conditions":
+          - text: 80.7%
+          - generic: 436 / 540 past conditions
+        - cell "View open suspects for Dr. Steven Walker":
+          - button "View open suspects for Dr. Steven Walker":
+            - text: "89"
+      - row "Dr. Sarah Mitchell Oakstone Primary Care · Internal medicine 334 1.000 57.0% 317 / 556 identified 79.7% 443 / 556 past conditions View open suspects for Dr. Sarah Mitchell":
+        - cell "Dr. Sarah Mitchell Oakstone Primary Care · Internal medicine":
+          - button "Dr. Sarah Mitchell":
+            - strong: Dr. Sarah Mitchell
+          - generic: Oakstone Primary Care · Internal medicine
+        - cell "334"
+        - cell "1.000"
+        - cell "57.0% 317 / 556 identified":
+          - text: 57.0%
+          - generic: 317 / 556 identified
+        - cell "79.7% 443 / 556 past conditions":
+          - text: 79.7%
+          - generic: 443 / 556 past conditions
+        - cell "View open suspects for Dr. Sarah Mitchell":
+          - button "View open suspects for Dr. Sarah Mitchell":
+            - text: "87"
+      - row "Dr. Daniel Reyes Lakeside Medical Group · Internal medicine 330 1.070 51.5% 284 / 551 identified 78.2% 431 / 551 past conditions View open suspects for Dr. Daniel Reyes":
+        - cell "Dr. Daniel Reyes Lakeside Medical Group · Internal medicine":
+          - button "Dr. Daniel Reyes":
+            - strong: Dr. Daniel Reyes
+          - generic: Lakeside Medical Group · Internal medicine
+        - cell "330"
+        - cell "1.070"
+        - cell "51.5% 284 / 551 identified":
+          - text: 51.5%
+          - generic: 284 / 551 identified
+        - cell "78.2% 431 / 551 past conditions":
+          - text: 78.2%
+          - generic: 431 / 551 past conditions
+        - cell "View open suspects for Dr. Daniel Reyes":
+          - button "View open suspects for Dr. Daniel Reyes":
+            - text: "84"
+      - row "Dr. Emily Nguyen Riverbend Family Care · Geriatrics 325 0.944 53.9% 297 / 551 identified 81.3% 448 / 551 past conditions View open suspects for Dr. Emily Nguyen":
+        - cell "Dr. Emily Nguyen Riverbend Family Care · Geriatrics":
+          - button "Dr. Emily Nguyen":
+            - strong: Dr. Emily Nguyen
+          - generic: Riverbend Family Care · Geriatrics
+        - cell "325"
+        - cell "0.944"
+        - cell "53.9% 297 / 551 identified":
+          - text: 53.9%
+          - generic: 297 / 551 identified
+        - cell "81.3% 448 / 551 past conditions":
+          - text: 81.3%
+          - generic: 448 / 551 past conditions
+        - cell "View open suspects for Dr. Emily Nguyen":
+          - button "View open suspects for Dr. Emily Nguyen":
+            - text: "81"
+      - row "Dr. Ethan Brooks Maple Ridge Health · Geriatrics 330 0.961 55.2% 291 / 527 identified 74.8% 394 / 527 past conditions View open suspects for Dr. Ethan Brooks":
+        - cell "Dr. Ethan Brooks Maple Ridge Health · Geriatrics":
+          - button "Dr. Ethan Brooks":
+            - strong: Dr. Ethan Brooks
+          - generic: Maple Ridge Health · Geriatrics
+        - cell "330"
+        - cell "0.961"
+        - cell "55.2% 291 / 527 identified":
+          - text: 55.2%
+          - generic: 291 / 527 identified
+        - cell "74.8% 394 / 527 past conditions":
+          - text: 74.8%
+          - generic: 394 / 527 past conditions
+        - cell "View open suspects for Dr. Ethan Brooks":
+          - button "View open suspects for Dr. Ethan Brooks":
+            - text: "81"
+      - row "Dr. Maya Thompson Cedar Grove Primary Care · Geriatrics 332 0.949 53.4% 286 / 536 identified 81.7% 438 / 536 past conditions View open suspects for Dr. Maya Thompson":
+        - cell "Dr. Maya Thompson Cedar Grove Primary Care · Geriatrics":
+          - button "Dr. Maya Thompson":
+            - strong: Dr. Maya Thompson
+          - generic: Cedar Grove Primary Care · Geriatrics
+        - cell "332"
+        - cell "0.949"
+        - cell "53.4% 286 / 536 identified":
+          - text: 53.4%
+          - generic: 286 / 536 identified
+        - cell "81.7% 438 / 536 past conditions":
+          - text: 81.7%
+          - generic: 438 / 536 past conditions
+        - cell "View open suspects for Dr. Maya Thompson":
+          - button "View open suspects for Dr. Maya Thompson":
+            - text: "81"
+      - row "Dr. Aisha Patel Highland Grove Health · Internal medicine 331 1.097 51.6% 276 / 535 identified 81.7% 437 / 535 past conditions View open suspects for Dr. Aisha Patel":
+        - cell "Dr. Aisha Patel Highland Grove Health · Internal medicine":
+          - button "Dr. Aisha Patel":
+            - strong: Dr. Aisha Patel
+          - generic: Highland Grove Health · Internal medicine
+        - cell "331"
+        - cell "1.097"
+        - cell "51.6% 276 / 535 identified":
+          - text: 51.6%
+          - generic: 276 / 535 identified
+        - cell "81.7% 437 / 535 past conditions":
+          - text: 81.7%
+          - generic: 437 / 535 past conditions
+        - cell "View open suspects for Dr. Aisha Patel":
+          - button "View open suspects for Dr. Aisha Patel":
+            - text: "80"
+  - navigation "Provider performance pagination":
+    - status: 1–10 of 30 records
+    - generic: Rows per page
+    - combobox "Rows per page":
+      - option "10 / page" [selected]
+      - option "25 / page"
+      - option "50 / page"
+      - option "100 / page"
+    - generic: Page 1 of 3
+    - button "First page" [disabled]:
+    - button "Previous page" [disabled]:
+    - button "Next page":
+    - button "Last page":
+  - paragraph: Capture rate = confirmed suspect conditions ÷ identified suspect conditions through the reporting month. Recapture rate = prior-year conditions confirmed again ÷ prior-year conditions. Open suspects are counted separately from historical outcomes. Small panels and complementary groups are protected.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

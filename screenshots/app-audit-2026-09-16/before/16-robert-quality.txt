@@ -1,0 +1,145 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Robert Klein
+  - generic: RK
+  - heading "Robert Klein" [level=1]
+  - text: M-204175 · MA HMO
+  - text: Age 71 · Male
+  - generic: "78"
+  - text: Composite Impact
+  - generic: "91"
+  - text: Risk Impact
+  - generic: "70"
+  - text: Quality Impact
+  - generic: "75"
+  - text: Stars Impact
+  - generic: 3 Quality Gaps
+  - generic: 4 HCC Opportunities
+  - generic: 1 Audit-Risk HCC
+  - generic: Social isolation Flag
+  - button "Back to Member List"
+  - tablist "Robert Klein profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities" [active] [selected]
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Quality, Stars & Opportunities":
+    - generic: OPEN QUALITY GAPS
+    - generic: "3"
+    - generic: Detailed below
+    - generic: STARS-LINKED MEASURES
+    - generic: "2"
+    - generic: Of 3 open gaps
+    - generic: RISK-LINKED GAPS
+    - generic: "0"
+    - generic: Overlap with HCC review
+    - generic: OPPORTUNITY CLOSURE PROBABILITY
+    - generic: 66%
+    - generic: Average across open gaps
+    - generic "How is Opportunity Closure Probability calculated for this member?"
+    - heading "Measures & Gaps in Care" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Status Latest Result / Evidence Required Action Expiry Source Stars-Linked Risk-Linked":
+          - columnheader "Measure"
+          - columnheader "Status"
+          - columnheader "Latest Result / Evidence"
+          - columnheader "Required Action"
+          - columnheader "Expiry"
+          - columnheader "Source"
+          - columnheader "Stars-Linked"
+          - columnheader "Risk-Linked"
+      - rowgroup:
+        - 'row "COPD: Spirometry Monitoring Open Spirometry performed 07/02/2026; result not yet posted/graded for numerator credit Confirm and submit spirometry result for numerator credit 12/31/2026 Claim No No"':
+          - 'cell "COPD: Spirometry Monitoring"'
+          - cell "Open":
+            - generic: Open
+          - cell "Spirometry performed 07/02/2026; result not yet posted/graded for numerator credit"
+          - cell "Confirm and submit spirometry result for numerator credit"
+          - cell "12/31/2026"
+          - cell "Claim"
+          - cell "No"
+          - cell "No"
+        - 'row "CHF: Medication Adherence At risk PDC 74% Refill and adherence support 12/31/2026 Pharmacy Yes No"':
+          - 'cell "CHF: Medication Adherence"'
+          - cell "At risk":
+            - generic: At risk
+          - cell "PDC 74%"
+          - cell "Refill and adherence support"
+          - cell "12/31/2026"
+          - cell "Pharmacy"
+          - cell "Yes"
+          - cell "No"
+        - 'row "AWV: Annual Wellness Visit Open No current-year AWV Schedule annual wellness visit 12/31/2026 Claim Yes No"':
+          - 'cell "AWV: Annual Wellness Visit"'
+          - cell "Open":
+            - generic: Open
+          - cell "No current-year AWV"
+          - cell "Schedule annual wellness visit"
+          - cell "12/31/2026"
+          - cell "Claim"
+          - cell "Yes"
+          - cell "No"
+    - heading "Stars Contract Context" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Weight Contract Rate Next Cut Point Contract Closures Needed Member Contribution if Closed":
+          - columnheader "Measure"
+          - columnheader "Weight"
+          - columnheader "Contract Rate"
+          - columnheader "Next Cut Point"
+          - columnheader "Contract Closures Needed"
+          - columnheader "Member Contribution if Closed"
+      - rowgroup:
+        - row "Medication Adherence - CHF 3 73.94% 76.50% 215 +1 numerator if year-end compliant":
+          - cell "Medication Adherence - CHF"
+          - cell "3"
+          - cell "73.94%"
+          - cell "76.50%"
+          - cell "215"
+          - cell "+1 numerator if year-end compliant"
+        - row "AWV Completion 1 75.06% 77.00% 255 +1 numerator if closed":
+          - cell "AWV Completion"
+          - cell "1"
+          - cell "75.06%"
+          - cell "77.00%"
+          - cell "255"
+          - cell "+1 numerator if closed"
+    - generic "Why is this member's Stars impact 75?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

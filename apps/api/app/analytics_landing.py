@@ -18,6 +18,10 @@ SOCIAL_KEYS = ('age_band', 'gender', 'race', 'zip', 'social_need')
 
 def demographics(member):
     # Never infer race or social needs from names, clinical text or geographic statistics.
+    if member.get('profile_reference'):
+        age = member['age']
+        return dict(age_band='Under 65' if age < 65 else '65–74' if age < 75 else '75–84' if age < 85 else '85+',
+                    gender=member['sex'], race=member['race'], zip=member['zip'], social_need=member['social_need'])
     n = seed(member['id'] + ':sample-social')
     age = member.get('age', 65)
     # Authored county mix creates contrasting example clusters, not estimates of local need.
@@ -123,7 +127,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
         captured = sum(month['added'] for month in series)
         prior_conditions = sum(len(r['conditions']) for r in group)
         recaptured_conditions = sum(len(r['conditions']) for r in group if r['recaptured'])
-        providers.append(dict(id=pid, name='Dr. '+(names[(int(pid.split('-')[-1])-1) % len(names)] if pid.split('-')[-1].isdigit() else names[pindex % len(names)]),
+        providers.append(dict(id=pid, name=next((mmap[r['id']]['physician'] for r in group if mmap[r['id']].get('physician')), None) or 'Dr. '+(names[(int(pid.split('-')[-1])-1) % len(names)] if pid.split('-')[-1].isdigit() else names[pindex % len(names)]),
             practice=name, specialty=specialty, members=len(group), series=series,
             score=sum(r['score']*r['weight'] for r in scored)*score_factor/member_months if member_months else None,
             member_months=member_months, captured_suspects=captured, identified_suspects=identified,
@@ -135,11 +139,11 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     social = []
     for county in sorted({r['county'] for r in eligible}):
         cohort = [r for r in eligible if r['county'] == county]
-        need = sum(demographics(mmap[r['id']])['social_need'] != 'none' for r in cohort)
+        need = sum(demographics(mmap[r['id']])['social_need'] in {'food', 'transport', 'housing'} for r in cohort)
         scored = [r for r in cohort if r['score'] is not None]
         social.append(dict(id=county, name=county.replace(' County',''), members=len(cohort), needs=need,
                            share=need/len(cohort), score=sum(r['score']*r['weight'] for r in scored)/sum(r['weight'] for r in scored) if scored else None))
-    options = dict(age_band=['Under 65','65–74','75–84','85+'], gender=['Female','Male','Not recorded'], race=['White','Black','Asian','Other / multiple','Not recorded'], zip=sorted(set(ZIPS.values())), social_need=[k for k,_ in NEEDS])
+    options = dict(age_band=['Under 65','65–74','75–84','85+'], gender=['Female','Male','Not recorded'], race=['White','Black','Asian','Other / multiple','Not recorded'], zip=sorted(set(ZIPS.values()) | {m['zip'] for m in members if m.get('profile_reference')}), social_need=[k for k,_ in NEEDS])
     prior = sum(len(r['conditions']) for r in eligible)
     confirmed = sum(len(r['conditions']) for r in eligible if r['recaptured'])
     # Counterfactual illustration only. These increments are NOT CMS coefficients.
@@ -147,6 +151,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
                ('Respiratory', .023, [3]), ('Other conditions', .014, [4,7,8,9])]
     bridge = [dict(name=name, change=round(delta*(.8+sum(any(i in r['conditions'] for i in indices) for r in eligible)/max(1,len(eligible))),4)) for name,delta,indices in changes]
     return dict(origin='authored_sample_analytics', matrix=protect(matrix), priority_members=len({c['member_id'] for c in priority}), priority_cases=len(priority),
-                recapture=dict(prior=prior, confirmed=confirmed, missing=prior-confirmed, heat=protected_heat, practices=[dict(id=p,name=n) for p,n in practices], months=months),
+                recapture=dict(prior=prior, confirmed=confirmed, missing=prior-confirmed, heat=protected_heat,
+                    practices=[dict(id=p,name=n) for p,n in practices if any(r['provider_id']==p and r['conditions'] for r in eligible)], months=months),
                 providers=protect(providers), social=protect(social), social_options=options,
                 model=dict(start=round(baseline,4) if baseline is not None else None, changes=bridge, benchmark=1000, months=12, members=len(eligible)))

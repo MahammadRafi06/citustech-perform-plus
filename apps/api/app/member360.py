@@ -1,6 +1,6 @@
 """Authenticated, read-only profiles supplied with the Member 360 reference design.
 
-Kept separate from the clinical store and scored population. Provider scope IDs
+Linked to read-only suspect analytics, separate from native clinical scores. Provider scope IDs
 are presentation access assignments, not assertions that these are native patients.
 """
 from copy import deepcopy

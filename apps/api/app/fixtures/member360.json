@@ -4,7 +4,7 @@
     "sha256": "11efdd2144186bb4f1ff26dfd3f60ecb29a61d75464ce2f5a4422c15e6ad358b",
     "origin": "authored_reference_profiles",
     "measurementYear": 2026,
-    "notes": "Prepared reference profiles supplied in the Member 360 design. Geographic labels are adapted to Florida. These profiles are separate from the scored analytics population and do not update clinical records. HCC mappings and coefficients have not been validated against CMS model files. Financial estimates assume $12,000 per RAF point; they are not plan payments or revenue forecasts. Submitted and accepted scores in Risk analytics retain their existing definitions."
+    "notes": "Prepared reference profiles supplied in the Member 360 design. Geographic labels are adapted to Florida. These profiles are linked to the conditions list, but remain separate from the scored analytics population and do not update clinical records. HCC mappings and coefficients have not been validated against CMS model files. Financial estimates assume $12,000 per RAF point; they are not plan payments or revenue forecasts. Submitted and accepted scores in Risk analytics retain their existing definitions."
   },
   "members": [
     {

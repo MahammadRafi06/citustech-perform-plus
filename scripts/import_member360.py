@@ -125,7 +125,7 @@ payload = {
     'source': {'file': SOURCE.name, 'sha256': hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
                'origin': 'authored_reference_profiles', 'measurementYear': 2026,
                'notes': 'Prepared reference profiles supplied in the Member 360 design. Geographic labels are adapted to Florida. '
-                        'These profiles are separate from the scored analytics population and do not update clinical records. '
+                        'These profiles are linked to the conditions list, but remain separate from the scored analytics population and do not update clinical records. '
                         'HCC mappings and coefficients have not been validated against CMS model files. '
                         'Financial estimates assume $12,000 per RAF point; they are not plan payments or revenue forecasts. '
                         'Submitted and accepted scores in Risk analytics retain their existing definitions.'},

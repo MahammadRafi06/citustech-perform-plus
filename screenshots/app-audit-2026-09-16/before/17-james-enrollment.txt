@@ -1,0 +1,133 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: James Patel
+  - generic: JP
+  - heading "James Patel" [level=1]
+  - text: M-441098 · MA PPO
+  - text: Age 76 · Male
+  - generic: "70"
+  - text: Composite Impact
+  - generic: "82"
+  - text: Risk Impact
+  - generic: "68"
+  - text: Quality Impact
+  - generic: "66"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "James Patel profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution" [active] [selected]
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Enrollment & Attribution":
+    - heading "Enrollment History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Start End Contract PBP Product Plan MBI Subscriber ID Dual / LIS Status":
+          - columnheader "Start"
+          - columnheader "End"
+          - columnheader "Contract"
+          - columnheader "PBP"
+          - columnheader "Product"
+          - columnheader "Plan"
+          - columnheader "MBI"
+          - columnheader "Subscriber ID"
+          - columnheader "Dual / LIS"
+          - columnheader "Status"
+      - rowgroup:
+        - row "01/01/2026 12/31/2026 H1234 003 MA PPO Advantage Select 6DP9WK2GZ08 SUB-441098 Full dual / LIS 1 Active":
+          - cell "01/01/2026"
+          - cell "12/31/2026"
+          - cell "H1234"
+          - cell "003"
+          - cell "MA PPO"
+          - cell "Advantage Select"
+          - cell "6DP9WK2GZ08"
+          - cell "SUB-441098"
+          - cell "Full dual / LIS 1"
+          - cell "Active"
+        - row "06/01/2020 12/31/2025 H1234 003 MA PPO Advantage Select 6DP9WK2GZ08 SUB-441098 Full dual / LIS 1 Complete":
+          - cell "06/01/2020"
+          - cell "12/31/2025"
+          - cell "H1234"
+          - cell "003"
+          - cell "MA PPO"
+          - cell "Advantage Select"
+          - cell "6DP9WK2GZ08"
+          - cell "SUB-441098"
+          - cell "Full dual / LIS 1"
+          - cell "Complete"
+    - heading "Provider Attribution" [level=3]
+    - table:
+      - rowgroup:
+        - row "Effective End PCP NPI Group Network Market Method Confidence":
+          - columnheader "Effective"
+          - columnheader "End"
+          - columnheader "PCP"
+          - columnheader "NPI"
+          - columnheader "Group"
+          - columnheader "Network"
+          - columnheader "Market"
+          - columnheader "Method"
+          - columnheader "Confidence"
+      - rowgroup:
+        - row "01/01/2026 Current Dr. A. Carter 1942864001 Northside Medical Central MA Network Tampa Prospective PCP High":
+          - cell "01/01/2026"
+          - cell "Current"
+          - cell "Dr. A. Carter"
+          - cell "1942864001"
+          - cell "Northside Medical"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Prospective PCP"
+          - cell "High"
+        - row "06/01/2020 12/31/2025 Dr. A. Carter 1942864001 Northside Medical Central MA Network Tampa Claims plurality Medium":
+          - cell "06/01/2020"
+          - cell "12/31/2025"
+          - cell "Dr. A. Carter"
+          - cell "1942864001"
+          - cell "Northside Medical"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Claims plurality"
+          - cell "Medium"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

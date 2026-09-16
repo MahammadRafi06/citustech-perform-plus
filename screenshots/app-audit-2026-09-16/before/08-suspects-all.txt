@@ -1,0 +1,233 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Suspected conditions" [level=1]
+  - paragraph: Analyze suspected conditions and inspect the evidence behind each one.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - text: Population analysis
+  - generic: 9,931 members included
+  - generic: 30 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Suspected condition views":
+    - tab "All opportunities" [selected]
+    - tab "Possible additions"
+    - tab "Possible overcoding"
+    - tab "Data issues"
+    - tab "Conditions list"
+  - generic: Suspected conditions
+  - strong: 2,349
+  - text: 2,349 document and case signals
+  - generic: Members with flagged conditions
+  - strong: 2,242
+  - text: Included members who match a rule; each counted once
+  - generic: Expected confirmations
+  - strong: "1301.6"
+  - text: If every case is reviewed within 30 days
+  - generic: After planned reviews
+  - strong: "976.2"
+  - text: At 75% reviewed · confirmed within 90 days
+  - heading "Suspects by category" [level=2]
+  - paragraph: Each distinct suspected condition is counted once
+  - combobox "Suspect grouping":
+    - option "By category" [selected]
+    - option "By rule type"
+    - option "By HCC"
+  - button "Missing diagnosis code 840":
+    - generic "Missing diagnosis code"
+    - generic: "840"
+  - button "Confirm past conditions 674":
+    - generic "Confirm past conditions"
+    - generic: "674"
+  - button "More diagnosis detail 403":
+    - generic "More diagnosis detail"
+    - generic: "403"
+  - button "Possible overcoding 150":
+    - generic "Possible overcoding"
+    - generic: "150"
+  - button "Possible new condition 145":
+    - generic "Possible new condition"
+    - generic: "145"
+  - button "Data issues 130":
+    - generic "Data issues"
+    - generic: "130"
+  - button "Ongoing health status 6":
+    - generic "Ongoing health status"
+    - generic: "6"
+  - button "Not yet classified 1":
+    - generic "Not yet classified"
+    - generic: "1"
+  - paragraph: A member may have more than one suspected condition. Member totals count each person once.
+  - heading "Chance of confirmation" [level=2]
+  - paragraph: Estimated confirmation within 90 days, if reviewed within 30 days
+  - 'img "High: 1294; Medium: 558; Low: 200; Unknown: 0; Not applicable: 297"':
+    - application:
+      - generic: 2,349
+      - generic: suspected conditions
+  - generic: High · 1,294
+  - generic: Medium · 558
+  - generic: Low · 200
+  - generic: Unknown · 0
+  - generic: Not applicable · 297
+  - heading "Evidence and chance of confirmation" [level=2]
+  - paragraph: Compare the evidence rating with the estimated chance of confirmation
+  - generic: Evidence
+  - generic: High
+  - generic: Medium
+  - generic: Low
+  - generic: Unknown
+  - generic: Not applicable
+  - strong: Strong
+  - button "1,294"
+  - button "63"
+  - button "0"
+  - button "0"
+  - button "162"
+  - strong: Moderate
+  - button "0"
+  - button "495"
+  - button "56"
+  - button "0"
+  - button "86"
+  - strong: Limited
+  - button "0"
+  - button "0"
+  - button "144"
+  - button "0"
+  - button "49"
+  - strong: Unknown
+  - button "0"
+  - button "0"
+  - button "0"
+  - button "0"
+  - button "0"
+  - paragraph: Unknown means the data is missing or out of date. This estimate does not apply to overcoding, data issues or closed cases.
+  - heading "Suspects by condition" [level=2]
+  - paragraph: Conditions with the most flags; members may appear in several groups
+  - button "Inspect cases":
+    - text: Inspect cases
+  - button "Chronic kidney disease 568":
+    - generic "Chronic kidney disease"
+    - generic: "568"
+  - button "Cardiovascular conditions 564":
+    - generic "Cardiovascular conditions"
+    - generic: "564"
+  - button "Heart failure 306":
+    - generic "Heart failure"
+    - generic: "306"
+  - button "Diabetes with complications 302":
+    - generic "Diabetes with complications"
+    - generic: "302"
+  - button "COPD 292":
+    - generic "COPD"
+    - generic: "292"
+  - button "Depression 288":
+    - generic "Depression"
+    - generic: "288"
+  - button "Unmapped clinical concept 16":
+    - generic "Unmapped clinical concept"
+    - generic: "16"
+  - button "Obesity 6":
+    - generic "Obesity"
+    - generic: "6"
+  - heading "Rules identify. AI explains." [level=2]
+  - paragraph: Rules find gaps; AI helps explain them. Evidence is still required.
+  - heading "01 · Rules find possible gaps" [level=3]
+  - paragraph: Rules check member details, source documents and condition history. Each result keeps a link to the rule and original signals.
+  - heading "02 · AI explains the findings" [level=3]
+  - paragraph: Explanations show dates, conflicting evidence and other possible interpretations. One drug, measurement or old label is not enough to confirm a diagnosis.
+  - button "Inspect supporting evidence":
+    - text: Inspect supporting evidence
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

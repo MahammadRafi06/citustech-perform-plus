@@ -1,0 +1,233 @@
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?category=OC&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?category=OC&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?category=OC&config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?category=OC&config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - generic: Population risk
+  - heading "Suspected conditions" [level=1]
+  - paragraph: Analyze suspected conditions and inspect the evidence behind each one.
+  - button "Ask Perform+":
+    - text: Ask Perform+
+  - button "Save report":
+    - text: Save report
+  - combobox "Export format":
+    - option "ZIP bundle" [selected]
+    - option "CSV"
+    - option "JSON"
+  - button "Export":
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox "Program and model configuration":
+    - option "2026 CMS-HCC V28 Midyear/Final"
+    - option "2027 CMS-HCC V28 Initial"
+    - option "2027 CMS-HCC V28 Forecast" [selected]
+    - option "2026 HHS-HCC V08 Benefit year"
+    - option "2027 RxHCC MA-PD Initial"
+    - option "2027 RxHCC MA-PD Forecast"
+    - option "2027 RxHCC PDP Initial"
+    - option "2027 RxHCC PDP Forecast"
+    - option "2024 CMS-HCC Blend · 67% V24 and 33% V28"
+    - option "2025 CMS-HCC Blend · 33% V24 and 67% V28"
+    - option "2026 Florida Medicaid External scores"
+  - generic: YEAR
+  - combobox "Reporting year":
+    - option "2027" [selected]
+    - option "2026"
+    - option "2025"
+    - option "2024"
+  - generic: RUN MONTH
+  - combobox "Run month":
+    - option "Latest" [selected]
+    - option "January"
+    - option "February"
+    - option "March"
+    - option "April"
+    - option "May"
+    - option "June"
+    - option "July"
+    - option "August"
+    - option "September"
+    - option "October"
+    - option "November"
+    - option "December"
+  - generic: CONTRACT
+  - combobox "Contract":
+    - option "All contracts" [selected]
+    - option "H1032 · Northstar Health"
+    - option "H5594 · Meridian Advantage"
+    - option "H7618 · Gulf Coast Partners"
+    - option "H1234 · Central MA Network"
+  - generic: SCORE TYPE
+  - combobox "Score type":
+    - option "After adjustments" [selected]
+    - option "Before adjustments"
+  - generic: Filter members
+  - generic "Counties":
+    - text: Counties
+  - generic "Practices":
+    - text: Practices
+  - combobox "Score view":
+    - option "Baseline" [selected]
+    - option "Potential scenarios"
+    - option "Submitted"
+    - option "Accepted"
+  - button "Reset 1 filters":
+    - text: Reset 1 filters
+  - generic: Possible overcoding
+  - text: Population analysis
+  - generic: 9,936 members included
+  - generic: 34 practices
+  - button "How this works":
+    - text: How this works
+  - tablist "Suspected condition views":
+    - tab "All opportunities"
+    - tab "Possible additions"
+    - tab "Possible overcoding" [selected]
+    - tab "Data issues"
+    - tab "Conditions list"
+  - generic: Suspected conditions
+  - strong: "151"
+  - text: 151 document and case signals
+  - generic: Members with flagged conditions
+  - strong: "150"
+  - text: Included members who match a rule; each counted once
+  - generic: Cases with documents
+  - strong: "21"
+  - text: Original document quotes available
+  - generic: Cases without an estimate
+  - strong: "6"
+  - text: Listed even when the score change is unknown
+  - heading "Suspects by category" [level=2]
+  - paragraph: Each distinct suspected condition is counted once
+  - combobox "Suspect grouping":
+    - option "By category" [selected]
+    - option "By rule type"
+    - option "By HCC"
+  - button "Possible overcoding 151":
+    - generic "Possible overcoding"
+    - generic: "151"
+  - paragraph: A member may have more than one suspected condition. Member totals count each person once.
+  - heading "Evidence profile" [level=2]
+  - paragraph: Overcoding and data issues are shown separately from possible additions
+  - 'img "Strong: 91; Moderate: 39; Limited: 21; Unknown: 0"':
+    - application:
+      - generic: "151"
+      - generic: suspected conditions
+  - generic: Strong · 91
+  - generic: Moderate · 39
+  - generic: Limited · 21
+  - generic: Unknown · 0
+  - heading "Understanding possible overcoding" [level=2]
+  - paragraph: Evidence determines whether a diagnosis is supported
+  - heading "Keep coding checks separate" [level=3]
+  - paragraph: Possible overcoding does not receive a chance-of-confirmation estimate. It remains visible even when it reduces a score.
+  - heading "Check the full clinical picture" [level=3]
+  - paragraph: Check whether a condition is current, how clearly it is documented and which member the source belongs to before deciding.
+  - heading "Suspects by condition" [level=2]
+  - paragraph: Conditions with the most flags; members may appear in several groups
+  - button "Inspect cases":
+    - text: Inspect cases
+  - button "Cardiovascular conditions 124":
+    - generic "Cardiovascular conditions"
+    - generic: "124"
+  - button "Depression 6":
+    - generic "Depression"
+    - generic: "6"
+  - button "Heart failure 6":
+    - generic "Heart failure"
+    - generic: "6"
+  - button "Chronic kidney disease 6":
+    - generic "Chronic kidney disease"
+    - generic: "6"
+  - button "COPD 5":
+    - generic "COPD"
+    - generic: "5"
+  - button "Obesity 1":
+    - generic "Obesity"
+    - generic: "1"
+  - button "HIV 1":
+    - generic "HIV"
+    - generic: "1"
+  - button "Morbid Obesity 1":
+    - generic "Morbid Obesity"
+    - generic: "1"
+  - heading "Possible overcoding" [level=2]
+  - paragraph: Coding checks to consider before deciding
+  - button "Morbid Obesity MEAT/TAMPER not demonstrated - recommend chart review prior to RADV/HCC resubmission. Flagged per RAF Audit Phase 4 High-Risk HCC Concentration testing (morbid obesity is an OIG-identified high-error category). Confirm current-period documentation and model mapping before any coding change. Explore this condition":
+    - strong: Morbid Obesity
+    - paragraph: MEAT/TAMPER not demonstrated - recommend chart review prior to RADV/HCC resubmission. Flagged per RAF Audit Phase 4 High-Risk HCC Concentration testing (morbid obesity is an OIG-identified high-error category). Confirm current-period documentation and model mapping before any coding change.
+    - text: Explore this condition
+  - button "Depression episode specificity The episode/remission context needs to agree with the recorded severity and period. Explore this condition":
+    - strong: Depression episode specificity
+    - paragraph: The episode/remission context needs to agree with the recorded severity and period.
+    - text: Explore this condition
+  - button "Cardiovascular conditions status Distinguish active disease from history in the eligible encounter; later resolution does not negate earlier valid evidence. Explore this condition":
+    - strong: Cardiovascular conditions status
+    - paragraph: Distinguish active disease from history in the eligible encounter; later resolution does not negate earlier valid evidence.
+    - text: Explore this condition
+  - button "Obesity representation eligibility Confirm a documented diagnosis, applicable eligibility and the selected model; a measurement alone is not confirmation. Explore this condition":
+    - strong: Obesity representation eligibility
+    - paragraph: Confirm a documented diagnosis, applicable eligibility and the selected model; a measurement alone is not confirmation.
+    - text: Explore this condition
+  - button "HIV representation question A copied historical label conflicts with the current problem-status metadata; confirm the source and period. Explore this condition":
+    - strong: HIV representation question
+    - paragraph: A copied historical label conflicts with the current problem-status metadata; confirm the source and period.
+    - text: Explore this condition
+  - button "CKD stage specificity The recorded stage differs from the assessment; an isolated laboratory value is not a diagnosis. Explore this condition":
+    - strong: CKD stage specificity
+    - paragraph: The recorded stage differs from the assessment; an isolated laboratory value is not a diagnosis.
+    - text: Explore this condition
+  - button "Diabetes with complications relationship A complication relationship is not explicit in the assessment; medication use alone is insufficient. Explore this condition":
+    - strong: Diabetes with complications relationship
+    - paragraph: A complication relationship is not explicit in the assessment; medication use alone is insufficient.
+    - text: Explore this condition
+  - button "Active depression label conflicts with remission Reconcile the current episode, remission status and service date. A later remission note does not invalidate a properly supported earlier episode. Explore this condition":
+    - strong: Active depression label conflicts with remission
+    - paragraph: Reconcile the current episode, remission status and service date. A later remission note does not invalidate a properly supported earlier episode.
+    - text: Explore this condition
+  - button "Advanced CKD label conflicts with the current assessment Reconcile the service dates, clinician assessments and any acute changes. Do not downgrade a supported prior diagnosis based solely on later laboratory values. Explore this condition":
+    - strong: Advanced CKD label conflicts with the current assessment
+    - paragraph: Reconcile the service dates, clinician assessments and any acute changes. Do not downgrade a supported prior diagnosis based solely on later laboratory values.
+    - text: Explore this condition
+  - button "Acute heart failure label carried into a stable visit Check acuity for the specific service date and the original admission documentation. A stable follow-up does not invalidate a supported earlier acute episode. Explore this condition":
+    - strong: Acute heart failure label carried into a stable visit
+    - paragraph: Check acuity for the specific service date and the original admission documentation. A stable follow-up does not invalidate a supported earlier acute episode.
+    - text: Explore this condition
+  - button "COPD label survives an explicit rule-out Reconcile the conflicting records and whether the earlier diagnosis was valid. Do not remove a diagnosis automatically or infer an alternative from medication use. Explore this condition":
+    - strong: COPD label survives an explicit rule-out
+    - paragraph: Reconcile the conflicting records and whether the earlier diagnosis was valid. Do not remove a diagnosis automatically or infer an alternative from medication use.
+    - text: Explore this condition
+  - heading "Rules identify. AI explains." [level=2]
+  - paragraph: Rules find gaps; AI helps explain them. Evidence is still required.
+  - heading "01 · Rules find possible gaps" [level=3]
+  - paragraph: Rules check member details, source documents and condition history. Each result keeps a link to the rule and original signals.
+  - heading "02 · AI explains the findings" [level=3]
+  - paragraph: Explanations show dates, conflicting evidence and other possible interpretations. One drug, measurement or old label is not enough to confirm a diagnosis.
+  - button "Inspect supporting evidence":
+    - text: Inspect supporting evidence
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"
+- alert

@@ -87,7 +87,8 @@ function Profile({ member, activeTab, onTab, back }: { member: Member; activeTab
   const tablist = useRef<HTMLDivElement>(null);
   const header = useRef<HTMLDivElement>(null);
   function selectTab(tab: string) {
-    const anchor = (header.current?.getBoundingClientRect().bottom || 0) + window.scrollY + 14 - 60;
+    const shellHeight = document.querySelector("header")?.getBoundingClientRect().height || 111;
+    const anchor = (header.current?.getBoundingClientRect().bottom || 0) + window.scrollY + 14 - shellHeight;
     const shouldAlign = window.scrollY > anchor;
     onTab(tab);
     if (shouldAlign) requestAnimationFrame(() => window.scrollTo({ top: Math.max(0, anchor), behavior: "instant" }));

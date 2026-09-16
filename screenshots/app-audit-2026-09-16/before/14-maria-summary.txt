@@ -1,0 +1,137 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Maria Santos
+  - generic: MS
+  - heading "Maria Santos" [level=1]
+  - text: M-104829 · MA PPO
+  - text: Age 74 · Female
+  - generic: "88"
+  - text: Composite Impact
+  - generic: "95"
+  - text: Risk Impact
+  - generic: "88"
+  - text: Quality Impact
+  - generic: "90"
+  - text: Stars Impact
+  - generic: 4 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "Maria Santos profile sections":
+    - tab "Summary" [active] [selected]
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Summary":
+    - heading "Member summary" [level=3]
+    - generic: Maria Santos is a long-term member (continuous enrollment since 2021). The member has documented Diabetes, CKD Stage 3, Hypertension. There are 4 open quality opportunities, and 3 risk-adjustment opportunities under clinical review (0.24 RAF validated, 0.336 additional potential pending evidence). Screening indicates one or more SDOH factors that may affect access or adherence. Based on composite impact (88/100), this member is a high priority for coordinated outreach.
+    - generic "Why this composite score (88)?"
+    - heading "Areas to explore" [level=3]
+    - text: "Close: CBP"
+    - paragraph: Controlled BP reading
+    - text: "Close: KED"
+    - paragraph: Complete kidney evaluation
+    - text: "Close: GSD Eye Exam"
+    - paragraph: Schedule retinal exam
+    - text: Review HCC 226 Heart arrhythmia
+    - paragraph: Clinician validation and documentation required before submission
+    - heading "Member Demographics & Identifiers" [level=3]
+    - table:
+      - rowgroup:
+        - row "Member Name DOB Age Sex Member ID Member SSUI Enrollment SSUI Custom ID 1 Custom ID 2":
+          - columnheader "Member Name"
+          - columnheader "DOB"
+          - columnheader "Age"
+          - columnheader "Sex"
+          - columnheader "Member ID"
+          - columnheader "Member SSUI"
+          - columnheader "Enrollment SSUI"
+          - columnheader "Custom ID 1"
+          - columnheader "Custom ID 2"
+      - rowgroup:
+        - row "Maria Santos 08/09/1952 74 Female M-104829 92315808281681 30736 CTP-846920 LEG-551884":
+          - cell "Maria Santos"
+          - cell "08/09/1952"
+          - cell "74"
+          - cell "Female"
+          - cell "M-104829"
+          - cell "92315808281681"
+          - cell "30736"
+          - cell "CTP-846920"
+          - cell "LEG-551884"
+    - table:
+      - rowgroup:
+        - row "Address City County State ZIP Phone Email":
+          - columnheader "Address"
+          - columnheader "City"
+          - columnheader "County"
+          - columnheader "State"
+          - columnheader "ZIP"
+          - columnheader "Phone"
+          - columnheader "Email"
+      - rowgroup:
+        - row "7231 Parkway Drive Tampa Hillsborough County FL 33602 (813) 555-0148 m.santos@example.test":
+          - cell "7231 Parkway Drive"
+          - cell "Tampa"
+          - cell "Hillsborough County"
+          - cell "FL"
+          - cell "33602"
+          - cell "(813) 555-0148"
+          - cell "m.santos@example.test"
+    - table:
+      - rowgroup:
+        - row "Race Race Source Race Source Method Ethnicity Ethnicity Source Preferred Language Written Language":
+          - columnheader "Race"
+          - columnheader "Race Source"
+          - columnheader "Race Source Method"
+          - columnheader "Ethnicity"
+          - columnheader "Ethnicity Source"
+          - columnheader "Preferred Language"
+          - columnheader "Written Language"
+      - rowgroup:
+        - row "White Member enrollment Direct Hispanic or Latino Member enrollment English English":
+          - cell "White"
+          - cell "Member enrollment"
+          - cell "Direct"
+          - cell "Hispanic or Latino"
+          - cell "Member enrollment"
+          - cell "English"
+          - cell "English"
+    - paragraph: "Member is a long-term member: Long-term member (continuous enrollment since 2021)."
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

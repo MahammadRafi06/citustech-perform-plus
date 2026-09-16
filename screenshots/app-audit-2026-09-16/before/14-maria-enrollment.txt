@@ -1,0 +1,144 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Maria Santos
+  - generic: MS
+  - heading "Maria Santos" [level=1]
+  - text: M-104829 · MA PPO
+  - text: Age 74 · Female
+  - generic: "88"
+  - text: Composite Impact
+  - generic: "95"
+  - text: Risk Impact
+  - generic: "88"
+  - text: Quality Impact
+  - generic: "90"
+  - text: Stars Impact
+  - generic: 4 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "Maria Santos profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution" [active] [selected]
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Enrollment & Attribution":
+    - heading "Enrollment History" [level=3]
+    - table:
+      - rowgroup:
+        - row "Start End Contract PBP Product Plan MBI Subscriber ID Dual / LIS Status":
+          - columnheader "Start"
+          - columnheader "End"
+          - columnheader "Contract"
+          - columnheader "PBP"
+          - columnheader "Product"
+          - columnheader "Plan"
+          - columnheader "MBI"
+          - columnheader "Subscriber ID"
+          - columnheader "Dual / LIS"
+          - columnheader "Status"
+      - rowgroup:
+        - row "01/01/2026 12/31/2026 H1234 001 MA PPO Advantage Gold PPO 9PW0JX6WP27 SUB-104829 Full dual / LIS 1 Active":
+          - cell "01/01/2026"
+          - cell "12/31/2026"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA PPO"
+          - cell "Advantage Gold PPO"
+          - cell "9PW0JX6WP27"
+          - cell "SUB-104829"
+          - cell "Full dual / LIS 1"
+          - cell "Active"
+        - row "01/01/2025 12/31/2025 H1234 001 MA PPO Advantage Gold PPO 9PW0JX6WP27 SUB-104829 Full dual / LIS 1 Complete":
+          - cell "01/01/2025"
+          - cell "12/31/2025"
+          - cell "H1234"
+          - cell "001"
+          - cell "MA PPO"
+          - cell "Advantage Gold PPO"
+          - cell "9PW0JX6WP27"
+          - cell "SUB-104829"
+          - cell "Full dual / LIS 1"
+          - cell "Complete"
+        - row "08/01/2023 12/31/2024 H1234 003 MA HMO Advantage Select 9PW0JX6WP27 SUB-104829 Partial dual / LIS 2 Complete":
+          - cell "08/01/2023"
+          - cell "12/31/2024"
+          - cell "H1234"
+          - cell "003"
+          - cell "MA HMO"
+          - cell "Advantage Select"
+          - cell "9PW0JX6WP27"
+          - cell "SUB-104829"
+          - cell "Partial dual / LIS 2"
+          - cell "Complete"
+    - heading "Provider Attribution" [level=3]
+    - table:
+      - rowgroup:
+        - row "Effective End PCP NPI Group Network Market Method Confidence":
+          - columnheader "Effective"
+          - columnheader "End"
+          - columnheader "PCP"
+          - columnheader "NPI"
+          - columnheader "Group"
+          - columnheader "Network"
+          - columnheader "Market"
+          - columnheader "Method"
+          - columnheader "Confidence"
+      - rowgroup:
+        - row "01/01/2026 Current Dr. A. Carter 1942864001 Northside Medical Central MA Network Tampa Prospective PCP High":
+          - cell "01/01/2026"
+          - cell "Current"
+          - cell "Dr. A. Carter"
+          - cell "1942864001"
+          - cell "Northside Medical"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Prospective PCP"
+          - cell "High"
+        - row "01/01/2025 12/31/2025 Dr. J. Moran 1275843200 Harbor Primary Care Central MA Network Tampa Claims plurality Medium":
+          - cell "01/01/2025"
+          - cell "12/31/2025"
+          - cell "Dr. J. Moran"
+          - cell "1275843200"
+          - cell "Harbor Primary Care"
+          - cell "Central MA Network"
+          - cell "Tampa"
+          - cell "Claims plurality"
+          - cell "Medium"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

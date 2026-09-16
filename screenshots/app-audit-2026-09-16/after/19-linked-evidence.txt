@@ -1,0 +1,423 @@
+- link:
+  - /url: "#main-content"
+  - text: Skip to main content
+- banner:
+  - link:
+    - /url: /overview
+    - generic: Perform+
+  - strong: Northstar & Meridian
+  - textbox:
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button:
+  - button:
+    - generic: AM
+  - navigation:
+    - link:
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - text: Dashboard
+    - link:
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - text: Risk analytics
+    - link:
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - text: Suspected conditions
+    - link:
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+      - text: Member 360
+- main:
+  - generic: Population risk
+  - heading [level=1]: Suspected conditions
+  - paragraph: Analyze suspected conditions and inspect the evidence behind each one.
+  - button:
+    - text: Ask Perform+
+  - button:
+    - text: Save report
+  - combobox
+  - button:
+    - text: Export
+  - generic: PROGRAM & MODEL
+  - combobox
+  - generic: YEAR
+  - combobox
+  - generic: RUN MONTH
+  - combobox
+  - generic: CONTRACT
+  - combobox
+  - generic: SCORE TYPE
+  - combobox
+  - generic: Filter members
+  - text: Counties
+  - text: Practices
+  - combobox
+  - text: Population analysis
+  - generic: 9,936 members included
+  - generic: 34 practices
+  - button:
+    - text: How this works
+  - tablist:
+    - tab: All opportunities
+    - tab: Possible additions
+    - tab: Possible overcoding
+    - tab: Data issues
+    - tab [selected]: Conditions list
+  - region:
+    - generic: Beyond diagnosis codes
+    - heading [level=2]: Find the gaps hidden in the clinical story
+    - paragraph: Connect narrative, timing and related records to surface suspects a code-only screen can overlook.
+    - strong: "129"
+    - generic: context gaps
+    - strong: "108"
+    - generic: possible additions shown
+    - strong: "21"
+    - generic: coding checks shown
+    - button:
+      - strong: "20"
+      - heading [level=3]: Invisible gaps
+      - paragraph: A diagnosis is buried in narrative, not the coded record.
+    - button:
+      - strong: "20"
+      - heading [level=3]: Timeline gaps
+      - paragraph: The signal emerges across several visits.
+    - button:
+      - strong: "25"
+      - heading [level=3]: Disconnected evidence
+      - paragraph: Relevant details sit in different records.
+    - button:
+      - strong: "21"
+      - heading [level=3]: Missing specificity
+      - paragraph: The record contains detail that the code leaves out.
+    - button:
+      - strong: "22"
+      - heading [level=3]: Recapture gaps
+      - paragraph: A persistent condition needs current-year confirmation.
+    - button:
+      - strong: "21"
+      - heading [level=3]: Conflicting evidence
+      - paragraph: Later context challenges an existing label.
+    - generic: Discovery patterns · every gap still needs confirmation
+    - button [disabled]:
+      - text: Show all context gaps
+  - heading [level=2]: Conditions worth a closer look
+  - paragraph: Inspect the clinical signal, the context that could be missed and the evidence behind each gap.
+  - textbox:
+    - /placeholder: Find a condition, member or clinical signal…
+  - combobox
+  - combobox
+  - combobox
+  - combobox
+  - button:
+    - text: Export all filtered
+  - table:
+    - rowgroup:
+      - row:
+        - columnheader: Select
+        - columnheader: Condition / member
+        - columnheader: Gap type
+        - columnheader: Clinical signal
+        - columnheader: Evidence
+        - columnheader: Estimated score change
+    - rowgroup:
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: Vascular Disease
+          - link:
+            - /url: /member360?member=M-104829&tab=risk
+            - text: Maria Santos
+          - text: · M-104829
+          - generic: Hillsborough County
+        - cell:
+          - text: Recapture gaps
+          - generic: Confirm past conditions
+        - cell:
+          - text: Prior-year (2025) HCC not yet re-documented; CKD/HTN comorbidity supports recapture likelihood
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Moderate
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.095"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: Rheumatoid arthritis
+          - link:
+            - /url: /member360?member=M-318820&tab=risk
+            - text: Ellen Brooks
+          - text: · M-318820
+          - generic: Hillsborough County
+        - cell:
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - cell:
+          - text: Problem list entry from prior-year record; no corroborating encounter in current claims data
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Limited
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.080"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: COPD Complication
+          - link:
+            - /url: /member360?member=M-204175&tab=risk
+            - text: Robert Klein
+          - text: · M-204175
+          - generic: Hillsborough County
+        - cell:
+          - text: Recapture gaps
+          - generic: Confirm past conditions
+        - cell:
+          - text: Prior-year (2025) HCC not yet re-documented this period
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Moderate
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.070"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: CKD Stage 4 (Specificity Review)
+          - link:
+            - /url: /member360?member=M-441098&tab=risk
+            - text: James Patel
+          - text: · M-441098
+          - generic: Hillsborough County
+        - cell:
+          - text: Missing specificity
+          - generic: More diagnosis detail
+        - cell:
+          - text: eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4).
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Moderate
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.185"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: Major depressive disorder
+          - link:
+            - /url: /member360?member=M-559214&tab=risk
+            - text: Anne Foster
+          - text: · M-559214
+          - generic: Hillsborough County
+        - cell:
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - cell:
+          - text: Positive depression screening (PHQ-2, G0444) during new member wellness visit; no follow-up assessment, diagnosis, or treatment on file
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Limited
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.120"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: Heart arrhythmia
+          - link:
+            - /url: /member360?member=M-104829&tab=risk
+            - text: Maria Santos
+          - text: · M-104829
+          - generic: Hillsborough County
+        - cell:
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - cell:
+          - text: ECG + cardiology claim
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Limited
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.241"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: Vascular disease
+          - link:
+            - /url: /member360?member=M-204175&tab=risk
+            - text: Robert Klein
+          - text: · M-204175
+          - generic: Hillsborough County
+        - cell:
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - cell:
+          - text: Claim only, no recent note
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Limited
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.130"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: Specified heart arrhythmia
+          - link:
+            - /url: /member360?member=M-441098&tab=risk
+            - text: James Patel
+          - text: · M-441098
+          - generic: Hillsborough County
+        - cell:
+          - text: Disconnected evidence
+          - generic: Possible new condition
+        - cell:
+          - text: Single ECG mention
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Limited
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.140"
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: Morbid Obesity
+          - link:
+            - /url: /member360?member=M-204175&tab=risk
+            - text: Robert Klein
+          - text: · M-204175
+          - generic: Hillsborough County
+        - cell:
+          - text: Conflicting evidence
+          - generic: Possible overcoding
+        - cell:
+          - text: Single telehealth encounter (POS 02) on 03/14/2026; no BMI, weight, nutrition counseling, or follow-up documented; no corroborating labs, vitals, or specialist encounter found anywhere else in claims or clinical history.
+          - generic: "Why it can be missed: The condition detail is in the member profile and may be absent or incomplete in the coded record."
+        - cell:
+          - text: Limited
+          - generic: Member profile summary
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: −0.161
+          - generic: 2026 reference · mapping pending
+      - row:
+        - cell:
+          - checkbox
+        - cell:
+          - button:
+            - strong: COPD documented outside the coded record
+          - generic: Morgan Reed · MB-000002
+          - generic: Broward County
+        - cell:
+          - text: Invisible gaps
+          - generic: Missing diagnosis code
+        - cell:
+          - text: Pulmonology assessment names COPD; the encounter extract contains only shortness of breath.
+          - generic: "Why it can be missed: A code-only screen sees a symptom. The diagnosis appears in the specialist assessment text."
+        - cell:
+          - text: Strong
+          - generic: 2 linked records
+          - button:
+            - text: Inspect evidence
+        - cell:
+          - text: "+0.180"
+          - generic: Planning estimate
+  - navigation:
+    - status: 1–10 of 129 records
+    - generic: Rows per page
+    - combobox
+    - generic: Page 1 of 13
+    - button [disabled]:
+    - button [disabled]:
+    - button:
+    - button:
+  - paragraph: These are evidence patterns, not measured miss rates for a particular ML model. Open a condition to see why it was flagged and check its evidence. A flag does not confirm a diagnosis.
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button:
+    - text: Workspace guide
+- region "Notifications alt+T"
+- alert
+- dialog "CKD Stage 4 (Specificity Review)":
+  - heading "CKD Stage 4 (Specificity Review)" [level=2]
+  - paragraph: CASE-0a179332ee8528 · M-441098
+  - link "James Patel":
+    - /url: /member360?member=M-441098&tab=risk
+    - text: James Patel
+  - text: · M-441098
+  - strong: Member 360 · 2026 reference
+  - paragraph: "Specificity Review · source confidence 88%. Source RAF contribution: 0.185 · Source HCC 328."
+  - paragraph: Potential (not yet included in RAF). These source values have not been validated for the selected model and are excluded from score and revenue forecasts. Open the member profile to inspect the original context.
+  - generic: Missing specificity
+  - heading "The missing piece of the clinical story" [level=3]
+  - paragraph: eGFR 24 mL/min/1.73m² (04/14/2026) and eGFR 22 mL/min/1.73m² (08/02/2026), both in Stage 4 range (<30); current professional claim reflects N18.31 (Stage 3a) only, while lab/pharmacy diagnosis fields already reflect N18.4 (Stage 4).
+  - generic: Coded view
+  - paragraph: Potential (not yet included in RAF)
+  - generic: What clinical context adds
+  - paragraph: The condition detail is in the member profile and may be absent or incomplete in the coded record.
+  - heading "What needs confirming" [level=3]
+  - paragraph: "Specificity Review: this year's own lab evidence supports higher specificity than currently coded - not a prior-year lapse. Request clinician reconciliation of CKD stage before any coding or submission change (ICD-10-CM code-selection accuracy review)."
+  - generic: Category
+  - strong: More diagnosis detail
+  - generic: Evidence strength
+  - strong: Moderate
+  - generic: Chance of confirmation
+  - strong: 50%
+  - generic: Estimated score change
+  - strong: Not estimated
+  - heading "Supporting documents" [level=3]
+  - generic: No source document is attached. This explanation uses case details, not a medical-record quotation.
+  - heading "How the chance is estimated" [level=3]
+  - paragraph:
+    - text: Estimated chance of finding supporting evidence within 90 days, if the case is reviewed within 30 days.
+    - text: "Estimated range: 40%–60%. This range reflects planning assumptions, not measured accuracy."
+  - heading "Previous explanations" [level=3]
+  - paragraph: No earlier explanation has been saved.
+  - generic "Rule and source references" [active]
+  - button "Add to score scenario":
+    - text: Add to score scenario
+  - button "Close":
+    - generic: Close

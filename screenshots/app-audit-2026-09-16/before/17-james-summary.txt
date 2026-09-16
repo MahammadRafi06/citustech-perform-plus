@@ -1,0 +1,137 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: James Patel
+  - generic: JP
+  - heading "James Patel" [level=1]
+  - text: M-441098 · MA PPO
+  - text: Age 76 · Male
+  - generic: "70"
+  - text: Composite Impact
+  - generic: "82"
+  - text: Risk Impact
+  - generic: "68"
+  - text: Quality Impact
+  - generic: "66"
+  - text: Stars Impact
+  - generic: 2 Quality Gaps
+  - generic: 3 HCC Opportunities
+  - generic: Transportation Flag
+  - button "Back to Member List"
+  - tablist "James Patel profile sections":
+    - tab "Summary" [active] [selected]
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities"
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Summary":
+    - heading "Member summary" [level=3]
+    - generic: James Patel is a long-term member (continuous enrollment since 2020). The member has documented CKD (coded Stage 3a; labs suggest Stage 4), Hypertension. There are 2 open quality opportunities, and 3 risk-adjustment opportunities under clinical review (0.075 RAF validated, 0.325 additional potential pending evidence). Screening indicates one or more SDOH factors that may affect access or adherence. Based on composite impact (70/100), this member is a moderate priority for coordinated outreach.
+    - generic "Why this composite score (70)?"
+    - heading "Areas to explore" [level=3]
+    - text: "Close: KED: Kidney Health Evaluation"
+    - paragraph: Complete kidney evaluation
+    - text: "Close: CBP: Controlling Blood Pressure"
+    - paragraph: Obtain controlled BP reading
+    - text: Review HCC 328 CKD Stage 4 (Specificity Review)
+    - paragraph: Clinician validation and re-specification required before submission
+    - text: Address Transportation
+    - paragraph: Offer ride benefit
+    - heading "Member Demographics & Identifiers" [level=3]
+    - table:
+      - rowgroup:
+        - row "Member Name DOB Age Sex Member ID Member SSUI Enrollment SSUI Custom ID 1 Custom ID 2":
+          - columnheader "Member Name"
+          - columnheader "DOB"
+          - columnheader "Age"
+          - columnheader "Sex"
+          - columnheader "Member ID"
+          - columnheader "Member SSUI"
+          - columnheader "Enrollment SSUI"
+          - columnheader "Custom ID 1"
+          - columnheader "Custom ID 2"
+      - rowgroup:
+        - row "James Patel 03/22/1950 76 Male M-441098 60218847710294 29984 CTP-660219 LEG-441098":
+          - cell "James Patel"
+          - cell "03/22/1950"
+          - cell "76"
+          - cell "Male"
+          - cell "M-441098"
+          - cell "60218847710294"
+          - cell "29984"
+          - cell "CTP-660219"
+          - cell "LEG-441098"
+    - table:
+      - rowgroup:
+        - row "Address City County State ZIP Phone Email":
+          - columnheader "Address"
+          - columnheader "City"
+          - columnheader "County"
+          - columnheader "State"
+          - columnheader "ZIP"
+          - columnheader "Phone"
+          - columnheader "Email"
+      - rowgroup:
+        - row "512 Oakcrest Lane Tampa Hillsborough County FL 33609 (813) 555-0471 j.patel@example.test":
+          - cell "512 Oakcrest Lane"
+          - cell "Tampa"
+          - cell "Hillsborough County"
+          - cell "FL"
+          - cell "33609"
+          - cell "(813) 555-0471"
+          - cell "j.patel@example.test"
+    - table:
+      - rowgroup:
+        - row "Race Race Source Race Source Method Ethnicity Ethnicity Source Preferred Language Written Language":
+          - columnheader "Race"
+          - columnheader "Race Source"
+          - columnheader "Race Source Method"
+          - columnheader "Ethnicity"
+          - columnheader "Ethnicity Source"
+          - columnheader "Preferred Language"
+          - columnheader "Written Language"
+      - rowgroup:
+        - row "White Member enrollment Direct Not Hispanic or Latino Member enrollment English English":
+          - cell "White"
+          - cell "Member enrollment"
+          - cell "Direct"
+          - cell "Not Hispanic or Latino"
+          - cell "Member enrollment"
+          - cell "English"
+          - cell "English"
+    - paragraph: "Member is a long-term member: Long-term member (continuous enrollment since 2020)."
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

@@ -1,0 +1,118 @@
+- alert
+- generic: $40K
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "CitiusTech Perform+ workspace":
+    - /url: /overview
+    - img "CitiusTech"
+    - generic: Perform+
+  - generic "Northstar & Meridian":
+    - strong: Northstar & Meridian
+  - textbox "Search suspects":
+    - /placeholder: Search suspects…
+  - generic: ↵
+  - button "Workspace guide":
+  - button "Account menu":
+    - generic: AM
+  - navigation "Workspace navigation":
+    - link "Dashboard":
+      - /url: /overview?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Risk analytics":
+      - /url: /analytics?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Suspected conditions":
+      - /url: /suspects?config=ma_v28_py2027_forecast&basis=captured_baseline
+    - link "Member 360":
+      - /url: /member360?config=ma_v28_py2027_forecast&basis=captured_baseline
+- main:
+  - button "Member list":
+    - text: Member list
+  - generic: /
+  - generic: Anne Foster
+  - generic: AF
+  - heading "Anne Foster" [level=1]
+  - text: M-559214 · MA PPO
+  - text: Age 67 · Female
+  - generic: "57"
+  - text: Composite Impact
+  - generic: "58"
+  - text: Risk Impact
+  - generic: "55"
+  - text: Quality Impact
+  - generic: "70"
+  - text: Stars Impact
+  - generic: 1 Quality Gap
+  - generic: 1 HCC Opportunity
+  - generic: SDOH screening needed
+  - generic: New Member
+  - button "Back to Member List"
+  - tablist "Anne Foster profile sections":
+    - tab "Summary"
+    - tab "Enrollment & Attribution"
+    - tab "Quality, Stars & Opportunities" [active] [selected]
+    - tab "Risk Adjustment"
+    - tab "Clinical Data"
+    - tab "Claims & Utilization"
+    - tab "SDOH & Engagement"
+  - tabpanel "Quality, Stars & Opportunities":
+    - generic: OPEN QUALITY GAPS
+    - generic: "1"
+    - generic: Detailed below
+    - generic: STARS-LINKED MEASURES
+    - generic: "1"
+    - generic: Of 1 open gaps
+    - generic: RISK-LINKED GAPS
+    - generic: "0"
+    - generic: Overlap with HCC review
+    - generic: OPPORTUNITY CLOSURE PROBABILITY
+    - generic: 45%
+    - generic: Average across open gaps
+    - generic "How is Opportunity Closure Probability calculated for this member?"
+    - heading "Measures & Gaps in Care" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Status Latest Result / Evidence Required Action Expiry Source Stars-Linked Risk-Linked":
+          - columnheader "Measure"
+          - columnheader "Status"
+          - columnheader "Latest Result / Evidence"
+          - columnheader "Required Action"
+          - columnheader "Expiry"
+          - columnheader "Source"
+          - columnheader "Stars-Linked"
+          - columnheader "Risk-Linked"
+      - rowgroup:
+        - row "Breast Cancer Screening Open No mammogram on file Schedule mammogram 12/31/2026 Claim Yes No":
+          - cell "Breast Cancer Screening"
+          - cell "Open":
+            - generic: Open
+          - cell "No mammogram on file"
+          - cell "Schedule mammogram"
+          - cell "12/31/2026"
+          - cell "Claim"
+          - cell "Yes"
+          - cell "No"
+    - heading "Stars Contract Context" [level=3]
+    - table:
+      - rowgroup:
+        - row "Measure Weight Contract Rate Next Cut Point Contract Closures Needed Member Contribution if Closed":
+          - columnheader "Measure"
+          - columnheader "Weight"
+          - columnheader "Contract Rate"
+          - columnheader "Next Cut Point"
+          - columnheader "Contract Closures Needed"
+          - columnheader "Member Contribution if Closed"
+      - rowgroup:
+        - row "Breast Cancer Screening 1 58.20% 60.00% 340 +1 numerator if closed":
+          - cell "Breast Cancer Screening"
+          - cell "1"
+          - cell "58.20%"
+          - cell "60.00%"
+          - cell "340"
+          - cell "+1 numerator if closed"
+    - generic "Why is this member's Stars impact 70?"
+  - generic "Source & scoring notes"
+- contentinfo:
+  - generic: © 2026 CitiusTech · Perform+
+  - button "Workspace guide":
+    - text: Workspace guide
+- region "Notifications alt+T"

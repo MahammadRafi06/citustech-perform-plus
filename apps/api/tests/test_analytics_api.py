@@ -9,8 +9,9 @@ BASE='/api/v1/analytics'
 def test_auth_scope_and_contract_filter():
     provider=login('provider2')
     report=provider.get(BASE+'/experience').json()
-    assert all(c['provider_id']=='PR-002' for c in report['cases'])
-    assert len(report['options']['practices'])==1
+    assert all(c['provider_id']=='PR-002' or (c['provider_id']=='M360-PR-002' and c['member_id']=='M-204175') for c in report['cases'])
+    assert {c['member_id'] for c in report['cases'] if c.get('profile_reference')} == {'M-204175'}
+    assert {p['id'] for p in report['options']['practices']} == {'PR-002','M360-PR-002'}
     denied=provider.get(BASE+'/experience',params={'context':json.dumps({'practices':['PR-001']})}).json()
     assert denied['summary']['enrolled']==0
     assert provider.post(BASE+'/scenario',json={'ids':[report['cases'][0]['id']]}).status_code==403
@@ -51,7 +52,7 @@ def test_full_filter_export_and_context_conflict():
 
 def test_illustrative_scenario_keeps_clinical_state_and_stages():
     client=login('superuser');report=client.get(BASE+'/experience').json()
-    ids=[c['id'] for c in report['cases'][:3]]
+    ids=[c['id'] for c in report['cases'] if not c.get('profile_reference') and c['delta'] is not None][:3]
     with main.db() as conn:
         before=conn.execute('SELECT body FROM state WHERE id=1').fetchone()['body']
         stages=conn.execute('SELECT COUNT(*) AS n FROM risk_stages').fetchone()['n']
@@ -80,3 +81,16 @@ def test_native_scenario_does_not_publish_stages():
     assert response.status_code==200,response.text
     assert response.json()['result']['member_count']==1
     with main.db() as conn: assert conn.execute('SELECT COUNT(*) AS n FROM risk_stages').fetchone()['n']==before
+
+
+def test_linked_profiles_are_first_exportable_and_not_native_score_inputs():
+    client=login('superuser');report=client.get(BASE+'/experience').json()
+    expected=['M-104829','M-318820','M-204175','M-441098','M-559214']
+    assert [c['member_id'] for c in report['cases'][:5]] == expected
+    export=client.post(BASE+'/export',json={'report_id':'registry','format':'json','snapshot_hash':report['snapshot_hash']})
+    assert [c['member_id'] for c in export.json()['suspects'][:5]] == expected
+    ids=[report['cases'][0]['id']]
+    for mode in ('calculated','illustrative'):
+        assert client.post(BASE+'/scenario',json={'ids':ids,'mode':mode}).status_code==409
+    aca=client.get(BASE+'/experience',params={'config_id':'hhs_v08_by2026'}).json()
+    assert not any(c.get('profile_reference') for c in aca['cases'])
