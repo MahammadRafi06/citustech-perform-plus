@@ -14,7 +14,6 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import {
-  ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   LayoutDashboard,
@@ -37,7 +36,6 @@ import {
   Search,
   Bell,
   ChevronDown,
-  ChevronRight,
   LogOut,
   LockKeyhole,
   Eye,
@@ -45,8 +43,6 @@ import {
   Check,
   Activity,
   LoaderCircle,
-  PanelLeftClose,
-  PanelLeftOpen,
   Sparkles,
   RefreshCw,
   Shield,
@@ -63,13 +59,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster, toast } from "sonner";
 import { api, command, ApiError, label } from "@/lib/api";
 import { HIDDEN_ROUTES, WORKFLOW_ENABLED, hiddenByScope } from "@/lib/workflow-flags";
 import type { User, Snapshot, Command } from "@/lib/types";
 import { Dashboard } from "./dashboard";
 import { AnalyticsWorkspace } from "./analytics-workspace";
+import { Member360Workspace } from "./member360-workspace";
 import { Workspaces } from "./workspaces";
 import { FixtureAssistant } from "./fixture-assistant";
 import { AiConfiguration } from "./ai-configuration";
@@ -96,7 +93,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
   {
     group: "Analytics",
     items: [
-      ["overview", "Risk overview", LayoutDashboard],
+      ["overview", "Dashboard", LayoutDashboard],
       ["analytics", "Risk analytics", ChartNoAxesCombined],
       ["reports", "Reports", FileSearch],
     ],
@@ -119,7 +116,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
   {
     group: "Population",
     items: [
-      ["members", "Member risk profiles", Users],
+      ["member360", "Member 360", Users],
       ...(WORKFLOW_ENABLED
         ? ([
             ["providers", "Provider portfolio", Building2],
@@ -143,7 +140,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
     ],
   },
 ];
-function Brand({ full = false, sidebar = false }: { full?: boolean; sidebar?: boolean }) {
+function Brand({ full = false }: { full?: boolean }) {
   return (
     <div className={`brand${full ? " brand-full" : ""}`}>
       <span className={full ? "brand-wordmark" : "brand-mark"}>
@@ -154,45 +151,25 @@ function Brand({ full = false, sidebar = false }: { full?: boolean; sidebar?: bo
           height={full ? 251 : 200}
         />
       </span>
-      {sidebar ? <span className="sidebar-product"><span className="brand-product">Perform<span className="brand-plus">+</span></span><small>Risk intelligence</small></span> : <span className="brand-product">Perform<span className="brand-plus">+</span></span>}
+      <span className="brand-product">Perform<span className="brand-plus">+</span></span>
     </div>
   );
 }
-function WorkspaceNavigation({
-  user,
-  route,
-  collapsed = false,
-  onNavigate,
-}: {
-  user: User;
-  route: string;
-  collapsed?: boolean;
-  onNavigate?: () => void;
-}) {
+function WorkspaceNavigation({ user, route }: { user: User; route: string }) {
   const risk = useRiskContext();
+  const items = routes
+    .filter((group) => group.group !== "Settings")
+    .flatMap((group) => group.items)
+    .filter(([id]) => id !== "reports" && user.screens.includes(id === "agents" ? "admin" : id === "member360" ? "members" : id) && !hiddenByScope(id));
   return (
-    <nav id="workspace-navigation" aria-label="Workspace navigation">
-      {routes.filter((group) => group.group !== "Settings").map((group) => {
-        const items = group.items.filter(([id]) => id !== "reports" && user.screens.includes(id === "agents" ? "admin" : id === "reports" ? "analytics" : id) && !hiddenByScope(id));
-        return items.length ? (
-          <div className="nav-group" key={group.group}>
-            <h3>{group.group}</h3>
-            {items.map(([id, title, Icon]) => (
-              <Tooltip key={id} delayDuration={200}><TooltipTrigger asChild><Link
-                href={id === "agents" ? "/admin/ai/agents" : risk.href(`/${id}`)}
-                aria-label={title}
-                aria-current={route === id ? "page" : undefined}
-                className={`nav-link ${route === id ? "active" : ""}`}
-                onClick={onNavigate}
-              >
-                <Icon className="nav-icon" size={18} aria-hidden="true" />
-                <span className="nav-label">{title}</span>
-                {route === id && <ChevronRight className="nav-chevron" size={13} aria-hidden="true" />}
-              </Link></TooltipTrigger>{collapsed && <TooltipContent side="right" sideOffset={12}>{title}</TooltipContent>}</Tooltip>
-            ))}
-          </div>
-        ) : null;
-      })}
+    <nav id="workspace-navigation" className="workspace-nav" aria-label="Workspace navigation">
+      {items.map(([id, title]) => (
+        <Link key={id} href={id === "agents" ? "/admin/ai/agents" : risk.href(`/${id}`)}
+          aria-current={route === id ? "page" : undefined}
+          className="workspace-nav-link">
+          {title}
+        </Link>
+      ))}
     </nav>
   );
 }
@@ -202,7 +179,7 @@ function signInPath() {
   return `/login?${new URLSearchParams({ returnTo }).toString()}`;
 }
 function signInDestination(user: User) {
-  const fallback = `/${user.screens.find(screen => !hiddenByScope(screen)) || "overview"}`;
+  const fallback = `/${user.screens.find(screen => !hiddenByScope(screen)) || (user.screens.includes("members") ? "member360" : "overview")}`;
   const location = window.location;
   const requested = location.pathname === "/login"
     ? new URLSearchParams(location.search).get("returnTo")
@@ -212,7 +189,7 @@ function signInDestination(user: User) {
     const destination = new URL(requested, location.origin);
     const screen = destination.pathname.split("/")[1];
     const knownScreen = routes.some((group) => group.items.some(([id]) => id === screen));
-    return destination.origin === location.origin && knownScreen && user.screens.includes(screen === "reports" ? "analytics" : screen)
+    return destination.origin === location.origin && knownScreen && user.screens.includes(screen === "reports" ? "analytics" : screen === "member360" ? "members" : screen)
       ? destination.pathname + destination.search + destination.hash
       : fallback;
   } catch {
@@ -226,16 +203,7 @@ function Application() {
   const route = pathname.split("/")[1] || "overview";
   const [notifications, setNotifications] = useState(false);
   const [help, setHelp] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
   const [globalSearch, setGlobalSearch] = useState("");
-  useEffect(() => {
-    try { setCollapsed(localStorage.getItem("ct-sidebar-collapsed") === "true"); } catch { /* The navigation still works when browser storage is unavailable. */ }
-  }, []);
-  function toggleNavigation() {
-    const next = !collapsed;
-    setCollapsed(next);
-    try { localStorage.setItem("ct-sidebar-collapsed", String(next)); } catch { /* Keep the current tab's selection. */ }
-  }
   const session = useQuery({
     queryKey: ["session"],
     queryFn: () => api<User>("/auth/session"),
@@ -312,69 +280,20 @@ function Application() {
         }
       />
     );
-  const routeName =
-    routes.flatMap((g) => g.items).find((i) => i[0] === route)?.[1] ||
-    "Overview";
   const actualRoute = route === "login" ? "overview" : route;
   return (
-    <RiskProvider user={user}><div className={`app-layout ${collapsed ? "nav-collapsed" : ""}`}>
-      <aside className="sidebar">
-        <Link
-          aria-label="CitiusTech Perform+ workspace"
-          href={
-            user.screens.includes("overview")
-              ? "/overview"
-              : `/${user.screens[0]}`
-          }
-        >
-          <Brand sidebar />
-        </Link>
-        <div className="workspace-label" title={workspaceName}>
-          <Image className="workspace-symbol" src="/branding/northstar-meridian-mark.png" alt="" width={32} height={32} loading="eager" />
-          <div className="workspace-identity"><small>Organization workspace</small><strong>{workspaceName === "Northstar & Meridian" ? <><span>Northstar</span><span className="workspace-ampersand"> & </span><span className="workspace-meridian">Meridian</span></> : workspaceName}</strong></div>
-        </div>
-        <WorkspaceNavigation user={user} route={pathname.startsWith('/admin/ai') ? 'agents' : actualRoute} collapsed={collapsed} />
-        <div className="sidebar-footer">
-          <button className="sidebar-guide" onClick={() => setHelp(true)} aria-label="Workspace guide" title={collapsed ? "Workspace guide" : undefined}>
-            <HelpCircle size={16} />
-            <span>Workspace guide</span>
-          </button>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon-sm"
-                className="sidebar-collapse"
-                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                aria-expanded={!collapsed}
-                aria-controls="workspace-navigation"
-                onClick={toggleNavigation}
-              >
-                {collapsed ? <ArrowRight size={16} aria-hidden="true" /> : <ArrowLeft size={16} aria-hidden="true" />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={12}>{collapsed ? "Expand sidebar" : "Collapse sidebar"}</TooltipContent>
-          </Tooltip>
-        </div>
-      </aside>
-      <div className="main-shell">
-        <header className="topbar">
+    <RiskProvider user={user}><div className="app-layout">
+      <a className="app-skip-link" href="#main-content">Skip to main content</a>
+      <header className="app-header">
+        <div className="topbar">
           <div className="topbar-left">
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="desktop-nav-toggle"
-              aria-label="Toggle navigation"
-              aria-expanded={!collapsed}
-              onClick={toggleNavigation}
-            >
-              {collapsed ? (
-                <PanelLeftOpen size={18} />
-              ) : (
-                <PanelLeftClose size={18} />
-              )}
-            </Button>
-            <span className="breadcrumb">{pathname.startsWith('/admin/ai') ? 'Agents configuration' : routeName}</span>
+            <Link aria-label="CitiusTech Perform+ workspace" href={user.screens.includes("overview") ? "/overview" : user.screens.includes("members") ? "/member360" : `/${user.screens.find(screen => !hiddenByScope(screen)) || "overview"}`}>
+              <Brand full />
+            </Link>
+            <div className="workspace-label" title={workspaceName}>
+              <Image className="workspace-symbol" src="/branding/northstar-meridian-mark.png" alt="" width={32} height={32} loading="eager" />
+              <strong>{workspaceName === "Northstar & Meridian" ? <><span>Northstar</span><span className="workspace-ampersand"> & </span><span className="workspace-meridian">Meridian</span></> : workspaceName}</strong>
+            </div>
           </div>
           <div className="topbar-right">
             {snapshot.data && WORKFLOW_ENABLED && (
@@ -406,6 +325,9 @@ function Application() {
               <Bell size={18} />
               {!!snapshot.data?.events.length && <i />}
             </Button>}
+            <Button variant="ghost" size="icon" aria-label="Workspace guide" title="Workspace guide" onClick={() => setHelp(true)}>
+              <HelpCircle size={18} />
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="profile" aria-label="Account menu">
@@ -430,12 +352,15 @@ function Application() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        </header>
-        {!pathname.startsWith('/admin/ai') && !['overview','analytics','suspects','reports','scenarios'].includes(actualRoute) && <RiskContextBar />}
-        <main
+        </div>
+        <WorkspaceNavigation user={user} route={pathname.startsWith('/admin/ai') ? 'agents' : actualRoute} />
+      </header>
+      <div className="main-shell">
+        {!pathname.startsWith('/admin/ai') && !['overview','analytics','suspects','reports','scenarios','member360'].includes(actualRoute) && <RiskContextBar />}
+        <main id="main-content" tabIndex={-1}
           className={`page-canvas route-${actualRoute} ${actualRoute === "reviews" && pathname.split("/")[2] ? "workbench-canvas" : ""}`}
         >
-          {!user.screens.includes(actualRoute === "reports" ? "analytics" : actualRoute) || hiddenByScope(actualRoute) ? (
+          {!user.screens.includes(actualRoute === "reports" ? "analytics" : actualRoute === "member360" ? "members" : actualRoute) || hiddenByScope(actualRoute) ? (
             <div className="access-denied">
               <LockKeyhole size={40} />
               <h1>{hiddenByScope(actualRoute) ? "This page is not available in this workspace" : "This workspace needs a different role"}</h1>
@@ -446,7 +371,7 @@ function Application() {
                 {user.screens.filter((screen) => !HIDDEN_ROUTES.has(screen)).map(label).join(", ")}.</>}
               </p>
               <Button asChild>
-                <Link href={`/${user.screens.find(screen => !hiddenByScope(screen)) || "overview"}`}>
+                <Link href={`/${user.screens.find(screen => !hiddenByScope(screen)) || (user.screens.includes("members") ? "member360" : "overview")}`}>
                   Return to my workspace
                   <ArrowRight size={16} />
                 </Link>
@@ -468,7 +393,7 @@ function Application() {
               </Button>
             </div>
           ) : snapshot.data ? (
-            pathname.startsWith('/admin/ai') ? (hiddenByScope("agents") ? <Empty title="This page is not available in this workspace" description="Use Risk analytics or Reports to explore the available results." /> : <AiConfiguration key={user.id} user={user} />) : ["overview","analytics","suspects","reports","scenarios"].includes(actualRoute) ? <AnalyticsWorkspace user={user} route={actualRoute} /> : actualRoute === "analytics" ? (
+            pathname.startsWith('/admin/ai') ? (hiddenByScope("agents") ? <Empty title="This page is not available in this workspace" description="Use Risk analytics or Reports to explore the available results." /> : <AiConfiguration key={user.id} user={user} />) : actualRoute === "member360" ? <Member360Workspace user={user} /> : ["overview","analytics","suspects","reports","scenarios"].includes(actualRoute) ? <AnalyticsWorkspace user={user} route={actualRoute} /> : actualRoute === "analytics" ? (
               <Dashboard
                 data={snapshot.data}
                 user={user}

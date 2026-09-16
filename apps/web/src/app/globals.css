@@ -12,6 +12,8 @@
 
 @import "../components/risk-ui.css";
 
+@import "./perform-design.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -62,8 +64,8 @@
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-product);
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--body-leading);
     letter-spacing: 0;
     font-feature-settings: "cv11", "ss01", "tnum" 0;
     min-width: 1200px;

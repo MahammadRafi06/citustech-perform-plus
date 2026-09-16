@@ -1,27 +1,22 @@
 :root {
   /* Surfaces */
   --card: #ffffff;
-  --table-heading: #e4eaf0;
-  --table-stripe: #f7f9fb;
-  --panel-radius: 4px;
-  --control-radius: 2px;
-  --font-product: Arial, "Segoe UI", system-ui, sans-serif;
   --popover: #ffffff;
-  /* CT reference screenshots: measured surfaces, primary action and ink colors. */
+  /* Semantic aliases point to the supplied v14 HTML design. */
   --primary-foreground: #ffffff;
   /* Semantic colors reserved for actionable errors, warnings and evidence. */
-  --destructive: #b84242;
-  --destructive-soft: #fdf1f1;
-  --destructive-border: #ebc9c9;
-  --success: #258582;
-  --success-soft: #edf6f4;
-  --success-border: #cfe3df;
-  --warning: #a76b21;
-  --warning-soft: #fcf5e8;
-  --warning-border: #e8d4ae;
+  --destructive: var(--red);
+  --destructive-soft: #fde6e5;
+  --destructive-border: #f3c6c4;
+  --success: #0F5827;
+  --success-soft: #def3e5;
+  --success-border: #b9dfc5;
+  --warning: #6B4A00;
+  --warning-soft: #fff2cf;
+  --warning-border: var(--yellow);
   --evidence-highlight: #fff1b8;
   /* Shape + elevation */
-  --radius: 0.25rem;
+  --radius: var(--panel-radius);
   --shadow-2xs: 0 1px 2px rgb(15 23 42 / 0.05);
   --shadow-xs: 0 1px 2px rgb(15 23 42 / 0.06);
   --shadow-md: 0 4px 8px -2px rgb(15 23 42 / 0.06),
@@ -33,50 +28,45 @@
   /* Ink scale */
   --data-manual: #64748b;
   --ease-out: cubic-bezier(0.25, 0.6, 0.25, 1);
-  --background: #eff2f5;
-  --foreground: #202b3c;
-  --card-foreground: #202b3c;
-  --popover-foreground: #202b3c;
-  --primary: #1d4c8d;
-  --primary-hover: #153d73;
-  --signal: #258582;
-  --secondary: #e4eaf0;
-  --secondary-foreground: #36455c;
-  --muted: #f7f9fb;
-  --muted-foreground: #52647b;
-  --accent: #eff5fb;
-  --accent-foreground: #1d4c8d;
-  --border: #dee3ea;
-  --border-strong: #c7d3e0;
-  --input: #dee3ea;
-  --ring: #1d4c8d;
-  --ink: #202b3c;
-  --ink-strong: #202b3c;
-  --text-secondary: #36455c;
-  --text-muted: #52647b;
-  --hover: #eff5fb;
-  --selected: #eff5fb;
+  --background: var(--bg);
+  --foreground: var(--charcoal);
+  --card-foreground: var(--charcoal);
+  --popover-foreground: var(--charcoal);
+  --primary: var(--sapphire);
+  --primary-hover: var(--sapphire);
+  --signal: var(--green);
+  --secondary: var(--table-heading);
+  --secondary-foreground: var(--comment);
+  --muted: var(--rowalt);
+  --muted-foreground: var(--regent);
+  --accent: #F3F8FC;
+  --accent-foreground: var(--sapphire);
+  --border: var(--line);
+  --border-strong: var(--regent);
+  --input: var(--line);
+  --ring: var(--focus);
+  --ink: var(--charcoal);
+  --ink-strong: var(--charcoal);
+  --text-secondary: var(--comment);
+  --text-muted: var(--regent);
+  --hover: #EEF5FB;
+  --selected: #F3F8FC;
   --data-assisted: var(--signal);
   --data-secondary: var(--signal);
   /* One chart palette across every report. All values also have text labels. */
-  --chart-1: var(--primary);
-  --chart-2: var(--signal);
-  --chart-3: #b78639;
-  --chart-4: #6d8fba;
-  --chart-5: #78a3bb;
-  --chart-6: #9ba6b5;
-  --surface-subtle: #f8fafc;
-  --icon-muted: #7b8797;
-  --placeholder: #8a96a6;
-  --scrollbar: #c7d0de;
-  --control-hover-border: #aab6ca;
+  --chart-1: var(--sapphire);
+  --chart-2: var(--royal);
+  --chart-3: var(--yellow);
+  --chart-4: var(--green);
+  --chart-5: var(--regent);
+  --chart-6: #78a3bb;
+  --surface-subtle: var(--rowalt);
+  --icon-muted: var(--regent);
+  --placeholder: var(--regent);
+  --scrollbar: var(--line);
+  --control-hover-border: var(--sapphire);
   --shadow-sm: 0 1px 2px rgb(20 35 55 / 0.025);
-  --text-page: 28px;
-  --text-metric: 32px;
-  --text-body: 14px;
-  --text-label: 13px;
-  --text-meta: 12px;
   --shell-topbar-height: 60px;
+  --shell-header-height: calc(var(--shell-topbar-height) + var(--shell-nav-height) + 1px);
   --shell-context-height: 76px;
-  --canvas-space: 20px;
 }

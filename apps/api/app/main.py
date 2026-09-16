@@ -932,3 +932,6 @@ risk_ai.register(app, db=db, user=user, get_state=get_state, member=member)
 
 from . import analytics_api
 analytics_api.register(app, db=db, user=user, get_state=get_state, allowed_members=allowed_members, permit=permit, roles=ROLES)
+
+from . import member360
+member360.register(app, user=user, roles=ROLES)

@@ -34,6 +34,8 @@
 }
 
 .copy h2 {
+  color: var(--primary-foreground);
+  margin: 0;
   font-size: clamp(40px, 3.3vw, 64px);
   line-height: 1.12;
   letter-spacing: -0.035em;
@@ -98,7 +100,7 @@
   font-size: 12px;
 }
 
-.panelHeader h3 { font-size: 19px; font-weight: 500; line-height: 1.35; }
+.panelHeader h3 { color:var(--primary-foreground); margin:0; font-size: 19px; font-weight: 500; line-height: 1.35; }
 
 .features { display: grid; gap: 28px; padding: 32px 28px; }
 
@@ -175,7 +177,7 @@
   .slide { gap: 32px; }
   .description { font-size: 15px; }
   .panelHeader { padding: 22px; gap: 12px; }
-  .panelHeader h3 { font-size: 17px; }
+  .panelHeader h3 { color:var(--primary-foreground); margin:0; font-size: 17px; }
   .features { padding: 26px 22px; gap: 24px; }
   .feature { gap: 12px; }
   .feature strong { font-size: 14px; }

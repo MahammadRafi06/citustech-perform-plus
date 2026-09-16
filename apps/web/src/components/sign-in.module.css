@@ -101,10 +101,10 @@
 
 .formWrap h1 {
   color: var(--ink-strong);
-  font-size: 32px;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  font-weight: 600;
+  font-size: var(--text-page);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: var(--body-leading);
 }
 
 .intro {
@@ -114,13 +114,13 @@
 }
 
 .formWrap input {
-  height: 46px;
   padding-inline: 12px;
   border-color: var(--input);
-  border-radius: 4px;
   background: var(--card);
   color: var(--ink-strong);
   box-shadow: none;
+  height: var(--control-height);
+  border-radius: var(--control-radius);
 }
 
 .formWrap input:hover { border-color: var(--text-muted); }
@@ -128,10 +128,12 @@
 .formWrap input:focus-visible {
   border-color: var(--primary);
   background: var(--card);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 16%, transparent);
+  outline: var(--reference-focus);
+  outline-offset: 2px;
+  box-shadow: none;
 }
 
-.formWrap label { color: var(--ink-strong); font-weight: 500; }
+.formWrap label { font-size: var(--text-label); font-weight: 600; letter-spacing: 0; color: var(--comment); }
 
 .formWrap :global(.form-field) {
   margin-bottom: 20px;
@@ -150,11 +152,11 @@
   right: 0;
   top: 0;
   width: 48px;
-  height: 46px;
   display: grid;
   place-items: center;
   color: var(--text-secondary);
-  border-radius: 4px;
+  height: var(--control-height);
+  border-radius: var(--control-radius);
 }
 
 .passwordField button:hover {
@@ -162,20 +164,20 @@
 }
 
 .passwordField button:focus-visible {
-  outline: 2px solid var(--primary);
   outline-offset: -5px;
+  outline: var(--reference-focus);
 }
 
 .submit {
   position: relative;
   width: 100%;
-  height: 46px;
   margin-top: 8px;
-  border-radius: 4px;
   background: var(--primary);
   font-size: 14px;
-  font-weight: 500;
   box-shadow: none;
+  height: var(--control-height);
+  border-radius: var(--control-radius);
+  font-weight: 600;
 }
 
 .submit:hover { background: var(--primary-hover); }

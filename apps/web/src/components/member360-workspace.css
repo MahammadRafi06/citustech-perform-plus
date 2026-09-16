@@ -1,0 +1,42 @@
+/* Shell adapters only. Component styling is imported verbatim from the v14 design. */
+.member360-workspace { min-width:0; width:100%; max-width:none; }
+.member360-workspace button, .member360-workspace input, .member360-workspace select { font-family:inherit; }
+.member360-workspace p { margin-block: 0 12px; }
+.member360-workspace .m360-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.member360-workspace .m360-export { display:inline-flex; align-items:center; gap:8px; white-space:nowrap; }
+.member360-workspace .m360-list-kpis { margin-bottom:14px; }
+.member360-workspace .m360-list-tools { display:flex; gap:14px; align-items:center; margin-bottom:16px; }
+.member360-workspace .m360-list-tools h2 { margin:0; margin-right:auto; }
+.member360-workspace .m360-count { margin-left:6px; font-size:14px; font-weight:400; color:var(--regent); }
+.member360-workspace .m360-search { border:1px solid var(--line); border-radius:3px; height:42px; display:flex; align-items:center; padding:0 12px; gap:8px; color:var(--regent); width:340px; }
+.member360-workspace .m360-search input { width:100%; border:0; background:transparent; outline:none; color:var(--charcoal); font-size:14px; padding:0; box-shadow:none; }
+.member360-workspace .m360-search:focus-within { outline:3px solid var(--focus); outline-offset:2px; }
+.member360-workspace .m360-text-button { color:var(--sapphire); background:none; border:0; font-size:14px; cursor:pointer; }
+.member360-workspace .m360-sort { display:flex; align-items:center; gap:4px; background:none; border:0; font:inherit; color:inherit; padding:0; text-align:left; cursor:pointer; }
+.member360-workspace .m360-member-link { border:0; background:none; padding:0; font-size:14px; text-align:left; white-space:nowrap; }
+.member360-workspace .m360-member-id { font-size:12px; margin-top:3px; }
+.member360-workspace .m360-condition { min-width:175px; max-width:260px; }
+.member360-workspace .m360-open { white-space:nowrap; }
+.member360-workspace .m360-pagination { display:flex; align-items:center; gap:12px; padding-top:14px; font-size:13px; color:var(--comment); }
+.member360-workspace .m360-pagination > span:first-child { margin-right:auto; }
+.member360-workspace .m360-pagination label { display:flex; align-items:center; gap:8px; }
+.member360-workspace .m360-pagination select, .member360-workspace .m360-pagination button { border:1px solid var(--line); border-radius:3px; padding:5px 10px; color:var(--comment); background:white; cursor:pointer; height:var(--control-height); }
+.member360-workspace button:disabled { opacity:.45; cursor:default; }
+.member360-workspace .m360-empty { text-align:center; padding:28px; }
+.member360-workspace .m360-empty h3 { margin:0 0 8px; }
+.member360-workspace .m360-breadcrumb { display:flex; align-items:center; gap:12px; font-size:14px; color:var(--regent); margin-bottom:14px; }
+.member360-workspace .m360-breadcrumb button { display:flex; align-items:center; gap:7px; color:var(--sapphire); background:none; border:0; padding:0; cursor:pointer; }
+.member360-workspace .member { grid-template-columns:minmax(300px,1.7fr) repeat(4,1fr); }
+.member360-workspace .member .avatar { width:auto; height:auto; background:none; border:0; border-radius:0; flex-shrink:1; justify-content:flex-start; color:inherit; }
+.member360-workspace .member .circle { flex-shrink:0; }
+.member360-workspace .member h1 { font-size:15px; line-height:var(--body-leading); margin-bottom:0; }
+.member360-workspace .m360-back { margin-left:auto; }
+.member360-workspace .mtabs { top:var(--shell-header-height); }
+.member360-workspace .mtabpanewrap { overflow-wrap:break-word; }
+.member360-workspace .mtabpanewrap [role=tabpanel] { min-width:0; }
+.member360-workspace .mtabpanewrap [role=tabpanel][hidden] { display:none; }
+.member360-workspace .mtabpanewrap .kpi .v { overflow-wrap:normal; }
+.member360-workspace .m360-source { margin-top:0; padding:12px 0; }
+.member360-workspace .m360-source p { max-width:1150px; }
+.member360-workspace .m360-hash { font-size:12px; overflow-wrap:anywhere; }
+.member360-workspace .checkdrop-item { display:flex; font-weight:400; margin-bottom:0; }

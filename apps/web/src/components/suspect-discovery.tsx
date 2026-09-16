@@ -11,7 +11,7 @@ export function DiscoveryOverview({report,value,onChange}:{report:AnalysisReport
  const total=groups.reduce((sum,group)=>sum+group.count,0);
  const additions=report.cases.filter(c=>c.discovery&&c.direction==='add').length;
  const corrections=report.cases.filter(c=>c.discovery&&c.direction==='remove').length;
- return <section className={s.overview} aria-label="Clinical context gap categories">
+ return <section className={`ct-card ${s.overview}`} aria-label="Clinical context gap categories">
   <div className={s.heading}>
    <div><span className={s.eyebrow}>Beyond diagnosis codes</span><h2>Find the gaps hidden in the clinical story</h2><p>Connect narrative, timing and related records to surface suspects a code-only screen can overlook.</p></div>
    <div className={s.totals}><div><strong>{total}</strong><span>context gaps</span></div><div><strong>{additions}</strong><span>possible additions shown</span></div><div><strong>{corrections}</strong><span>coding checks shown</span></div></div>

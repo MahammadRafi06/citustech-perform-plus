@@ -143,7 +143,7 @@ export function RiskOverview({ user, embedded = false }: { user: User; embedded?
     catch (error) { toast.error((error as Error).message); } finally { setBusy(false); }
   };
   return <div className="risk-workspace">
-    {!embedded && <PageHeader title="Risk overview" description={`Population risk at a glance${periodLabel ? ` · ${periodLabel}` : ""}`}>
+    {!embedded && <PageHeader title="Dashboard" description={`Population risk at a glance${periodLabel ? ` · ${periodLabel}` : ""}`}>
       {context.permissions.includes("export") && <Button variant="outline" disabled={!overview || !!result.error} onClick={exportResults}><Download size={15} />Export results</Button>}
       {user.screens.includes("scenarios") && <Button variant="outline" asChild><Link href={context.href("/scenarios")}><Calculator size={15} />Open model lab</Link></Button>}
       <Button disabled={busy || !context.configId || !canCalculateConfiguration(context.configuration) || selected.basis !== "captured_baseline" || !context.permissions.includes("risk_calculate")} onClick={runBatch}><RefreshCw size={15} className={busy ? "animate-spin" : ""} />{busy ? "Starting…" : "Calculate population"}</Button>

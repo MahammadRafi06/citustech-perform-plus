@@ -34,7 +34,7 @@ export const calculationText = (value: string) => analysisText(value)
   .replace(/\billustrative /gi, 'estimated ');
 
 export const reportCopy: Record<string, {title: string; question: string}> = {
-  R01: {title: 'Risk overview', question: 'How is population risk changing?'},
+  R01: {title: 'Dashboard', question: 'How is population risk changing?'},
   R02: {title: 'Risk scores & common conditions', question: 'Which conditions affect the population most?'},
   R03: {title: 'Conditions to confirm again', question: 'Which past conditions are still missing this year?'},
   R04: {title: 'Score changes & scenarios', question: 'How do scores change over time or with new findings?'},

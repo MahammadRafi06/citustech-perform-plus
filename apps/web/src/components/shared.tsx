@@ -132,7 +132,7 @@ export function Metric({
 }) {
   return (
     <div
-      className="metric"
+      className="metric ct-metric"
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
