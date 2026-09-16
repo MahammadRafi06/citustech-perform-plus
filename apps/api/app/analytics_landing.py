@@ -67,7 +67,7 @@ def protect(groups, count='members'):
             for g in groups]
 
 
-def build(rows, cases, members, context, catalog, baseline):
+def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     mmap = {m['id']: m for m in members}
     eligible = [r for r in rows if r['eligible']]
     groups = defaultdict(list)
@@ -117,7 +117,20 @@ def build(rows, cases, members, context, catalog, baseline):
             subset = [o for o in outcomes if o['month'] == month]
             closed = sum(o['closed'] for o in subset)
             series.append(dict(month=label, rules=len(subset), closed=closed, added=sum(o['closed'] and o['confirmed'] for o in subset), rate=closed/len(subset) if subset else 0))
-        providers.append(dict(id=pid, name='Dr. '+(names[(int(pid.split('-')[-1])-1) % len(names)] if pid.split('-')[-1].isdigit() else names[pindex % len(names)]), practice=name, specialty=specialty, members=len(group), series=series))
+        scored = [r for r in group if r['score'] is not None]
+        member_months = sum(r['weight'] for r in scored)
+        identified = sum(month['rules'] for month in series)
+        captured = sum(month['added'] for month in series)
+        prior_conditions = sum(len(r['conditions']) for r in group)
+        recaptured_conditions = sum(len(r['conditions']) for r in group if r['recaptured'])
+        providers.append(dict(id=pid, name='Dr. '+(names[(int(pid.split('-')[-1])-1) % len(names)] if pid.split('-')[-1].isdigit() else names[pindex % len(names)]),
+            practice=name, specialty=specialty, members=len(group), series=series,
+            score=sum(r['score']*r['weight'] for r in scored)*score_factor/member_months if member_months else None,
+            member_months=member_months, captured_suspects=captured, identified_suspects=identified,
+            capture_rate=captured/identified if identified else None,
+            prior_conditions=prior_conditions, recaptured_conditions=recaptured_conditions,
+            recapture_rate=recaptured_conditions/prior_conditions if prior_conditions else None,
+            open_suspects=sum(c['provider_id']==pid and c['status']=='open' for c in cases)))
     # Broad county clusters, with all demographic filtering applied before aggregation.
     social = []
     for county in sorted({r['county'] for r in eligible}):

@@ -41,13 +41,14 @@ REPORTS = [
     ('R02', 'Risk distribution & condition burden', 'What drives the risk mix?', 'risk'),
     ('R03', 'Recapture completeness', 'Which persistent conditions need attention?', 'risk'),
     ('R04', 'Period & model comparison', 'How do comparable score snapshots differ?', 'raf'),
-    ('R05', 'Geography & assigned practices', 'Where are opportunities concentrated?', 'geography'),
+    ('R05', 'Geography comparison', 'Where are opportunities concentrated?', 'geography'),
     ('R06', 'Suspect opportunity concentration', 'Which clinical questions dominate?', 'suspecting'),
     ('R07', 'Support-likelihood planning', 'What outcomes are assumed after review?', 'suspecting'),
     ('R08', 'Financial scenarios', 'How do assumptions change potential value?', 'financial'),
     ('R09', 'Accuracy & representation integrity', 'Where might risk be overstated?', 'suspecting'),
     ('R10', 'AI evaluation', 'What does the frozen evaluation establish?', 'ai'),
     ('R11', 'Coverage & data reliability', 'What supports these results?', 'coverage'),
+    ('R12', 'Provider performance', 'How do provider risk, capture and recapture compare?', 'provider'),
 ]
 
 
@@ -489,7 +490,10 @@ def build(state, members, config, context, *, include_evidence=True):
         'M07':metric(bases[ctx['basis']],sum(r['score']*r['weight'] for r in scores)*factor,weight,'score',ctx),
         'M21':metric(len(cases),len(cases),None,'canonical_cases',ctx), 'M22':metric(len(capture),len(capture),eligible,'members',ctx),
         'M27':metric(cond_expected,cond_expected,result['summary']['applicable'],'expected_cases',ctx)}
-    result['landing'] = analytics_landing.build(rows, cases, root, ctx, CATALOG, mean)
+    result['landing'] = analytics_landing.build(rows, cases, root, ctx, CATALOG, mean, score_factor=factor)
+    result['providers'] = [{k:v for k,v in provider.items() if k!='series'} for provider in result['landing']['providers']]
+    result['method']['provider_capture'] = 'Confirmed member-condition-rule outcomes divided by identified member-condition-rule outcomes through the reporting month. Reuses the provider outcome series; not chart transmission or operational activity. Open suspects include all current open flags in the conditions list, including data issues, separate from the historical outcome cohort.'
+    result['method']['provider_recapture'] = 'Prior-year member-condition pairs confirmed again divided by all prior-year pairs in the eligible provider panel. Reconciles to condition prevalence and recapture totals.'
     result['snapshot_hash'] = digest(result)
     return result
 
@@ -523,7 +527,7 @@ def export_bundle(report, report_id, fmt, ids=None, excerpts=False):
     value['manifest']={k:report[k] for k in ['version','context','config','origin','as_of','filter_hash','input_hash','scope_hash','snapshot_hash']}
     value['manifest'].update(report_id=report_id, export_kind=fmt)
     tables={'R01':'trend','R02':'histogram','R03':'prevalence','R04':'trend','R05':'counties','R06':'categories',
-            'R07':'bands','R08':'financial','R09':'categories','R10':'ai','R11':'metrics'}
+            'R07':'bands','R08':'financial','R09':'categories','R10':'ai','R11':'metrics','R12':'providers'}
     selected=value.get('suspects') if report_id=='registry' else value.get(tables.get(report_id,'trend'),[])
     if isinstance(selected,dict):
         selected=selected['scenarios'] if report_id=='R08' else [dict(metric=k,value=v) for k,v in selected.items()]

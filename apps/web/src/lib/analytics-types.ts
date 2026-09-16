@@ -1,5 +1,5 @@
 export type AnalysisBasis = 'captured_baseline' | 'potential' | 'submitted' | 'accepted';
-export type AnalysisView = 'risk' | 'geography' | 'suspecting' | 'raf' | 'financial' | 'ai' | 'coverage';
+export type AnalysisView = 'risk' | 'geography' | 'provider' | 'suspecting' | 'raf' | 'financial' | 'ai' | 'coverage';
 export interface CountRow { name: string; count: number; members?: number }
 export interface FinancialSettings { reach: number; realization: number; benchmark: number; months: number; recognition: number; start: string }
 export interface AnalysisContext {
@@ -24,6 +24,13 @@ export interface GeoRow {
   id: string; name: string; members: number | null; eligible: number | null; scored: number | null;
   score: number | null; cases: number | null; capture_members: number | null; rate: number | null;
   coverage: number | null; suppressed: boolean;
+}
+export interface ProviderRow {
+  id: string; name: string; practice: string; specialty: string; suppressed: boolean;
+  members: number | null; score: number | null; member_months: number | null;
+  captured_suspects: number | null; identified_suspects: number | null; capture_rate: number | null;
+  prior_conditions: number | null; recaptured_conditions: number | null; recapture_rate: number | null;
+  open_suspects: number | null;
 }
 export interface PrevalenceRow {
   name: string; hcc: string; members: number; denominator: number; prevalence: number | null;
@@ -50,7 +57,7 @@ export interface AnalysisReport {
   bases: Record<AnalysisBasis, number | null>;
   trend: {month: string; baseline: number; potential: number; submitted: number; accepted: number}[];
   histogram: CountRow[]; percentiles: {p25: number | null; median: number | null; p75: number | null; p90: number | null};
-  prevalence: PrevalenceRow[]; counties: GeoRow[]; practices: GeoRow[]; categories: CountRow[]; rules: CountRow[];
+  prevalence: PrevalenceRow[]; counties: GeoRow[]; practices: GeoRow[]; providers?: ProviderRow[]; categories: CountRow[]; rules: CountRow[];
   hccs: CountRow[]; conditions: CountRow[]; bands: CountRow[];
   evidence_matrix: ({evidence: string} & Record<string, string | number>)[]; cases: SuspectCase[];
   financial: FinancialResult; ai: {id: string; version: number; metrics: Record<string,number>};

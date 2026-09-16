@@ -384,7 +384,7 @@ function Application() {
               className="global-search"
               onSubmit={(e) => {
                 e.preventDefault();
-                router.push(`/suspects?grid_q=${encodeURIComponent(globalSearch)}`);
+                router.push(`/suspects?view=registry&grid_q=${encodeURIComponent(globalSearch)}`);
               }}
             >
               <Search size={15} />

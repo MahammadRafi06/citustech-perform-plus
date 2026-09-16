@@ -38,12 +38,13 @@ export const reportCopy: Record<string, {title: string; question: string}> = {
   R02: {title: 'Risk scores & common conditions', question: 'Which conditions affect the population most?'},
   R03: {title: 'Conditions to confirm again', question: 'Which past conditions are still missing this year?'},
   R04: {title: 'Score changes & scenarios', question: 'How do scores change over time or with new findings?'},
-  R05: {title: 'County & practice comparison', question: 'Where are risk and opportunities highest?'},
+  R05: {title: 'Geography comparison', question: 'Where are risk and opportunities highest?'},
   R06: {title: 'Suspected conditions', question: 'Which potential diagnoses need attention?'},
   R07: {title: 'Chance of confirmation', question: 'How many suspects might be supported by evidence?'},
   R08: {title: 'Revenue forecast', question: 'How much additional revenue could be recognized?'},
   R09: {title: 'Possible overcoding & data issues', question: 'Where could coding overstate a member’s risk?'},
   R10: {title: 'AI results', question: 'How did AI perform in the reference comparison?'},
+  R12: {title: 'Provider performance', question: 'How do provider risk, capture and recapture compare?'},
   R11: {title: 'Data quality & calculation details', question: 'Which records and assumptions support these results?'},
 };
 

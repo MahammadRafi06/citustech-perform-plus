@@ -37,7 +37,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-product);
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);
@@ -61,7 +61,7 @@
   body {
     background: var(--background);
     color: var(--foreground);
-    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: var(--font-product);
     font-size: 14px;
     line-height: 1.5;
     letter-spacing: 0;
@@ -102,34 +102,6 @@
   select {
     font: inherit;
     letter-spacing: inherit;
-  }
-  button[data-slot="button"] {
-    font-size: 13.5px;
-    font-weight: 500;
-    letter-spacing: -0.006em;
-    gap: 8px;
-  }
-  button[data-slot="button"][data-variant="default"] {
-    background: var(--primary);
-    box-shadow: none;
-  }
-  button[data-slot="button"][data-variant="default"]:hover {
-    background: var(--primary-hover);
-    box-shadow: none;
-  }
-  button[data-slot="button"][data-variant="outline"] {
-    background: var(--card);
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-2xs);
-    color: var(--secondary-foreground);
-  }
-  button[data-slot="button"][data-variant="outline"]:hover {
-    background: var(--muted);
-    border-color: var(--control-hover-border);
-    color: var(--ink);
-  }
-  button[data-slot="button"][data-variant="secondary"] {
-    box-shadow: inset 0 0 0 1px var(--border);
   }
   input[data-slot="input"] {
     background: var(--card);
