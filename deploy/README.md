@@ -1,22 +1,27 @@
-# Perform+ hosting is decommissioned
+# Perform+ hosting
 
-The owner requested AWS hosting removal on September 15, 2026. Perform+ is offline. Its GitHub release workflow is disabled and `PERFORM_PLUS_DEPLOY_ENABLED=false`.
+Target: https://performplus.idaibhealth.com on the existing `meshalloc-control-plane` EKS cluster in AWS account `703671901662`, region `us-west-2`.
 
-The app's ALB, target group, dedicated EKS node group/EC2 instance, root and database disks, ECR images/repositories, Lambda function, CloudWatch log group, DNS records and ACM certificate have been removed. See [decommissioning evidence](DECOMMISSIONING.md) for resource identifiers and final cleanup status.
+Hosting restoration was explicitly requested after the September 15 shutdown. The previous removal record is retained in [DECOMMISSIONING.md](DECOMMISSIONING.md).
 
-The shared `meshalloc-control-plane` cluster, VPC, existing system/staging nodes, `idaibhealth.com` hosted zone, and other applications and storage remain. Other applications now use the EBS CSI driver, so it and its IAM permissions were preserved and removed from Perform+'s Terraform ownership. Its controller and managed node plugin run on existing system capacity; the separately managed staging node plugin was preserved.
+## Deployment
 
-## Re-creation is disabled
+- `aws/` manages app-only ECR repositories, an isolated node group, ingress permissions, ACM/DNS and the GitHub release bridge.
+- The cluster, VPC, subnets, hosted zone and shared EBS CSI driver remain externally managed. Do not import or change their ownership.
+- `eks/` deploys separate UI, API and PostgreSQL components. TLS terminates at the app ALB; the UI proxies authenticated API requests.
+- GitHub Actions publishes immutable source-SHA images from current remote `main`. The release bridge only patches the UI/API Deployments in the app namespace.
+- `scripts/bootstrap_eks.py` verifies remote main and ECR digests before rendering and applying initial manifests. Routine releases use `scripts/release_eks.py`.
+- Private credentials, Terraform state, database archives and release receipts stay in ignored `.local/aws-deploy/`.
 
-- `aws/` deliberately contains no resource-creation blocks. Its `removed` blocks preserve the shared storage driver and role while removing app ownership.
-- Both publishing and deployment jobs require `PERFORM_PLUS_DEPLOY_ENABLED=true`; the entire workflow is also disabled in GitHub.
-- `DECOMMISSIONED` blocks `scripts/bootstrap_eks.py` before it accesses AWS or Kubernetes.
-- The source code, Dockerfiles and local application remain available. The last deployed application commit was `1e0f49e1a70b26f045b2ad1dfb90ba1234212465`.
+## Restore sequence
 
-Do not restore AWS provisioning or re-enable the workflow without a new explicit hosting request. Historical provisioning code is retained in Git history. Restoring that code requires reviewing shared-resource ownership and a fresh provider plan; the old ALB ARN and resource IDs are no longer usable.
+1. Review the current provider inventory and a saved Terraform plan. Apply only app resources; use the existing shared storage driver.
+2. Publish the reviewed source to remote main, then dispatch the release workflow with `publish_only=true` to build immutable UI/API images without attempting an initial rollout.
+3. Apply `eks/ebs-node.yaml` separately to register storage only on the dedicated app node. This uses the existing EBS node service account and never overlaps another node plugin. Create the app namespace and Secret from private local inputs. Install the pinned ingress controller with `eks/controller-values.yaml`.
+4. Deploy the database and restore the chosen database archive before starting the API. Reinstall the environment account passwords using `scripts/eks_credentials.py install` if restoring another environment.
+5. Render and apply the exact image digests, wait for readiness, then set `app_load_balancer_arn` using a private Terraform variable file and apply the DNS-only plan.
+6. Enable routine releases only after bootstrap is complete. Verify source annotations, image digests, HTTPS health/readiness and browser sign-in.
 
-## Local recovery material
+Recreating these resources resumes app-specific AWS charges. Preserve database backups before any future teardown. The last shutdown archive remains in `.local/aws-deploy/teardown-20260915/`.
 
-The final PostgreSQL custom-format archive is `.local/aws-deploy/teardown-20260915/perform-plus.pgdump` (owner-only access). It was captured after stopping UI/API writes and validated by reading the full archive with `pg_restore --file=/dev/null`. This is archive validation, not a full restore drill.
-
-Private state backup, exact saved removal plan, provider inventories and receipts are in the same ignored directory. No AWS database snapshot or S3 backup was created. Preserve this local directory if the demo data is needed again.
+The dedicated node plugin follows the [upstream additional-node-daemonset guidance](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/additional-daemonsets.md). Its images match the installed EKS addon version.

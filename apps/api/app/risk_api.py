@@ -249,11 +249,11 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
             return projection(store.get_input(conn, run['snapshot_id']), {m['id'] for m in allowed_members(get_state(conn), u)})
 
     @router.get('/overview')
-    def overview(config_id: str = inputs.DEFAULT_CONFIG, basis: str = 'captured_baseline', u=Depends(user)):
+    def overview(config_id: str = inputs.DEFAULT_CONFIG, basis: str = 'captured_baseline', run_month: str | None = None, u=Depends(user)):
         with db() as conn:
             s = get_state(conn)
             try:
-                result = service.overview(conn, s, allowed_members(s, u), config_id, basis)
+                result = service.overview(conn, s, allowed_members(s, u), config_id, basis, run_month)
                 result['batch'] = public_batch(result['batch'])
                 return result
             except ValueError as exc:

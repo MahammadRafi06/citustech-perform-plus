@@ -929,3 +929,6 @@ risk_financial.register(app, db=db, user=user, get_state=get_state,
                         allowed_members=allowed_members, member=member, permit=permit, event=event)
 from . import risk_ai
 risk_ai.register(app, db=db, user=user, get_state=get_state, member=member)
+
+from . import analytics_api
+analytics_api.register(app, db=db, user=user, get_state=get_state, allowed_members=allowed_members, permit=permit, roles=ROLES)

@@ -160,7 +160,7 @@ def distribution(conn, state, members, config_id, basis='captured_baseline', pri
                   if month.get('raw_score') is not None]
         return (sum(months) / len(months)) if months else None
 
-    current = rows(config_id, basis)
+    current = [] if external else rows(config_id, basis)
     values = {}
     for run in current:
         value = member_value(run)
@@ -178,7 +178,7 @@ def distribution(conn, state, members, config_id, basis='captured_baseline', pri
         return float(scores[lower] + (scores[upper] - scores[lower]) * part)
 
     bins = []
-    if len(scores) >= 2:
+    if scores:
         low, high = scores[0], scores[-1]
         width = (high - low) / 12 if high > low else Decimal(1)
         bins = [{'lower': float(low + width * index), 'upper': float(low + width * (index + 1)),
@@ -201,8 +201,10 @@ def distribution(conn, state, members, config_id, basis='captured_baseline', pri
                       for mid in list(values) if prior.get(mid) is not None]
             movers.sort(key=lambda item: -item['delta'])
             movement = {'status': 'available' if movers else 'unscored', 'prior_config_id': prior_config_id,
-                        'matched_members': len(movers), 'top_increase': movers[:10],
-                        'top_decrease': sorted(movers, key=lambda item: item['delta'])[:10]}
+                        'matched_members': len(movers),
+                        'increase': sum(item['delta'] > 0 for item in movers),
+                        'decrease': sum(item['delta'] < 0 for item in movers),
+                        'unchanged': sum(item['delta'] == 0 for item in movers)}
     return {'config_id': config_id, 'score_basis': basis,
             'definition': 'Each member contributes the mean of their retained monthly raw scores; member-month weighting applies only at portfolio level. Missing scores are excluded, never zero-filled.',
             'unit': 'score points', 'scored_members': len(scores), 'scope_members': total,

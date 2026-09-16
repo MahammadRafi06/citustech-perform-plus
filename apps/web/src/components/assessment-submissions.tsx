@@ -84,14 +84,14 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
   </>;
   const preparedCases = data.opportunities.filter((opportunity) => opportunity.eligibility?.transmission_configured && opportunity.eligibility?.prepared_code && (!memberFilter || opportunity.member_id === memberFilter));
   return <>
-    <PageHeader title="Submission operations" description="Prepare approved records, retain each attempt and follow the simulated receiver.">
+    <PageHeader title="Submission operations" description="Prepare approved records, retain each attempt and follow receiver responses.">
       <Button variant="outline" onClick={() => exportRecords("submissions", records.map((record) => record.id))}><ArrowDownToLine size={16} />Export records</Button>
     </PageHeader>
     <div className="metric-grid">
       <Metric label="Submission attempts" value={String(records.length)} note="Original records and linked attempts" icon={<Send size={18} />} />
       <Metric label="Receiver accepted" value={String(records.filter((record) => record.status === "accepted").length)} note="Acceptance is separate from payment" icon={<Check size={18} />} />
       <Metric label="Receiver rejected" value={String(records.filter((record) => record.status === "rejected").length)} note="Rejected attempts remain retained" icon={<RotateCcw size={18} />} />
-      <Metric label="Prepared comparisons" value={String(records.filter((record) => record.report_comparison).length)} note="Synthetic report · payment unreconciled" icon={<FileText size={18} />} />
+      <Metric label="Prepared comparisons" value={String(records.filter((record) => record.report_comparison).length)} note="Report comparison · payment unreconciled" icon={<FileText size={18} />} />
     </div>
     <Panel title="Approved review handoff" subtitle="A submission specialist explicitly prepares the exact current decision after independent QA.">
       {preparedCases.map((opportunity) => {
@@ -115,7 +115,7 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
         { accessorKey: "original_id", header: "Original record", cell: ({ getValue }) => getValue() ? String(getValue()) : "—" },
       ]} />
     </Panel>
-    <Drawer open={!!detail} onOpenChange={(open) => !open && setDetailId("")} title={detail?.id || "Submission record"} description="Simulated receiver · each action retains its actual timestamp">
+    <Drawer open={!!detail} onOpenChange={(open) => !open && setDetailId("")} title={detail?.id || "Submission record"} description="Receiver responses · each action retains its actual timestamp">
       {detail && <div className="assessment-submission-detail">
         <div className="badge-row"><Status value={detail.status} /><span>{label(detail.operation || detail.type)}</span>{detail.corrected && <Status value="corrected" />}</div>
         <p className="body-copy">{detail.reason}</p>
@@ -137,7 +137,7 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
         </div> : <p className="body-copy">This original prepared record predates the connected review handoff. A new linked decision must be approved before its correction can be prepared.</p>}
         {!["accepted", "rejected"].includes(detail.status) && <>
           <h3 className="section-title">Receiver response</h3>
-          <SelectField label="Simulated receiver response" value={response} onChange={setResponse} options={["acknowledged", "accepted", "rejected"].map((value) => ({ value, label: label(value) }))} />
+          <SelectField label="Receiver response" value={response} onChange={setResponse} options={["acknowledged", "accepted", "rejected"].map((value) => ({ value, label: label(value) }))} />
           <div className="drawer-actions">
             <Button disabled={busy || !user.permissions.includes("receiver")} onClick={() => run("receiver", detail.id, response)}><Check size={15} />Record response</Button>
           </div>

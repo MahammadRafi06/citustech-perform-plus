@@ -184,7 +184,7 @@ export function SourceDocument({
         <span>Encounter {selected.date}</span>
         <span>{selected.signature_status || "Signature not supplied"}</span>
         <span>
-          {selected.synthetic !== false ? "Synthetic source" : "Source record"}
+          {selected.synthetic !== false ? "Reference document" : "Source record"}
         </span>
       </div>
       <div
@@ -220,7 +220,7 @@ export function SourceDocument({
       </div>
       <div className="source-footer">
         <button onClick={() => setOriginal(!original)}>
-          {original ? "Clinical source view" : "Complete source fixture"}
+          {original ? "Clinical source view" : "Complete document"}
         </button>
         {citations.length > 0 && (
           <Button

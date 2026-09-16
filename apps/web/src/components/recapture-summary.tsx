@@ -1,0 +1,21 @@
+"use client";
+import { Panel, Empty } from "./shared";
+import { Button } from "./ui/button";
+import { CompositionRing } from "./report-visuals";
+import { AnalyticsBars } from "./analytics-charts";
+import { downloadRiskJson } from "@/lib/risk-client";
+import { num, label } from "@/lib/api";
+type Pair = { category?: string; state?: string; clinical_recaptured?: boolean; exclusion_reason?: string; reason?: string };
+type Inventory = { status: string; definition?: string; items: Pair[]; exclusions: Pair[]; clinical: { numerator: number; denominator: number }; receiver_eligible: { numerator: number; denominator: number }; prior_scored_members?: number; current_scored_members?: number };
+export function RecaptureSummary({ inventory, canExport, configId }: { inventory: Inventory; canExport: boolean; configId: string }) {
+  const categories = new Map<string, { name: string; recaptured: number; open: number }>();
+  for (const item of inventory.items) { const name = item.category || "Unclassified"; const row = categories.get(name) || { name, recaptured: 0, open: 0 }; if (item.clinical_recaptured) row.recaptured++; else row.open++; categories.set(name, row); }
+  const exclusions = new Map<string, number>();
+  for (const item of inventory.exclusions) { const key = label(item.exclusion_reason || item.reason || "Not comparable"); exclusions.set(key, (exclusions.get(key) || 0) + 1); }
+  const rows = [...categories.values()].sort((a,b) => b.open - a.open).slice(0,10);
+  const rate = inventory.clinical.denominator ? 100 * inventory.clinical.numerator / inventory.clinical.denominator : null;
+  return <div className="risk-workspace"><div className="risk-metrics three">{[["Comparable condition pairs", num(inventory.clinical.denominator), "Retained prior and current calculations"], ["Supported recapture", rate == null ? "—" : `${rate.toFixed(1)}%`, `${num(inventory.clinical.numerator)} independently supported pairs`], ["Unresolved opportunity", num(inventory.clinical.denominator - inventory.clinical.numerator), "Comparable pairs without current supported recapture"]].map(([title,value,note]) => <div className="risk-metric" key={title}><span>{title}</span><strong>{value}</strong><small>{note}</small></div>)}</div>
+    <div className="report-chart-grid"><Panel title="Condition continuity" subtitle="Current support within the comparable inventory"><CompositionRing items={[{ name:"Supported recapture",value:inventory.clinical.numerator,color:"#09858a" },{ name:"Open gap",value:Math.max(0,inventory.clinical.denominator-inventory.clinical.numerator),color:"#2456b7" }]} label="condition pairs" /></Panel><Panel title="Largest recapture gaps" subtitle="Top categories · pairs can overlap across members">{rows.length ? <AnalyticsBars horizontal height={320} rows={rows} keys={[{ key:"open",name:"Open pairs" },{ key:"recaptured",name:"Supported" }]} /> : <Empty title="No comparable category inventory" description={inventory.definition} />}</Panel></div>
+    <Panel title="Comparability & coverage" subtitle="Unscored and excluded populations remain visible" action={canExport && <Button variant="outline" onClick={() => downloadRiskJson({ config_id:configId,definition:inventory.definition,clinical:inventory.clinical,receiver_eligible:inventory.receiver_eligible,categories:[...categories.values()],exclusions:[...exclusions].map(([reason,count])=>({reason,count})) },`recapture-summary-${configId}.json`)}>Export summary</Button>}><div className="risk-metrics three"><div className="risk-metric"><span>Prior scored members</span><strong>{num(inventory.prior_scored_members || 0)}</strong></div><div className="risk-metric"><span>Current scored members</span><strong>{num(inventory.current_scored_members || 0)}</strong></div><div className="risk-metric"><span>Excluded / unresolved records</span><strong>{num(inventory.exclusions.length)}</strong></div></div>{exclusions.size > 0 && <AnalyticsBars horizontal rows={[...exclusions].map(([name,value])=>({name:name.slice(0,35),value}))} keys={[{key:"value",name:"Excluded records"}]} />}<p className="risk-helper padded">{inventory.definition} Supported recapture reflects retained evidence; missing outcomes are not manufactured.</p></Panel>
+  </div>;
+}

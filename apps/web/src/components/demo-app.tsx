@@ -69,6 +69,7 @@ import { api, command, ApiError, label } from "@/lib/api";
 import { HIDDEN_ROUTES, WORKFLOW_ENABLED, hiddenByScope } from "@/lib/workflow-flags";
 import type { User, Snapshot, Command } from "@/lib/types";
 import { Dashboard } from "./dashboard";
+import { AnalyticsWorkspace } from "./analytics-workspace";
 import { Workspaces } from "./workspaces";
 import { FixtureAssistant } from "./fixture-assistant";
 import { AiConfiguration } from "./ai-configuration";
@@ -93,17 +94,17 @@ const workspaceName =
   process.env.NEXT_PUBLIC_WORKSPACE_NAME || "Northstar & Meridian";
 const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
   {
-    group: "Monitoring",
+    group: "Analytics",
     items: [
       ["overview", "Risk overview", LayoutDashboard],
       ["analytics", "Risk analytics", ChartNoAxesCombined],
-      ["scenarios", "RAF & model lab", Calculator],
+      ["reports", "Reports", FileSearch],
     ],
   },
   {
-    group: "Review operations",
+    group: "Conditions",
     items: [
-      ["suspects", "Suspect registry", ScanLine],
+      ["suspects", "Suspected conditions", ScanLine],
       ...(WORKFLOW_ENABLED
         ? ([
             ["reviews", "Chart review", ClipboardCheck],
@@ -116,7 +117,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
     ],
   },
   {
-    group: "Members and providers",
+    group: "Population",
     items: [
       ["members", "Member risk profiles", Users],
       ...(WORKFLOW_ENABLED
@@ -128,7 +129,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
     ],
   },
   {
-    group: "Governance",
+    group: "Settings",
     items: [
       ...(WORKFLOW_ENABLED
         ? ([
@@ -153,7 +154,7 @@ function Brand({ full = false, sidebar = false }: { full?: boolean; sidebar?: bo
           height={full ? 251 : 200}
         />
       </span>
-      {sidebar ? <span className="sidebar-product"><span className="brand-product">Perform<span className="brand-plus">+</span></span><small>Risk adjustment</small></span> : <span className="brand-product">Perform<span className="brand-plus">+</span></span>}
+      {sidebar ? <span className="sidebar-product"><span className="brand-product">Perform<span className="brand-plus">+</span></span><small>Risk intelligence</small></span> : <span className="brand-product">Perform<span className="brand-plus">+</span></span>}
     </div>
   );
 }
@@ -171,8 +172,8 @@ function WorkspaceNavigation({
   const risk = useRiskContext();
   return (
     <nav id="workspace-navigation" aria-label="Workspace navigation">
-      {routes.map((group) => {
-        const items = group.items.filter(([id]) => user.screens.includes(id === "agents" ? "admin" : id));
+      {routes.filter((group) => group.group !== "Settings").map((group) => {
+        const items = group.items.filter(([id]) => id !== "reports" && user.screens.includes(id === "agents" ? "admin" : id === "reports" ? "analytics" : id) && !hiddenByScope(id));
         return items.length ? (
           <div className="nav-group" key={group.group}>
             <h3>{group.group}</h3>
@@ -201,7 +202,7 @@ function signInPath() {
   return `/login?${new URLSearchParams({ returnTo }).toString()}`;
 }
 function signInDestination(user: User) {
-  const fallback = user.screens.includes("overview") ? "/overview" : `/${user.screens[0]}`;
+  const fallback = `/${user.screens.find(screen => !hiddenByScope(screen)) || "overview"}`;
   const location = window.location;
   const requested = location.pathname === "/login"
     ? new URLSearchParams(location.search).get("returnTo")
@@ -211,7 +212,7 @@ function signInDestination(user: User) {
     const destination = new URL(requested, location.origin);
     const screen = destination.pathname.split("/")[1];
     const knownScreen = routes.some((group) => group.items.some(([id]) => id === screen));
-    return destination.origin === location.origin && knownScreen && user.screens.includes(screen)
+    return destination.origin === location.origin && knownScreen && user.screens.includes(screen === "reports" ? "analytics" : screen)
       ? destination.pathname + destination.search + destination.hash
       : fallback;
   } catch {
@@ -376,26 +377,26 @@ function Application() {
             <span className="breadcrumb">{pathname.startsWith('/admin/ai') ? 'Agents configuration' : routeName}</span>
           </div>
           <div className="topbar-right">
-            {snapshot.data && (
+            {snapshot.data && WORKFLOW_ENABLED && (
               <FixtureAssistant user={user} data={snapshot.data} act={act} />
             )}
             <form
               className="global-search"
               onSubmit={(e) => {
                 e.preventDefault();
-                router.push(`/members?q=${encodeURIComponent(globalSearch)}`);
+                router.push(`/suspects?grid_q=${encodeURIComponent(globalSearch)}`);
               }}
             >
               <Search size={15} />
               <Input
-                aria-label="Search members"
-                placeholder="Search members…"
+                aria-label="Search suspects"
+                placeholder="Search suspects…"
                 value={globalSearch}
                 onChange={(e) => setGlobalSearch(e.target.value)}
               />
               <kbd>↵</kbd>
             </form>
-            <Button
+            {WORKFLOW_ENABLED && <Button
               variant="ghost"
               size="icon-sm"
               aria-label="Notifications"
@@ -404,7 +405,7 @@ function Application() {
             >
               <Bell size={18} />
               {!!snapshot.data?.events.length && <i />}
-            </Button>
+            </Button>}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="profile" aria-label="Account menu">
@@ -430,14 +431,14 @@ function Application() {
             </DropdownMenu>
           </div>
         </header>
-        {!pathname.startsWith('/admin/ai') && <RiskContextBar />}
+        {!pathname.startsWith('/admin/ai') && !['overview','analytics','suspects','reports','scenarios'].includes(actualRoute) && <RiskContextBar />}
         <main
           className={`page-canvas route-${actualRoute} ${actualRoute === "reviews" && pathname.split("/")[2] ? "workbench-canvas" : ""}`}
         >
-          {!user.screens.includes(actualRoute) || hiddenByScope(actualRoute) ? (
+          {!user.screens.includes(actualRoute === "reports" ? "analytics" : actualRoute) || hiddenByScope(actualRoute) ? (
             <div className="access-denied">
               <LockKeyhole size={40} />
-              <h1>{hiddenByScope(actualRoute) ? "This workspace is not part of this deployment" : "This workspace needs a different role"}</h1>
+              <h1>{hiddenByScope(actualRoute) ? "This page is not available in this workspace" : "This workspace needs a different role"}</h1>
               <p>
                 {hiddenByScope(actualRoute)
                   ? "This Perform+ deployment focuses on risk analytics and suspecting. Workflow workspaces remain available in the full product build."
@@ -445,7 +446,7 @@ function Application() {
                 {user.screens.filter((screen) => !HIDDEN_ROUTES.has(screen)).map(label).join(", ")}.</>}
               </p>
               <Button asChild>
-                <Link href={`/${user.screens[0]}`}>
+                <Link href={`/${user.screens.find(screen => !hiddenByScope(screen)) || "overview"}`}>
                   Return to my workspace
                   <ArrowRight size={16} />
                 </Link>
@@ -467,7 +468,7 @@ function Application() {
               </Button>
             </div>
           ) : snapshot.data ? (
-            pathname.startsWith('/admin/ai') ? (hiddenByScope("agents") ? <Empty title="This workspace is not part of this deployment" description="Agents configuration remains available in the full product deployment." /> : <AiConfiguration key={user.id} user={user} />) : actualRoute === "overview" ? <RiskOverview user={user} /> : actualRoute === "analytics" ? (
+            pathname.startsWith('/admin/ai') ? (hiddenByScope("agents") ? <Empty title="This page is not available in this workspace" description="Use Risk analytics or Reports to explore the available results." /> : <AiConfiguration key={user.id} user={user} />) : ["overview","analytics","suspects","reports","scenarios"].includes(actualRoute) ? <AnalyticsWorkspace user={user} route={actualRoute} /> : actualRoute === "analytics" ? (
               <Dashboard
                 data={snapshot.data}
                 user={user}
@@ -496,12 +497,12 @@ function Application() {
         open={notifications}
         onOpenChange={setNotifications}
         title="Workspace activity"
-        description="Recent decisions and workflow updates."
+        description="Recent activity saved in this workspace."
       >
         {!snapshot.data?.events.length ? (
           <Empty
             title="Your activity starts here"
-            description="Decisions, tasks and workflow updates will appear here."
+            description="Saved reports and recent activity will appear here."
           />
         ) : (
           <div className="timeline">
@@ -537,28 +538,26 @@ function Application() {
         open={help}
         onOpenChange={setHelp}
         title="Workspace guide"
-        description="Find source evidence, review findings and follow each outcome."
+        description="Explore risk scores, suspected conditions and revenue estimates."
       >
         <div className="tour-list">
-          {snapshot.data?.members
-            .filter((m) => m.showcase)
-            .map((m, i) => (
-              <Link
-                href={`/members/${m.id}`}
-                onClick={() => setHelp(false)}
-                key={m.id}
-              >
-                <span>0{i + 1}</span>
-                {m.name} · {label(m.opportunity_type)}
-                <ArrowRight size={15} />
-              </Link>
-            ))}
+          {[
+            { href: '/overview', title: 'Risk scores and trends' },
+            { href: '/analytics?view=geography', title: 'County and practice comparisons' },
+            { href: '/suspects', title: 'Suspected conditions and evidence' },
+            { href: '/analytics?view=financial', title: 'Revenue forecasts' },
+            { href: '/reports', title: 'Reports and saved copies' },
+          ].map((item, i) => (
+            <Link href={item.href} onClick={() => setHelp(false)} key={item.href}>
+              <span>0{i + 1}</span>{item.title}<ArrowRight size={15} />
+            </Link>
+          ))}
         </div>
         <Notice>
           <span>
-            <strong>About this workspace.</strong> Records and reference results
-            are illustrative. Analysis uses prepared findings. External delivery
-            is simulated. Model results use the selected configuration and retained input snapshots.
+            <strong>About this workspace.</strong> Reports bring together population scores and planning scenarios. Document quotes stay linked to their
+            original sources. Rules find possible gaps; AI explanations help
+            explain the evidence. Neither confirms a diagnosis or changes a medical record.
           </span>
         </Notice>
       </Modal>

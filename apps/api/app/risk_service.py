@@ -5,6 +5,7 @@ from copy import deepcopy
 from collections import Counter, defaultdict
 from decimal import Decimal
 import math
+import re
 import uuid
 
 from . import risk_inputs as inputs, risk_store as store
@@ -18,6 +19,20 @@ EXTERNAL_CONFIG = {'id': 'medicaid_fl_external', 'name': 'Florida Medicaid · ex
     'warnings': ['Exact Florida payment reproduction is inactive; controlling methodology is not supplied.'],
     'errors': [], 'asset_sha256': None}
 
+# Application catalog entries only. The validated calculation adapters and their
+# receipts remain unchanged; these payment-year blends have no executed scores.
+BLEND_CONFIGS = [
+    {'id': f'ma_blend_py{year}', 'name': f'{year} CMS-HCC Blend', 'program': 'MA',
+     'year': year, 'model_version': 'CMS-HCC V24/V28', 'run_type': 'midyear_final',
+     'service_start': f'{year-1}-01-01', 'service_end': f'{year-1}-12-31',
+     'status': 'not_calculated', 'validation_status': 'not_validated', 'precision': 3,
+     'capabilities': {'calculate': False, 'lookup': False, 'external_only': False},
+     'blend_components': [{'model': 'V24', 'percent': v24}, {'model': 'V28', 'percent': v28}],
+     'errors': [], 'warnings': [], 'asset_sha256': None,
+     'source_url': f'https://www.cms.gov/files/document/{year}-announcement.pdf'}
+    for year, v24, v28 in [(2024, 67, 33), (2025, 33, 67)]
+]
+
 
 def engine():
     from . import risk_models
@@ -25,7 +40,7 @@ def engine():
 
 
 def configurations(conn=None):
-    items = deepcopy(engine().catalog()) + [deepcopy(EXTERNAL_CONFIG)]
+    items = deepcopy(engine().catalog()) + deepcopy(BLEND_CONFIGS) + [deepcopy(EXTERNAL_CONFIG)]
     if conn:
         active = {}
         for record in store.records(conn, 'activation', limit=100):
@@ -152,8 +167,13 @@ def scenario(conn, member, config_id, *, baseline_run_id=None, additions=(), rem
     return result
 
 
-def overview(conn, state, members, config_id, basis='captured_baseline'):
+def overview(conn, state, members, config_id, basis='captured_baseline', run_month=None):
     cfg = configuration(config_id, conn)
+    if run_month:
+        if not re.fullmatch(r'\d{4}-(0[1-9]|1[0-2])', run_month) or int(run_month[:4]) != cfg['year']:
+            raise ValueError('Reporting month must be YYYY-MM within the selected model year.')
+        if config_id == EXTERNAL_CONFIG['id']:
+            raise ValueError('Imported external scores do not supply monthly results. Select all months.')
     allowed = {m['id']: m for m in members}
     result_rows = conn.execute('''SELECT jsonb_build_object('id',r.id,'member_id',r.member_id,'status',r.status,
         'raw_score',r.body->'raw_score','adjusted_score',r.body->'adjusted_score','monthly_scores',r.body->'monthly_scores',
@@ -162,9 +182,27 @@ def overview(conn, state, members, config_id, basis='captured_baseline'):
         s.stale FROM risk_stages s JOIN risk_runs r ON r.id=s.run_id
         WHERE s.config_id=? AND s.score_basis=?''', (config_id, basis))
     runs = [{**store.body(r), 'stale': r['stale']} for r in result_rows if store.body(r)['member_id'] in allowed]
+    if run_month:
+        # Project the retained monthly output; do not recalculate or rewrite any run.
+        selected_runs = []
+        for run in runs:
+            months = [month for month in run.get('monthly_scores') or [] if month.get('month') == run_month and month.get('raw_score') is not None]
+            if not months:
+                continue
+            selected_runs.append({**run, 'monthly_scores': months,
+                'raw_score': float(sum(Decimal(str(month['raw_score'])) for month in months) / len(months)),
+                'adjusted_score': float(sum(Decimal(str(month['adjusted_score'])) for month in months) / len(months)) if all(month.get('adjusted_score') is not None for month in months) else None})
+        runs = selected_runs
     scored = [r for r in runs if r['status'] == 'completed' and r.get('raw_score') is not None]
     fixture_manifest = inputs.manifest(members, config_id)
     expected_months = fixture_manifest['aca_expected_member_months'] if config_id.startswith('hhs_') else fixture_manifest['expected_member_months']
+    if run_month:
+        # The authored ACA population has January–September coverage only.
+        expected = 0 if config_id.startswith('hhs_') and int(run_month[-2:]) > 9 else fixture_manifest['expected_scoreable_members']
+        fixture_manifest = {**fixture_manifest, 'expected_scoreable_members': expected,
+            'eligibility_excluded_members': len(members) - expected, 'expected_member_months': expected,
+            'reporting_month': run_month}
+        expected_months = expected
     cohort_size = len(members)
     if config_id == EXTERNAL_CONFIG['id']:
         imports = store.records(conn, 'external_import', limit=100)
@@ -180,10 +218,10 @@ def overview(conn, state, members, config_id, basis='captured_baseline'):
         fixture_manifest = {**fixture_manifest, 'expected_members': cohort_size, 'expected_scoreable_members': cohort_size,
                             'eligibility_excluded_members': 0, 'basis': 'Latest declared external feed cohort within the reader scope; covered months are supplied per valid imported row.'}
         expected_months = None  # The feed does not establish complete enrollment for its unresolved rows.
-    denominator = sum(len(r.get('monthly_scores') or []) for r in scored)
+    denominator = sum(1 for r in scored for month in r.get('monthly_scores') or [] if month.get('raw_score') is not None)
     weighted_raw = sum((Decimal(str(m['raw_score'])) for r in scored for m in r.get('monthly_scores', []) if m.get('raw_score') is not None), Decimal(0))
-    weighted_adjusted = sum((Decimal(str(m['adjusted_score'])) for r in scored for m in r.get('monthly_scores', []) if m.get('adjusted_score') is not None), Decimal(0))
-    adjusted_complete = all(all(m.get('adjusted_score') is not None for m in r.get('monthly_scores', [])) for r in scored)
+    weighted_adjusted = sum((Decimal(str(m['adjusted_score'])) for r in scored for m in r.get('monthly_scores', []) if m.get('raw_score') is not None and m.get('adjusted_score') is not None), Decimal(0))
+    adjusted_complete = all(all(m.get('adjusted_score') is not None for m in r.get('monthly_scores', []) if m.get('raw_score') is not None) for r in scored)
     # External feeds carry their declared coverage months rather than a fabricated local monthly score.
     external_groups = []
     mixed_external = False
@@ -218,10 +256,11 @@ def overview(conn, state, members, config_id, basis='captured_baseline'):
                 'failed_members': len(failed), 'excluded_members': fixture_manifest['eligibility_excluded_members'], 'enrolled_member_months': expected_months,
                 'scored_member_months': denominator, 'unscored_members': max(0, cohort_size-len(scored)), 'stale_members': sum(bool(r.get('stale')) for r in runs)}
     return {'configuration': cfg, 'score_basis': basis, 'coverage': coverage,
+            'reporting_period': {'month': run_month, 'year': cfg['year'], 'label': run_month or f"Latest {cfg['year']}"},
             'portfolio': {'raw_score': weighted_score, 'adjusted_score': float(weighted_adjusted / denominator) if denominator and adjusted_complete and not mixed_external else None,
                           'weighting': 'Eligible member-month weighted internal portfolio measure', 'denominator': denominator,
                           'numerator': float(weighted_raw) if not mixed_external else None, 'unit': 'score points', 'run_ids': [r['id'] for r in scored],
-                          'incomplete_reason': 'External results have different model, program, period or normalization bases; inspect each matched group.' if mixed_external else None},
+                          'incomplete_reason': 'External results have different model, program, period or normalization bases; inspect each matched group.' if mixed_external else f'No retained scores are available for {run_month}. Missing scores are not treated as zero.' if run_month and not denominator else None},
             'external_groups': external_groups,
             'metrics': [{'id': 'portfolio', 'label': 'Calculated portfolio score', 'value': weighted_score, 'unit': 'score points',
                          'definition': 'Sum of monthly model scores divided by successfully scored eligible member-months.',

@@ -2,14 +2,20 @@ import { api } from "./api";
 import type { RiskPrecision, RiskConfiguration, RiskOverview, RiskMemberProfile, RiskRun, RiskScenarioResult, RiskBatch, ScoreBasis } from "./risk-types";
 
 export const scoreBasisLabels: Record<ScoreBasis, string> = {
-  captured_baseline: "Captured baseline",
-  qa_supported: "QA-supported scenario",
-  submitted: "Submitted set",
-  accepted: "Accepted set",
-  eligible: "Eligible set",
+  captured_baseline: "Baseline",
+  qa_supported: "After quality review",
+  submitted: "Submitted",
+  accepted: "Accepted",
+  eligible: "Eligible diagnoses",
   reported: "Reported result",
   potential: "Potential scenario",
 };
+export const overviewScoreBases: { basis: ScoreBasis; label: string }[] = [
+  { basis: "captured_baseline", label: "Baseline" },
+  { basis: "potential", label: "Potential scenarios" },
+  { basis: "submitted", label: "Submitted" },
+  { basis: "accepted", label: "Accepted" },
+];
 export function riskDecimals(precision?: RiskPrecision) {
   const value = typeof precision === "object" ? precision.canonical_decimals : precision;
   return typeof value === "number" && Number.isFinite(value) ? Math.max(0, Math.min(9, value)) : 3;
@@ -30,7 +36,7 @@ function query(values: Record<string, string | number | undefined>) {
 }
 export const riskClient = {
   configurations: () => api<{ items: RiskConfiguration[]; default_config_id: string; permissions: string[] }>("/risk/configurations"),
-  overview: (config: string, basis: ScoreBasis) => api<RiskOverview>(`/risk/overview${query({ config_id: config, basis })}`),
+  overview: (config: string, basis: ScoreBasis, runMonth?: string) => api<RiskOverview>(`/risk/overview${query({ config_id: config, basis, run_month: runMonth })}`),
   member: (member: string, config: string, basis: ScoreBasis) => api<RiskMemberProfile>(`/risk/member/${encodeURIComponent(member)}${query({ config_id: config, basis })}`),
   run: (id: string) => api<RiskRun>(`/risk/runs/${encodeURIComponent(id)}`),
   calculate: (body: { member_id: string; config_id: string; basis?: ScoreBasis }, csrf: string) => api<RiskRun>("/risk/calculate", { method: "POST", body: JSON.stringify(body) }, csrf),

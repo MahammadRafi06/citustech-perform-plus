@@ -1,0 +1,44 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "images": [
+    {
+      "file": "after/model-and-provider.jpg",
+      "width": 1144,
+      "height": 564,
+      "format": "JPEG"
+    },
+    {
+      "file": "after/opportunity.jpg",
+      "width": 1144,
+      "height": 531,
+      "format": "JPEG"
+    },
+    {
+      "file": "after/overview.jpg",
+      "width": 1430,
+      "height": 894,
+      "format": "JPEG"
+    },
+    {
+      "file": "after/priority-suspects.jpg",
+      "width": 812,
+      "height": 900,
+      "format": "JPEG"
+    },
+    {
+      "file": "after/recapture.jpg",
+      "width": 1134,
+      "height": 564,
+      "format": "JPEG"
+    },
+    {
+      "file": "after/social-needs.jpg",
+      "width": 1134,
+      "height": 589,
+      "format": "JPEG"
+    }
+  ]
+}

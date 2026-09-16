@@ -71,8 +71,14 @@ export async function download(
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
+const statusLabels: Record<string, string> = {
+  'validated for declared scope': 'Checked for supported members',
+  prepared_sources: 'Documents ready', simulated_receiver: 'Submission responses',
+  reference_loaded: 'Reference data loaded', prepared_analysis: 'Prepared analysis',
+  quarantined: 'Set aside for checking', not_loaded: 'Not loaded',
+};
 export const label = (value: string) =>
-  value
+  statusLabels[value] || value
     ?.replace(/_/g, " ")
     .replace(/^\w/, (c) => c.toUpperCase())
     .replace(/\bqa\b/gi, "QA")

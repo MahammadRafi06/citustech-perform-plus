@@ -59,6 +59,8 @@ export function useUrlState<T>(
       search.set(name, typeof next === "string" ? next : JSON.stringify(next));
     if (!name.endsWith("page")) search.delete("grid_page");
     const query = search.toString();
+    // A no-op history write during route transitions can cancel Next navigation.
+    if (query === window.location.search.slice(1)) return;
     window.history.replaceState(
       null,
       "",

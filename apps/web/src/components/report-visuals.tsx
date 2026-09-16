@@ -114,7 +114,7 @@ export function PrevalenceTiles({ items, selected, onSelect }: { items: { catego
   return <div className={styles.prevalence}>
     <div className={styles.tileGrid}>{ranked.map((item, index) => <button key={item.category} aria-pressed={selected === item.category} onClick={() => onSelect(item.category)} style={{ "--tile-color": chartColors[index % 2], "--tile-tint": `${Math.min(24, 4 + (item.denominator ? item.members / item.denominator : 0) * 28)}%` } as CSSProperties}>
       <span>{item.category}<small>{String(index + 1).padStart(2, "0")}</small></span><strong>{percent(item.members, item.denominator)}</strong><small>{num(item.members)} / {num(item.denominator)} scored members</small>
-    </button>)}</div><p className={styles.note}>Top {ranked.length} categories by distinct members. Categories may overlap; percentages do not add to 100%. Select a category to inspect its cohort below.</p>
+    </button>)}</div><p className={styles.note}>Top {ranked.length} categories by distinct members. Categories may overlap; percentages do not add to 100%. Select a category to inspect its aggregate prevalence.</p>
   </div>;
 }
 

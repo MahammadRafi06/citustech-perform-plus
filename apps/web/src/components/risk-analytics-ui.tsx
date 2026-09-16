@@ -1,116 +1,39 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowUpRight, LoaderCircle } from "lucide-react";
-import { ResponsiveContainer, BarChart as ReBarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
-import { MonthlyTrend, PrevalenceTiles, ComparisonPlot } from "./report-visuals";
+import { LoaderCircle } from "lucide-react";
+import { MonthlyTrend, PrevalenceTiles, ComparisonPlot, CompositionRing } from "./report-visuals";
+import { AnalyticsBars } from "./analytics-charts";
 import { Button } from "./ui/button";
-import { DataGrid, Empty, Panel, Status } from "./shared";
-import { PaginatedTable } from "./table-pagination";
+import { Empty, Panel } from "./shared";
 import { RiskRecapture, useRiskContext } from "./risk-ui";
-import { api, label, num } from "@/lib/api";
+import { api, num } from "@/lib/api";
 import { formatRiskScore, scoreBasisLabels, downloadRiskJson } from "@/lib/risk-client";
 import type { ScoreBasis } from "@/lib/risk-types";
 import type { User } from "@/lib/types";
-
-type Aggregate = { value: number | null; numerator: number | null; denominator: number; members: number; run_ids: string[]; reason?: string };
-type AnalyticsResult = { stale: boolean; definition: string; weighting: string; scope_members: number; monthly: { month: string; value: number; numerator: number; denominator: number }[]; category_prevalence: { category: string; members: number; denominator: number; member_ids: string[] }[]; stages: (Aggregate & { basis: ScoreBasis; stale_members: number; movement: { matched_members: number; before: Aggregate; after: Aggregate; delta: number | null; method: string; unmatched_members: number } | null })[]; comparison: { status: string; reason?: string; prior_config_id?: string; matched_members?: number; before?: Aggregate; after?: Aggregate; raw_change?: number | null; attribution?: { factor: string; value: number | null }[]; attribution_method?: string; excluded_prior_only?: number; excluded_current_only?: number; members?: { member_id: string; name: string; prior_run_id: string; current_run_id: string; delta: number }[] } };
+type Aggregate = { value: number | null; denominator: number; members: number; reason?: string };
+type AnalyticsResult = { stale: boolean; definition: string; weighting: string; scope_members: number; monthly: { month: string; value: number; denominator: number }[]; category_prevalence: { category: string; members: number; denominator: number }[]; stages: (Aggregate & { basis: ScoreBasis; stale_members: number })[]; comparison: { status: string; reason?: string; matched_members?: number; before?: Aggregate; after?: Aggregate; raw_change?: number | null; attribution_method?: string; excluded_prior_only?: number; excluded_current_only?: number } };
+type DistributionResult = { scored_members: number; scope_members: number; unscored_members: number; stale_members: number; mean: number | null; median: number | null; definition: string; percentiles: {label:string;value:number|null}[];histogram:{lower:number;upper:number;members:number}[]; movement: {status:string;reason?:string;matched_members?:number;increase?:number;decrease?:number;unchanged?:number} };
+function Metric({ title, value, note }: {title:string;value:string;note:string}) { return <div className="risk-metric"><span>{title}</span><strong>{value}</strong><small>{note}</small></div>; }
 export function RiskAnalytics({ user, initialTab = "movement" }: { user: User; initialTab?: string }) {
   const context = useRiskContext();
-  const [tab, setTab] = useState(initialTab);
-  const [prior, setPrior] = useState("");
-  const [category, setCategory] = useState("");
-  const results = useQuery({ queryKey: ["risk", "analytics", user.id, context.configId, context.basis, prior], queryFn: () => api<AnalyticsResult>(`/risk/analytics?${new URLSearchParams({ config_id: context.configId, basis: context.basis, ...(prior ? { prior_config_id: prior } : {}) })}`), enabled: !!context.configId });
-  const data = results.data;
-  const selectedCategory = data?.category_prevalence.find((item) => item.category === category);
-  const comparison = data?.comparison;
-  return <div className="risk-workspace"><div className="risk-tabs" role="tablist" aria-label="Risk analytics views">{[["movement", "Risk and stage movement"], ["distribution", "Score distribution"], ["conditions", "Condition prevalence"], ["recapture", "Annual recapture"], ["period", "Actual period comparison"]].map(([value, name]) => <button key={value} role="tab" aria-selected={tab === value} onClick={() => setTab(value)}>{name}</button>)}</div>
-    {(tab === "movement" || tab === "conditions" || tab === "period") && context.permissions.includes("export") && <div className="risk-profile-toolbar"><span /><Button variant="outline" disabled={!data || !!results.error} onClick={() => downloadRiskJson({ configuration: context.configuration, score_basis: context.basis, prior_config_id: prior || null, analytics: data }, `risk-analytics-${context.configId}-${context.basis}.json`)}>Export retained analytics</Button></div>}
-    {tab === "distribution" ? <ScoreDistribution user={user} />
-    : tab === "recapture" ? <RiskRecapture user={user} /> : results.isPending ? <div className="risk-loading"><LoaderCircle className="animate-spin" size={18} />Reading stored risk analytics…</div> : results.error ? <Empty title="Risk analytics unavailable" description={results.error.message} /> : data ? <>
-      {data.stale && <div className="risk-notice">Some retained results have changed inputs. Stale member counts remain visible beside their score stages.</div>}
-      {tab === "movement" ? <>
-        <Panel title="Monthly calculated risk" subtitle={`${scoreBasisLabels[context.basis]} · ${data.weighting}`}>
-          <MonthlyTrend values={data.monthly} />
-          <details className="risk-disclosure"><summary>Monthly values and denominators</summary><PaginatedTable rows={data.monthly} label="Monthly values and denominators" scope={`${user.id}:${context.configId}:${context.basis}:${prior}`} headers={<><th>Month</th><th>Raw score</th><th>Score numerator</th><th>Member-month denominator</th></>}>{(item) => <tr key={item.month}><td>{item.month}</td><td>{formatRiskScore(item.value)}</td><td>{formatRiskScore(item.numerator, 6)}</td><td>{num(item.denominator)}</td></tr>}</PaginatedTable></details>
-        </Panel>
-        <Panel title="Separate score stages" subtitle="Stage differences use the matched member cohort; acceptance does not establish eligibility or payment."><PaginatedTable rows={data.stages} label="Separate score stages" scope={`${user.id}:${context.configId}:${context.basis}:${prior}`} headers={<><th>Score basis</th><th>Portfolio value</th><th>Members / months</th><th>Matched movement</th><th>Unmatched / stale</th></>}>{(stage) => <tr key={stage.basis}><td><Button variant="ghost" size="sm" onClick={() => context.choose(context.configId, stage.basis)}>{scoreBasisLabels[stage.basis]}</Button><small>{stage.reason}</small></td><td className="risk-number">{formatRiskScore(stage.value)}</td><td>{num(stage.members)} members<small>{num(stage.denominator)} member-months</small></td><td>{formatRiskScore(stage.movement?.delta, 3, true)}<small>{stage.movement ? `${stage.movement.matched_members} matched members` : "Initial basis"}</small></td><td>{stage.movement?.unmatched_members ?? "—"} unmatched<small>{num(stage.stale_members)} stale</small></td></tr>}</PaginatedTable><p className="risk-helper padded">{data.definition}</p></Panel>
-      </> : tab === "conditions" ? <>
-        <Panel title="Condition prevalence at a glance" subtitle="Distinct member prevalence in the selected model"><PrevalenceTiles items={data.category_prevalence} selected={category} onSelect={setCategory} /></Panel>
-        {selectedCategory && <Panel title={`${selectedCategory.category} · contributing members`} subtitle={`${num(selectedCategory.members)} distinct members`}><DataGrid key={`${context.configId}:${context.basis}:${category}`} pageSize={10} stateKey={`analytics_cohort_${category}`} searchLabel="Search contributing members…" rows={selectedCategory.member_ids.map((id) => ({ id }))} columns={[{ accessorKey: "id", header: "Member ID" }, { id: "open", header: "Retained score profile", cell: ({ row }) => <Link href={context.href(`/members/${row.original.id}?tab=Risk+profile`)}>Open risk profile<ArrowUpRight size={13} /></Link> }]} /></Panel>}
-        <Panel title="Retained model category prevalence" subtitle="Each category counts distinct members under the selected model and score basis."><DataGrid key={`${context.configId}:${context.basis}`} pageSize={10} stateKey="analytics_prevalence" rows={data.category_prevalence.map((item) => ({ ...item, id: item.category }))} onRow={(item) => setCategory(item.category)} searchLabel="Search model categories…" columns={[{ accessorKey: "category", header: "Model category" }, { accessorKey: "members", header: "Distinct members" }, { accessorKey: "denominator", header: "Scored-member denominator" }, { id: "open", header: "Contributing members", cell: ({ row }) => <Button variant="ghost" size="sm" onClick={() => setCategory(row.original.category)}>Inspect cohort<ArrowUpRight size={13} /></Button> }]} /></Panel>
-      </> : <>
-        <div className="risk-profile-toolbar"><label className="risk-field-label">Prior configuration<select aria-label="Prior period configuration" value={prior} onChange={(event) => setPrior(event.target.value)}><option value="">Choose an actual prior input period</option>{context.configurations.filter((item) => item.id !== context.configId && item.program === context.configuration?.program).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>{user.screens.includes("scenarios") && <Button variant="outline" asChild><Link href={context.href("/scenarios")}>Fixed-input model comparison<ArrowUpRight size={13} /></Link></Button>}</div>
-        {comparison?.status === "available" ? <><div className="risk-metrics three">{[["Prior comparable value", comparison.before?.value], ["Current comparable value", comparison.after?.value], ["Raw period change", comparison.raw_change]].map(([title, value]) => <div className="risk-metric" key={String(title)}><span>{title}</span><strong>{formatRiskScore(value as number | null, 3, title === "Raw period change")}</strong><small>{comparison.matched_members} matched members</small></div>)}</div><Panel title="Period change bridge" subtitle={comparison.attribution_method}><ComparisonPlot rows={[{ name: "Matched cohort", before: comparison.before?.value, after: comparison.after?.value }]} leftLabel="Prior period" rightLabel="Current period" format={value => formatRiskScore(value)} /><PaginatedTable rows={(comparison.attribution || [])} label="Retained period attribution" scope={`${user.id}:${context.configId}:${context.basis}:${prior}`} headers={<><th>Retained attribution</th><th>Score-point change</th></>}>{(item) => <tr key={item.factor}><td>{item.factor}</td><td>{formatRiskScore(item.value, 3, true)}</td></tr>}</PaginatedTable><div className="risk-panel-foot"><span>{comparison.excluded_prior_only || 0} prior-only members excluded · {comparison.excluded_current_only || 0} current-only members excluded</span><Status value={comparison.status} /></div></Panel><Panel title="Matched-member evidence" subtitle="Retained prior and current runs support the displayed comparison."><DataGrid key={`${context.configId}:${context.basis}:${prior}`} pageSize={10} stateKey="analytics_period_members" searchLabel="Search matched members…" rows={(comparison.members || []).map((item) => ({ ...item, id: item.member_id }))} columns={[{ accessorKey: "name", header: "Member" }, { accessorKey: "delta", header: "Raw change", cell: ({ getValue }) => formatRiskScore(Number(getValue()), 3, true) }, { id: "prior", header: "Prior inputs", cell: ({ row }) => <Link href={context.href(`/members/${row.original.member_id}?tab=Scoring+inputs&run=${row.original.prior_run_id}`)}>Inspect prior snapshot<ArrowUpRight size={13} /></Link> }, { id: "current", header: "Current inputs", cell: ({ row }) => <Link href={context.href(`/members/${row.original.member_id}?tab=Scoring+inputs&run=${row.original.current_run_id}`)}>Inspect current snapshot<ArrowUpRight size={13} /></Link> }]} /></Panel></> : <Empty title={label(comparison?.status || "not_selected")} description={comparison?.reason || "Calculate both actual input periods before comparing their matched cohort."} />}
-      </>}
-    </> : null}
+  const [tab,setTab] = useState(initialTab);
+  const [selectedPrior,setPrior] = useState<string | null>(null);
+  const [category,setCategory] = useState("");
+  const comparable = context.configurations.filter(c => c.id !== context.configId && c.program === context.configuration?.program && c.model_version === context.configuration?.model_version && c.year < (context.configuration?.year || 0));
+  const prior = selectedPrior !== null && comparable.some(c => c.id === selectedPrior) ? selectedPrior : comparable[0]?.id || "";
+  const query = new URLSearchParams({config_id:context.configId,basis:context.basis,...(prior?{prior_config_id:prior}:{})});
+  const results = useQuery({queryKey:["risk","analytics",user.id,context.configId,context.basis,prior],queryFn:()=>api<AnalyticsResult>(`/risk/analytics?${query}`),enabled:!!context.configId});
+  const distribution = useQuery({queryKey:["risk","distribution",user.id,context.configId,context.basis,prior],queryFn:()=>api<DistributionResult>(`/risk/analytics/distribution?${query}`),enabled:!!context.configId && ["distribution","period"].includes(tab)});
+  const data=results.data, dist=distribution.data, comparison=data?.comparison;
+  const selectedCategory=data?.category_prevalence.find(c=>c.category===category);
+  const choosePrior=<label className="risk-field-label">Prior period<select aria-label="Prior period configuration" value={prior} onChange={e=>setPrior(e.target.value)}>{!comparable.length && <option value="">No comparable prior model installed</option>}{comparable.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label>;
+  return <div className="risk-workspace"><div className="risk-tabs" role="tablist" aria-label="Risk analytics views">{[["movement","Risk trends"],["distribution","Score distribution"],["conditions","Condition prevalence"],["recapture","Annual recapture"],["period","Period comparison"]].map(([value,name])=><button key={value} role="tab" aria-selected={tab===value} onClick={()=>setTab(value)}>{name}</button>)}</div>
+    {tab!=="recapture" && <div className="risk-profile-toolbar">{tab==="period"?choosePrior:<span/>}{context.permissions.includes("export") && <Button variant="outline" disabled={!data || !!results.error || (tab==="distribution" && (!dist || !!distribution.error))} onClick={()=>downloadRiskJson({config_id:context.configId,basis:context.basis,prior_config_id:prior,...(tab==="distribution"?{distribution:dist}:{monthly:data?.monthly,categories:data?.category_prevalence.map(({category,members,denominator})=>({category,members,denominator})),stages:data?.stages.map(({basis,value,members,denominator,stale_members})=>({basis,value,members,denominator,stale_members})),comparison:comparison && {status:comparison.status,matched_members:comparison.matched_members,raw_change:comparison.raw_change,excluded_prior_only:comparison.excluded_prior_only,excluded_current_only:comparison.excluded_current_only}})},`risk-${tab}-summary.json`)}>Export summary</Button>}</div>}
+    {tab==="recapture"?<RiskRecapture user={user}/>:results.isPending?<div className="risk-loading"><LoaderCircle className="animate-spin" size={18}/>Reading retained analytics…</div>:results.error?<Empty title="Analytics unavailable" description={results.error.message}/>:data?<>
+      {data.stale && <div className="risk-notice">Retained results include stale inputs. Recalculate to refresh the score basis.</div>}
+      {tab==="movement"?<><div className="risk-metrics three"><Metric title="Population in scope" value={num(data.scope_members)} note="Authorized member population"/><Metric title="Monthly observations" value={num(data.monthly.length)} note="Completed scoring periods"/><Metric title="Retained categories" value={num(data.category_prevalence.length)} note="Distinct mapped model categories"/></div><Panel title="Population risk through the year" subtitle={`${scoreBasisLabels[context.basis]} · ${data.weighting}`}><MonthlyTrend values={data.monthly}/></Panel><Panel title="Score basis comparison" subtitle="Only completed stages are plotted; each retains its own coverage"><AnalyticsBars rows={data.stages.filter(s=>s.value!=null).map(s=>({name:scoreBasisLabels[s.basis],value:s.value}))} keys={[{key:"value",name:"Raw model score"}]}/><p className="risk-helper padded">{data.definition} Uncalculated stages remain unavailable.</p></Panel></>:tab==="distribution"?distribution.isPending?<div className="risk-loading">Reading score distribution…</div>:distribution.error?<Empty title="Distribution unavailable" description={distribution.error.message}/>:dist?<><div className="risk-metrics"><Metric title="Scored members" value={num(dist.scored_members)} note={`${num(dist.stale_members)} stale results included`}/><Metric title="Mean member score" value={formatRiskScore(dist.mean)} note="Equal weight per scored member"/><Metric title="Median member score" value={formatRiskScore(dist.median)} note="50th percentile"/><Metric title="Unscored" value={num(dist.unscored_members)} note="Excluded, never zero-filled"/></div><Panel title="The shape of population risk" subtitle={dist.definition}>{dist.histogram.length?<AnalyticsBars rows={dist.histogram.map(b=>({name:`${b.lower.toFixed(2)}–${b.upper.toFixed(2)}`,value:b.members}))} height={320} keys={[{key:"value",name:"Members"}]}/>:<Empty title="No comparable score distribution" description="Complete a population calculation under a supported configuration."/>}</Panel><Panel title="Risk concentration at a glance" subtitle="Percentile cut points across retained member scores"><div className="analytics-percentiles">{dist.percentiles.map(p=><div key={p.label}><span>{p.label}</span><strong>{formatRiskScore(p.value)}</strong></div>)}</div></Panel></>:null:tab==="conditions"?<><Panel title="Condition burden across the portfolio" subtitle="Distinct member prevalence; conditions may overlap"><PrevalenceTiles items={data.category_prevalence} selected={category} onSelect={setCategory}/></Panel>{selectedCategory && <div className="risk-metrics three"><Metric title="Selected category" value={selectedCategory.category} note="Current model definition"/><Metric title="Prevalence" value={selectedCategory.denominator?`${(100*selectedCategory.members/selectedCategory.denominator).toFixed(1)}%`:"—"} note="Distinct members / scored members"/><Metric title="Affected population" value={num(selectedCategory.members)} note={`${num(selectedCategory.denominator)} scored-member denominator`}/></div>}<Panel title="Leading model categories" subtitle="Top twelve by distinct population count"><AnalyticsBars horizontal height={360} rows={[...data.category_prevalence].sort((a,b)=>b.members-a.members).slice(0,12).map(c=>({name:c.category,value:c.members}))} keys={[{key:"value",name:"Members with category"}]}/></Panel></>:<>
+        {comparison?.status==="available"?<><div className="risk-metrics three"><Metric title="Prior comparable RAF" value={formatRiskScore(comparison.before?.value)} note={`${num(comparison.matched_members || 0)} matched members`}/><Metric title="Current comparable RAF" value={formatRiskScore(comparison.after?.value)} note="Same program and model definition"/><Metric title="Period change" value={formatRiskScore(comparison.raw_change,3,true)} note="Eligible member-month weighted"/></div><div className="report-chart-grid"><Panel title="Population risk movement" subtitle={comparison.attribution_method}><ComparisonPlot rows={[{name:"Matched population",before:comparison.before?.value,after:comparison.after?.value}]} leftLabel="Prior" rightLabel="Current" format={v=>formatRiskScore(v)}/></Panel><Panel title="How the comparable population changed" subtitle="Member score direction; no individual records">{dist?.movement.status==="available"?<CompositionRing items={[{name:"Increased",value:dist.movement.increase || 0,color:"#2456b7"},{name:"Decreased",value:dist.movement.decrease || 0,color:"#09858a"},{name:"Unchanged",value:dist.movement.unchanged || 0,color:"#9aacc6"}]} label="matched members"/>:<p className="risk-helper padded">{distribution.error?.message || dist?.movement.reason || "Reading comparison coverage…"}</p>}</Panel></div><Panel title="Comparison coverage" subtitle="Population changes are separated from score changes"><AnalyticsBars rows={[{name:"Matched",value:comparison.matched_members || 0},{name:"Prior only",value:comparison.excluded_prior_only || 0},{name:"Current only",value:comparison.excluded_current_only || 0}]} keys={[{key:"value",name:"Members"}]}/></Panel></>:<Empty title="Comparable period results unavailable" description={comparison?.reason || "Complete a comparable prior and current population calculation."}/>}</>}
+    </>:null}
   </div>;
-
-type DistributionResult = {
-  scored_members: number; scope_members: number; unscored_members: number; stale_members: number;
-  mean: number | null; median: number | null; definition: string; unit: string;
-  percentiles: { label: string; value: number | null }[];
-  histogram: { lower: number; upper: number; members: number }[];
-  movement: { status: string; reason?: string; matched_members?: number;
-    top_increase?: { member_id: string; name: string; prior: number; current: number; delta: number }[];
-    top_decrease?: { member_id: string; name: string; prior: number; current: number; delta: number }[] };
-};
-
-function ScoreDistribution({ user }: { user: User }) {
-  const context = useRiskContext();
-  const [prior, setPrior] = useState("");
-  const query = useQuery({
-    queryKey: ["risk", "distribution", user.id, context.configId, context.basis, prior],
-    queryFn: () => api<DistributionResult>(`/risk/analytics/distribution?${new URLSearchParams({ config_id: context.configId, basis: context.basis, ...(prior ? { prior_config_id: prior } : {}) })}`),
-    enabled: !!context.configId,
-  });
-  const data = query.data;
-  const movers = [
-    ...(data?.movement.top_increase || []).map((item) => ({ ...item, direction: "Largest increases" })),
-    ...(data?.movement.top_decrease || []).map((item) => ({ ...item, direction: "Largest decreases" })),
-  ];
-  if (query.isPending) return <div className="risk-loading"><LoaderCircle className="animate-spin" size={18} />Reading stored score distribution…</div>;
-  if (query.error) return <Empty title="Score distribution unavailable" description={query.error.message} />;
-  if (!data) return null;
-  return <>
-    {context.permissions.includes("export") && <div className="risk-profile-toolbar"><span /><Button variant="outline" onClick={() => downloadRiskJson({ configuration: context.configuration, score_basis: context.basis, prior_config_id: prior || null, distribution: data }, `risk-distribution-${context.configId}-${context.basis}.json`)}>Export distribution</Button></div>}
-    <div className="risk-metrics">
-      {[["Scored members", data.scored_members, 0], ["Mean member score", data.mean, 3], ["Median member score", data.median, 3], ["Unscored members", data.unscored_members, 0]].map(([title, value, precision]) => (
-        <div className="risk-metric" key={String(title)}><span>{title}</span><strong>{title === "Scored members" || title === "Unscored members" ? num(value as number) : formatRiskScore(value as number | null, precision as number)}</strong><small>{title === "Scored members" ? `${num(data.stale_members)} with stale inputs` : title === "Unscored members" ? "Excluded, never zero-filled" : "Per-member mean of retained monthly raw scores"}</small></div>
-      ))}
-    </div>
-    <Panel title="Raw score distribution" subtitle={data.definition}>
-      {data.histogram.length ? (
-        <div style={{ width: "100%", height: 280 }} role="img" aria-label="Histogram of per-member raw scores">
-          <ResponsiveContainer>
-            <ReBarChart data={data.histogram.map((bin) => ({ ...bin, range: `${formatRiskScore(bin.lower, 2)}–${formatRiskScore(bin.upper, 2)}` }))} margin={{ top: 8, right: 16, bottom: 4, left: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="range" fontSize={11} interval={0} angle={-30} textAnchor="end" height={56} />
-              <YAxis allowDecimals={false} fontSize={11} />
-              <Tooltip formatter={(value) => [num(Number(value)), "Members"]} />
-              <Bar dataKey="members" fill="var(--brand, #0f52ba)" radius={[3, 3, 0, 0]} />
-            </ReBarChart>
-          </ResponsiveContainer>
-        </div>
-      ) : <Empty title="No scored members" description="Run a completed population calculation for this configuration to build the distribution." />}
-    </Panel>
-    <div className="risk-grid-two">
-      <Panel title="Score percentiles" subtitle="Per-member distribution across the scored cohort.">
-        <PaginatedTable rows={data.percentiles} label="Score percentiles" scope={`${user.id}:${context.configId}:${context.basis}`} headers={<><th>Percentile</th><th>Member score</th></>}>
-          {(item) => <tr key={item.label}><td>{item.label}</td><td className="risk-number">{formatRiskScore(item.value, 3)}</td></tr>}
-        </PaginatedTable>
-      </Panel>
-      <Panel title="Top members by period change" subtitle="Requires a comparable prior configuration.">
-        <label className="risk-field-label">Prior configuration<select aria-label="Prior period configuration" value={prior} onChange={(event) => setPrior(event.target.value)}><option value="">Choose an actual prior input period</option>{context.configurations.filter((item) => item.id !== context.configId && item.program === context.configuration?.program).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-        {data.movement.status === "available" ? (
-          <PaginatedTable rows={movers} label="Period movers" scope={`${user.id}:${context.configId}:${context.basis}:${prior}`} headers={<><th>Member</th><th>Prior</th><th>Current</th><th>Change</th></>}>
-            {(item) => <tr key={`${item.member_id}-${item.direction}`}><td><strong>{item.name}</strong><small>{item.member_id}</small></td><td className="risk-number">{formatRiskScore(item.prior, 3)}</td><td className="risk-number">{formatRiskScore(item.current, 3)}</td><td className="risk-number">{formatRiskScore(item.delta, 3, true)}</td></tr>}
-          </PaginatedTable>
-        ) : <Empty title={data.movement.status === "unscored" ? "No matched members" : "No comparison selected"} description={data.movement.reason || "Choose a prior configuration from the same program and model to rank matched members."} />}
-      </Panel>
-    </div>
-  </>;
-}
-
 }

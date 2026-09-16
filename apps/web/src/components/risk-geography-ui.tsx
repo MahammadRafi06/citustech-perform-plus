@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import Link from "next/link";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ArrowDownToLine, ArrowUpRight, LoaderCircle, MapPin, RotateCcw } from "lucide-react";
 import { useRiskContext } from "./risk-ui";
 import { Empty, Panel } from "./shared";
 import { Button } from "./ui/button";
-import { PaginatedTable, TablePagination } from "./table-pagination";
+import { PaginatedTable } from "./table-pagination";
 import { api, num } from "@/lib/api";
 import { downloadRiskJson, formatRiskScore, scoreBasisLabels } from "@/lib/risk-client";
 import type { User } from "@/lib/types";
@@ -30,12 +29,11 @@ function GeographyReport({ user }: { user: User }) {
   const [county, setCounty] = useState("");
   const [provider, setProvider] = useState("");
   const [dimension, setDimension] = useState("county");
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+
   const scope = `${context.configId}:${context.basis}:${county}:${provider}:${dimension}`;
-  const results = useQuery({ queryKey: ["risk", "geography", user.id, scope, page, size], queryFn: () => api<Result>(`/risk/analytics/geography?${new URLSearchParams({ config_id: context.configId, basis: context.basis, county, provider_id: provider, dimension, page: String(page + 1), size: String(size) })}`), enabled: !!context.configId, placeholderData: keepPreviousData });
+  const results = useQuery({ queryKey: ["risk", "geography", user.id, scope], queryFn: () => api<Result>(`/risk/analytics/geography?${new URLSearchParams({ config_id: context.configId, basis: context.basis, county, provider_id: provider, dimension, page: "1", size: "10" })}`), enabled: !!context.configId, placeholderData: keepPreviousData });
   const data = results.data;
-  const select = (nextCounty: string, nextProvider: string) => { setCounty(nextCounty); setProvider(nextProvider); setPage(0); };
+  const select = (nextCounty: string, nextProvider: string) => { setCounty(nextCounty); setProvider(nextProvider); };
   const summary = data?.summary;
   const activeDimension = data?.dimension || dimension;
   const providerView = activeDimension === "provider";
@@ -53,7 +51,7 @@ function GeographyReport({ user }: { user: User }) {
       <div className={styles.filterNote}><strong>{scoreBasisLabels[context.basis]}</strong><span role="status">{results.isFetching ? "Updating results…" : "County + practice filters apply together"}</span></div>
       <Button variant="ghost" size="sm" disabled={!county && !provider} onClick={() => select("", "")}><RotateCcw size={14} />Reset filters</Button>
     </div>
-        <div className={styles.dimensions} role="tablist" aria-label="Group risk results by">{[["county", "By county"], ["provider", "By provider"], ["county_provider", "County + provider"]].map(([value, name]) => <button key={value} role="tab" aria-selected={dimension === value} onClick={() => { setDimension(value); setPage(0); }}>{name}</button>)}</div>
+        <div className={styles.dimensions} role="tablist" aria-label="Group risk results by">{[["county", "By county"], ["provider", "By provider"], ["county_provider", "County + provider"]].map(([value, name]) => <button key={value} role="tab" aria-selected={dimension === value} onClick={() => { setDimension(value); }}>{name}</button>)}</div>
     {results.isPending ? <div className="risk-loading"><LoaderCircle className="animate-spin" size={18} />Loading county and practice results…</div> : results.error ? <Empty title="Geography analytics unavailable" description={results.error.message} /> : data && summary ? <>
       {data.limitation && <div className="risk-notice">{data.limitation}</div>}
       <div className={styles.metrics}>
@@ -63,7 +61,7 @@ function GeographyReport({ user }: { user: User }) {
         <div><span>County / practice coverage</span><strong>{data.counties.length}<em>/</em>{data.providers.length}</strong><small>Within the selected member cohort</small></div>
       </div>
       {!!data.groups.length ? <div className={styles.visuals}>
-        <Panel title={`${data.metric} by ${providerView ? "provider" : "county"}`} subtitle={providerView ? "Ten highest-scoring practices · full breakdown below" : "Select a county to inspect its members and practices."}>
+        <Panel title={`${data.metric} by ${providerView ? "provider" : "county"}`} subtitle={providerView ? "Ten highest-scoring practices · full breakdown below" : "Select a county to focus the aggregate analysis."}>
           <div className={styles.ranking} style={{ "--rank-label": providerView ? "180px" : "110px" } as CSSProperties}>
             <div className={styles.rankHeader}><span>{providerView ? "Assigned practice" : "Member residence"}</span><span>Weighted score</span><span>Members</span></div>
             {ranked.map(row => <button className={styles.rankRow} key={row.id} onClick={() => select(providerView ? county : row.county, providerView ? row.provider_id : provider)} aria-label={`${row.name}, ${data.metric} ${formatRiskScore(row.value)}, ${num(row.members)} members`}>
@@ -79,11 +77,7 @@ function GeographyReport({ user }: { user: User }) {
         </Panel>
       </div> : <Empty title="No members in this combination" description="Choose another county or practice, or reset the filters." />}
       <Panel title="Performance breakdown" subtitle={`${data.metric} · same model, score basis and member-month weighting`}>
-        <PaginatedTable rows={data.groups} label="Geography performance" scope={scope} headers={<><th>{activeDimension === "provider" ? "Assigned practice" : "Member county"}</th>{activeDimension === "county_provider" && <th>Assigned practice</th>}<th>{data.metric}</th><th>Members</th><th>Scored / unscored</th><th>Member-months</th><th>Stale</th><th /></>}>{row => <tr key={row.id}><td>{activeDimension === "provider" ? row.provider : row.county}</td>{activeDimension === "county_provider" && <td>{row.provider}</td>}<td className="risk-number">{formatRiskScore(row.value)}</td><td>{num(row.members)}</td><td>{num(row.scored_members)} / {num(row.unscored_members)}</td><td>{num(row.denominator)}</td><td>{num(row.stale_members)}</td><td><Button variant="ghost" size="sm" onClick={() => select(row.county || county, row.provider_id || provider)}>View members<ArrowUpRight size={13} /></Button></td></tr>}</PaginatedTable>
-      </Panel>
-      <Panel title="Members behind the results" subtitle="Current directory attribution with a link to each retained scoring input.">
-        <div className="risk-table-wrap"><table className="risk-table"><thead><tr><th>Member</th><th>County</th><th>Assigned practice</th><th>Raw member score</th><th>Scored months</th><th>Result</th></tr></thead><tbody>{data.members_page.items.map(row => <tr key={row.member_id}><td><Link href={context.href(`/members/${row.member_id}?tab=Risk+profile`)}>{row.name}</Link><small>{row.member_id}</small></td><td>{row.county}<small>{row.city}{row.city ? ", FL" : ""}</small></td><td>{row.provider}</td><td className="risk-number">{formatRiskScore(row.value)}</td><td>{num(row.member_months)}</td><td>{row.run_id ? <Link href={context.href(`/members/${row.member_id}?tab=Scoring+inputs&run=${row.run_id}`)}>{row.stale ? "Stale · inspect run" : "Inspect run"}<ArrowUpRight size={13} /></Link> : "Unscored"}</td></tr>)}</tbody></table></div>
-        <TablePagination label="Geography members" totalRows={data.members_page.total} pageIndex={data.members_page.page - 1} pageSize={size} onPageChange={setPage} onPageSizeChange={value => { setSize(value); setPage(0); }} noun="members" />
+        <PaginatedTable rows={data.groups} label="Geography performance" scope={scope} headers={<><th>{activeDimension === "provider" ? "Assigned practice" : "Member county"}</th>{activeDimension === "county_provider" && <th>Assigned practice</th>}<th>{data.metric}</th><th>Members</th><th>Scored / unscored</th><th>Member-months</th><th>Stale</th><th /></>}>{row => <tr key={row.id}><td>{activeDimension === "provider" ? row.provider : row.county}</td>{activeDimension === "county_provider" && <td>{row.provider}</td>}<td className="risk-number">{formatRiskScore(row.value)}</td><td>{num(row.members)}</td><td>{num(row.scored_members)} / {num(row.unscored_members)}</td><td>{num(row.denominator)}</td><td>{num(row.stale_members)}</td><td><Button variant="ghost" size="sm" onClick={() => select(row.county || county, row.provider_id || provider)}>Focus cohort<ArrowUpRight size={13} /></Button></td></tr>}</PaginatedTable>
       </Panel>
       <details className="risk-disclosure"><summary>Metric definition & attribution</summary><p className={styles.note}>{data.definition} {data.attribution} Raw RAF is an internal model measure, before normalization or payment adjustments. It does not represent payment.</p></details>
     </> : null}

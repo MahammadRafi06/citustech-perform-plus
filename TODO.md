@@ -1,3 +1,11 @@
+## Current delivery — analytics and suspecting
+
+See [Analytics and suspecting TODOs](docs/ANALYTICS_SUSPECTING_TODO.md), based on the complete [new requirements](CitiusTech_Perform_Plus_Analytics_and_Suspecting_Full_Requirements.md) and the current working tree. The plan contains 18 P0 work packages, four P1 enhancements and two P2 items, with dependencies and acceptance checks. **The user-approved fixture-backed analytics increment is implemented locally.** See the [implementation receipt and native-data boundary](docs/ANALYTICS_SUSPECTING_IMPLEMENTATION.md).
+
+The new plan preserves the four Overview RAF tiles, reporting-period controls, ordinary 2024/2025 blend options and analytics-only product scope. It also incorporates the supplied Prototype Sync notes: contract filtering, executive RAF/HCC visuals, provider comparisons, rule/HCC suspect breakdowns, potential-overcapture examples and deterministic rules augmented by AI reasoning. The older delivery records below are historical context; their workflow/member-analysis TODOs are not reopened by the new requirements.
+
+---
+
 ## Florida directory and geographic risk analytics
 
 Delivered locally: named account owners, varied patient names and Florida residence/practice locations, plus county/provider RAF analytics with intersecting filters, retained-run drilldowns and 10/25/50/100 pagination. See [plan and verification](docs/FLORIDA_ANALYTICS_PLAN.md).

@@ -209,7 +209,7 @@ export function ReviewWorkbench({
             </Notice>}
             {context.length > 0 && (
               <details>
-                <summary>Authored review context</summary>
+                <summary>Review context</summary>
                 {context.map((s, i) => (
                   <div key={i} className="review-context-item">
                     <strong>{s.heading}</strong>
@@ -217,7 +217,7 @@ export function ReviewWorkbench({
                   </div>
                 ))}
                 <p>
-                  Application-authored context retained from the source fixture;
+                  Case context retained with the source record;
                   not a clinician quotation.
                 </p>
               </details>

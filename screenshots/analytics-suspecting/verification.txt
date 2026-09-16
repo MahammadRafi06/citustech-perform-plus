@@ -1,0 +1,39 @@
+Local analytics implementation verification — 2026-09-15
+Base checkout: main @ 0363809 with preserved pre-existing dirty work.
+Presentation data/method: analytics-population-2026.3 / SYN_SUPPORT90_V1.
+
+Web: TypeScript check passed. Next.js production UI Docker build passed.
+API Docker build passed. API container running and healthy; UI running on localhost:3000.
+Regression suite: 162 passed, 4 existing FastAPI on_event deprecation warnings.
+Final focused fixture suite after adding prior-period questions: 52 passed.
+The focused suite overlaps the regression suite and adds the prior-snapshot check.
+Report formats: 11 reports × CSV/JSON/ZIP verified; see export-verification.json.
+Git diff --check passed.
+
+Browser: current local superuser session; normal Next.js same-origin proxy.
+RAF order checked with contract, reporting month/year, score-stage and blended-program changes.
+Default 2026 adjusted display: Baseline 0.991 < Accepted 1.000 <= Submitted 1.001 < Potential 1.007.
+Rapid year/contract selection preserves both controls after the history-update fix.
+All six analytics tabs, report catalog, registry and source evidence rendered and inspected.
+Practice pagination: 1-25 of 30 then 26-30 of 30.
+Capture filter: 768 questions across CG/RC/NC/SP/ST; 760 distinct qualified members.
+All-open persisted-state registry: 1,029 canonical questions; 1,015 qualified members; six retained-source cases.
+Integrity: 130 questions and all six authored topic cards.
+Financial reach 75% -> 50%: base support $800,307 -> $533,538;
+modeled net $407,676 -> $167,584; signed corrections remain -$312,600. Defaults restored.
+Saved financial view reopened on Financial with preserved totals.
+Actual browser JSON download: perform-plus-R08.json parsed successfully.
+Retained evidence: DOC-0001/DOC-0002 and recommendation history inspected.
+Evidence selection survives navigation into RAF Intelligence.
+Illustrative scenario saved; native baseline scenario completed and reported Clinical change: None.
+Native stage/state non-mutation and saved-report permission-loss checks passed in API tests.
+Prepared Ask Perform+ values matched the visible scope; frozen AI remained separate.
+
+Screenshots: matching Overview at 1280x720, 1440x900 and 1920x1080.
+Final report viewport and full-page captures inspected; no horizontal overflow at tested sizes.
+Native production population coverage, full M01-M45 implementation and p95 network benchmarking
+are not established by this receipt; see the implementation handoff for explicit boundaries.
+
+Final local API image: sha256:e6307c0f1dd10090acba1c63a16db9032f05febc34c63922ca5c323bff410ec6
+Final local UI image: sha256:3d797beb4a820062b8fb2485d5dc44ff6f8fcb218549ca8665e9938199b86c7f
+No commit, push, AWS provisioning or public deployment performed in this increment.

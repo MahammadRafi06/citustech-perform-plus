@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { WORKFLOW_ENABLED } from "@/lib/workflow-flags";
 import { ArrowRight } from "lucide-react";
 import type { Member, Opportunity, User, Snapshot } from "@/lib/types";
 import { label } from "@/lib/api";
@@ -11,7 +12,7 @@ export function EligibilityNotice({ eligibility }: { eligibility: Opportunity["e
   if (!eligibility || (eligibility.reviewable && eligibility.support_allowed)) return null;
   return <Notice>
     {eligibility.reason}
-    {!eligibility.reviewable && !eligibility.finding_selection_required && eligibility.example_href && <Link className="inline-flex items-center gap-1 ml-2" href={eligibility.example_href.replace(/^\/reviews\//, "/members/")}>Open a complete case <ArrowRight size={13} /></Link>}
+    {WORKFLOW_ENABLED && !eligibility.reviewable && !eligibility.finding_selection_required && eligibility.example_href && <Link className="inline-flex items-center gap-1 ml-2" href={eligibility.example_href.replace(/^\/reviews\//, "/members/")}>Open a complete case <ArrowRight size={13} /></Link>}
   </Notice>;
 }
 

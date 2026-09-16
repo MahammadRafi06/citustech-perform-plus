@@ -7,6 +7,7 @@
 export const WORKFLOW_ENABLED = false;
 
 export const HIDDEN_ROUTES: ReadonlySet<string> = new Set([
+  "members",
   "reviews",
   "qa",
   "campaigns",

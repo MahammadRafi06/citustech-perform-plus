@@ -36,6 +36,7 @@ import { RiskGeography } from "./risk-geography-ui";
 import { RiskAnalytics } from "./risk-analytics-ui";
 import { RiskFinancial } from "./risk-financial-ui";
 import { RiskOverview, useRiskContext } from "./risk-ui";
+import { RegistryInsights, SuspectReport } from "./suspect-insights";
 import { WORKFLOW_ENABLED } from "@/lib/workflow-flags";
 
 const allDomainTabs = [
@@ -73,7 +74,7 @@ export function Dashboard({
           .toLowerCase()
           .replace(/&/g, "and")
           .replace(/[^a-z0-9]+/g, "-") === suffix,
-    ) || "AI Impact";
+    ) || "Executive";
   const [report, setDomain] = useUrlState("view", initialReport);
   const domain = domainTabs.includes(report) ? report : initialReport;
   const [method, setMethod] = useState(false),
@@ -109,11 +110,11 @@ export function Dashboard({
         title={analytics ? "Risk analytics" : "Program overview"}
         description={
           analytics && domain === "AI Impact"
-            ? "Synthetic comparison · 100 charts per arm · September 2026"
+            ? "Reference comparison · 100 charts per arm · September 2026"
             : `${risk.configuration?.name || "Program loading"} · ${risk.basis.replaceAll("_", " ")}`
         }
       >
-        {risk.permissions.includes("export") && !["Executive", "Risk & conditions", "Geography", "Financial scenarios"].includes(domain) && <Button variant="outline" onClick={exportReport}>
+        {risk.permissions.includes("export") && !["Executive", "Risk & conditions", "Geography", "Financial scenarios", "Suspecting"].includes(domain) && <Button variant="outline" onClick={exportReport}>
           <ArrowDownToLine size={16} />
           {analytics && domain === "AI Impact" ? "Export comparison" : "Export report"}
         </Button>}
@@ -138,7 +139,7 @@ export function Dashboard({
         </div>
       )}
       <TabsContent value={domain} className="report-content">
-      {analytics && domain === "Executive" ? <RiskOverview user={user} embedded /> : analytics && domain === "Risk & conditions" ? <RiskAnalytics user={user} /> : analytics && domain === "Geography" ? <RiskGeography user={user} /> : analytics && domain === "Financial scenarios" ? <RiskFinancial user={user} /> : analytics && domain !== "AI Impact" ? (
+      {analytics && domain === "Executive" ? <RiskOverview user={user} embedded /> : analytics && domain === "Risk & conditions" ? <RiskAnalytics user={user} /> : analytics && domain === "Geography" ? <RiskGeography user={user} /> : analytics && domain === "Financial scenarios" ? <SuspectReport data={data} user={user} financial /> : analytics && domain === "Suspecting" ? <SuspectReport data={data} user={user} /> : analytics && domain !== "AI Impact" ? (
         <DomainView
           domain={domain}
           data={data}
@@ -287,7 +288,7 @@ export function Dashboard({
           </div>
           <div className="comparison-callout">
             <div>
-              <strong>Synthetic review comparison</strong>
+              <strong>Review comparison</strong>
               <span>
                 100 charts per arm · {val("manual_mean_minutes", " min")} manual
                 / {val("assisted_mean_minutes", " min")} assisted ·{" "}
@@ -307,7 +308,7 @@ export function Dashboard({
           <div className="report-chart-grid">
             <Panel title="Time to a completed review" subtitle="Mean active minutes per chart · grouped by recorded complexity">
               <ComparisonPlot rows={comparisonRows(comparison?.evaluation_records || [])} unit=" min" />
-              <div className="risk-panel-foot"><span>100 charts per arm · frozen synthetic comparison</span><Button variant="ghost" size="sm" onClick={() => setRecords(true)}>Inspect chart records<ArrowUpRight size={13} /></Button></div>
+              <div className="risk-panel-foot"><span>100 charts per arm · fixed reference comparison</span><Button variant="ghost" size="sm" onClick={() => setRecords(true)}>Inspect chart records<ArrowUpRight size={13} /></Button></div>
             </Panel>
             <Panel title="What the AI flagged" subtitle="AI-stage outcomes against independent reference labels">
               <div className="report-quality-head"><div><strong>{pct("ai_precision")}</strong><span>Precision</span></div><div><strong>{pct("ai_recall")}</strong><span>Recall</span></div><p>Before human review<br />1,000 evaluation slots</p></div>
@@ -357,7 +358,7 @@ export function Dashboard({
           </Panel>
           <Panel
             title="Recent operational activity"
-            subtitle="Latest 100 event records at most. Separate from the frozen synthetic comparison."
+            subtitle="Latest 100 event records at most. Separate from the fixed reference comparison."
           >
             <div className="session-grid">
               {[
@@ -389,38 +390,7 @@ export function Dashboard({
               ))}
             </div>
           </Panel>
-          <Panel
-            title="Contribution records"
-            subtitle="Operational recommendations, source versions and saved decisions"
-            action={
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setRecords(true)}
-              >
-                View comparison records
-              </Button>
-            }
-          >
-            <DataGrid
-              pageSize={10}
-              stateKey="analytics_contributions"
-              rows={data.opportunities}
-              onRow={(o) => router.push(caseLink(o))}
-              columns={[
-                { accessorKey: "name", header: "Member" },
-                { accessorKey: "condition", header: "Finding" },
-                { accessorKey: "version", header: "Version" },
-                { accessorKey: "evidence", header: "Evidence" },
-                {
-                  accessorKey: "status",
-                  header: "Review status",
-                  cell: ({ getValue }) => <Status value={String(getValue())} />,
-                },
-              ]}
-              searchLabel="Search contribution records"
-            />
-          </Panel>
+          <RegistryInsights rows={data.opportunities} />
         </>
       )}
       </TabsContent>
@@ -428,10 +398,10 @@ export function Dashboard({
         open={method}
         onOpenChange={setMethod}
         title="Comparison methodology"
-        description="Synthetic comparison · SYN-AI-COMP-001-v1"
+        description="Reference comparison · SYN-AI-COMP-001-v1"
       >
         <Notice>
-          Authored illustration, not a clinical study, causal estimate or
+          Reference evaluation, not a clinical study, causal estimate or
           customer outcome.
         </Notice>
         <p className="body-copy">
@@ -482,7 +452,7 @@ export function Dashboard({
       <Modal
         open={records}
         onOpenChange={setRecords}
-        title="Synthetic evaluation records"
+        title="Evaluation records"
         description="200 charts, separate from the operational population."
       >
         <DataGrid
@@ -564,7 +534,7 @@ function DomainView({
         <Metric
           label={domain === "Providers" ? "Average response time" : ["Coding & QA", "Executive", "Risk & conditions", "Suspecting"].includes(domain) ? "QA-approved actionable reviews" : "Completed outcomes"}
           value={domain === "Providers" ? `${data.providers.length ? (data.providers.reduce((sum, item) => sum + item.response_days, 0) / data.providers.length).toFixed(1) : "—"} days` : num(completed)}
-          note={domain === "Providers" ? "Mean recorded response days across practices" : domain === "Coding & QA" ? "Terminal review approved independently" : domain === "Retrieval" ? "Published usable source" : domain === "Submissions" ? "Accepted by the simulated receiver" : "Completion follows the selected workflow"}
+          note={domain === "Providers" ? "Mean recorded response days across practices" : domain === "Coding & QA" ? "Terminal review approved independently" : domain === "Retrieval" ? "Published usable source" : domain === "Submissions" ? "Accepted by the receiver" : "Completion follows the selected workflow"}
           icon={<CheckCircle2 size={18} />}
           accent="teal"
         />

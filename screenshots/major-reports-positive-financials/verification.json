@@ -1,0 +1,127 @@
+{
+  "local_url": "http://localhost:3000",
+  "version": "analytics-population-2026.4",
+  "api_analytics_tests_passed": 63,
+  "web_typecheck": "passed",
+  "api_build": "passed",
+  "ui_build": "passed",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "financial_net_display": {
+    "Conservative": 623066,
+    "Base": 1826837,
+    "Optimistic": 2989133
+  },
+  "signed_corrections": -312600,
+  "selected_positive_candidates": 1952,
+  "raf_display": {
+    "baseline": 1.014,
+    "accepted": 1.036,
+    "submitted": 1.04,
+    "potential": 1.056
+  },
+  "images": [
+    {
+      "file": "after/ai-impact-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 144073,
+      "sha256": "a130c8a1c9e77ea899ef0d908e4db4794bab989bcb1f7295bda494d67971f73e"
+    },
+    {
+      "file": "after/financial-1440.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 103713,
+      "sha256": "fc976ea60706d6e71605f8e5de219e58e00e3f919d2e46be81f4141c1f6092b4"
+    },
+    {
+      "file": "after/financial-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 168866,
+      "sha256": "c48a4b86a1af45af45d0f6661f38a2deade49212da3ca3d3bfaaa23285ee2987"
+    },
+    {
+      "file": "after/geography-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 168647,
+      "sha256": "a68f85d8e8884539725e0b3d3ff6713b98c31a716d924d97affdd2bde61aa6d9"
+    },
+    {
+      "file": "after/integrity-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 218661,
+      "sha256": "577760eab2db4aa91d6777a7b6ddbda315f0f236bd0170d3bd356bbd1d10b6ca"
+    },
+    {
+      "file": "after/overview-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 172560,
+      "sha256": "bb048782b99579499f274288e94274b0eeb7cf40d010692ea31f83d81067fba2"
+    },
+    {
+      "file": "after/practices-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 181757,
+      "sha256": "05cfd88af0bf5cd7ffa6b081365c3057d13060c8999486b34798838865c1431a"
+    },
+    {
+      "file": "after/raf-intelligence-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 282151,
+      "sha256": "0c890da439e12104adceed7527e4519264738c091833b12213dd786f5a216976"
+    },
+    {
+      "file": "after/registry-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 173684,
+      "sha256": "afe00064d583f4eb85f12ae173ef9e3014532f5b4921bbc698c347876291246c"
+    },
+    {
+      "file": "after/reports-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 154813,
+      "sha256": "c7c4378066de02a9f62aff032c19c68c8a6159e9561b0f4d43eddd914e52c6f9"
+    },
+    {
+      "file": "after/risk-conditions-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 171863,
+      "sha256": "820be1116df8bdbb0d912ab292ddbbaea56326ea5c83bbeffbe6bebc30ec1313"
+    },
+    {
+      "file": "after/suspecting-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 181840,
+      "sha256": "4005b8ee1f8cf3fb3758c8b167a7ecbc01f621b622e180dfdbbeafbae84a2c85"
+    },
+    {
+      "file": "before/financial-full.png",
+      "width": 65536,
+      "height": 4293001688,
+      "bytes": 167205,
+      "sha256": "94aa8aea5364a9572ae7dc6bdc29c2b189b4ef529ec6a7bdd7ad6c94113851f8"
+    }
+  ],
+  "saved_report": {
+    "name": "Florida financial outlook \u00b7 Expanded capture opportunities",
+    "snapshot_prefix": "fbf0c1a8babd",
+    "reopened_browser_totals_match": true
+  },
+  "local_image_ids": {
+    "api": "sha256:05520386932ba6b705a95f45b83953a121b45494fe97d7fce615bf50d3c96368",
+    "ui": "sha256:55cc15334a1e47e7b75cee516fc045fa28f49e5ea48968108cd3eb28af07a476"
+  }
+}

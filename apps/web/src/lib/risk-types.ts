@@ -8,6 +8,7 @@ export interface RiskConfiguration {
   program: string;
   year: number;
   model_version?: string;
+  blend_components?: { model: string; percent: number }[];
   software_release?: string;
   run_type?: string;
   status: string;
@@ -121,6 +122,7 @@ export interface RiskBatch {
 }
 export interface RiskOverview {
   configuration: RiskConfiguration;
+  reporting_period?: { month: string | null; year: number; label: string };
   coverage: { enrolled_members: number; expected_scoreable: number; scored_members: number; failed_members: number; excluded_members: number; enrolled_member_months: number | null; scored_member_months: number; unscored_members?: number };
   portfolio: { raw_score: number | null; adjusted_score: number | null; weighting: string; denominator: number; incomplete_reason?: string | null };
   metrics: RiskMeasure[];

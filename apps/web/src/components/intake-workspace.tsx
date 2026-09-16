@@ -148,7 +148,7 @@ export function IntakeWorkspace({
           description="Review source identity and eligibility before publishing."
         >{memberId && <Button variant="outline" asChild><Link href={returnLink(`/members/${memberId}?tab=Evidence%20%26%20documents&document=${sampleId}`)}>Back to {member.data?.name || memberId}<ArrowRight size={14} /></Link></Button>}</PageHeader>
         <div className="intake-workspace">
-          <aside className="intake-queue" aria-label="Sample documents">
+          <aside className="intake-queue" aria-label="Source documents">
             <h2>{requestedMember ? "Case documents" : "Prepared source queue"}</h2>
             {samples.data?.filter((d) => !requestedMember || d.member_id === requestedMember || d.requested_member_id === requestedMember).map((d) => (
               <button
@@ -197,7 +197,7 @@ export function IntakeWorkspace({
           ) : samples.isPending ? (
             <Panel>
               <Empty
-                title="Loading sample documents"
+                title="Loading source documents"
                 description="Retrieving source pages and metadata…"
               />
             </Panel>
@@ -277,7 +277,7 @@ export function IntakeWorkspace({
                       </div>
                     </div>
                   )}
-                  {member.data?.scenario && <p className="body-copy">Scenario date {member.data.scenario.date}. Encounter dates remain as authored; saved actions use their actual timestamps.</p>}
+                  {member.data?.scenario && <p className="body-copy">Scenario date {member.data.scenario.date}. Encounter dates remain as recorded; saved actions use their actual timestamps.</p>}
                   <div className="validation-checks">
                     {currentValidation ? (
                       currentValidation.checks.map((c) => (

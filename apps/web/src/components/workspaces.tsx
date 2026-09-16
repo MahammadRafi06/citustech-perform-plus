@@ -82,9 +82,10 @@ import type {
   Evidence,
   Task,
 } from "@/lib/types";
-import { formatRiskScore } from "@/lib/risk-client";
+import { formatRiskScore, downloadRiskJson } from "@/lib/risk-client";
 import { api, label, num, download } from "@/lib/api";
 import { HIDDEN_MEMBER_TABS, WORKFLOW_ENABLED, hiddenByScope } from "@/lib/workflow-flags";
+import { suspectPlanning, planningPortfolio, PLANNING_NOTE, PLANNING_VERSION } from "@/lib/suspect-planning";
 import { RegistryInsights } from "./suspect-insights";
 import { toast } from "sonner";
 import {
@@ -167,7 +168,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   const [memberFilter, setMemberFilter] = useUrlState("member", "");
   const [kind, setKind] = useUrlState("kind", "suspects");
   const [savedView, setSavedView] = useUrlState("saved", "all");
-  const [scope, setScope] = useUrlState("scope", "actionable");
+  const [scope, setScope] = useUrlState("scope", WORKFLOW_ENABLED ? "actionable" : "all");
+  const [registrySearch] = useUrlState("grid_q", "");
   const [analysisDetails, setAnalysisDetails] = useState(false);
   const returnLink = useReturnLink();
   const [priority, setPriority] = useUrlState("priority", "all");
@@ -196,6 +198,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
   }, [data.opportunities]);
   const rows = data.opportunities.filter(
     (o) =>
+      (!registrySearch || [o.name, o.member_id, o.condition, o.provider].some(value => value?.toLowerCase().includes(registrySearch.toLowerCase()))) &&
       (scope === "all" || !!o.eligibility?.reviewable) &&
       (!memberFilter || o.member_id === memberFilter) &&
       (route !== "suspects" ||
@@ -293,7 +296,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       header: "Status",
       cell: ({ getValue }) => <Status value={String(getValue())} />,
     },
-    { id: "marginal", header: "Marginal score effect", cell: ({ row }) => { const value = marginal.data?.items.find((item) => item.finding_id === row.original.id); return <span>{formatRiskScore(value?.delta, 3, true)}<small>{value?.stale ? "Inputs changed · recalculate" : value?.delta == null ? "Not calculated" : "Complete-member scenario"}</small></span>; } },
+    { id: "probability", header: "Closure estimate", cell: ({ row }) => { const plan = suspectPlanning(row.original); return <span title={plan.reason}>{plan.probability == null ? "—" : `${Math.round(plan.probability * 100)}%`}<small>{plan.eligible ? "Modeled assumption" : "Closed / deferred"}</small></span>; } },
+    { id: "marginal", header: "Score exposure", cell: ({ row }) => { const value = marginal.data?.items.find((item) => item.finding_id === row.original.id); const plan = suspectPlanning(row.original); const calculated = value?.delta != null; return <span>{formatRiskScore(calculated ? value.delta : plan.exposure, 3, true)}<small>{calculated ? value.stale ? "Stale model result" : "Calculated scenario" : plan.exposure == null ? "Readiness only" : "Planning assumption"}</small></span>; } },
     {
       accessorKey: "due_date",
       header: "Due date",
@@ -359,7 +363,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
             ? "Independent review, clear feedback and traceable decisions."
             : route === "reviews"
               ? "Your review queue, with source evidence at the center."
-              : "Prioritize findings, inspect evidence and review the recorded details."
+              : "Explore the suspect population, compare closure estimates and inspect supporting evidence."
         }
       >
         {WORKFLOW_ENABLED && can(user, "campaign") && (
@@ -439,8 +443,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
           <span>strong evidence</span>
         </div>
         <div>
-          <strong>{(() => { const deltas = rows.map((o) => marginal.data?.items.find((item) => item.finding_id === o.id)?.delta).filter((value): value is number => typeof value === "number"); return deltas.length ? `+${deltas.reduce((sum, value) => sum + value, 0).toFixed(3)}` : "—"; })()}</strong>
-          <span>calculated marginal effect · {num(rows.filter((o) => marginal.data?.items.find((item) => item.finding_id === o.id)?.delta == null).length)} not calculated</span>
+          <strong>{Math.round(planningPortfolio(rows).expectedClosures).toLocaleString()}</strong>
+          <span>expected finding outcomes · modeled</span>
         </div>
       </div>
       {route === "suspects" && (
@@ -568,10 +572,10 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               <SelectField showLabel label="Ranking" value={ranking} onChange={setRanking} options={[["operational_priority", "Operational priority"], ["recapture_urgency", "Recapture urgency"], ["marginal_score_effect", "Marginal score effect"], ["accuracy_correction", "Accuracy correction"]].map(([value, label]) => ({ value, label }))} />
               <SelectField
                 showLabel
-                label="Work scope"
+                label="Population scope"
                 value={scope}
                 onChange={setScope}
-                options={[{ value: "actionable", label: "Actionable cases" }, { value: "all", label: "Population findings" }]}
+                options={[{ value: "actionable", label: "Detailed evidence cases" }, { value: "all", label: "Population findings" }]}
               />
               <SelectField
                 showLabel
@@ -634,13 +638,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               />
             </div>
           }
-          exportAction={(filtered) =>
-            exportSafe(
-              "opportunities",
-              user,
-              filtered.map((o) => o.id),
-            )
-          }
+          exportAction={user.permissions.includes("export") ? (filtered) => WORKFLOW_ENABLED ? exportSafe("opportunities", user, filtered.map(o => o.id)) : downloadRiskJson({ source: PLANNING_VERSION, definition: PLANNING_NOTE, configuration: risk.configId, findings: filtered.map(o => ({ finding_id: o.id, member_id: o.member_id, name: o.name, condition: o.condition, evidence: o.evidence, status: o.status, planning: suspectPlanning(o), calculated_scenario: marginal.data?.items.find(item => item.finding_id === o.id) || null })) }, "suspect-intelligence.json") : undefined}
         />
       </Panel>
       <Drawer
@@ -678,10 +676,11 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               </span>
               <p>
                 {data.members.find((m) => m.id === detail.member_id)?.summary ||
-                  `A ${label(detail.type).toLowerCase()} was identified in the source records. Inspect the source and confirm the next review action.`}
+                  `Population signal: ${label(detail.type).toLowerCase()}. Evidence excerpts are shown only when a source document is available.`}
               </p>
             </div>
             <EligibilityContext eligibility={detailRecord.data?.eligibility || detail.eligibility} />
+            <div className="insight-card"><span>Closure planning estimate</span><strong>{suspectPlanning(detail).probability == null ? "Not modeled" : `${Math.round(suspectPlanning(detail).probability! * 100)}%`}</strong><p>{suspectPlanning(detail).reason} Planning assumption, not a calibrated prediction. Estimated score exposure: {formatRiskScore(suspectPlanning(detail).exposure, 3, true)}.</p></div>
             <h3 className="section-title">Source context</h3>
             {detailRecord.isPending ? (
               <p className="body-copy">Loading linked sources…</p>
@@ -693,7 +692,6 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                   </summary>
                   {d.pages.flatMap((p) =>
                     p.sections
-                      .filter((s) => s.highlight)
                       .map((s, i) => (
                         <blockquote key={`${p.number}-${i}`}>
                           <p>{s.text}</p>
@@ -707,13 +705,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                     Source: {label(d.source_status)} ·{" "}
                     {d.signature_status || "Signature not supplied"}
                   </p>
-                  <Link
-                    href={returnLink(
-                      `/members/${detail.member_id}?tab=Evidence%20%26%20documents&document=${d.id}`,
-                    )}
-                  >
-                    Open cited document →
-                  </Link>
+
                 </details>
               ))
             ) : (
@@ -760,7 +752,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
               </>
             )}
             <div className="drawer-actions">
-              <Button asChild>
+              {WORKFLOW_ENABLED && <Button asChild>
                 <Link
                   href={returnLink(
                     `/${user.screens.includes("reviews") ? "reviews" : "members"}/${detail.member_id}?finding=${detail.id}`,
@@ -769,7 +761,7 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
                   Open source and next action
                   <ArrowRight size={15} />
                 </Link>
-              </Button>
+              </Button>}
               {can(user, "defer") && detail.eligibility?.reviewable && (
                 <Button
                   variant="outline"
@@ -1877,7 +1869,7 @@ function Scenarios({ data, user }: WorkspaceProps) {
           <tr><td>Protected evidence</td><td colSpan={2}>{scenario.source_ids.map((documentId) => <Link key={documentId} href={`/members/${id}?tab=Evidence+%26+documents&document=${documentId}`}>{documentId} · inspect original source<ArrowUpRight size={13} /></Link>)}</td></tr>
         </tbody></table></div>
       </Panel>
-      <Panel title="How the comparison would be resolved" subtitle="An input illustration, with no inferred code details or numeric effect.">
+      <Panel title="How the comparison would be resolved" subtitle="Input comparison, with no inferred code details or numeric effect.">
         <div className="assessment-history">{scenario.steps.map((step, index) => <article key={step.label}><header><strong>{index + 1}. {step.label}</strong></header><p>{step.detail}</p></article>)}</div>
         <div className="padded"><p className="body-copy">{scenario.limitation}</p></div>
       </Panel>
@@ -1906,8 +1898,8 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
     return (
       <>
         <PageHeader
-          title="Data operations"
-          description="Source freshness and processing activity, in one clear view."
+          title="Source data"
+          description="Check when data was updated and whether any records need attention."
         >
           <Button
             variant="outline"
@@ -1934,7 +1926,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
             accent="teal"
           />
           <Metric
-            label="Operational events"
+            label="Recent activity"
             value={String(data.events.length)}
             note="Recent saved activity"
             icon={<Clock3 size={18} />}
@@ -1945,19 +1937,19 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
           <div className="registry-summary padded">
             <div><strong>{data.import_summary.received} / {data.import_summary.total}</strong><span>documents received</span></div>
             <div><strong>{data.import_summary.matched} / {data.import_summary.received}</strong><span>accepted for processing</span></div>
-            <div><strong>{data.import_summary.quarantined}</strong><span>documents quarantined</span></div><div><strong>{data.import_summary.unmatched_pending ?? "—"}</strong><span>unmatched / pending</span></div>
-            <div><strong>{data.import_summary.published}</strong><span>usable documents published</span></div>
+            <div><strong>{data.import_summary.quarantined}</strong><span>documents set aside for checking</span></div><div><strong>{data.import_summary.unmatched_pending ?? "—"}</strong><span>not yet matched</span></div>
+            <div><strong>{data.import_summary.published}</strong><span>documents ready to use</span></div>
           </div>
           <DataGrid rows={data.import_summary.rows.map((row) => ({ ...row, id: row.document_id }))} columns={[
-            { accessorKey: "title", header: "Prepared source", cell: ({ row }) => <><strong>{row.original.title}</strong><small>{row.original.document_id}</small></> },
+            { accessorKey: "title", header: "Source document", cell: ({ row }) => <><strong>{row.original.title}</strong><small>{row.original.document_id}</small></> },
             { accessorKey: "requested_member_id", header: "Requested member" },
-            { accessorKey: "status", header: "Intake state", cell: ({ getValue }) => <Status value={String(getValue())} /> },
-            { accessorKey: "reason", header: "Validation context" },
+            { accessorKey: "status", header: "Import status", cell: ({ getValue }) => <Status value={String(getValue())} /> },
+            { accessorKey: "reason", header: "Checks and issues" },
             { id: "next", header: "Next step", cell: ({ row }) => user.screens.includes("intake") ? <Link href={`${row.original.href}&returnTo=${encodeURIComponent("/data")}`}>Inspect intake<ArrowUpRight size={13} /></Link> : <span>Retrieval coordinator</span> },
           ]} />
           <div className="padded"><p className="body-copy">{data.import_summary.basis} Counts refer to the prepared batch above, separate from the {num(data.population_count)}-member population.</p></div>
         </Panel>}
-        <Panel title="Source inventory" subtitle="Connected sources">
+        <Panel title="Data sources" subtitle="Connected sources">
           <div className="table-scroll">
             <table>
               <thead>
@@ -1971,22 +1963,22 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
               <tbody>
                 {[
                   [
-                    "Enrollment & attribution",
+                    "Members & assigned practices",
                     `${num(data.population_count)} members`,
                   ],
                   ["Clinical evidence", "Detailed clinical records"],
-                  ["AI comparison", "200 frozen evaluation charts"],
-                  ["Receiver responses", "Receiver response records"],
+                  ["AI comparison", "200 charts in the reference comparison"],
+                  ["Submission responses", "Submission response records"],
                 ].map(([name, count]) => (
                   <tr key={name}>
                     <td>
                       <strong>{name}</strong>
                     </td>
                     <td>{count}</td>
-                    <td>{data.program_context?.scenario_date || "2026-09-12"} · staged basis</td>
+                    <td>{data.program_context?.scenario_date || "2026-09-12"}</td>
                     <td>
                       <Status
-                        value={name === "Clinical evidence" ? ((data.import_summary?.quarantined || 0) > 0 ? "needs_attention" : "prepared_sources") : name === "Receiver responses" ? "simulated_receiver" : "reference_loaded"}
+                        value={name === "Clinical evidence" ? ((data.import_summary?.quarantined || 0) > 0 ? "needs_attention" : "prepared_sources") : name === "Submission responses" ? "simulated_receiver" : "reference_loaded"}
                       />
                     </td>
                   </tr>
@@ -2034,7 +2026,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
             )}
           </div>
         </Panel>
-        <Panel title="Processing and validation history">
+        <Panel title="Processing history">
           {data.runs.length ? (
             <DataGrid
               rows={data.runs}
@@ -2054,13 +2046,13 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                   header: "Status",
                   cell: ({ getValue }) => <Status value={String(getValue())} />,
                 },
-                { accessorKey: "created_at", header: "Executed at" },
+                { accessorKey: "created_at", header: "Date and time" },
               ]}
             />
           ) : (
             <Empty
               title="No analysis runs this session"
-              description="A risk analyst can run a precomputed analysis from Suspect Registry."
+              description="Completed analyses will appear here."
             />
           )}
         </Panel>
@@ -2071,13 +2063,13 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
       <PageHeader
         title="Administration"
         description="Manage access and workspace settings."
-      ><Button asChild variant="outline"><Link href="/admin/ai/agents"><Settings size={16} />Agents configuration<ArrowRight size={14} /></Link></Button></PageHeader>
+      >{WORKFLOW_ENABLED&&<Button asChild variant="outline"><Link href="/admin/ai/agents"><Settings size={16} />Agents configuration<ArrowRight size={14} /></Link></Button>}</PageHeader>
       <Tabs value={tab} onValueChange={setTab} className="member-tabs">
         <TabsList>
           {[
             "Users & access",
-            "Program configuration",
-            "AI settings",
+            "Program settings",
+            ...(WORKFLOW_ENABLED ? ["AI settings"] : []),
             "Workspace settings",
           ].map((t) => (
             <TabsTrigger key={t} value={t}>
@@ -2097,7 +2089,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                 <tr>
                   <th>User</th>
                   <th>Role</th>
-                  <th>Account state</th>
+                  <th>Account status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -2138,7 +2130,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                               },
                               user.csrf_token,
                             );
-                            toast.success("Role updated; sessions revoked.");
+                            toast.success("Role updated. The user must sign in again.");
                             await client.invalidateQueries({
                               queryKey: ["admin-users"],
                             });
@@ -2197,11 +2189,11 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
       ) : tab === "Workspace settings" ? (
         <Panel
           title="Workspace maintenance"
-          subtitle="Manage the starting dataset. Accounts and roles are preserved."
+          subtitle="Restore starting records while keeping accounts and roles."
         >
           <div className="padded">
             <div className="tour-list">
-              {data.members.slice(0, 6).map((m, i) => (
+              {WORKFLOW_ENABLED && data.members.slice(0, 6).map((m, i) => (
                 <Link href={`/members/${m.id}`} key={m.id}>
                   <span>0{i + 1}</span>
                   {m.name} · {label(m.opportunity_type)}
@@ -2238,13 +2230,13 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                   ]
                 : [
                     ["Program", risk.configuration?.program || "Loading configuration"],
-                    ["Service window", `${risk.configuration?.service_start || "Not supplied"} — ${risk.configuration?.service_end || "Not supplied"}`],
+                    ["Dates of care included", `${risk.configuration?.service_start || "Not supplied"} — ${risk.configuration?.service_end || "Not supplied"}`],
                     ["Payment / benefit year", String(risk.configuration?.year || "Not supplied")],
-                    ["Reference model pack", risk.configuration?.software_release || "Not supplied"],
-                    ["Model readiness", risk.configuration ? label(risk.configuration.status) : "Loading configuration"],
+                    ["Model software version", risk.configuration?.software_release || "Not supplied"],
+                    ["Model status", risk.configuration ? label(risk.configuration.status) : "Loading configuration"],
                     [
-                      "Source policy",
-                      "Signed encounter documentation required",
+                      "Required evidence",
+                      "Signed visit documentation is required",
                     ],
                   ]
               ).map(([k, v]) => (
@@ -2294,7 +2286,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                 await refresh();
                 setProviderAccount(null);
                 setProviderPractice("");
-                toast.success("Provider access and practice saved; sessions revoked.");
+                toast.success("Practice access saved. The user must sign in again.");
               } catch (error) {
                 toast.error((error as Error).message);
               } finally {
@@ -2314,8 +2306,8 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
         description="This clears workflow changes and restores the initial dataset."
       >
         <Notice>
-          Workspace accounts, passwords and roles remain unchanged. The frozen
-          AI comparison is preserved.
+          Workspace accounts, passwords and roles remain unchanged. The saved
+          AI comparison is kept.
         </Notice>
         <div className="form-field">
           <Label htmlFor="reset-confirmation">

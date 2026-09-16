@@ -31,6 +31,25 @@
   max-width: 340px;
 }
 
+.risk-context-overview {
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+
+.risk-context-overview .risk-model-field select {
+  width: 310px;
+  max-width: 100%;
+}
+
+.risk-month-field select { min-width: 112px; }
+.risk-year-field select { min-width: 66px; }
+
+.risk-context-overview .risk-context-detail {
+  text-align: left;
+  padding-left: 20px;
+  border-left: 1px solid var(--border);
+}
+
 .risk-context-detail {
   display: grid;
   gap: 3px;
@@ -118,6 +137,41 @@
   margin-bottom: 20px;
   border-radius: 8px;
 }
+
+.risk-basis-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.risk-basis-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  padding: 21px 22px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.risk-basis-tile:hover:not(:disabled) { border-color: var(--primary); }
+.risk-basis-tile[aria-pressed="true"] {
+  border-color: var(--primary);
+  box-shadow: inset 0 3px 0 var(--primary);
+}
+.risk-basis-tile:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.risk-basis-tile:disabled { cursor: default; }
+.risk-basis-name { font-size: 14px; font-weight: 500; }
+.risk-basis-tile[aria-pressed="true"] .risk-basis-name { color: var(--primary); }
+.risk-basis-tile > strong { font-size: 32px; font-weight: 600; line-height: 1.25; font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+.risk-basis-detail, .risk-basis-stale { color: var(--muted-foreground); font-size: 12px; line-height: 1.5; }
 
 .risk-metrics.two {
   grid-template-columns: repeat(2, minmax(0, 1fr));

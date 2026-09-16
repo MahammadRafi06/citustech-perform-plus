@@ -1,0 +1,171 @@
+{
+  "origin": "Deterministic synthetic fixture; authentication checked separately by API tests",
+  "version": "analytics-population-2026.3",
+  "checks": [
+    {
+      "report": "R01",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R01",
+      "format": "csv",
+      "bytes": 530
+    },
+    {
+      "report": "R01",
+      "format": "zip",
+      "bytes": 20713
+    },
+    {
+      "report": "R02",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R02",
+      "format": "csv",
+      "bytes": 83
+    },
+    {
+      "report": "R02",
+      "format": "zip",
+      "bytes": 20481
+    },
+    {
+      "report": "R03",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R03",
+      "format": "csv",
+      "bytes": 896
+    },
+    {
+      "report": "R03",
+      "format": "zip",
+      "bytes": 20928
+    },
+    {
+      "report": "R04",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R04",
+      "format": "csv",
+      "bytes": 530
+    },
+    {
+      "report": "R04",
+      "format": "zip",
+      "bytes": 20713
+    },
+    {
+      "report": "R05",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R05",
+      "format": "csv",
+      "bytes": 1434
+    },
+    {
+      "report": "R05",
+      "format": "zip",
+      "bytes": 21109
+    },
+    {
+      "report": "R06",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R06",
+      "format": "csv",
+      "bytes": 182
+    },
+    {
+      "report": "R06",
+      "format": "zip",
+      "bytes": 20551
+    },
+    {
+      "report": "R07",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R07",
+      "format": "csv",
+      "bytes": 74
+    },
+    {
+      "report": "R07",
+      "format": "zip",
+      "bytes": 20477
+    },
+    {
+      "report": "R08",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R08",
+      "format": "csv",
+      "bytes": 5497
+    },
+    {
+      "report": "R08",
+      "format": "zip",
+      "bytes": 20851
+    },
+    {
+      "report": "R09",
+      "format": "json",
+      "bytes": 43124
+    },
+    {
+      "report": "R09",
+      "format": "csv",
+      "bytes": 51
+    },
+    {
+      "report": "R09",
+      "format": "zip",
+      "bytes": 11567
+    },
+    {
+      "report": "R10",
+      "format": "json",
+      "bytes": 69235
+    },
+    {
+      "report": "R10",
+      "format": "csv",
+      "bytes": 795
+    },
+    {
+      "report": "R10",
+      "format": "zip",
+      "bytes": 21081
+    },
+    {
+      "report": "R11",
+      "format": "json",
+      "bytes": 68337
+    },
+    {
+      "report": "R11",
+      "format": "csv",
+      "bytes": 2672
+    },
+    {
+      "report": "R11",
+      "format": "zip",
+      "bytes": 20813
+    }
+  ]
+}

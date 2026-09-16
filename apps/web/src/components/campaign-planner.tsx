@@ -673,7 +673,7 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
               cell: ({ row }) => (
                 <>
                   <strong>{row.original.name}</strong>
-                  <small>{interventionLabel(row.original.intervention || row.original.type)}{row.original.population_illustration ? " · Population illustration" : ""}</small>
+                  <small>{interventionLabel(row.original.intervention || row.original.type)}{row.original.population_illustration ? " · Population overview" : ""}</small>
                 </>
               ),
             },
@@ -735,7 +735,7 @@ function CampaignList({ data, user, act }: WorkspaceProps) {
                 </strong>
               </div>
             </div>
-            <Notice>{detail.population_illustration ? `${detail.member_ids.length} members form the retained population illustration. Completion below applies only to its ${detail.completion_denominator || 0} complete cases. ` : ""}{interventionLabel(detail.intervention || detail.type)} · {detail.completed_count || 0} of {detail.completion_denominator ?? detail.member_ids.length} eligible cases complete. {detail.intervention === "pre_visit" ? "Provider response is the milestone; it does not approve coding." : detail.intervention === "source_remediation" ? "Completion requires source usability, not receipt alone." : "Completion requires a terminal review and independent QA approval."}</Notice>
+            <Notice>{detail.population_illustration ? `${detail.member_ids.length} members form the population overview. Completion below applies only to its ${detail.completion_denominator || 0} complete cases. ` : ""}{interventionLabel(detail.intervention || detail.type)} · {detail.completed_count || 0} of {detail.completion_denominator ?? detail.member_ids.length} eligible cases complete. {detail.intervention === "pre_visit" ? "Provider response is the milestone; it does not approve coding." : detail.intervention === "source_remediation" ? "Completion requires source usability, not receipt alone." : "Completion requires a terminal review and independent QA approval."}</Notice>
             <div className="linked-members">
               {(detail.actionable_member_ids || detail.member_ids).map((id) => (
                 <Link href={returnLink(`/members/${id}`)} key={id}>

@@ -1,8 +1,10 @@
 # CitusTech Perform+
 
-A desktop risk-adjustment workspace with real local accounts, local role-based access and connected review workflows. All member information is synthetic. Analysis, authored source transitions and receiver outcomes use prepared records rather than external services.
+A desktop analytics and suspecting platform for population risk, evidence-backed opportunities, RAF scenarios and financial sensitivity. Local authentication and role-based access are preserved. All member data is synthetic; authored analytics are visibly identified and kept separate from native score calculations.
 
-The V2 increment adds actual versioned MA, Part D and ACA calculations, full-member scenarios, source-linked score stages, Medicaid external-score imports and financial sensitivities. The [main integration verification](docs/MAIN_MERGE_VERIFICATION.md) covers these changes combined with the enterprise UI styling. Use the [V2 local run guide](docs/V2_LOCAL_RUN.md) for the isolated preview on **http://localhost:3005**. [Verification and remaining requirements](docs/V2_VERIFICATION.md) record the delivered scope; expanded V2 acceptance is still in progress.
+The current local increment provides Risk overview, six analytic tabs, Suspect registry and a Reports library. Workflow operations, Member analysis and agent administration are hidden from the core journey. See the [implementation and verification handoff](docs/ANALYTICS_SUSPECTING_IMPLEMENTATION.md) and [screenshots](screenshots/analytics-suspecting/README.md).
+
+On this workstation the active container application is **http://localhost:3000**, Compose project `perform-local`. It has its own retained database and accounts; it is not the host development API on port 8000. The older run guides and workflow records below document retained capabilities and earlier increments.
 
 ## Run locally
 
@@ -89,7 +91,7 @@ API tests create a randomly named temporary schema in the configured local datab
 
 See [deployment instructions](docs/KUBERNETES.md). UI and API have separate Dockerfiles and images. PostgreSQL has its own persistent volume. This repository prepares the deployment; it does not assume a cluster, ingress domain or registry.
 
-## Connected assessment workflows
+## Retained assessment workflows (outside the visible analytics scope)
 
 The 10,000-member directory remains available for population browsing. Six explicit cases support complete actions. Both review surfaces receive the same server-derived eligibility; a historical mention, indirect signal or unsigned source cannot become supported coding simply because another signed document exists. Prepared Jordan/Taylor code outputs retain their release and source references.
 
@@ -105,7 +107,9 @@ Ask Perform+ uses current prepared findings, exact page/section citations and st
 
 Follow the [presenter guide](docs/PRESENTER_GUIDE.md) for the five rehearsed story routes. The increment passes 28 focused API tests and production builds; [assessment verification](docs/ASSESSMENT_VERIFICATION.md) records browser results, preserved preview accounts and the additional runtime-reset approval boundary. Before/after captures are in [screenshots/assessment](screenshots/assessment/). [Earlier verification](docs/VERIFICATION.md) and [redesign QA](docs/UI_QA.md) remain historical evidence for earlier increments. The container registry push and target Kubernetes rollout remain pending environment details.
 
-## Demo boundaries
+## Original assessment boundaries (historical)
+
+The following describes the original assessment increment, before V2 native scoring and the current analytics presentation. Current capabilities and limits are in the [analytics handoff](docs/ANALYTICS_SUSPECTING_IMPLEMENTATION.md).
 
 Six cases within the 10,000-member roster have a prepared workflow; population-only records cannot be assigned or reviewed as complete cases. The configured story is MA Part C, service year 2026/payment year 2027. Other programs are unconfigured.
 
