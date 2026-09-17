@@ -6,7 +6,7 @@ Original findings and retained source excerpts keep their identities/provenance.
 """
 from __future__ import annotations
 
-from . import analytics_landing, suspect_discovery, member360_analytics
+from . import analytics_landing, suspect_discovery, member360_analytics, provider_hierarchy
 from collections import Counter, defaultdict
 from copy import deepcopy
 from datetime import date, timedelta
@@ -17,7 +17,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.8'
+VERSION = 'analytics-population-2026.15'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -34,7 +34,7 @@ CATALOG = [
     ('Cardiovascular conditions', '238', .20), ('HIV', '1', .28),
     ('Persistent status', '409', .16), ('Cancer status', '23', .26),
 ]
-CONTRACTS = [('H1032', 'H1032 · Northstar Health'), ('H5594', 'H5594 · Meridian Advantage'),
+CONTRACTS = [('H1032', 'H1032 · Medicare Advantage'), ('H5594', 'H5594 · Medicare Advantage'),
              ('H7618', 'H7618 · Gulf Coast Partners'), ('H1234', 'H1234 · Central MA Network'), ('unknown', 'Unassigned contract')]
 REPORTS = [
     ('R01', 'Executive risk summary', 'How is population risk changing?', 'overview'),
@@ -118,6 +118,10 @@ def canonicalize(findings, members, config, as_of=AS_OF):
         evidence = row.get('evidence', 'Unknown')
         stale = (date.fromisoformat(as_of) - date.fromisoformat(updated)).days > 30
         p = probability(category, evidence, status, stale=stale, excluded=row.get('identity_excluded', False))
+        if row.get('profile_reference'):
+            p = dict(base=None, low=None, high=None, band='Not applicable' if category == 'OC' else 'Unknown',
+                reason='Member 360 confidence describes clinical support, not the probability of suspect closure. No closure estimate is supplied.',
+                method='MEMBER360_SOURCE_CONFIDENCE')
         exposure = row.get('illustrative_exposure', exposure)
         if category == 'OC': exposure = -abs(exposure) if exposure is not None else None
         if category == 'DR': exposure = None
@@ -128,7 +132,7 @@ def canonicalize(findings, members, config, as_of=AS_OF):
             legacy_type=row.get('type', 'authored_question'), rule_ids=[row.get('rule_id', 'RULE-' + row.get('type', category).upper())],
             rule_type=row.get('rule_type') or {'CG': 'Documentation match', 'RC': 'Historical gap', 'NC': 'Signal combination', 'SP': 'Specificity check', 'ST': 'Status persistence', 'OC': 'Representation integrity', 'DR': 'Source validation'}.get(category, 'Unmapped'),
             hcc='Model mapping pending' if row.get('profile_reference') else 'Mapping unresolved' if domain_index is None else f'HCC {hcc}' if config['program'] == 'MA' else f'Risk group {domain_index+1:02}',
-            mapping_origin='Authored analytic grouping; confirm native mapping before calculation',
+            mapping_origin='HCC label and RAF contribution retained from the Member 360 Risk Adjustment tab; selected-model mapping is separate' if row.get('profile_reference') else 'Authored analytic grouping; confirm native mapping before calculation',
             evidence=evidence, status=status, raw_status=row.get('status', 'unknown'), probability=p,
             delta=exposure, impact_basis='Illustrative adjusted-score equivalent', analysis_date=updated,
             probability_t0=updated, stale=stale, document_ids=row.get('document_ids', []),
@@ -272,6 +276,37 @@ def score_bases(baseline, positive_uplift):
                 submitted=baseline+uplift*.62, accepted=baseline+uplift*.54)
 
 
+def score_trend(bases, last_month):
+    """Authored monthly variation, anchored to the selected population's tiles.
+
+    The baseline and each score-set gap move independently across the period.
+    These are deterministic presentation observations, not receiver events or
+    native scoring history; the final point always uses the current score sets.
+    """
+    baseline = bases['captured_baseline']
+    if baseline is None:
+        return []
+    uplift = bases['potential'] - baseline
+    month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    movements = [
+        (.975, 1.55, .33, .76),
+        (.993, 1.25, .36, .69),
+        (.982, 1.65, .32, .74),
+        (1.004, 1.40, .35, .78),
+        (.992, 1.60, .37, .71),
+        (1.000, 1.00, .54, .62),
+    ]
+    points = []
+    for i, (base_factor, gap_factor, accepted_share, submitted_share) in enumerate(movements):
+        base, gap = baseline * base_factor, uplift * gap_factor
+        points.append(dict(month=month_names[(last_month-6+i) % 12], baseline=base,
+            accepted=base+gap*accepted_share, submitted=base+gap*submitted_share,
+            potential=base+gap))
+    points[-1].update(baseline=baseline, accepted=bases['accepted'],
+                      submitted=bases['submitted'], potential=bases['potential'])
+    return points
+
+
 def frozen_selection(cases):
     winners = {}; excluded = []
     for c in cases:
@@ -345,8 +380,20 @@ def finance(cases, settings=None, visible_ids=None):
                          origin='authored_synthetic_assumption', probability_method=METHOD))
 
 
+def selected_conditions(context):
+    values = context.get('conditions') or []
+    if not isinstance(values, list) or any(not isinstance(v, str) for v in values):
+        raise ValueError('Conditions must be a list of names.')
+    return set(values) or ({context['condition']} if context.get('condition') else set())
+
+
 def case_matches(c, context):
-    return suspect_discovery.matches(c, context.get('discovery')) and (not context.get('band') or c['probability']['band'] == context['band']) and (not context.get('category') or c['category'] == context['category'] or context['category']=='capture' and c['category'] in {'CG','RC','NC','SP','ST'}) and (not context.get('condition') or c['domain'] == context['condition'] or c['hcc'] == context['condition']) and (not context.get('evidence') or c['evidence'] == context['evidence']) and (not context.get('rule') or c['rule_type'] == context['rule']) and (context.get('source') != 'retained' or c['source_available']) and (context.get('disposition', 'open') == 'all' or c['status'] == context.get('disposition', 'open')) and (not context.get('q') or context['q'].lower() in ' '.join([c['id'],*c['aliases'],c['member_id'],c['condition'],c['hcc'],c.get('member_name',''),(c.get('discovery') or {}).get('signal',''),(c.get('discovery') or {}).get('label','')]).lower())
+    if context.get('hcc_only'):
+        source = c.get('profile_reference')
+        hcc = source.get('hcc') if source else c['hcc'].removeprefix('HCC ')
+        if not hcc or not str(hcc).isdigit():
+            return False
+    return suspect_discovery.matches(c, context.get('discovery')) and (not context.get('band') or c['probability']['band'] == context['band']) and (not context.get('category') or c['category'] == context['category'] or context['category']=='capture' and c['category'] in {'CG','RC','NC','SP','ST'}) and (not selected_conditions(context) or bool(selected_conditions(context).intersection((c['domain'], c['hcc'])))) and (not context.get('evidence') or c['evidence'] == context['evidence']) and (not context.get('rule') or c['rule_type'] == context['rule']) and (context.get('source') != 'retained' or c['source_available']) and (context.get('disposition', 'open') == 'all' or c['status'] == context.get('disposition', 'open')) and (not context.get('q') or context['q'].lower() in ' '.join([c['id'],*c['aliases'],c['member_id'],c['condition'],c['hcc'],c.get('member_name',''),(c.get('profile_reference') or {}).get('condition',''),(c.get('profile_reference') or {}).get('category',''),(c.get('discovery') or {}).get('signal',''),(c.get('discovery') or {}).get('label','')]).lower())
 
 
 def safe_ratio(n, d): return n/d if d else None
@@ -365,11 +412,11 @@ def build(state, members, config, context, *, include_evidence=True):
     if ctx['stage'] not in ('raw', 'adjusted'): raise ValueError('Unknown score stage.')
     if ctx['basis'] not in ('captured_baseline', 'potential', 'submitted', 'accepted'): raise ValueError('Unknown presentation score basis.')
     if ctx.get('run_month', 'all') not in ['all'] + [f'{i:02}' for i in range(1,13)]: raise ValueError('Unknown reporting month.')
-    options = dict(counties=sorted({m.get('county') or 'Unknown' for m in members}),
+    options = dict(hierarchy=provider_hierarchy.directory(members), counties=sorted({m.get('county') or 'Unknown' for m in members}),
         practices=[dict(id=k, name=v) for k,v in sorted({m['provider_id']:m.get('provider','Assigned practice') for m in members}.items())],
         contracts=[dict(id=k, name=v) for k,v in CONTRACTS if any(contract_for(m)==k for m in members)])
     root = [m for m in members if (not ctx.get('counties') or (m.get('county') or 'Unknown') in ctx['counties'])
-        and analytics_landing.member_matches(m, ctx)
+        and analytics_landing.member_matches(m, ctx) and provider_hierarchy.matches(m, ctx)
         and (not ctx.get('practices') or m['provider_id'] in ctx['practices']) and (not ctx.get('contract') or contract_for(m)==ctx['contract'])]
     rows = population(root, config, ctx)
     eligible_ids = {r['id'] for r in rows if r['eligible']}
@@ -394,9 +441,10 @@ def build(state, members, config, context, *, include_evidence=True):
         if c['member_id'] not in eligible_ids:
             c['probability'] = probability(c['category'], c['evidence'], 'not_eligible')
     root_cases = cases
-    if ctx.get('condition'):
-        matching_indices = {i for i,(name,hcc,_) in enumerate(CATALOG) if ctx['condition'] in (name, f'HCC {hcc}', f'Risk group {i+1:02}')}
-        matching_members = {c['member_id'] for c in cases if ctx['condition'] in (c['domain'],c['hcc'])}
+    conditions = selected_conditions(ctx)
+    if conditions:
+        matching_indices = {i for i,(name,hcc,_) in enumerate(CATALOG) if conditions.intersection((name, f'HCC {hcc}', f'Risk group {i+1:02}'))}
+        matching_members = {c['member_id'] for c in cases if conditions.intersection((c['domain'],c['hcc']))}
         rows = [r for r in rows if matching_indices.intersection(r['conditions']) or r['id'] in matching_members]
     current_ids = {r['id'] for r in rows}
     discovery_groups = suspect_discovery.groups([c for c in cases if c['member_id'] in current_ids and case_matches(c, {**ctx, 'discovery':'any'}) and analytics_landing.opportunity_matches(c, ctx)])
@@ -412,7 +460,6 @@ def build(state, members, config, context, *, include_evidence=True):
     delta_sum = sum(c['delta']*row_map[c['member_id']]['weight'] for c in winners if c['member_id'] in row_map)
     opportunity_delta = delta_sum/weight if weight else 0
     bases = score_bases(mean, opportunity_delta)
-    presentation_delta = (bases['potential']-mean) if mean is not None else 0
     factor = (bases[ctx['basis']]/mean) if mean else 1
     values = [r['score']*factor for r in scores]
     bounds = [(0,.5),(.5,1),(1,1.5),(1.5,2),(2,3),(3,math.inf)]
@@ -455,13 +502,8 @@ def build(state, members, config, context, *, include_evidence=True):
     financial = finance(root_cases, ctx.get('financial'), {c['id'] for c in cases})
     financial['dollars_available'] = config['program']=='MA'
     financial['program_note'] = 'Illustrative MA payment sensitivity; not actual reimbursement' if config['program']=='MA' else f'{config["program"]} score opportunities are available; dollar estimation requires its separately approved program method.'
-    trend = []
     last_month = int(ctx['run_month']) if ctx.get('run_month', 'all') != 'all' else date.fromisoformat(ctx['snapshot']).month
-    month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    for i in range(6):
-        name = month_names[(last_month-6+i)%12]
-        base = (mean or 0)*(.925+i*.015)
-        trend.append(dict(month=name, baseline=base, potential=base+presentation_delta, submitted=base+presentation_delta*.62, accepted=base+presentation_delta*.54))
+    trend = score_trend(bases, last_month)
     snapshot_rows = []
     for snapshot_date in SNAPSHOTS:
         retained = [r for r in population(root, config, {**ctx, 'snapshot': snapshot_date}) if r['id'] in current_ids]
@@ -501,6 +543,9 @@ def build(state, members, config, context, *, include_evidence=True):
         'M21':metric(len(cases),len(cases),None,'canonical_cases',ctx), 'M22':metric(len(capture),len(capture),eligible,'members',ctx),
         'M27':metric(cond_expected,cond_expected,result['summary']['applicable'],'expected_cases',ctx)}
     result['landing'] = analytics_landing.build(rows, cases, root, ctx, CATALOG, mean, score_factor=factor)
+    annual_rows = population([m for m in root if m['id'] in current_ids], {**config, 'year':2026, 'run_type':'final'}, ctx)
+    result['landing']['continuing_members'] = analytics_landing.continuing_member_comparison(annual_rows, ctx)
+    result['method']['continuing_members'] = result['landing']['continuing_members']['method']
     result['providers'] = [{k:v for k,v in provider.items() if k!='series'} for provider in result['landing']['providers']]
     result['method']['provider_capture'] = 'Confirmed member-condition-rule outcomes divided by identified member-condition-rule outcomes through the reporting month. Reuses the provider outcome series; not chart transmission or operational activity. Open suspects include all current open flags in the conditions list, including data issues, separate from the historical outcome cohort.'
     result['method']['provider_recapture'] = 'Prior-year member-condition pairs confirmed again divided by all prior-year pairs in the eligible provider panel. Reconciles to condition prevalence and recapture totals.'

@@ -1,14 +1,11 @@
 .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .card { min-width:0; display:flex; flex-direction:column; overflow:hidden; margin-bottom:0; }
 .header { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; padding:0 0 12px; }
-.kicker { display:block; text-transform:uppercase; font-size:var(--text-label); font-weight:600; letter-spacing:0; color:var(--comment); margin-bottom:4px; }
 .header h2 { color:var(--primary); font-size:var(--text-heading); font-weight:700; letter-spacing:0; line-height:var(--body-leading); }
-.header p { color:var(--text-muted); line-height:1.6; font-size:14px; margin:0; }
 .metric { flex-shrink:0; text-align:right; padding-top:3px; }
 .metric strong { display:block; font-variant-numeric:tabular-nums; font-size:var(--text-metric); font-weight:700; letter-spacing:0; line-height:var(--body-leading); color:var(--sapphire); margin:var(--metric-margin); }
 .metric span { display:block; color:var(--text-muted); margin-top:4px; max-width:150px; font-size:13px; }
 .body { min-width:0; flex:1; padding:0 0 14px; }
-.footnote { line-height:1.65; color:var(--text-muted); padding:12px 0 0; background:white; border-top:1px solid var(--line); font-size:13px; }
 .plot { width:100%; min-width:0; }
 .legend { display:flex; gap:19px; flex-wrap:wrap; font-size:12px; color:var(--regent); margin:3px 0 10px; }
 .legend span { display:flex; gap:7px; align-items:center; }
@@ -33,7 +30,7 @@
 .gaps button>div { height:5px; background:#f2efe7; border-radius:3px; overflow:hidden; }
 .gaps i { display:block; height:100%; border-radius:3px; background:linear-gradient(90deg,#e4c58c,var(--yellow)); }
 .gaps strong { text-align:right; font-weight:500; }
-.comparison { display:block; width:100%; max-height:330px; }
+.comparison { display:block; width:100%; max-height:410px; }
 .interactive { cursor:pointer; }
 .interactive:hover { filter:brightness(1.05); }
 .interactive:focus-visible { outline-offset:2px; outline:var(--reference-focus); }
@@ -82,3 +79,5 @@
 .qualityValues b { color:#667b96; font-weight:500; font-size:12px; }
 .qualityValues strong { color:var(--primary); font-weight:600; font-size:12px; }
 @media (max-width:1450px) { .header{gap:12px}.header h2{ font-weight:700; letter-spacing:0; line-height:var(--body-leading)}.metric strong{ font-weight:700; letter-spacing:0; line-height:var(--body-leading); color:var(--sapphire); margin:var(--metric-margin)}.donutLayout{grid-template-columns:minmax(180px,.85fr) minmax(0,1fr);gap:10px}.metric span{max-width:100px}.funnelRow{grid-template-columns:100px minmax(0,1fr) 65px;gap:6px}.matrix{grid-template-columns:66px repeat(2,minmax(0,1fr))}.timeBars>div{grid-template-columns:95px minmax(0,1fr) 44px;gap:9px} }
+
+.tools {display:flex;align-items:flex-start;gap:8px;}

@@ -1,3 +1,5 @@
+import type { OpportunityLevel, OpportunityQuadrant } from './opportunity-matrix';
+
 export type AnalysisBasis = 'captured_baseline' | 'potential' | 'submitted' | 'accepted';
 export type AnalysisView = 'risk' | 'geography' | 'provider' | 'suspecting' | 'raf' | 'financial' | 'ai' | 'coverage';
 export interface CountRow { name: string; count: number; members?: number }
@@ -6,13 +8,13 @@ export interface AnalysisContext {
   snapshot: string; stage: string; basis: AnalysisBasis; run_month: string; contract: string;
   counties: string[]; practices: string[]; category: string; condition: string; evidence: string; band: string;
   rule: string; source: string; disposition: string; q: string; freshness: string; financial: FinancialSettings;
-  discovery?: string;
-  closure?: string; age_band?: string; gender?: string; race?: string; zip?: string; social_need?: string;
+  discovery?: string; hcc_only?:boolean; conditions?: string[]; health_network?:string; provider_group?:string; provider?:string;
+  closure?: string; quadrant?: string; age_band?: string; gender?: string; race?: string; zip?: string; social_need?: string;
 }
 export interface SuspectCase {
   discovery?: {kind:string;label:string;signal:string;coded_view:string;why_missed:string;confirm:string;record_count:number;rank:number;origin:string;comparison_basis:string;version:string} | null;
   member_name?: string;
-  profile_reference?: {member_id:string;year:number;category:string;confidence:string;hcc:string|null;delta:number;inclusion:string;source_sha256:string} | null;
+  profile_reference?: {member_id:string;year:number;model_version:string;condition:string;category:string;confidence:string;evidence:string;compliance_note:string;hcc:string|null;delta:number;inclusion:string;source_sha256:string} | null;
   id: string; aliases: string[]; member_id: string; condition: string; domain: string;
   category: string; category_label: string; direction: string; legacy_type: string;
   rule_ids: string[]; rule_type: string; hcc: string; mapping_origin: string; evidence: string;
@@ -54,7 +56,7 @@ export interface AnalysisReport {
   landing?: LandingAnalytics;
   version: string; context: AnalysisContext; config: {id: string; name: string; program: string; year: number; model_version: string};
   origin: string; origin_label: string; as_of: string; filter_hash: string; input_hash: string; scope_hash: string; snapshot_hash: string;
-  options: {counties: string[]; practices: {id: string; name: string}[]; contracts: {id: string; name: string}[]};
+  options: {hierarchy?:{practiceId:string;network:string;group:string;provider:string}[]; counties: string[]; practices: {id: string; name: string}[]; contracts: {id: string; name: string}[]};
   snapshots: {id: string; name: string; origin: string; baseline?: number | null; scored?: number}[];
   summary: {enrolled: number; eligible: number; scored: number; stale: number; missing: number; coverage: number | null;
     member_months: number; cases: number; aliases: number; qualified_members: number; capture_members: number;
@@ -71,15 +73,20 @@ export interface AnalysisReport {
 }
 export interface LandingAnalytics {
   origin: string;
-  matrix: {id:string;name:string;closure:number|null;gain:number|null;members:number|null;cases:number|null;suppressed:boolean}[];
+  matrix: {id:string;name:string;quadrant:OpportunityQuadrant;closure:number|null;gain:number|null;members:number|null;cases:number|null;suppressed:boolean}[];
+  quadrants?: {id:string;name:string;quadrant:OpportunityQuadrant;members:number|null;cases:number|null;suppressed:boolean}[];
+  quadrant_conditions?: {id:string;name:string;quadrant:OpportunityQuadrant;members:number|null;cases:number|null;suppressed:boolean}[];
+  closure_bands?: {id:string;name:string;quadrant:OpportunityQuadrant;band:OpportunityLevel;members:number|null;cases:number|null;suppressed:boolean}[];
   priority_members:number; priority_cases:number;
   recapture: {prior:number;confirmed:number;missing:number;months:string[];practices:{id:string;name:string}[];
     heat:{condition:string;dimension:string;key:string;name:string;members:number|null;confirmed:number|null;rate:number|null;suppressed:boolean}[]};
   providers:{id:string;name:string;practice:string;specialty:string;members:number|null;suppressed:boolean;
-    series:{month:string;rules:number;closed:number;added:number;rate:number}[]|null}[];
+    series:{month:string;rules:number;closed:number;added:number;rate:number;identified_to_date?:number;closed_to_date?:number;open_to_date?:number;confirmed_to_date?:number}[]|null}[];
   social:{id:string;name:string;members:number|null;needs:number|null;share:number|null;score:number|null;suppressed:boolean}[];
   social_options:Record<string,string[]>;
   model:{start:number|null;changes:{name:string;change:number}[];benchmark:number;months:number;members:number};
+  continuing_members?: {start_year:number;end_year:number;members:number;member_months:number;start:number|null;end:number|null;delta:number|null;percent_change:number|null;
+    changes:{name:string;change:number|null}[];cohort_hash:string;score_basis:string;origin:string;method:string};
 }
 export interface SavedAnalysis { id: string; name: string; report_id: string; created_at: string; available: boolean; snapshot_hash: string | null }
 export interface ScenarioOutput {

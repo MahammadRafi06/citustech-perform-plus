@@ -232,12 +232,14 @@ export function Drawer({
   title,
   description,
   children,
+  className,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   title: string;
   description?: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   const opener = useRef<HTMLElement | null>(null);
   const captureFocus = () => {
@@ -260,7 +262,7 @@ export function Drawer({
       <SheetContent
         onOpenAutoFocus={captureFocus}
         onCloseAutoFocus={restoreFocus}
-        className="app-drawer"
+        className={`app-drawer${className ? ` ${className}` : ""}`}
       >
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>

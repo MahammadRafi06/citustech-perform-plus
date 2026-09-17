@@ -24,11 +24,106 @@ def test_matrix_priority_drillthrough_and_export(state,report):
     assert target['summary']['qualified_members']==report['landing']['priority_members']>0
     assert all(landing.opportunity(c)[0]>=.65 and landing.opportunity(c)[1]>=.14 for c in target['cases'])
     group=next(p for p in report['landing']['matrix'] if not p['suppressed'])
-    clicked=a.build(state,state['members'],CFG,{'closure':str(group['closure']),'category':'capture','condition':group['name']})
+    clicked=a.build(state,state['members'],CFG,{'closure':str(group['closure']),'quadrant':group['quadrant'],'category':'capture','condition':group['name']})
     assert clicked['summary']['qualified_members']==group['members']
     assert clicked['summary']['cases']==group['cases']
     body,_=a.export_bundle(clicked,'registry','json')
     assert len(json.loads(body)['suspects'])==group['cases']
+
+
+def test_all_opportunity_quadrants_reconcile_with_drillthrough_and_exports(state, report):
+    seen=set()
+    for group in report['landing']['quadrants']:
+        context={'quadrant':group['quadrant'],'category':'capture'}
+        target=a.build(state,state['members'],CFG,context)
+        assert not group['suppressed']
+        assert target['summary']['cases']==group['cases']>0
+        assert target['summary']['qualified_members']==group['members']>0
+        assert all(landing.opportunity_quadrant(c)==group['quadrant'] for c in target['cases'])
+        ids={c['id'] for c in target['cases']}
+        assert seen.isdisjoint(ids)
+        seen.update(ids)
+        body,_=a.export_bundle(target,'registry','json')
+        assert {c['id'] for c in json.loads(body)['suspects']}==ids
+    expected={c['id'] for c in report['cases'] if c['qualified'] and c['category'] not in ('OC','DR') and (c['delta'] or 0)>0 and c['probability']['base'] is not None}
+    assert seen==expected
+
+
+def test_condition_and_quadrant_use_the_same_member_counts(state, report):
+    group=next(g for g in report['landing']['quadrant_conditions'] if not g['suppressed'] and g['cases']>0 and g['quadrant']=='high_value')
+    target=a.build(state,state['members'],CFG,{'quadrant':group['quadrant'],'condition':group['name'],'category':'capture'})
+    assert target['summary']['cases']==group['cases']
+    assert target['summary']['qualified_members']==group['members']
+    assert all(c['domain']==group['name'] for c in target['cases'])
+    for point in report['landing']['matrix']:
+        if point['suppressed']: continue
+        high_value=point['gain']>=.14
+        high_chance=point['closure']>=.65
+        expected=('priority' if high_chance else 'high_value') if high_value else ('likely_to_close' if high_chance else 'lower_priority')
+        assert point['quadrant']==expected
+
+
+def test_closure_levels_reconcile_with_quadrants_and_filtered_conditions(state, report):
+    totals={}
+    for level in ('low','medium','high'):
+        quadrant='priority' if level=='high' else 'high_value'
+        summary=next(g for g in report['landing']['closure_bands'] if g['name']=='' and g['quadrant']==quadrant and g['band']==level)
+        target=a.build(state,state['members'],CFG,{'closure':level,'quadrant':quadrant,'category':'capture'})
+        assert not summary['suppressed']
+        assert target['summary']['cases']==summary['cases']>0
+        assert target['summary']['qualified_members']==summary['members']
+        assert all(landing.opportunity_band(landing.opportunity(c)[0])==level for c in target['cases'])
+        totals[level]=summary['cases']
+        body,_=a.export_bundle(target,'registry','json')
+        exported=json.loads(body)
+        assert len(exported['suspects'])==summary['cases']
+        assert exported['context']['closure']==level
+    left=next(g for g in report['landing']['quadrants'] if g['quadrant']=='high_value')
+    assert totals['low']+totals['medium']==left['cases']
+
+
+def test_bubbles_use_distributed_reproducible_closure_positions(report):
+    points=[p for p in report['landing']['matrix'] if not p['suppressed']]
+    positions={p['closure'] for p in points}
+    assert len(positions)>20
+    assert min(positions)<.2 and max(positions)>.9
+    for point in points:
+        cohort=[c for c in report['cases'] if c['domain']==point['name'] and landing.opportunity_matches(c,{'quadrant':point['quadrant'],'closure':str(point['closure'])})]
+        assert len(cohort)==point['cases']
+        assert point['gain']==pytest.approx(sum(landing.opportunity(c)[1] for c in cohort)/len(cohort))
+
+
+def test_continuing_members_compare_the_same_paired_cohort(state, report):
+    context={'snapshot':a.AS_OF,'stage':'adjusted','run_month':'all'}
+    rows=a.population(state['members'],{**CFG,'year':2026,'run_type':'final'},context)
+    records=landing.continuing_member_records(rows,context)
+    comparison=report['landing']['continuing_members']
+    expected_ids={r['id'] for r in rows if r['eligible'] and r['score'] is not None and landing.seed(r['id']+':enrolled-2025')%10!=0}
+    assert {r['id'] for r in records}==expected_ids
+    assert 0<comparison['members']==len(expected_ids)<report['summary']['scored']
+    assert all(r['score_2025']>0 and r['score_2026']>0 and r['weight']==9 for r in records)
+    assert comparison['member_months']==9*len(records)
+    for year,key in [(2025,'start'),(2026,'end')]:
+        assert comparison[key]==pytest.approx(sum(r[f'score_{year}']*r['weight'] for r in records)/comparison['member_months'])
+    assert comparison['end']-comparison['start']==pytest.approx(comparison['delta'])
+    assert sum(c['change'] for c in comparison['changes'])==pytest.approx(comparison['delta'])
+    assert comparison['delta']>0
+    assert comparison['percent_change']==pytest.approx(comparison['delta']/comparison['start'])
+    assert comparison['origin']=='authored_paired_annual_risk_v1'
+
+
+def test_continuing_comparison_respects_scope_and_fixed_comparison_years(state, report):
+    provider=report['options']['practices'][0]['id']
+    context={'practices':[provider],'run_month':'07','basis':'potential'}
+    scoped=a.build(state,state['members'],CFG,context)
+    comparison=scoped['landing']['continuing_members']
+    assert 0<comparison['members']<report['landing']['continuing_members']['members']
+    assert comparison['member_months']==7*comparison['members']
+    other_year=a.build(state,state['members'],{**CFG,'year':2025,'run_type':'initial'},context)
+    assert other_year['landing']['continuing_members']==comparison
+    assert comparison['start_year']==2025 and comparison['end_year']==2026
+    body,_=a.export_bundle(scoped,'R01','json')
+    assert json.loads(body)['landing']['continuing_members']==comparison
 
 
 def test_recapture_funnel_heatmap_and_prevalence_reconcile(report):
@@ -123,9 +218,9 @@ def test_social_filters_use_authorized_scope_and_export_context(state):
 
 def test_small_group_protection_for_all_new_dimensions(state):
     r=a.build(state,state['members'][:12],CFG,{})['landing']
-    for name in ['matrix','providers','social']:
+    for name in ['matrix','providers','social','quadrants','quadrant_conditions','closure_bands']:
         for group in r[name]:
-            assert group['suppressed'] and group['members'] is None
+            assert (group['suppressed'] and group['members'] is None) or group['members']==0
     assert all(h['members'] is None for h in r['recapture']['heat'])
 
 
@@ -136,3 +231,86 @@ def test_dashboard_preserves_scores_and_financials(report):
     assert report['landing']['model']['start']==round(bases['captured_baseline'],4)
     assert all(isinstance(c['change'],float) for c in report['landing']['model']['changes'])
     assert report['landing']['origin']=='authored_sample_analytics'
+
+
+def test_multi_condition_union_matches_matrix_counts_and_drillthrough(state, report):
+    names = ['Diabetes with complications', 'Cardiovascular conditions']
+    for quadrant, level in [('priority', 'high'), ('high_value', 'medium')]:
+        context = dict(conditions=names, quadrant=quadrant, closure=level, category='capture')
+        selected = a.build(state, state['members'], CFG, context)
+        groups = [g for g in report['landing']['closure_bands']
+                  if g['name'] in names and g['quadrant'] == quadrant and g['band'] == level]
+        assert all(not g['suppressed'] for g in groups)
+        assert selected['summary']['cases'] == sum(g['cases'] for g in groups) > 0
+        expected = {c['id'] for c in report['cases'] if c['domain'] in names
+                    and landing.opportunity_matches(c, context) and c['category'] not in ('OC', 'DR')}
+        assert {c['id'] for c in selected['cases']} == expected
+        assert selected['summary']['qualified_members'] == len({c['member_id'] for c in selected['cases'] if c['qualified']})
+        body, _ = a.export_bundle(selected, 'registry', 'json')
+        assert json.loads(body)['context']['conditions'] == names
+
+
+def test_cumulative_provider_outcomes_reconcile_at_every_period(report):
+    for provider in report['landing']['providers']:
+        if provider['suppressed']:
+            continue
+        identified = closed = confirmed = 0
+        for period in provider['series']:
+            identified += period['rules']
+            closed += period['closed']
+            confirmed += period['added']
+            assert period['identified_to_date'] == identified
+            assert period['closed_to_date'] == closed
+            assert period['open_to_date'] == identified - closed >= 0
+            assert period['confirmed_to_date'] == confirmed <= closed
+        assert identified == provider['identified_suspects']
+        assert confirmed == provider['captured_suspects']
+
+
+def test_complete_provider_hierarchy_preserves_population_and_provider_scope(state, report):
+    from apps.api.app import provider_hierarchy, member360_analytics
+    hierarchy = report['options']['hierarchy']
+    assert {r['practiceId'] for r in hierarchy} == {m['provider_id'] for m in state['members']}
+    group = hierarchy[0]['group']
+    grouped = a.build(state, state['members'], CFG, dict(health_network='Central MA Network', provider_group=group))
+    expected = [m for m in state['members'] if provider_hierarchy.identity(m)['group'] == group]
+    assert grouped['summary']['enrolled'] == len(expected) > 1000
+    physician = hierarchy[0]['provider']
+    scoped = a.build(state, state['members'], CFG, dict(provider=physician))
+    ids = {m['id'] for m in expected if provider_hierarchy.identity(m)['provider'] == physician}
+    assert scoped['summary']['enrolled'] == len(ids) > 100
+    assert all(c['member_id'] in ids for c in scoped['cases'])
+    assert all(p['name'] == physician for p in scoped['providers'] if not p['suppressed'])
+    profiles = member360_analytics.members_for({'role':'superuser'}, {'superuser':{'screens':['members']}})
+    for member in profiles:
+        row = provider_hierarchy.identity(member)
+        assert row['network'] == member['health_network']
+        assert row['group'] == member['provider_group']
+        assert row['provider'] == member['physician']
+
+
+def test_social_county_filter_is_the_same_population_filter(state, report):
+    county = 'Broward County'
+    scoped = a.build(state, state['members'], CFG, dict(counties=[county]))
+    assert scoped['summary']['enrolled'] == sum(m.get('county') == county for m in state['members'])
+    assert {r['id'] for r in scoped['landing']['social']} == {county}
+    assert all(c['county'] == county for c in scoped['cases'])
+
+
+def test_health_network_entity_options_filter_their_population(state):
+    from apps.api.app import provider_hierarchy, member360_analytics
+    profiles = member360_analytics.members_for({'role':'superuser'}, {'superuser':{'screens':['members']}})
+    members = state['members'] + profiles
+    for entity, field in [('Central MA Network', 'network'), ('Northside Medical', 'group'),
+                          ('Harbor Primary Care', 'group'), ('Dr. A. Carter', 'provider')]:
+        expected = {m['id'] for m in members if provider_hierarchy.identity(m)[field] == entity}
+        result = a.build(state, members, CFG, {'health_network':entity})
+        assert result['summary']['enrolled'] == len(expected) > 0
+        assert all(c['member_id'] in expected for c in result['cases'])
+    empty = a.build(state, members, CFG, {'health_network':'Northside Medical', 'provider_group':'Harbor Primary Care'})
+    assert empty['summary']['enrolled'] == 0 and empty['cases'] == []
+
+
+def test_plan_display_cleanup_preserves_source_evidence(state):
+    assert not any(m.get('plan') in ('Northstar Health','Meridian Care') for m in state['members'])
+    assert not any('Northstar' in label or 'Meridian' in label for _,label in a.CONTRACTS)

@@ -2,8 +2,7 @@
 .member360-workspace { min-width:0; width:100%; max-width:none; }
 .member360-workspace button, .member360-workspace input, .member360-workspace select { font-family:inherit; }
 .member360-workspace p { margin-block: 0 12px; }
-.member360-workspace .m360-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; }
-.member360-workspace .m360-export { display:inline-flex; align-items:center; gap:8px; white-space:nowrap; }
+.member360-workspace .filters { margin-top:0; }
 .member360-workspace .m360-list-kpis { margin-bottom:14px; }
 .member360-workspace .m360-list-tools { display:flex; gap:14px; align-items:center; margin-bottom:16px; }
 .member360-workspace .m360-list-tools h2 { margin:0; margin-right:auto; }

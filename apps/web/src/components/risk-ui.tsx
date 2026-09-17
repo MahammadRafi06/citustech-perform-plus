@@ -69,7 +69,7 @@ export function RiskProvider({ user, children }: { user: User; children: ReactNo
   const href = (path: string) => {
     const [target, search = ""] = path.split("?");
     const next = new URLSearchParams(search);
-    for (const key of ["run_month", "contract", "counties", "practices", "snapshot", "stage", "category", "condition", "evidence", "band", "rule", "source", "disposition", "freshness", "financial", "closure", "age_band", "gender", "race", "zip", "social_need"]) { const value = params?.get(key); if (value && !next.has(key)) next.set(key, value); }
+    for (const key of ["run_month", "contract", "health_network", "provider_group", "provider", "counties", "practices", "snapshot", "stage", "category", "condition", "conditions", "evidence", "band", "rule", "source", "disposition", "freshness", "financial", "closure", "quadrant", "age_band", "gender", "race", "zip", "social_need"]) { const value = params?.get(key); if (value && !next.has(key)) next.set(key, value); }
     if (configId && !next.has("config")) next.set("config", configId);
     if (!next.has("basis")) next.set("basis", basis);
     return `${target}${next.size ? `?${next}` : ""}`;
@@ -98,7 +98,6 @@ export function RiskContextBar() {
         {years.map((year) => <option key={year} value={year}>{year}</option>)}
       </select></label>
     </>}
-    {!overviewPage && <label><span>Score view</span><select aria-label="Score view" value={context.basis} onChange={(e) => context.choose(context.configId, e.target.value as ScoreBasis)}>{Object.entries(scoreBasisLabels).map(([value, text]) => <option key={value} value={value}>{text}</option>)}</select></label>}
     <div className="risk-context-detail" title={config?.status ? label(config.status) : undefined}><strong>{config ? configurationComposition(config) : "Configuration pending"}</strong><span>{config?.service_start && config?.service_end ? `Service dates ${config.service_start} — ${config.service_end}` : "Dates of care not supplied"}</span></div>
     {!overviewPage && <span className="risk-origin">{config?.status ? label(config.status) : "Awaiting configuration"}</span>}
   </div>;

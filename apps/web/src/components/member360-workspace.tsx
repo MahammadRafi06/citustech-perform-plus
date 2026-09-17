@@ -1,12 +1,13 @@
 "use client";
 
 import { createElement, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDown, ArrowLeft, ArrowUp, Download, Search } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowUp, Search } from "lucide-react";
 import { api } from "@/lib/api";
 import type { User } from "@/lib/types";
 import { useUrlState } from "@/hooks/workspace-state";
+import { useRiskContext } from "./risk-ui";
 import "./member360-workspace.css";
 
 type SourceNode = string | {
@@ -82,7 +83,7 @@ function EntityFilter({ options, selected, onChange }: { options: string[]; sele
   </div>;
 }
 
-function Profile({ member, activeTab, onTab, back }: { member: Member; activeTab: string; onTab: (tab: string) => void; back: () => void }) {
+function Profile({ member, activeTab, onTab, back, backLabel }: { member: Member; activeTab: string; onTab: (tab: string) => void; back?: () => void; backLabel: string }) {
   const [history, setHistory] = useState<Record<string, number>>({});
   const tablist = useRef<HTMLDivElement>(null);
   const header = useRef<HTMLDivElement>(null);
@@ -94,12 +95,12 @@ function Profile({ member, activeTab, onTab, back }: { member: Member; activeTab
     if (shouldAlign) requestAnimationFrame(() => window.scrollTo({ top: Math.max(0, anchor), behavior: "instant" }));
   }
   return <>
-    <div className="m360-breadcrumb"><button type="button" onClick={back}><ArrowLeft size={14} />Member list</button><span>/</span><span>{member.name}</span></div>
+    <div className="m360-breadcrumb">{back && <><button type="button" onClick={back}><ArrowLeft size={14} />{backLabel}</button><span>/</span></>}<span>{member.name}</span></div>
     <div className="card member" ref={header}>
       <div className="avatar"><div className="circle">{member.name.split(" ").map(n => n[0]).join("")}</div><div className="mh"><h1>{member.name}</h1><small>{member.id} · {member.product}<br />Age {member.age} · {member.sex}</small></div></div>
       {([['Composite Impact', member.composite], ['Risk Impact', member.risk], ['Quality Impact', member.quality], ['Stars Impact', member.stars]] as const).map(([title, score]) => <div className="mh" key={title}><b>{score}</b><small>{title}</small></div>)}
       <div className="flags" style={{ gridColumn: "1/-1" }}>{member.flags.map(flag => <span key={flag} className={`pill ${flag.includes("Audit") ? "a" : flag.includes("HCC") ? "r" : flag.includes("New") ? "b" : "y"}`}>{flag}</span>)}
-        <button type="button" className="btn alt m360-back" onClick={back}>Back to Member List</button>
+        {back && <button type="button" className="btn alt m360-back" onClick={back}>Back to {backLabel}</button>}
       </div>
     </div>
     <div ref={tablist} className="mtabs" role="tablist" aria-label={`${member.name} profile sections`} onKeyDown={event => {
@@ -120,6 +121,22 @@ function Profile({ member, activeTab, onTab, back }: { member: Member; activeTab
 
 export function Member360Workspace({ user }: { user: User }) {
   const search = useSearchParams();
+  const risk = useRiskContext();
+  if (!search?.get("member")?.trim()) {
+    const destination = ["overview", "suspects", "analytics"].find(screen => user.screens.includes(screen));
+    if (destination) redirect(risk.href(`/${destination}`));
+    return <div className="member360-workspace"><div className="card" role="status">Open an individual member profile using a member link.</div></div>;
+  }
+  return <Member360ProfileWorkspace user={user} />;
+}
+
+function Member360ProfileWorkspace({ user }: { user: User }) {
+  const search = useSearchParams();
+  const router = useRouter();
+  const risk = useRiskContext();
+  const returnScreen = ["suspects", "overview", "analytics"].find(screen => user.screens.includes(screen));
+  const backLabel = returnScreen === "suspects" ? "Suspected Conditions" : returnScreen === "analytics" ? "Risk Analytics" : "Dashboard";
+  const back = returnScreen ? () => router.push(risk.href(returnScreen === "suspects" ? "/suspects?view=registry" : `/${returnScreen}`)) : undefined;
   const selectedId = search?.get("member") || "";
   const activeTab = tabs.some(([id]) => id === search?.get("tab")) ? search?.get("tab")! : "summary";
   const profiles = useQuery({ queryKey: ["member360", user.id], queryFn: () => api<Profiles>("/member360"), staleTime: 60000 });
@@ -159,19 +176,11 @@ export function Member360Workspace({ user }: { user: User }) {
     [...params.keys()].filter(key => key.startsWith("member_")).forEach(key => params.delete(key));
     window.history.replaceState(null, "", `${window.location.pathname}${params.size ? `?${params}` : ""}`);
   }
-  function exportMembers() {
-    const columns = ["Member", "Member ID", "Age", "Conditions", "Composite Impact", "Quality Impact", "Risk Impact", "Stars Impact", "Closure Probability (%)", "Provider", "Health Plan"];
-    const csv = [columns, ...sorted.map(m => [m.name, m.id, m.age, m.conditions, m.composite, m.quality, m.risk, m.stars, m.closure, m.provider, m.plan])]
-      .map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
-    const url = URL.createObjectURL(new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8" }));
-    const link = document.createElement("a"); link.href = url; link.download = "perform-plus-member360.csv"; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
   const hasFilters = !!(query || contract || plan || safeEntities.length);
   return <div className="member360-workspace">
-    {profiles.isPending ? <div className="card" role="status">Loading member profiles…</div> : profiles.error ? <div className="card" role="alert"><h1>Unable to load Member 360</h1><p>{profiles.error.message}</p><button className="btn" onClick={() => profiles.refetch()}>Try again</button></div> : selectedId ? selected ? <Profile key={selected.id} member={selected} activeTab={activeTab} onTab={tab => navigate(selected.id, tab, false)} back={() => navigate("")} /> : <div className="card"><h1>Member unavailable</h1><p>This member is not available in your current access scope.</p><button className="btn" onClick={() => navigate("")}>Back to Member List</button></div> : <>
-      <div className="card"><div className="m360-heading"><div><h1>Member 360</h1><div className="muted">A connected view of member risk, quality, clinical evidence and care opportunities.</div></div>
-        {user.permissions.includes("export") && <button className="btn alt m360-export" type="button" disabled={!sorted.length} onClick={exportMembers}><Download size={16} />Export members</button>}</div>
+    {profiles.isPending ? <div className="card" role="status">Loading member profiles…</div> : profiles.error ? <div className="card" role="alert"><h1>Unable to load Member 360</h1><p>{profiles.error.message}</p><button className="btn" onClick={() => profiles.refetch()}>Try again</button></div> : selectedId ? selected ? <Profile key={selected.id} member={selected} activeTab={activeTab} onTab={tab => navigate(selected.id, tab, false)} back={back} backLabel={backLabel} /> : <div className="card"><h1>Member unavailable</h1><p>This member is not available in your current access scope.</p>{back && <button className="btn" onClick={back}>Back to {backLabel}</button>}</div> : <>
+      <h1 className="sr-only">Member 360</h1>
+      <div className="card">
         <div className="filters">
           <div className="f"><label htmlFor="member-contract">CONTRACT</label><select id="member-contract" value={contract} onChange={e => { setContract(e.target.value); setPage("1"); }}><option value="">All contracts</option>{[...new Set(members.map(m => m.contract))].map(value => <option key={value}>{value}</option>)}</select></div>
           <div className="f"><label htmlFor="member-line">LINE OF BUSINESS</label><select id="member-line"><option>Medicare Advantage</option></select></div>

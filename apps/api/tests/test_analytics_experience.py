@@ -162,6 +162,25 @@ def test_score_order_does_not_invent_an_empty_population():
     assert all(value is None for value in a.score_bases(None,0).values())
 
 
+def test_monthly_trend_varies_and_ends_at_current_score_sets():
+    bases = a.score_bases(1.014, .042)
+    points = a.score_trend(bases, 2)
+    assert [point['month'] for point in points] == ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb']
+    for series, basis in [('baseline', 'captured_baseline'), ('accepted', 'accepted'),
+                          ('submitted', 'submitted'), ('potential', 'potential')]:
+        values = [point[series] for point in points]
+        changes = [right-left for left, right in zip(values, values[1:])]
+        assert min(changes) < 0 < max(changes)
+        assert values[-1] == bases[basis]
+    for point in points:
+        assert point['baseline'] < point['accepted'] <= point['submitted'] < point['potential']
+    assert min(point['submitted']-point['accepted'] for point in points[:-1]) > .015
+
+
+def test_monthly_trend_does_not_fabricate_scores_for_unscored_members():
+    assert a.score_trend(a.score_bases(None, 0), 9) == []
+
+
 def test_score_order_and_basis_reconcile_across_scopes_and_reports(state):
     contexts = [{}, {'contract':'H1032'}, {'snapshot':'2026-07-15'},
                 {'run_month':'02','stage':'raw'}, {'condition':'Heart failure'}]

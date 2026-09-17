@@ -38,6 +38,7 @@ import { RiskFinancial } from "./risk-financial-ui";
 import { RiskOverview, useRiskContext } from "./risk-ui";
 import { RegistryInsights, SuspectReport } from "./suspect-insights";
 import { WORKFLOW_ENABLED } from "@/lib/workflow-flags";
+import { DEFAULT_PAGE_SIZE } from "./table-pagination";
 
 const allDomainTabs = [
   "AI Impact",
@@ -456,7 +457,7 @@ export function Dashboard({
         description="200 charts, separate from the operational population."
       >
         <DataGrid
-          pageSize={10}
+          pageSize={DEFAULT_PAGE_SIZE}
           stateKey="analytics_evaluation"
           rows={(comparison?.evaluation_records || []).map((r) => ({
             id: String(r.id),
@@ -549,7 +550,7 @@ function DomainView({
       <Panel title={`${domain} records`}>
         <DataGrid
           key={domain}
-          pageSize={10}
+          pageSize={DEFAULT_PAGE_SIZE}
           stateKey={`analytics_${domain.toLowerCase().replace(/[^a-z0-9]+/g, "_")}`}
           searchLabel={`Search ${domain.toLowerCase()} records…`}
           rows={rows}

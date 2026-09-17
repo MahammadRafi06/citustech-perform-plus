@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: 70% 30%;
   align-items: center;
-  background: var(--primary);
+  background: linear-gradient(to right, var(--primary) 70%, var(--card) 70%);
 }
 
 .masthead > :global(.brand) {
@@ -27,61 +27,6 @@
 .masthead :global(.brand-product),
 .masthead :global(.brand-plus) { color: var(--primary-foreground); }
 .masthead :global(.brand-product) { border-color: rgb(255 255 255 / 30%); }
-
-.workspaceHeader {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  height: 100%;
-  padding-inline: clamp(24px, 2.1vw, 40px);
-  background: var(--card);
-}
-
-.workspaceIdentity {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  max-width: 360px;
-  margin-inline: auto;
-}
-
-.workspaceLogo {
-  display: block;
-  flex: none;
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
-}
-
-.workspaceIdentity > div {
-  min-width: 0;
-}
-
-.workspaceIdentity > div > span {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--text-secondary);
-  font-size: 10px;
-  letter-spacing: 0.09em;
-  line-height: 1.35;
-  text-transform: uppercase;
-}
-
-.workspaceIdentity strong {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--primary);
-  font-size: clamp(20px, 1.4vw, 24px);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.035em;
-}
-
-.workspaceAmpersand { color: #506f87; font-weight: 400; }
-.workspaceMeridian { color: #087f8c; }
 
 .formSide {
   display: flex;

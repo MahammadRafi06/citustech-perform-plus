@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-r
 import { Button } from "./ui/button";
 import { num } from "@/lib/api";
 
+export const DEFAULT_PAGE_SIZE = 50;
+
 export function TablePagination({
   totalRows, pageIndex, pageSize, onPageChange, onPageSizeChange,
   label = "Table", noun = "records",
@@ -54,7 +56,7 @@ export function PaginatedTable<T>(props: PaginatedTableProps<T>) {
 
 function PaginatedTableBody<T>({ rows, label, headers, children, noun }: PaginatedTableProps<T>) {
   const [requestedPage, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const page = Math.min(requestedPage, Math.max(0, Math.ceil(rows.length / pageSize) - 1));
   const start = page * pageSize;
   return <>

@@ -24,6 +24,10 @@ LAST = 'Smith,Johnson,Williams,Brown,Jones,Garcia,Miller,Davis,Rodriguez,Martine
 
 
 def migrate(state):
+    # Display plan labels only; retained clinical/source snapshots stay intact.
+    for member in state.get('members', []):
+        if member.get('plan') in ('Northstar Health', 'Meridian Care'):
+            member['plan'] = 'Medicare Advantage'
     if state.get('meta', {}).get('directory_version') == VERSION:
         return
     # Keep every source-linked identity, including the deliberately mismatched

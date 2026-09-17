@@ -32,6 +32,46 @@ def test_provider_scope_and_screen_permission():
     assert linked.members_for({'role': 'provider','provider_id': 'PR-999'}, ROLES) == []
 
 
+def test_every_linked_suspect_matches_its_member_risk_tab():
+    members = linked.members_for({'role': 'executive'}, ROLES)
+    findings = linked.fixtures(members)
+    by_source = {finding['id']: finding for finding in findings}
+    expected = 0
+    for member in linked._DATA['members']:
+        source_rows = linked.tables(member, 'risk')[0]['children'][1]['children']
+        for index, row in enumerate(source_rows, 1):
+            condition, category, delta, confidence, inclusion, evidence, compliance = [linked.text(cell).strip() for cell in row['children']]
+            key = f'M360-{member["id"]}-{index}'
+            if category == 'Validated':
+                assert key not in by_source
+                continue
+            expected += 1
+            finding = by_source[key]
+            source = finding['profile_reference']
+            assert source['condition'] == condition.replace(' High-Risk HCC', '')
+            assert source['category'] == category
+            assert source['confidence'] == confidence
+            assert source['delta'] == float(delta)
+            assert source['inclusion'] == inclusion
+            assert source['evidence'] == finding['summary'] == evidence
+            assert source['compliance_note'] == finding['countercheck'] == compliance
+            assert source['member_id'] == member['id']
+            assert source['year'] == 2026 and source['model_version'] == 'V28'
+    assert len(findings) == expected == 9
+    cases = model.canonicalize(findings, members, CFG)
+    assert all(case['probability']['base'] is None for case in cases)
+    assert all(case['probability']['method'] == 'MEMBER360_SOURCE_CONFIDENCE' for case in cases)
+    assert all(case['evidence'] == 'Unknown' for case in cases)
+    audit = next(case for case in cases if case['category'] == 'OC')
+    assert audit['member_name'] == 'Robert Klein'
+    assert audit['profile_reference']['confidence'] == '32%'
+    assert audit['profile_reference']['delta'] == .161
+    assert audit['direction'] == 'remove' and audit['delta'] is None
+    anne = next(case for case in cases if case['member_id'] == 'M-559214')
+    assert anne['profile_reference']['hcc'] is None
+    assert anne['profile_reference']['confidence'] == '45%'
+
+
 def test_member_first_order_preserves_other_members_and_filtered_scope():
     members = linked.members_for({'role': 'executive'}, ROLES)
     other = [{'member_id':'other1','id':'a'},{'member_id':'other2','id':'b'}]
@@ -63,3 +103,23 @@ def test_report_filters_export_and_scores_keep_their_boundaries():
     filtered = model.build(state, members, CFG, {'contract':'H1032','discovery':'all'})
     assert filtered['cases'] == []
     assert state == before
+
+
+def test_hcc_only_registry_excludes_unmapped_records_from_counts_and_exports():
+    state = json.loads((Path(__file__).parents[3] / 'seed/demo.json').read_text())
+    florida_population.migrate(state)
+    members = state['members'] + linked.members_for({'role':'executive'}, ROLES)
+    full = model.build(state, members, CFG, {'discovery':'all'})
+    filtered = model.build(state, members, CFG, {'discovery':'all', 'hcc_only':True})
+    expected = [c for c in full['cases'] if (c.get('profile_reference') or {}).get('hcc')]
+    source_cases = [c for c in filtered['cases'] if c.get('profile_reference')]
+    assert len(source_cases) == len(expected) == 8
+    assert not any(c['member_id'] == 'M-559214' for c in filtered['cases'])
+    assert all((c.get('profile_reference') or {}).get('hcc') or c['hcc'].startswith('HCC ')
+               for c in filtered['cases'])
+    assert filtered['summary']['cases'] == len(filtered['cases']) < len(full['cases'])
+    assert sum(g['count'] for g in filtered['discovery_groups']) == len(filtered['cases'])
+    body, _ = model.export_bundle(filtered, 'registry', 'json')
+    assert {c['id'] for c in json.loads(body)['suspects']} == {c['id'] for c in filtered['cases']}
+    assert filtered['bases'] == full['bases']
+    assert next(c for c in full['cases'] if c['member_id'] == 'M-559214')['profile_reference']['hcc'] is None

@@ -5,7 +5,6 @@ import { RiskProvider, RiskContextBar, RiskOverview, useRiskContext } from "./ri
 import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   QueryClient,
@@ -33,7 +32,6 @@ import {
   Database,
   Settings,
   Bot,
-  Search,
   Bell,
   ChevronDown,
   LogOut,
@@ -87,8 +85,6 @@ export default function DemoApp() {
     </QueryClientProvider>
   );
 }
-const workspaceName =
-  process.env.NEXT_PUBLIC_WORKSPACE_NAME || "Northstar & Meridian";
 const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
   {
     group: "Analytics",
@@ -160,7 +156,7 @@ function WorkspaceNavigation({ user, route }: { user: User; route: string }) {
   const items = routes
     .filter((group) => group.group !== "Settings")
     .flatMap((group) => group.items)
-    .filter(([id]) => id !== "reports" && user.screens.includes(id === "agents" ? "admin" : id === "member360" ? "members" : id) && !hiddenByScope(id));
+    .filter(([id]) => id !== "reports" && id !== "member360" && user.screens.includes(id === "agents" ? "admin" : id === "member360" ? "members" : id) && !hiddenByScope(id));
   return (
     <nav id="workspace-navigation" className="workspace-nav" aria-label="Workspace navigation">
       {items.map(([id, title]) => (
@@ -203,7 +199,6 @@ function Application() {
   const route = pathname.split("/")[1] || "overview";
   const [notifications, setNotifications] = useState(false);
   const [help, setHelp] = useState(false);
-  const [globalSearch, setGlobalSearch] = useState("");
   const session = useQuery({
     queryKey: ["session"],
     queryFn: () => api<User>("/auth/session"),
@@ -290,31 +285,11 @@ function Application() {
             <Link aria-label="CitiusTech Perform+ workspace" href={user.screens.includes("overview") ? "/overview" : user.screens.includes("members") ? "/member360" : `/${user.screens.find(screen => !hiddenByScope(screen)) || "overview"}`}>
               <Brand full />
             </Link>
-            <div className="workspace-label" title={workspaceName}>
-              <Image className="workspace-symbol" src="/branding/northstar-meridian-mark.png" alt="" width={32} height={32} loading="eager" />
-              <strong>{workspaceName === "Northstar & Meridian" ? <><span>Northstar</span><span className="workspace-ampersand"> & </span><span className="workspace-meridian">Meridian</span></> : workspaceName}</strong>
-            </div>
           </div>
           <div className="topbar-right">
             {snapshot.data && WORKFLOW_ENABLED && (
               <FixtureAssistant user={user} data={snapshot.data} act={act} />
             )}
-            <form
-              className="global-search"
-              onSubmit={(e) => {
-                e.preventDefault();
-                router.push(`/suspects?view=registry&grid_q=${encodeURIComponent(globalSearch)}`);
-              }}
-            >
-              <Search size={15} />
-              <Input
-                aria-label="Search suspects"
-                placeholder="Search suspects…"
-                value={globalSearch}
-                onChange={(e) => setGlobalSearch(e.target.value)}
-              />
-              <kbd>↵</kbd>
-            </form>
             {WORKFLOW_ENABLED && <Button
               variant="ghost"
               size="icon-sm"
@@ -524,30 +499,6 @@ function Login({
     <div className={signIn.page}>
       <header className={signIn.masthead}>
         <Brand full />
-        <div className={signIn.workspaceHeader}>
-          <div className={signIn.workspaceIdentity}>
-            <Image
-              className={signIn.workspaceLogo}
-              src="/branding/northstar-meridian-mark.png"
-              alt=""
-              width={56}
-              height={56}
-              loading="eager"
-            />
-            <div>
-              <span>Organization workspace</span>
-              <strong title={workspaceName}>
-                {workspaceName === "Northstar & Meridian" ? (
-                  <>
-                    <span>Northstar</span>
-                    <span className={signIn.workspaceAmpersand}> & </span>
-                    <span className={signIn.workspaceMeridian}>Meridian</span>
-                  </>
-                ) : workspaceName}
-              </strong>
-            </div>
-          </div>
-        </div>
       </header>
       <SignInCarousel pauseForLogin={usingLogin} />
       <section

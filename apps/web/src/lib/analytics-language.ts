@@ -1,7 +1,7 @@
 /** Display copy only. API identifiers, formulas and saved report values stay unchanged. */
 export const plainLabels: Record<string, string> = {
   'Coding gap': 'Missing diagnosis code', 'Recapture': 'Confirm past conditions',
-  'New condition': 'Possible new condition', 'Specificity': 'More diagnosis detail',
+  'New condition': 'Possible new condition', 'Specificity': 'Missing Specificity',
   'Persistent status': 'Ongoing health status', 'Potential overcapture': 'Possible overcoding',
   'Data representation': 'Data issues', 'Unmapped': 'Not yet classified',
   'Documentation match': 'Diagnosis found in a document', 'Historical gap': 'Previous condition missing this year',
@@ -35,17 +35,17 @@ export const calculationText = (value: string) => analysisText(value)
 
 export const reportCopy: Record<string, {title: string; question: string}> = {
   R01: {title: 'Dashboard', question: 'How is population risk changing?'},
-  R02: {title: 'Risk scores & common conditions', question: 'Which conditions affect the population most?'},
-  R03: {title: 'Conditions to confirm again', question: 'Which past conditions are still missing this year?'},
-  R04: {title: 'Score changes & scenarios', question: 'How do scores change over time or with new findings?'},
-  R05: {title: 'Geography comparison', question: 'Where are risk and opportunities highest?'},
-  R06: {title: 'Suspected conditions', question: 'Which potential diagnoses need attention?'},
-  R07: {title: 'Chance of confirmation', question: 'How many suspects might be supported by evidence?'},
-  R08: {title: 'Revenue forecast', question: 'How much additional revenue could be recognized?'},
-  R09: {title: 'Possible overcoding & data issues', question: 'Where could coding overstate a member’s risk?'},
-  R10: {title: 'AI results', question: 'How did AI perform in the reference comparison?'},
-  R12: {title: 'Provider performance', question: 'How do provider risk, capture and recapture compare?'},
-  R11: {title: 'Data quality & calculation details', question: 'Which records and assumptions support these results?'},
+  R02: {title: 'Population Risk & Condition Prevalence', question: 'Which conditions affect the population most?'},
+  R03: {title: 'Chronic Condition Recapture', question: 'Which past conditions are still missing this year?'},
+  R04: {title: 'Risk Score Trends & Scenarios', question: 'How do scores change over time or with new findings?'},
+  R05: {title: 'Geographic Risk Analysis', question: 'Where are risk and opportunities highest?'},
+  R06: {title: 'Suspect Analytics', question: 'Which potential diagnoses need attention?'},
+  R07: {title: 'Suspect Confirmation Analysis', question: 'How many suspects might be supported by evidence?'},
+  R08: {title: 'Risk-Adjusted Revenue Forecast', question: 'How much additional revenue could be recognized?'},
+  R09: {title: 'Coding Integrity & Data Quality', question: 'Where could coding overstate a member’s risk?'},
+  R10: {title: 'AI Performance Evaluation', question: 'How did AI perform in the reference comparison?'},
+  R12: {title: 'Provider Risk & Capture Performance', question: 'How do provider risk, capture and recapture compare?'},
+  R11: {title: 'Analytics Methodology & Data Quality', question: 'Which records and assumptions support these results?'},
 };
 
 export const metricNames: Record<string, string> = {

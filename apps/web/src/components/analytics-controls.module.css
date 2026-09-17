@@ -1,0 +1,16 @@
+.info { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; padding:0; flex-shrink:0; color:var(--regent); background:transparent; border:0; border-radius:4px; cursor:pointer; }
+.info:hover,.info[data-state=open] { color:var(--sapphire); background:var(--selected); }
+.info:focus-visible,.select:focus-visible,.close:focus-visible { outline:2px solid var(--sapphire); outline-offset:2px; }
+.popover { z-index:80; width:350px; max-width:calc(100vw - 36px); max-height:min(calc(100dvh - 36px),var(--radix-popover-content-available-height)); overflow-y:auto; overscroll-behavior:contain; border:1px solid var(--line); border-radius:4px; padding:18px; background:white; box-shadow:0 8px 30px #1e2b3c20; color:var(--charcoal); font:14px/1.65 'Segoe UI',Arial,sans-serif; }
+.popover strong { display:block; padding-right:10px; font-size:15px; color:var(--sapphire); text-transform:capitalize; }
+.popover p { margin:8px 0 12px; }
+.close { border:0; background:none; padding:0; color:var(--sapphire); cursor:pointer; font-weight:600; }
+.condition { display:flex; flex-direction:column; gap:4px; min-width:190px; max-width:270px; color:var(--comment); font-size:var(--text-label); font-weight:600; }
+.select { display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px solid var(--line); background:white; color:var(--charcoal); min-height:var(--control-height); padding:6px 10px; font-size:var(--text-control); font-weight:400; cursor:pointer; }
+.menu { min-width:280px; max-height:380px; background:white; border:1px solid var(--line); color:var(--charcoal); font-size:14px; }
+.arrowAction { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; width:28px; height:28px; padding:0; border:0; border-radius:4px; background:transparent; color:var(--sapphire); cursor:pointer; vertical-align:middle; }
+.arrowAction:hover { background:var(--selected); }
+.arrowAction:focus-visible { outline:var(--reference-focus); outline-offset:2px; }
+.arrowAction:disabled { opacity:.45; cursor:default; }
+.primaryArrow { width:var(--control-height); height:var(--control-height); background:var(--sapphire); color:white; }
+.primaryArrow:hover { background:var(--charcoal); }
