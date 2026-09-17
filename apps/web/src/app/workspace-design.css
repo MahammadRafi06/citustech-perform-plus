@@ -86,6 +86,52 @@
   flex: 1;
 }
 
+.header-utilities {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0;
+  background: #fff;
+  color: #777;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.header-organization {
+  margin-right: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #606b78;
+}
+
+.header-utility-icon,
+.header-account,
+.header-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 24px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.header-utility-icon,
+.header-account svg { color: var(--royal); }
+.header-utility-icon { width: 16px; }
+.header-help { font-size: 14px; font-weight: 700; }
+.header-account { gap: 10px; color: #777; }
+.header-utility-divider { margin: 0 -7px; color: #8a8a8a; }
+.header-logout { color: #777; }
+.header-logout:hover { color: var(--sapphire); text-decoration: underline; }
+.header-utilities button:focus-visible { outline: var(--reference-focus); outline-offset: 3px; }
+
 .topbar {
   border-bottom: 1px solid var(--border);
   display: flex;

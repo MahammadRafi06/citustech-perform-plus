@@ -6,6 +6,7 @@ same inert Member 360 fixture. No existing patient or clinical document is renam
 import re
 from .member360 import _DATA
 from .suspect_discovery import GROUPS
+from .member360_evidence import EVIDENCE
 
 
 def text(node):
@@ -67,23 +68,26 @@ def fixtures(members):
             cat = 'OC' if 'Unsupported' in category else 'RC' if 'Recapture' in category else 'SP' if 'Specificity' in category else 'NC'
             kind = {'OC': 'conflicting', 'RC': 'recapture', 'SP': 'specificity', 'NC': 'disconnected'}[cat]
             key = f'M360-{m["id"]}-{i+1}'
+            detail = EVIDENCE.get(key)
+            document_ids = [f'{key}-DOC-{n+1}' for n in range(len(detail['records']))] if detail else []
             findings.append(dict(id=key, member_id=m['id'], condition=name, business_category=cat,
                 clinical_concept=f'member360:{i+1}', service_period='2026', type='member360_reference',
                 # Source confidence is not an evidence grade or closure estimate.
                 evidence='Unknown',
-                status='new', analysis_date='2026-09-15', document_ids=[],
+                status='new', analysis_date='2026-09-15', document_ids=document_ids,
                 # The supplied coefficient is unvalidated, so do not feed it into a
                 # selected-model score or financial scenario as an established impact.
                 illustrative_exposure=None, authored_extension=True,
                 summary=evidence, countercheck=check,
                 profile_reference=dict(member_id=m['id'], year=2026, model_version='V28', condition=condition,
                     category=category, confidence=confidence, evidence=evidence, compliance_note=check,
+                    evidence_strength=detail['strength'] if detail else 'Unknown',
                     hcc=source_hcc.group(1) if source_hcc else None, delta=float(delta), inclusion=inclusion,
                     source_sha256=_DATA['source']['sha256']),
                 discovery=dict(kind=kind, label=labels[kind], signal=evidence,
-                    coded_view=inclusion, why_missed='The condition detail is in the member profile and may be absent or incomplete in the coded record.',
-                    confirm=check, record_count=0, rank=i, origin='authored_reference_profiles',
-                    comparison_basis='Member 360 Risk Adjustment tab; original clinical documents are not attached.', version='member360-linked-v2')))
+                    coded_view=detail['coded_view'] if detail else inclusion, why_missed='The condition detail is in the member profile and may be absent or incomplete in the coded record.',
+                    confirm=check, record_count=len(document_ids), rank=i, origin='authored_reference_profiles',
+                    comparison_basis='Member 360 Risk Adjustment tab with authored evidence expansions; not recovered original clinical documents.', version='member360-linked-v3')))
     return findings
 
 

@@ -39,7 +39,7 @@ export function LandingAnalyticsPanels({report,go,update,frozen=false}:{report:A
   <Opportunity key={report.filter_hash} data={data} go={go} scoreName={report.config.program==='MA'?'RAF':'score'} initialQuadrant={report.context.quadrant} initialDomains={report.context.conditions?.length?report.context.conditions:report.context.condition?[report.context.condition]:[]} initialClosure={report.context.closure}/>
   <Recapture data={data} go={go}/>
   <ContinuingMembers data={data} program={report.config.program}/>
-  <ProviderOutcomes data={data} program={report.config.program}/>
+  <NetworkOutcomes key={report.filter_hash} data={data} program={report.config.program}/>
   <SocialNeeds data={data} report={report} update={update} go={go} frozen={frozen}/>
  </div>;
 }
@@ -97,17 +97,17 @@ function Opportunity({data,go,scoreName,initialQuadrant,initialDomains,initialCl
 }
 
 function Recapture({data,go}:{data:LandingAnalytics;go:Nav}) {
- const [dimension,setDimension]=useState('month');const [page,setPage]=useState(0);const [cell,setCell]=useState('');
- const r=data.recapture;const cols=dimension==='practice'?r.practices.map(p=>({key:p.id,name:p.name})):r.months.map((name,i)=>({key:String(i+1),name})).reverse();
+ const [dimension,setDimension]=useState('network');const [page,setPage]=useState(0);const [cell,setCell]=useState('');
+ const r=data.recapture;const cols=dimension==='network'?(r.networks||[]).map(n=>({key:n.id,name:n.name})):r.months.map((name,i)=>({key:String(i+1),name})).reverse();
  const pages=Math.max(1,Math.ceil(cols.length/CHART_LIMITS.compact));const current=Math.min(page,pages-1);const shown=cols.slice(current*CHART_LIMITS.compact,(current+1)*CHART_LIMITS.compact);
  const conditions=[...new Set(r.heat.map(h=>h.condition))];const chosen=r.heat.find(h=>`${h.condition}|${h.dimension}|${h.key}`===cell&&!h.suppressed);
- return <Card wide title="HCC Recapture Status" tools={<div className={s.segment}>{['practice','month'].map(d=><button key={d} aria-pressed={dimension===d} onClick={()=>{setDimension(d);setPage(0);setCell('');}}>{d==='practice'?'By practice':'By month'}</button>)}</div>}>
+ return <Card wide title="HCC Recapture Status" tools={<div className={s.segment}>{['network','month'].map(d=><button key={d} aria-pressed={dimension===d} onClick={()=>{setDimension(d);setPage(0);setCell('');}}>{d==='network'?'By Network':'By Month'}</button>)}</div>}>
   <div className={s.recapture}><div className={s.funnel}>
    <div className={s.funnelTotal}><span>Prior-year conditions</span><strong>{count(r.prior)}</strong></div><div className={s.funnelConnector}/>
    <div className={s.funnelSplit}><div><strong>{count(r.confirmed)}</strong><span>Confirmed again</span></div><div><strong>{count(r.missing)}</strong><span>Still missing</span></div></div>
    <div className={s.completion}><div><i style={{width:`${r.prior?r.confirmed/r.prior*100:0}%`}}/></div><strong>{r.prior?percent(r.confirmed/r.prior):'0%'} confirmed</strong></div>
    {chosen&&<p><b>{short(chosen.condition)}</b><br/>{chosen.name}<br/>{count(chosen.confirmed||0)} of {count(chosen.members||0)} confirmed.</p>}
-   {chosen&&<ArrowAction label={`Explore ${chosen.condition} in ${chosen.name}`} onClick={()=>go('/analytics',{view:'risk',condition:chosen.condition,practices:dimension==='practice'?JSON.stringify([chosen.key]):'',run_month:dimension==='month'?chosen.key.padStart(2,'0'):''})}/>}
+   {chosen&&<ArrowAction label={`Explore ${chosen.condition} in ${chosen.name}`} onClick={()=>go('/analytics',{view:'risk',condition:chosen.condition,...(dimension==='network'?{health_network:chosen.key,provider_group:'',provider:'',practices:''}:{run_month:chosen.key.padStart(2,'0')})})}/>}
   </div><div className={s.heatSection}>
    <div className={s.heatLegend}><span>Share confirmed again</span><div><span>Lower</span><i/><span>Higher</span></div><div><button aria-label="Previous heatmap columns" disabled={current===0} onClick={()=>setPage(current-1)}><ChevronLeft size={14}/></button><span>{current+1} / {pages}</span><button aria-label="Next heatmap columns" disabled={current===pages-1} onClick={()=>setPage(current+1)}><ChevronRight size={14}/></button></div></div>
    {conditions.length?<div className={s.heat} style={{gridTemplateColumns:`minmax(116px,1.3fr) repeat(${Math.max(1,shown.length)},minmax(62px,1fr))`}}><span/>{shown.map(c=><strong key={c.key} className={dimension==='month'&&c.key===String(r.months.length)?s.latestMonth:undefined} title={c.name}>{c.name}</strong>)}{conditions.map(condition=><Fragment key={condition}><span title={condition}>{short(condition)}</span>{shown.map(c=>{const h=r.heat.find(h=>h.condition===condition&&h.dimension===dimension&&h.key===c.key);const id=`${condition}|${dimension}|${c.key}`;return <button key={c.key} className={dimension==='month'&&c.key===String(r.months.length)?s.latestCell:undefined} aria-label={`${short(condition)}, ${c.name}: ${!h?'no conditions':h.suppressed?'not shown to protect small groups':`${percent(h.rate||0)} confirmed`}`} title={!h?'No conditions':h.suppressed?'Not shown to protect small groups':undefined} disabled={!h||h.suppressed} aria-pressed={cell===id} style={{background:!h||h.suppressed?'#f4f6f8':`rgba(0,76,141,${.06+(h.rate||0)*.62})`,color:(h?.rate||0)>.66?'#fff':'var(--sapphire)'}} onClick={()=>setCell(id)}>{!h||h.suppressed?'—':percent(h.rate||0)}</button>;})}</Fragment>)}</div>:<NoData/>}
@@ -119,7 +119,11 @@ function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}
  const comparison=data.continuing_members;
  const scoreName=program==='MA'?'RAF':'risk score';
  if(!comparison||comparison.start===null||comparison.end===null||comparison.delta===null)return <Card title="Continuing Member Risk Score Change"><div className={s.noData}>No continuing members with scores in both years match these filters.</div></Card>;
- const changes=comparison.changes.filter((c):c is {name:string;change:number}=>c.change!==null);
+ const changeLabels:Record<string,string>={'Coding updates':'Model Lift','Added conditions':'Captured Conditions','Not yet confirmed':'Open Opportunities'};
+ const changeOrder=['Model Lift','Captured Conditions','Open Opportunities'];
+ const changes=comparison.changes.filter((c):c is {name:string;change:number}=>c.change!==null)
+  .map(c=>({...c,name:changeLabels[c.name]||c.name}))
+  .sort((a,b)=>changeOrder.indexOf(a.name)-changeOrder.indexOf(b.name));
  let running=comparison.start;
  const steps=changes.map(c=>{const from=running;running+=c.change;return {...c,from,to:running};});
  const levels=[comparison.start,comparison.end,...steps.flatMap(c=>[c.from,c.to])];
@@ -140,7 +144,7 @@ function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}
   <Chart label={`2025 to 2026 ${scoreName} change for ${count(comparison.members)} continuing members`} height={280}>
    <ComposedChart data={bars} margin={{left:-10,right:12,top:24,bottom:12}}>
     <CartesianGrid vertical={false} stroke="var(--line)"/>
-    <XAxis {...axis} dataKey="name" interval={0} height={46} tick={({x=0,y=0,payload})=>{const label=String(payload?.value||'');const lines=label==='Added conditions'?['Added','conditions']:label==='Not yet confirmed'?['Not yet','confirmed']:label==='Coding updates'?['Coding','updates']:[label];return <text x={x} y={Number(y)+14} textAnchor="middle" fill="var(--comment)" fontSize={12}>{lines.map((line,i)=><tspan key={i} x={x} dy={i?15:0}>{line}</tspan>)}</text>;}}/>
+    <XAxis {...axis} dataKey="name" interval={0} height={46} tick={({x=0,y=0,payload})=>{const label=String(payload?.value||'');const lines=label==='Captured Conditions'?['Captured','Conditions']:label==='Open Opportunities'?['Open','Opportunities']:[label];return <text x={x} y={Number(y)+14} textAnchor="middle" fill="var(--comment)" fontSize={12}>{lines.map((line,i)=><tspan key={i} x={x} dy={i?15:0}>{line}</tspan>)}</text>;}}/>
     <YAxis {...axis} tickFormatter={v=>Number(v).toFixed(2)} domain={[floor,ceiling]} allowDataOverflow width={45}/>
     <Tooltip contentStyle={tip} formatter={(_v,_n,p)=>[p.payload.total?Number(p.payload.value).toFixed(3):signed(Number(p.payload.value)),p.payload.total?`Average ${scoreName}`:`${scoreName} change`]}/>
     <Bar dataKey="range" maxBarSize={56} isAnimationActive={false} radius={[3,3,0,0]}>
@@ -153,15 +157,15 @@ function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}
  </Card>;
 }
 
-function ProviderOutcomes({data,program}:{data:LandingAnalytics;program:string}) {
- const [specialty,setSpecialty]=useState('');const [provider,setProvider]=useState('');
- const options=data.providers.filter(p=>!p.suppressed&&(!specialty||p.specialty===specialty));
- const selected=options.filter(p=>!provider||p.id===provider);
+function NetworkOutcomes({data,program}:{data:LandingAnalytics;program:string}) {
+ const [network,setNetwork]=useState('');
+ const options=(data.networks||[]).filter(n=>!n.suppressed);
+ const selected=options.filter(n=>!network||n.id===network);
  const series=cumulativeOutcomes(selected,data.recapture.months);
  const totals=series.at(-1)||{identified:0,closed:0,open:0,added:0};
  const hcc=program==='MA'?'HCC':'Condition';
  return <Card title="Cumulative Suspect Outcomes">
-  <div className={s.filters}><label>Specialty<select aria-label="Provider specialty" value={specialty} onChange={e=>{setSpecialty(e.target.value);setProvider('');}}><option value="">All specialties</option>{[...new Set(data.providers.map(p=>p.specialty))].map(v=><option key={v}>{v}</option>)}</select></label><label>Provider<select aria-label="Outcome provider" value={options.some(p=>p.id===provider)?provider:''} onChange={e=>setProvider(e.target.value)}><option value="">All providers</option>{options.map(p=><option key={p.id} value={p.id}>{p.name} · {p.practice}</option>)}</select></label></div>
+  <div className={s.filters}><label>Health Network<select aria-label="Outcome health network" value={network} onChange={e=>setNetwork(e.target.value)}><option value="">All Networks</option>{options.map(n=><option key={n.id} value={n.id}>{n.name}</option>)}</select></label></div>
   <div className={s.outcomeStats}><div><strong>{count(totals.identified)}</strong><span>Total Identified</span></div><div><strong>{count(totals.closed)}</strong><span>Total Closed</span></div><div title="Included in Total Closed. Each confirmed condition is counted once per member."><strong>{count(totals.added)}</strong><span>Closed — {hcc} Confirmed</span></div><div><strong>{count(totals.open)}</strong><span>Still Open</span></div></div>
   {selected.length?<Chart height={230} label="Cumulative total identified and total closed suspects through each month"><ComposedChart data={series} margin={{left:0,right:15,top:10,bottom:0}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis {...axis} dataKey="month"/><YAxis {...axis} width={48} allowDecimals={false}/><Tooltip contentStyle={tip} labelFormatter={month=>`Cumulative Through ${month}`} formatter={v=>count(Number(v))}/><Line dataKey="identified" name="Total Identified" stroke={blue} strokeWidth={2.5} dot={{r:3}} type="linear" isAnimationActive={false}/><Line dataKey="closed" name="Total Closed" stroke={teal} strokeWidth={2.5} dot={{r:3}} type="linear" isAnimationActive={false}/></ComposedChart></Chart>:<NoData/>}
   <Legend items={[["Total Identified",blue],["Total Closed",teal]]}/>

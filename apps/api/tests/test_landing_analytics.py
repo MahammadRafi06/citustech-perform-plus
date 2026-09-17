@@ -218,7 +218,7 @@ def test_social_filters_use_authorized_scope_and_export_context(state):
 
 def test_small_group_protection_for_all_new_dimensions(state):
     r=a.build(state,state['members'][:12],CFG,{})['landing']
-    for name in ['matrix','providers','social','quadrants','quadrant_conditions','closure_bands']:
+    for name in ['matrix','providers','networks','social','quadrants','quadrant_conditions','closure_bands']:
         for group in r[name]:
             assert (group['suppressed'] and group['members'] is None) or group['members']==0
     assert all(h['members'] is None for h in r['recapture']['heat'])
@@ -273,11 +273,12 @@ def test_complete_provider_hierarchy_preserves_population_and_provider_scope(sta
     assert {r['practiceId'] for r in hierarchy} == {m['provider_id'] for m in state['members']}
     group = hierarchy[0]['group']
     grouped = a.build(state, state['members'], CFG, dict(health_network='Central MA Network', provider_group=group))
-    expected = [m for m in state['members'] if provider_hierarchy.identity(m)['group'] == group]
+    expected = [m for m in state['members'] if provider_hierarchy.identity(m)['group'] == group
+                and provider_hierarchy.identity(m)['network'] == 'Central MA Network']
     assert grouped['summary']['enrolled'] == len(expected) > 1000
     physician = hierarchy[0]['provider']
     scoped = a.build(state, state['members'], CFG, dict(provider=physician))
-    ids = {m['id'] for m in expected if provider_hierarchy.identity(m)['provider'] == physician}
+    ids = {m['id'] for m in state['members'] if provider_hierarchy.identity(m)['provider'] == physician}
     assert scoped['summary']['enrolled'] == len(ids) > 100
     assert all(c['member_id'] in ids for c in scoped['cases'])
     assert all(p['name'] == physician for p in scoped['providers'] if not p['suppressed'])
@@ -301,14 +302,45 @@ def test_health_network_entity_options_filter_their_population(state):
     from apps.api.app import provider_hierarchy, member360_analytics
     profiles = member360_analytics.members_for({'role':'superuser'}, {'superuser':{'screens':['members']}})
     members = state['members'] + profiles
-    for entity, field in [('Central MA Network', 'network'), ('Northside Medical', 'group'),
-                          ('Harbor Primary Care', 'group'), ('Dr. A. Carter', 'provider')]:
-        expected = {m['id'] for m in members if provider_hierarchy.identity(m)[field] == entity}
+    scopes = []
+    for entity in provider_hierarchy.NETWORKS:
+        expected = {m['id'] for m in members if provider_hierarchy.identity(m)['network'] == entity}
+        assert not any(expected & previous for previous in scopes)
+        scopes.append(expected)
         result = a.build(state, members, CFG, {'health_network':entity})
         assert result['summary']['enrolled'] == len(expected) > 0
         assert all(c['member_id'] in expected for c in result['cases'])
-    empty = a.build(state, members, CFG, {'health_network':'Northside Medical', 'provider_group':'Harbor Primary Care'})
-    assert empty['summary']['enrolled'] == 0 and empty['cases'] == []
+        assert [n['name'] for n in result['landing']['networks']] == [entity]
+    assert set.union(*scopes) == {m['id'] for m in members}
+    narrowed = a.build(state, members, CFG, {'health_network':'Northside Medical', 'provider_group':'Harbor Primary Care'})
+    expected = {m['id'] for m in members if provider_hierarchy.identity(m)['network'] == 'Northside Medical'
+                and provider_hierarchy.identity(m)['group'] == 'Harbor Primary Care'}
+    assert narrowed['summary']['enrolled'] == len(expected) > 0
+
+
+def test_network_recapture_and_cumulative_outcomes_reconcile(state, report):
+    from apps.api.app.provider_hierarchy import NETWORKS
+    data = report['landing']
+    assert {n['name'] for n in data['recapture']['networks']} == set(NETWORKS)
+    assert {n['name'] for n in data['networks']} == set(NETWORKS)
+    assert sum(n['members'] for n in data['networks']) == report['summary']['eligible']
+    for prevalence in report['prevalence']:
+        cells = [h for h in data['recapture']['heat'] if h['dimension']=='network' and h['condition']==prevalence['name']]
+        if any(h['suppressed'] for h in cells):
+            assert all(h['members'] is None and h['confirmed'] is None and h['rate'] is None
+                       for h in cells if h['suppressed'])
+        else:
+            assert sum(h['members'] for h in cells) == prevalence['prior']
+            assert sum(h['confirmed'] for h in cells) == prevalence['recaptured']
+    for network in data['networks']:
+        scoped = a.build(state, state['members'], CFG, {'health_network':network['name']})
+        assert scoped['landing']['networks'][0]['series'] == network['series']
+        for period in network['series']:
+            assert period['identified_to_date'] == period['closed_to_date'] + period['open_to_date']
+            assert period['confirmed_to_date'] <= period['closed_to_date'] <= period['identified_to_date']
+    for index in range(len(data['recapture']['months'])):
+        for key in ['rules','closed','added','identified_to_date','closed_to_date','open_to_date','confirmed_to_date']:
+            assert sum(n['series'][index][key] for n in data['networks']) == sum(p['series'][index][key] for p in data['providers'])
 
 
 def test_plan_display_cleanup_preserves_source_evidence(state):

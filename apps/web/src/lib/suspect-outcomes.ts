@@ -1,6 +1,6 @@
 import type { LandingAnalytics } from './analytics-types';
 
-export function cumulativeOutcomes(providers:LandingAnalytics['providers'],months:string[]) {
+export function cumulativeOutcomes(providers:Pick<LandingAnalytics['providers'][number],'series'|'suppressed'>[],months:string[]) {
  let identified=0,closed=0,added=0;
  return months.map(month=>{
   for(const provider of providers) {

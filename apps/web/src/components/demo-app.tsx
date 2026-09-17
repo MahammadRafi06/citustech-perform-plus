@@ -33,7 +33,8 @@ import {
   Settings,
   Bot,
   Bell,
-  ChevronDown,
+  Mail,
+  UserRound,
   LogOut,
   LockKeyhole,
   Eye,
@@ -44,7 +45,6 @@ import {
   Sparkles,
   RefreshCw,
   Shield,
-  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,7 +68,7 @@ import { Member360Workspace } from "./member360-workspace";
 import { Workspaces } from "./workspaces";
 import { FixtureAssistant } from "./fixture-assistant";
 import { AiConfiguration } from "./ai-configuration";
-import { Avatar, Drawer, Empty, Modal, Notice } from "./shared";
+import { Drawer, Empty, Modal, Notice } from "./shared";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -198,6 +198,7 @@ function Application() {
   const router = useRouter();
   const route = pathname.split("/")[1] || "overview";
   const [notifications, setNotifications] = useState(false);
+  const [messages, setMessages] = useState(false);
   const [help, setHelp] = useState(false);
   const session = useQuery({
     queryKey: ["session"],
@@ -290,42 +291,28 @@ function Application() {
             {snapshot.data && WORKFLOW_ENABLED && (
               <FixtureAssistant user={user} data={snapshot.data} act={act} />
             )}
-            {WORKFLOW_ENABLED && <Button
-              variant="ghost"
-              size="icon-sm"
-              aria-label="Notifications"
-              onClick={() => setNotifications(true)}
-              className="notification-button"
-            >
-              <Bell size={18} />
-              {!!snapshot.data?.events.length && <i />}
-            </Button>}
-            <Button variant="ghost" size="icon" aria-label="Workspace guide" title="Workspace guide" onClick={() => setHelp(true)}>
-              <HelpCircle size={18} />
-            </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="profile" aria-label="Account menu">
-                  <Avatar name={user.name.replace(/ demo$/i, "")} />
-                  <ChevronDown size={13} />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="profile-menu">
-                <DropdownMenuLabel>
-                  {user.name.replace(/ demo$/i, "")}
-                  <small>{user.email}</small>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem disabled>
-                  <Shield size={14} />
-                  {label(user.role)}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={signout}>
-                  <LogOut size={15} />
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="header-utilities" aria-label="Account controls">
+              <span className="header-organization">Citiustech</span>
+              <button className="header-utility-icon" aria-label="Messages" title="Messages" onClick={() => setMessages(true)}><Mail size={15} strokeWidth={1.6} /></button>
+              <button className="header-utility-icon" aria-label="Notifications" title="Notifications" onClick={() => setNotifications(true)}><Bell size={15} fill="currentColor" strokeWidth={1.5} /></button>
+              <button className="header-utility-icon header-help" aria-label="Workspace guide" title="Workspace guide" onClick={() => setHelp(true)}>?</button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="header-account" aria-label="Account menu">
+                    <UserRound size={15} fill="currentColor" strokeWidth={1.5} />
+                    <span>{user.name.replace(/ demo$/i, "")}</span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="profile-menu">
+                  <DropdownMenuLabel>{user.name.replace(/ demo$/i, "")}<small>{user.email}</small></DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem disabled><Shield size={14} />{label(user.role)}</DropdownMenuItem>
+                  <DropdownMenuItem onClick={signout}><LogOut size={15} />Sign out</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <span className="header-utility-divider" aria-hidden="true">|</span>
+              <button className="header-logout" onClick={signout}>Logout</button>
+            </div>
           </div>
         </div>
         <WorkspaceNavigation user={user} route={pathname.startsWith('/admin/ai') ? 'agents' : actualRoute} />
@@ -393,6 +380,9 @@ function Application() {
           </button>
         </footer>
       </div>
+      <Modal open={messages} onOpenChange={setMessages} title="Messages" description="Your workspace messages.">
+        <Empty title="No messages" description="You have no messages in this workspace." />
+      </Modal>
       <Drawer
         open={notifications}
         onOpenChange={setNotifications}

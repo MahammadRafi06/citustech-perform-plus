@@ -40,11 +40,11 @@ function SuspectEvidence({finding:c}:{finding:SuspectCase}) {
  const impact=reference?reference.delta.toFixed(3):c.delta===null?'Not Estimated':`${c.delta>0?'+':''}${c.delta.toFixed(3)}`;
  const impactLabel=reference?`${c.category==='OC'?'RAF at Risk':'RAF Contribution'} · ${reference.year}`:c.category==='OC'?'Estimated Correction':'Estimated Score Gain';
  const summary=pulmonaryHandoff?'Pulmonology documents established COPD and reviews maintenance treatment.':reference?.evidence||gap?.signal||analysisText(c.summary);
- const recorded=pulmonaryHandoff?'Primary care lists cough; COPD is not recorded.':gap?.coded_view;
+ const recorded=pulmonaryHandoff?'Primary care lists cough; COPD is not recorded.':gap?.coded_view||reference?.inclusion||'The available coded record requires reconciliation with the clinical evidence.';
  const validation=pulmonaryHandoff?'Confirm the specialist note is current and eligible for coding, and check whether COPD was captured elsewhere. Cough or inhaler use alone does not confirm COPD.':reference?.compliance_note||gap?.confirm||analysisText(c.countercheck);
  const sources=[...c.sources].sort((a,b)=>a.date.localeCompare(b.date));
  const metrics=[
-  ...(!reference?[{label:'Evidence Strength',value:c.evidence}]:[]),
+  {label:'Evidence Strength',value:reference?.evidence_strength||c.evidence},
   {label:reference?'Source Confidence':'Confirmation Likelihood',value:confidence,info:confidenceDescription(c)},
   {label:impactLabel,value:impact,info:reference?'RAF contribution from the member’s Risk Adjustment tab. It is not included in forecasts for the selected program and model.':'Estimated score change if the finding is clinically validated and eligible for the selected model. It is not a submitted or accepted score.'},
  ];
@@ -59,11 +59,11 @@ function SuspectEvidence({finding:c}:{finding:SuspectCase}) {
   </div>
 
   <section aria-label="Clinical finding">
-   <h3>{gap&&!reference?'Record Discrepancy':'Clinical Finding'}</h3>
-   {gap&&!reference?<div className={s.comparison}>
+   <h3>Record Discrepancy</h3>
+   <div className={s.comparison}>
     <div><h4>Recorded Diagnosis</h4><p>{recorded}</p></div>
     <div><h4>Clinical Evidence</h4><p>{summary}</p></div>
-   </div>:<div className={s.finding}><p>{summary}</p>{reference&&<span className={s.inclusion}>{reference.inclusion}</span>}</div>}
+   </div>
   </section>
 
   {sources.length>0&&<section aria-label="Supporting records">

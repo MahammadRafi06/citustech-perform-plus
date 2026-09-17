@@ -6,7 +6,7 @@ Original findings and retained source excerpts keep their identities/provenance.
 """
 from __future__ import annotations
 
-from . import analytics_landing, suspect_discovery, member360_analytics, provider_hierarchy
+from . import analytics_landing, suspect_discovery, member360_analytics, member360_evidence, provider_hierarchy
 from collections import Counter, defaultdict
 from copy import deepcopy
 from datetime import date, timedelta
@@ -17,7 +17,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.15'
+VERSION = 'analytics-population-2026.17'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -422,11 +422,13 @@ def build(state, members, config, context, *, include_evidence=True):
     eligible_ids = {r['id'] for r in rows if r['eligible']}
     # Only globally stable extensions are used: filtering never invents new stories.
     discovery_findings, discovery_documents = suspect_discovery.fixtures(state['members'])
-    retained = state['opportunities'] + extensions(state['members']) + discovery_findings + member360_analytics.fixtures(members)
+    profile_findings = member360_analytics.fixtures(members)
+    profile_documents = member360_evidence.documents(profile_findings)
+    retained = state['opportunities'] + extensions(state['members']) + discovery_findings + profile_findings
     questions = snapshot_questions(state['members'], ctx['snapshot'])
     questions += capture_questions(state['members'], retained, ctx['snapshot'])
     cases = canonicalize(retained + questions, root, config, ctx['snapshot'])
-    documents = {d['id']: d for d in discovery_documents + state.get('documents', [])}
+    documents = {d['id']: d for d in discovery_documents + profile_documents + state.get('documents', [])}
     for c in cases:
         retained = [documents[k] for k in c['document_ids'] if k in documents and documents[k].get('member_id') == c['member_id']
                     and documents[k].get('source_member_id', c['member_id']) == c['member_id']

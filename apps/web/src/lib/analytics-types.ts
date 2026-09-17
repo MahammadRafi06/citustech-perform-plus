@@ -14,7 +14,7 @@ export interface AnalysisContext {
 export interface SuspectCase {
   discovery?: {kind:string;label:string;signal:string;coded_view:string;why_missed:string;confirm:string;record_count:number;rank:number;origin:string;comparison_basis:string;version:string} | null;
   member_name?: string;
-  profile_reference?: {member_id:string;year:number;model_version:string;condition:string;category:string;confidence:string;evidence:string;compliance_note:string;hcc:string|null;delta:number;inclusion:string;source_sha256:string} | null;
+  profile_reference?: {member_id:string;year:number;model_version:string;condition:string;category:string;confidence:string;evidence:string;evidence_strength?:string;compliance_note:string;hcc:string|null;delta:number;inclusion:string;source_sha256:string} | null;
   id: string; aliases: string[]; member_id: string; condition: string; domain: string;
   category: string; category_label: string; direction: string; legacy_type: string;
   rule_ids: string[]; rule_type: string; hcc: string; mapping_origin: string; evidence: string;
@@ -78,10 +78,11 @@ export interface LandingAnalytics {
   quadrant_conditions?: {id:string;name:string;quadrant:OpportunityQuadrant;members:number|null;cases:number|null;suppressed:boolean}[];
   closure_bands?: {id:string;name:string;quadrant:OpportunityQuadrant;band:OpportunityLevel;members:number|null;cases:number|null;suppressed:boolean}[];
   priority_members:number; priority_cases:number;
-  recapture: {prior:number;confirmed:number;missing:number;months:string[];practices:{id:string;name:string}[];
+  recapture: {prior:number;confirmed:number;missing:number;months:string[];practices:{id:string;name:string}[];networks?:{id:string;name:string}[];
     heat:{condition:string;dimension:string;key:string;name:string;members:number|null;confirmed:number|null;rate:number|null;suppressed:boolean}[]};
   providers:{id:string;name:string;practice:string;specialty:string;members:number|null;suppressed:boolean;
     series:{month:string;rules:number;closed:number;added:number;rate:number;identified_to_date?:number;closed_to_date?:number;open_to_date?:number;confirmed_to_date?:number}[]|null}[];
+  networks?: {id:string;name:string;members:number|null;suppressed:boolean;series:LandingAnalytics['providers'][number]['series']}[];
   social:{id:string;name:string;members:number|null;needs:number|null;share:number|null;score:number|null;suppressed:boolean}[];
   social_options:Record<string,string[]>;
   model:{start:number|null;changes:{name:string;change:number}[];benchmark:number;months:number;members:number};

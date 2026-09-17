@@ -126,9 +126,28 @@ def continuing_member_comparison(rows, context):
                 method='Same member IDs, enrolled in both years, with the same reporting-month weights. 2026 baseline scores use the selected program with a fixed 2026 final-year configuration. Prior-year enrollment and component changes are authored fixtures, not CMS model-transition calculations. Missing scores and reference-only member profiles are excluded from both years.')
 
 
+def outcome_series(outcomes, months):
+    series = []
+    identified_to_date = closed_to_date = confirmed_to_date = 0
+    for month, label in enumerate(months, 1):
+        subset = [o for o in outcomes if o['month'] == month]
+        closed = sum(o['closed'] for o in subset)
+        added = sum(o['closed'] and o['confirmed'] for o in subset)
+        identified_to_date += len(subset)
+        closed_to_date += closed
+        confirmed_to_date += added
+        series.append(dict(month=label, rules=len(subset), closed=closed, added=added,
+            rate=closed/len(subset) if subset else 0, identified_to_date=identified_to_date,
+            closed_to_date=closed_to_date, open_to_date=identified_to_date-closed_to_date,
+            confirmed_to_date=confirmed_to_date))
+    return series
+
+
 def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     mmap = {m['id']: m for m in members}
     eligible = [r for r in rows if r['eligible']]
+    member_network = {r['id']: identity(mmap[r['id']])['network'] for r in eligible}
+    networks = sorted(set(member_network.values()))
     groups = defaultdict(list)
     positive = [c for c in cases if c['qualified'] and c['category'] not in ('OC', 'DR') and (c['delta'] or 0) > 0 and c['probability']['base'] is not None]
     for c in positive:
@@ -168,15 +187,21 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
             if not group: continue
             confirmed = sum(r['recaptured'] for r in group)
             heat.append(dict(condition=condition, dimension='practice', key=pid, name=name, members=len(group), confirmed=confirmed, rate=confirmed/len(group)))
+        for network in networks:
+            group = [r for r in cohort if member_network[r['id']] == network]
+            if not group: continue
+            confirmed = sum(r['recaptured'] for r in group)
+            heat.append(dict(condition=condition, dimension='network', key=network, name=network, members=len(group), confirmed=confirmed, rate=confirmed/len(group)))
         for month, name in enumerate(months, 1):
             confirmed = sum(r['recaptured'] and 1+seed(r['id']+':confirmed-month') % 9 <= month for r in cohort)
             if cohort: heat.append(dict(condition=condition, dimension='month', key=str(month), name=name, members=len(cohort), confirmed=confirmed, rate=confirmed/len(cohort)))
     protected_heat = []
     for condition, _, _ in catalog:
-        for dimension in ['practice', 'month']:
+        for dimension in ['practice', 'network', 'month']:
             protected_heat.extend(protect([r for r in heat if r['condition'] == condition and r['dimension'] == dimension]))
     # Distinct sample outcomes per member-condition-rule pair; no events are written.
     providers = []
+    network_outcomes = defaultdict(list)
     for i, (pid, name) in enumerate(practices):
         pindex = seed(pid + ':physician')
         specialty = ['Family medicine','Internal medicine','Geriatrics'][pindex % 3]
@@ -185,18 +210,9 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
                          closed=seed(f"{r['id']}:{c}:closed") % 100 < 58+pindex%25,
                          confirmed=seed(f"{r['id']}:{c}:confirmation") % 100 < 76)
                     for r in group for c in r['conditions']]
-        series = []
-        for month, label in enumerate(months, 1):
-            subset = [o for o in outcomes if o['month'] == month]
-            closed = sum(o['closed'] for o in subset)
-            series.append(dict(month=label, rules=len(subset), closed=closed, added=sum(o['closed'] and o['confirmed'] for o in subset), rate=closed/len(subset) if subset else 0))
-        identified_to_date = closed_to_date = confirmed_to_date = 0
-        for period in series:
-            identified_to_date += period['rules']
-            closed_to_date += period['closed']
-            confirmed_to_date += period['added']
-            period.update(identified_to_date=identified_to_date, closed_to_date=closed_to_date,
-                open_to_date=identified_to_date-closed_to_date, confirmed_to_date=confirmed_to_date)
+        series = outcome_series(outcomes, months)
+        for outcome in outcomes:
+            network_outcomes[member_network[outcome['member']]].append(outcome)
         scored = [r for r in group if r['score'] is not None]
         member_months = sum(r['weight'] for r in scored)
         identified = sum(month['rules'] for month in series)
@@ -211,6 +227,9 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
             prior_conditions=prior_conditions, recaptured_conditions=recaptured_conditions,
             recapture_rate=recaptured_conditions/prior_conditions if prior_conditions else None,
             open_suspects=sum(c['provider_id']==pid and c['status']=='open' for c in cases)))
+    network_totals = [dict(id=name, name=name,
+        members=sum(member_network[r['id']] == name for r in eligible),
+        series=outcome_series(network_outcomes[name], months)) for name in networks]
     # Broad county clusters, with all demographic filtering applied before aggregation.
     social = []
     for county in sorted({r['county'] for r in eligible}):
@@ -229,6 +248,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     return dict(origin='authored_sample_analytics', matrix=protect(matrix), quadrants=quadrants, quadrant_conditions=quadrant_conditions, closure_bands=closure_bands,
                 priority_members=len({c['member_id'] for c in priority}), priority_cases=len(priority),
                 recapture=dict(prior=prior, confirmed=confirmed, missing=prior-confirmed, heat=protected_heat,
+                    networks=[dict(id=n,name=n) for n in networks if any(member_network[r['id']]==n and r['conditions'] for r in eligible)],
                     practices=[dict(id=p,name=n) for p,n in practices if any(r['provider_id']==p and r['conditions'] for r in eligible)], months=months),
-                providers=protect(providers), social=protect(social), social_options=options,
+                providers=protect(providers), networks=protect(network_totals), social=protect(social), social_options=options,
                 model=dict(start=round(baseline,4) if baseline is not None else None, changes=bridge, benchmark=1000, months=12, members=len(eligible)))

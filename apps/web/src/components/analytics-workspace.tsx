@@ -122,15 +122,15 @@ function OverviewBreakdowns({report,go,tab,scoreName}:{report:AnalysisReport;go:
  const practices=report.practices.filter(row=>!row.suppressed&&(row.capture_members||0)>0).sort((a,b)=>(b.capture_members||0)-(a.capture_members||0)).slice(0,CHART_LIMITS.compact);
  return <div className={`${styles.threeGrid} ${styles.overviewBreakdowns}`}>
   <Panel title="HCC Prevalence" action={<LinkAction onClick={()=>tab('risk')}>Explore HCC prevalence</LinkAction>}>
-   <OverviewDonut label="Member counts across the five most common conditions" centerLabel="condition records" rows={conditions.map(row=>({id:row.name,name:plainLabel(row.name),value:row.members,detail:`${row.prevalence?.toFixed(1)||'0'}% of included members`}))} onSelect={condition=>go('/analytics',{view:'risk',condition})}/>
+   <OverviewDonut label="Member counts across the five most common conditions" centerLabel="conditions" rows={conditions.map(row=>({id:row.name,name:plainLabel(row.name),value:row.members,detail:`${row.prevalence?.toFixed(1)||'0'}% of included members`}))} onSelect={condition=>go('/analytics',{view:'risk',condition})}/>
 
   </Panel>
   <Panel title="Geographical Distribution" action={<LinkAction onClick={()=>tab('geography')}>Compare risk by geography</LinkAction>}>
-   <OverviewDonut label="Included members across the five largest counties" centerLabel="members shown" rows={counties.map(row=>({id:row.id,name:row.name.replace(' County',''),value:row.eligible||0,detail:`${score(row.score)} average ${scoreName}`}))} onSelect={county=>go('/analytics',{view:'geography',counties:JSON.stringify([county])})}/>
+   <OverviewDonut label="Included members across the five largest counties" centerLabel="members" rows={counties.map(row=>({id:row.id,name:row.name.replace(' County',''),value:row.eligible||0,detail:`${score(row.score)} average ${scoreName}`}))} onSelect={county=>go('/analytics',{view:'geography',counties:JSON.stringify([county])})}/>
 
   </Panel>
   <Panel title="Suspect Opportunities" action={<LinkAction onClick={()=>tab('provider')}>Compare providers</LinkAction>}>
-   <OverviewDonut label="Members with possible additions across the five leading practices" centerLabel="members with gaps" rows={practices.map(row=>({id:row.id,name:row.name,value:row.capture_members||0,detail:`${row.rate?.toFixed(1)||'0'} per 1,000 included members`}))} onSelect={practice=>go('/analytics',{view:'provider',practices:JSON.stringify([practice])})}/>
+   <OverviewDonut label="Members with possible additions across the five leading practices" centerLabel="opportunities" rows={practices.map(row=>({id:row.id,name:row.name,value:row.capture_members||0,detail:`${((row.rate||0)/10).toFixed(1)}% with opportunities`}))} onSelect={practice=>go('/analytics',{view:'provider',practices:JSON.stringify([practice])})}/>
 
   </Panel>
  </div>;
