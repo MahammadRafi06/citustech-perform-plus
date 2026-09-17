@@ -1,6 +1,8 @@
 # Perform+ hosting
 
-Target: https://performplus.idaibhealth.com on the existing `meshalloc-control-plane` EKS cluster in AWS account `703671901662`, region `us-west-2`.
+Addresses: https://performplus.idaibhealth.com and https://performplus.citiustech.online share the existing `meshalloc-control-plane` EKS deployment in AWS account `703671901662`, region `us-west-2`. Both use the same app, accounts and database; each hostname has its own sign-in cookie.
+
+Hostinger registers `citiustech.online`; its authoritative DNS is the existing Route 53 zone. See [dual-domain operation](domain-migration/README.md) for certificate, ingress, DNS and rollback details. Keep both origins and HTTPS certificates when updating the deployment.
 
 Hosting restoration was explicitly requested after the September 15 shutdown. The previous removal record is retained in [DECOMMISSIONING.md](DECOMMISSIONING.md).
 

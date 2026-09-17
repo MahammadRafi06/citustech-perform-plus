@@ -9,15 +9,26 @@ metadata:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:703671901662:certificate/1a53ac6c-90dd-4f95-9d03-4133e3cf3a20,arn:aws:acm:us-west-2:703671901662:certificate/c2299e67-0888-4452-87ab-d828f01d2136
     alb.ingress.kubernetes.io/healthcheck-path: /health
     alb.ingress.kubernetes.io/success-codes: "200"
     alb.ingress.kubernetes.io/tags: Project=perform-plus
 spec:
   ingressClassName: perform-plus-alb
   tls:
-    - hosts: [performplus.idaibhealth.com]
+    - hosts: [performplus.idaibhealth.com, performplus.citiustech.online]
   rules:
     - host: performplus.idaibhealth.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ui
+                port:
+                  number: 3000
+    - host: performplus.citiustech.online
       http:
         paths:
           - path: /

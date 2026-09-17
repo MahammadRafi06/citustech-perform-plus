@@ -1,0 +1,20 @@
+{
+  "zone": "citiustech.online",
+  "zone_id": "Z03619462N2KEZ2IM79R1",
+  "registrar": "Hostinger",
+  "dns_provider": "Amazon Route 53",
+  "publish_after": "Certificate issuance, ingress reconciliation and API origin rollout have been verified",
+  "records": [
+    {
+      "type": "A",
+      "name": "performplus.citiustech.online",
+      "alias": {
+        "dns_name": "k8s-performp-performp-7284016460-417954160.us-west-2.elb.amazonaws.com",
+        "hosted_zone_id": "Z1H1FL5HABSF5",
+        "evaluate_target_health": true
+      }
+    }
+  ],
+  "certificate_validation": "Additional CNAME managed by aws_route53_record.online_validation after certificate creation; retain it for renewal.",
+  "preserve_existing_url": "https://performplus.idaibhealth.com"
+}

@@ -13,7 +13,7 @@ patches:
     patch: |-
       - op: replace
         path: /data/CT_ALLOWED_ORIGINS
-        value: https://performplus.idaibhealth.com
+        value: https://performplus.idaibhealth.com,https://performplus.citiustech.online
       - op: replace
         path: /data/CT_SECURE_COOKIE
         value: "true"

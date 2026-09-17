@@ -1,0 +1,6 @@
+{
+  "data": {
+    "CT_ALLOWED_ORIGINS": "https://performplus.idaibhealth.com,https://performplus.citiustech.online",
+    "CT_SECURE_COOKIE": "true"
+  }
+}

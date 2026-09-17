@@ -38,7 +38,7 @@ def prepare():
     superuser = accounts[-1]['password']
     save(FOLDER / 'secrets.env', f'POSTGRES_PASSWORD={database_password}\nDATABASE_URL=postgresql://ct_demo:{database_password}@db:5432/perform_plus\nCT_DEMO_PASSWORD={secrets.token_urlsafe(24)}\nCT_SUPERUSER_PASSWORD={superuser}\n')
     save(FOLDER / 'accounts.json', json.dumps(accounts, indent=2) + '\n')
-    save(FOLDER / 'credentials.md', '# Perform+ access\n\nhttps://performplus.idaibhealth.com\n\nThese passwords belong to the EKS environment. Keep this file private.\n\n| Account | Password | Role |\n| --- | --- | --- |\n' + ''.join(f"| {row['email']} | {row['password']} | {row['id']} |\n" for row in accounts))
+    save(FOLDER / 'credentials.md', '# Perform+ access\n\nhttps://performplus.idaibhealth.com\n\nhttps://performplus.citiustech.online\n\nBoth addresses use the same accounts; sign in separately on each domain. These passwords belong to the EKS environment. Keep this file private.\n\n| Account | Password | Role |\n| --- | --- | --- |\n' + ''.join(f"| {row['email']} | {row['password']} | {row['id']} |\n" for row in accounts))
     print('Private credentials prepared in .local/aws-deploy; no secrets printed or committed.')
 
 
