@@ -64,6 +64,7 @@ import { HIDDEN_ROUTES, WORKFLOW_ENABLED, hiddenByScope } from "@/lib/workflow-f
 import type { User, Snapshot, Command } from "@/lib/types";
 import { Dashboard } from "./dashboard";
 import { AnalyticsWorkspace } from "./analytics-workspace";
+import { EdsWorkspace } from "./eds-workspace";
 import { Member360Workspace } from "./member360-workspace";
 import { Workspaces } from "./workspaces";
 import { FixtureAssistant } from "./fixture-assistant";
@@ -92,6 +93,7 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
       ["overview", "Dashboard", LayoutDashboard],
       ["analytics", "Risk analytics", ChartNoAxesCombined],
       ["reports", "Reports", FileSearch],
+      ["eds", "EDS", Database],
     ],
   },
   {
@@ -156,7 +158,7 @@ function WorkspaceNavigation({ user, route }: { user: User; route: string }) {
   const items = routes
     .filter((group) => group.group !== "Settings")
     .flatMap((group) => group.items)
-    .filter(([id]) => id !== "reports" && id !== "member360" && user.screens.includes(id === "agents" ? "admin" : id === "member360" ? "members" : id) && !hiddenByScope(id));
+    .filter(([id]) => id !== "reports" && id !== "member360" && user.screens.includes(id === "agents" ? "admin" : id === "eds" ? "analytics" : id === "member360" ? "members" : id) && !hiddenByScope(id));
   return (
     <nav id="workspace-navigation" className="workspace-nav" aria-label="Workspace navigation">
       {items.map(([id, title]) => (
@@ -185,7 +187,7 @@ function signInDestination(user: User) {
     const destination = new URL(requested, location.origin);
     const screen = destination.pathname.split("/")[1];
     const knownScreen = routes.some((group) => group.items.some(([id]) => id === screen));
-    return destination.origin === location.origin && knownScreen && user.screens.includes(screen === "reports" ? "analytics" : screen === "member360" ? "members" : screen)
+    return destination.origin === location.origin && knownScreen && user.screens.includes((screen === "reports" || screen === "eds") ? "analytics" : screen === "member360" ? "members" : screen)
       ? destination.pathname + destination.search + destination.hash
       : fallback;
   } catch {
@@ -318,11 +320,11 @@ function Application() {
         <WorkspaceNavigation user={user} route={pathname.startsWith('/admin/ai') ? 'agents' : actualRoute} />
       </header>
       <div className="main-shell">
-        {!pathname.startsWith('/admin/ai') && !['overview','analytics','suspects','reports','scenarios','member360'].includes(actualRoute) && <RiskContextBar />}
+        {!pathname.startsWith('/admin/ai') && !['overview','analytics','suspects','reports','scenarios','member360','eds'].includes(actualRoute) && <RiskContextBar />}
         <main id="main-content" tabIndex={-1}
           className={`page-canvas route-${actualRoute} ${actualRoute === "reviews" && pathname.split("/")[2] ? "workbench-canvas" : ""}`}
         >
-          {!user.screens.includes(actualRoute === "reports" ? "analytics" : actualRoute === "member360" ? "members" : actualRoute) || hiddenByScope(actualRoute) ? (
+          {!user.screens.includes((actualRoute === "reports" || actualRoute === "eds") ? "analytics" : actualRoute === "member360" ? "members" : actualRoute) || hiddenByScope(actualRoute) ? (
             <div className="access-denied">
               <LockKeyhole size={40} />
               <h1>{hiddenByScope(actualRoute) ? "This page is not available in this workspace" : "This workspace needs a different role"}</h1>
@@ -355,7 +357,7 @@ function Application() {
               </Button>
             </div>
           ) : snapshot.data ? (
-            pathname.startsWith('/admin/ai') ? (hiddenByScope("agents") ? <Empty title="This page is not available in this workspace" description="Use Risk analytics or Reports to explore the available results." /> : <AiConfiguration key={user.id} user={user} />) : actualRoute === "member360" ? <Member360Workspace user={user} /> : ["overview","analytics","suspects","reports","scenarios"].includes(actualRoute) ? <AnalyticsWorkspace user={user} route={actualRoute} /> : actualRoute === "analytics" ? (
+            pathname.startsWith('/admin/ai') ? (hiddenByScope("agents") ? <Empty title="This page is not available in this workspace" description="Use Risk analytics or Reports to explore the available results." /> : <AiConfiguration key={user.id} user={user} />) : actualRoute === "eds" ? <EdsWorkspace user={user} /> : actualRoute === "member360" ? <Member360Workspace user={user} /> : ["overview","analytics","suspects","reports","scenarios"].includes(actualRoute) ? <AnalyticsWorkspace user={user} route={actualRoute} /> : actualRoute === "analytics" ? (
               <Dashboard
                 data={snapshot.data}
                 user={user}

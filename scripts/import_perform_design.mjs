@@ -36,7 +36,8 @@ const tokens = {
   '--tab-padding': declaration('.mtab', 'padding'),
   '--canvas-space': declaration('main', 'padding'),
   '--shell-nav-height': declaration('nav', 'min-height'),
-  '--canvas-max-width': declaration('main', 'max-width'),
+  // The desktop workspace uses the available width, retaining the reference gutters.
+  '--canvas-max-width': 'none',
   '--table-cell-padding': declaration('td', 'padding'),
   '--table-font-size': declaration('table', 'font-size'),
   '--table-heading': declaration('th', 'background'),
@@ -62,6 +63,9 @@ const aliases = {
 const global = new Set([':root', '*', 'html', 'body', 'main', 'h1', 'h2', 'h3', 'h3:first-child', 'table', 'th', 'td', 'tbody tr:nth-child(even)', 'tbody tr:hover', 'button:focus-visible', 'select:focus-visible', 'a:focus-visible', '[tabindex]:focus-visible']);
 const output = source.clone();
 output.walkRules(rule => {
+  if (rule.selectors.includes('main')) {
+    rule.walkDecls('max-width', decl => { decl.value = 'var(--canvas-max-width)'; });
+  }
   rule.selectors = rule.selectors.flatMap(selector => {
     const scoped = '.member360-workspace ' + selector;
     if (global.has(selector)) return [aliases[selector]];
@@ -72,5 +76,5 @@ const root = postcss.rule({ selector: ':root' });
 Object.entries(tokens).forEach(([prop, value]) => root.append({prop,value}));
 output.prepend(root);
 const hash = crypto.createHash('sha256').update(html).digest('hex');
-fs.writeFileSync('apps/web/src/app/perform-design.css', `/* Generated directly from ${file}\n * SHA-256 ${hash}\n * Regenerate: node scripts/import_perform_design.mjs\n * Shared across every route; only prototype-specific selectors retain a Member 360 scope. */\n${output.toString().trimEnd()}\n`);
+fs.writeFileSync('apps/web/src/app/perform-design.css', `/* Generated from ${file}\n * SHA-256 ${hash}\n * Regenerate: node scripts/import_perform_design.mjs\n * Shared across every route; only prototype-specific selectors retain a Member 360 scope.\n * App adaptation: fluid desktop page width with the original reference gutters. */\n${output.toString().trimEnd()}\n`);
 console.log(`Imported ${Object.keys(tokens).length} design tokens and all reference CSS rules into the shared application stylesheet.`);

@@ -1,0 +1,121 @@
+'use client';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ArrowUpRight, ChevronDown, ChevronRight, SlidersHorizontal, X } from 'lucide-react';
+import { Area, AreaChart, Bar, CartesianGrid, Cell, ComposedChart, Line, Pie, PieChart, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
+import type { User } from '@/lib/types';
+import { DEFAULT_EDS_FILTERS, EDS_CONTRACTS, EDS_MONTHS, EDS_NETWORKS, EDS_RECORDS, EDS_SOURCE_NOTE, filterEdsRecords, memberScores, modelVersions, type EdsFilters, type EdsRecord } from '@/lib/eds-data';
+import { buildEdsReport, EDS_REPORTS, EDS_SECTIONS, recordQualityIssue, type EdsChart, type EdsPoint, type EdsReport } from '@/lib/eds-reports';
+import { ChartInfo } from './analytics-controls';
+import { PaginatedTable } from './table-pagination';
+import { Drawer } from './shared';
+import { Button } from './ui/button';
+import s from './eds-workspace.module.css';
+const colors=['#004c8d','#3788e5','#2a9d8f','#e6a321','#8b6bb0','#70899b'];
+const count=(n:number)=>n.toLocaleString('en-US');
+const axis={tick:{fill:'#4b5b70',fontSize:12},axisLine:false,tickLine:false};
+const tooltip={border:'1px solid #dbe3eb',borderRadius:4,fontSize:13};
+const display=(n:number,unit?:string)=>unit==='currency'?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n):unit==='score'?n.toFixed(3):unit==='percent'?`${n.toFixed(1)}%`:count(n);
+function Field({label,value,onChange,options,all}:{label:string;value:string;onChange:(v:string)=>void;options:readonly (string|readonly string[])[];all?:string}) {
+ return <label className={s.field}><span>{label}</span><select aria-label={label} value={value} onChange={e=>onChange(e.target.value)}>{all&&<option value="">{all}</option>}{options.map(o=>typeof o==='string'?<option key={o} value={o}>{o}</option>:<option key={o[0]} value={o[0]}>{o[1]}</option>)}</select></label>;
+}
+function Panel({title,info,children,tools}:{title:string;info:string;children:ReactNode;tools?:ReactNode}) {
+ return <section className={`ct-card ${s.panel}`}><div className={s.panelHead}><h2>{title}</h2><div className={s.tools}>{tools}<ChartInfo title={title} description={info}/></div></div>{children}</section>;
+}
+function ReportChart({chart,onSelect,selection}:{chart:EdsChart;onSelect:(name:string,ids:string[])=>void;selection:string}) {
+ const {points,kind,series,unit}=chart;
+ const choose=(p:EdsPoint)=>onSelect(p.name,p.ids);
+ const legend=<div className={s.legend}>{series.map((label,i)=><span key={label}><i style={{background:colors[i]}}/>{label}</span>)}</div>;
+ let content:ReactNode;
+ if(!points.length||points.every(p=>!p.value&&!p.secondary)) content=<div className={s.emptyChart}>No matching findings in this selection.</div>;
+ else if(kind==='funnel') content=<div className={s.funnel}>{points.map((p,i)=>{
+  const previous=points[i-1],lost=previous?previous.ids.filter(id=>!p.ids.includes(id)):[];
+  return <div key={p.name}><button className={s.funnelRow} aria-pressed={selection===p.name} onClick={()=>choose(p)}><span>{p.name}</span><div className={s.funnelTrack}><i style={{width:`${points[0].value?p.value/points[0].value*100:0}%`,background:colors[i%colors.length]}}/></div><strong>{count(p.value)}</strong><small>{points[0].value?(p.value/points[0].value*100).toFixed(1):'0'}%</small></button>{i>0&&<button className={s.gap} disabled={!lost.length} onClick={()=>onSelect(`${previous.name} → ${p.name}`,lost)}>{count(lost.length)} not progressed <ChevronRight size={12}/></button>}</div>;
+ })}</div>;
+ else if(kind==='heatmap'||kind==='chain') content=<div className={s.heatmap}>{points.map((p,i)=>{
+  const suppressed=unit==='percent'&&p.denominator!==undefined&&p.denominator<30;
+  return <button key={p.name} className={kind==='chain'?s.chainRow:s.heatRow} aria-pressed={selection===p.name} onClick={()=>choose(p)}><span>{kind==='chain'&&<span className={s.chainNumber}>{String(i+1).padStart(2,'0')}</span>}{p.name}</span><div className={s.heatTrack}><i style={{width:`${suppressed?0:unit==='percent'?p.value:p.value/Math.max(...points.map(p=>p.value))*100}%`,background:colors[i%colors.length]}}/></div><strong>{suppressed?'—':display(p.value,unit)}</strong><ChevronRight size={14}/></button>;
+ })}</div>;
+ else if(kind==='donut') content=<div className={s.donut}><div className={s.donutPlot}><ResponsiveContainer width="100%" height={265} initialDimension={{width:360,height:265}}><PieChart><Pie data={points} dataKey="value" nameKey="name" innerRadius={77} outerRadius={109} paddingAngle={2} stroke="white" strokeWidth={3} onClick={(_,i)=>choose(points[i])} style={{cursor:'pointer'}} isAnimationActive={false}>{points.map((p,i)=><Cell key={p.name} fill={colors[i%colors.length]}/>)}</Pie><Tooltip contentStyle={tooltip}/></PieChart></ResponsiveContainer><div className={s.donutCenter}><strong>{count(points.reduce((n,p)=>n+p.value,0))}</strong><span>{series[0]}</span></div></div><div className={s.donutLegend}>{points.map((p,i)=><button key={p.name} onClick={()=>choose(p)} aria-pressed={selection===p.name}><i style={{background:colors[i%colors.length]}}/><span>{p.name}</span><strong>{count(p.value)}</strong><ChevronRight size={13}/></button>)}</div></div>;
+ else {
+  const click=(event:unknown)=>{const e=event as {activeLabel?:string;activePayload?:{payload:EdsPoint}[]};const p=e?.activePayload?.[0]?.payload||points.find(p=>p.name===e?.activeLabel);if(p)choose(p);};
+  content=<>{kind==='scatter'?<div className={s.legend}>MAO-004 Allowed Share (%)</div>:legend}<div className={s.plot}><ResponsiveContainer width="100%" height={270} initialDimension={{width:700,height:270}}>
+   {kind==='area'?<AreaChart data={points} margin={{top:12,right:22,left:10,bottom:2}} onClick={click}><CartesianGrid vertical={false} stroke="#e9eef3"/><XAxis dataKey="name" {...axis}/><YAxis {...axis} tickFormatter={v=>display(v,unit)} width={58} domain={unit==='percent'?[0,100]:[0,'auto']}/><Tooltip contentStyle={tooltip} formatter={value=>display(Number(value),unit)}/><Area name={series[0]} type="monotone" dataKey="value" stroke={colors[0]} strokeWidth={2.4} fill={colors[1]} fillOpacity={.13} dot={{r:3,fill:colors[0]}} activeDot={{r:5}} isAnimationActive={false}/>{series[1]&&<Area name={series[1]} type="monotone" dataKey="secondary" stroke={colors[2]} fill="none" strokeWidth={2} isAnimationActive={false}/>}</AreaChart>
+   :kind==='scatter'?<ScatterChart margin={{top:10,right:28,left:12,bottom:20}}><CartesianGrid stroke="#e9eef3"/><XAxis {...axis} type="number" dataKey="value" name={series[0]} tickFormatter={v=>display(v,unit)} domain={[0,Math.max(...points.map(p=>p.value))*1.15+1]} label={{value:series[0],position:'insideBottom',offset:-12,fontSize:12}}/><YAxis {...axis} type="number" dataKey="secondary" name={series[1]} unit="%" width={48} domain={[0,110]} ticks={[0,25,50,75,100]}/><ZAxis dataKey="volume" range={[150,800]}/><Tooltip contentStyle={tooltip} cursor={{strokeDasharray:'3 3'}}/><Scatter name="HCC" data={points} onClick={p=>choose(p)} isAnimationActive={false}>{points.map((p,i)=><Cell key={p.name} fill={colors[i%colors.length]} fillOpacity={.8} stroke="white" strokeWidth={2}/>)}</Scatter></ScatterChart>
+   :<ComposedChart data={points} margin={{top:8,right:kind==='pareto'?20:12,left:4,bottom:38}} onClick={click}><CartesianGrid vertical={false} stroke="#e9eef3"/><XAxis dataKey="name" {...axis} interval={0} tick={<WrappedTick/>} height={52}/><YAxis {...axis} tickFormatter={v=>display(v,unit)} width={65}/>{chart.secondaryPercent&&<YAxis yAxisId="right" orientation="right" {...axis} domain={[0,100]} tickFormatter={v=>`${v}%`}/>}<Tooltip contentStyle={tooltip} formatter={(value,name)=>[display(Number(value),name===series[1]&&chart.secondaryPercent?'percent':unit),name]}/>{kind==='waterfall'&&<Bar dataKey="offset" stackId="waterfall" fill="transparent" isAnimationActive={false} legendType="none" tooltipType="none"/>}<Bar dataKey="value" name={series[0]} fill={colors[0]} stackId={kind==='waterfall'?'waterfall':undefined} maxBarSize={60} radius={[3,3,0,0]} isAnimationActive={false}>{points.map((p,i)=><Cell key={p.name} fill={kind==='waterfall'||series.length===1?colors[i%colors.length]:colors[0]}/>)}</Bar>{series[1]&&(chart.secondaryPercent?<Line dataKey="secondary" name={series[1]} yAxisId="right" stroke={colors[2]} strokeWidth={2.5} isAnimationActive={false}/>:<Bar dataKey="secondary" name={series[1]} fill={colors[1]} maxBarSize={60} radius={[3,3,0,0]} isAnimationActive={false}/>)}{series[2]&&<Line dataKey="tertiary" name={series[2]} stroke={colors[2]} strokeWidth={2} isAnimationActive={false}/>}</ComposedChart>}
+  </ResponsiveContainer></div><div className={kind==='scatter'?s.chartLinks:s.srChartLinks} aria-label={`${chart.title} drilldown`}>{points.map(p=><button key={p.name} onClick={()=>choose(p)} aria-pressed={selection===p.name}>{p.name}</button>)}</div></>;
+ }
+ return <Panel title={chart.title} info={chart.info}>{content}</Panel>;
+}
+function WrappedTick({x=0,y=0,payload}:{x?:number;y?:number;payload?:{value:string}}) {
+ const words=String(payload?.value||'').replace(/(837-\d{4})-/, '$1 ').split(' '),lines:string[]=[];
+ for(const word of words){if(!lines.length||`${lines.at(-1)} ${word}`.length>19)lines.push(word);else lines[lines.length-1]+=` ${word}`;}
+ return <text x={x} y={y} textAnchor="middle" fill="#4b5b70" fontSize={11}>{lines.slice(0,3).map((line,i)=><tspan x={x} dy={i?14:17} key={i}>{line}</tspan>)}</text>;
+}
+export function EdsWorkspace({user}:{user:User}) {
+ const router=useRouter(),pathname=usePathname(),params=useSearchParams();
+ const currentSearch=params?.toString()||'',pendingSearch=useRef(currentSearch);
+ useEffect(()=>{pendingSearch.current=currentSearch;},[currentSearch]);
+ const requested=params?.get('report')||'acceptance',active=EDS_REPORTS.find(r=>r.id===requested)||EDS_REPORTS[0];
+ const filters={...DEFAULT_EDS_FILTERS};
+ for(const key of Object.keys(filters) as (keyof EdsFilters)[]){const value=params?.get(`eds_${key}`);if(value!=null)(filters as Record<string,string>)[key]=value;}
+ if(!['2026','2027'].includes(filters.paymentYear))filters.paymentYear='2027';
+ if(!['2025','2026'].includes(filters.serviceYear))filters.serviceYear='2026';
+ if(!['Part C','Part D'].includes(filters.program))filters.program='Part C';
+ const scope=JSON.stringify(filters),providerScope=user.provider_id||'';
+ const rows=useMemo(()=>filterEdsRecords(filters,providerScope),[scope,providerScope]);
+ function update(values:Record<string,string>){const q=new URLSearchParams(pendingSearch.current);for(const [k,v] of Object.entries(values)){if(v)q.set(k,v);else q.delete(k);}pendingSearch.current=q.toString();router.replace(`${pathname}?${q}`,{scroll:false});}
+ function change(key:keyof EdsFilters,value:string){update({[`eds_${key}`]:value,...(key==='paymentYear'?{eds_serviceYear:String(Number(value)-1)}:key==='contract'?{eds_network:'',eds_group:'',eds_provider:''}:key==='network'?{eds_group:'',eds_provider:''}:key==='group'?{eds_provider:''}:{})});}
+ const [more,setMore]=useState(false);
+ const hierarchy=EDS_RECORDS.filter(r=>(!providerScope||r.providerId===providerScope)&&(!filters.contract||r.contract===filters.contract)&&(!filters.network||[r.network,r.group,r.provider].includes(filters.network)));
+ const groups=[...new Set(hierarchy.map(r=>r.group))],providers=[...new Set(hierarchy.filter(r=>!filters.group||r.group===filters.group).map(r=>r.provider))];
+ const hasFilters=Object.entries(filters).some(([k,v])=>v!==DEFAULT_EDS_FILTERS[k as keyof EdsFilters]);
+ const report=useMemo(()=>buildEdsReport(active.id,rows,filters,providerScope),[active.id,rows,scope]);
+ return <div className={s.workspace}><h1 className="sr-only">EDS Analytics</h1>
+  <section className={`ct-card ${s.filterCard}`} aria-label="EDS filters"><div className={s.filters}>
+   <Field label="Contract" value={filters.contract} onChange={v=>change('contract',v)} options={EDS_CONTRACTS} all="All Contracts"/>
+   <Field label="Payment Year" value={filters.paymentYear} onChange={v=>change('paymentYear',v)} options={['2027','2026']}/>
+   <Field label="Service Year" value={filters.serviceYear} onChange={v=>change('serviceYear',v)} options={['2026','2025']}/>
+   <Field label="Risk Model" value={filters.program} onChange={v=>change('program',v)} options={[["Part C","Part C · CMS-HCC V28"],["Part D","Part D · RxHCC"]]}/>
+   <Field label="Health Network" value={filters.network} onChange={v=>change('network',v)} options={EDS_NETWORKS} all="All Health Networks"/>
+   <Field label="Provider Group" value={filters.group} onChange={v=>change('group',v)} options={groups} all="All Provider Groups"/>
+   <Field label="Provider" value={filters.provider} onChange={v=>change('provider',v)} options={providers} all="All Providers"/>
+  </div><div className={s.filterTools}><button className={s.textButton} onClick={()=>setMore(!more)} aria-expanded={more} aria-controls="eds-more-filters"><SlidersHorizontal size={14}/>Submission Filters<ChevronDown size={14}/></button><span>{filters.program==='Part C'?'CMS-HCC V28':'RxHCC'} · Payment Year {filters.paymentYear}</span><ChartInfo title="EDS Reporting Basis" description={EDS_SOURCE_NOTE+' Service year, payment year, ICD mapping, filter and coefficient versions are retained for each view. EDR/CRR Part D analytics do not represent PDE submissions.'}/>{hasFilters&&<button className={s.textButton} onClick={()=>update(Object.fromEntries(Object.keys(filters).map(k=>[`eds_${k}`,''])))}><X size={13}/>Reset Filters</button>}</div>
+  {more&&<div id="eds-more-filters" className={s.moreFilters}><Field label="PBP" value={filters.pbp} onChange={v=>change('pbp',v)} options={['001','002','003']} all="All PBPs"/><Field label="837 Type" value={filters.type} onChange={v=>change('type',v)} options={['837-P','837-I','837-P · DME']} all="All Types"/><Field label="Record Type" value={filters.recordType} onChange={v=>change('recordType',v)} options={['EDR','CRR']} all="EDR & CRR"/><Field label="Source System" value={filters.source} onChange={v=>change('source',v)} options={['Claims Feed','Clinical EHR','Chart Review']} all="All Sources"/><Field label="Service Month" value={filters.month} onChange={v=>change('month',v)} options={EDS_MONTHS.map((m,i)=>[String(i+1),m])} all="All Months"/><Field label="Submitter" value={filters.submitter} onChange={v=>change('submitter',v)} options={['Perform+ EDI','Network Exchange']} all="All Submitters"/><Field label="Environment" value={filters.environment} onChange={v=>change('environment',v)} options={['Production','Test']}/></div>}</section>
+  <div className={`ct-tabs ${s.tabs}`} role="tablist" aria-label="EDS report groups">{EDS_SECTIONS.map(section=><button key={section} id={`eds-tab-${EDS_SECTIONS.indexOf(section)}`} role="tab" aria-controls="eds-report-panel" aria-selected={active.section===section} onClick={()=>update({report:EDS_REPORTS.find(r=>r.section===section)!.id})}>{section}</button>)}</div>
+  <section id="eds-report-panel" role="tabpanel" aria-labelledby={`eds-tab-${EDS_SECTIONS.indexOf(active.section)}`}>
+   <div className={s.reportBar}><div><h2>{active.title}</h2><ChartInfo title={active.title} description={report.info}/></div><label className={s.reportPicker}><span>Report</span><select aria-label="EDS Report" value={active.id} onChange={e=>update({report:e.target.value})}>{EDS_REPORTS.filter(r=>r.section===active.section).map(r=><option key={r.id} value={r.id}>{r.title}</option>)}</select></label></div>
+   <ReportBody key={`${active.id}:${scope}:${providerScope}`} id={active.id} report={report} rows={rows} filters={filters} user={user}/>
+  </section>
+ </div>;
+}
+function ReportBody({id,report,rows,filters,user}:{id:string;report:EdsReport;rows:EdsRecord[];filters:EdsFilters;user:User}) {
+ const [selected,setSelected]=useState<{name:string;ids:string[]}|null>(null),[record,setRecord]=useState<EdsRecord|null>(null);
+ const selectedRows=selected?rows.filter(r=>selected.ids.includes(r.id)):report.records;
+ const visible=report.table==='score'?[...new Map(selectedRows.map(r=>[r.memberId,r])).values()]:selectedRows;
+ const open=(name:string,ids:string[])=>setSelected(current=>current?.name===name?null:{name,ids});
+ const recordScores=memberScores(rows,filters.program,Number(filters.paymentYear));
+ return <div className={s.reportBody}><div className="ct-metric-grid">{report.metrics.map(m=><div className="ct-metric" key={m.label}><div className="ct-metric-label">{m.label}</div><div className="ct-metric-value">{m.value}</div><div className="ct-metric-note">{m.note}</div></div>)}</div>
+  <div className={s.chartGrid}>{report.charts.map(c=><ReportChart key={c.title} chart={c} onSelect={open} selection={selected?.name||''}/>)}</div>
+  <Panel title={report.tableTitle} info="Open a record to follow source context, submission stages, CMS eligibility and the associated model versions. This view is read-only." tools={selected?<button className={s.selection} onClick={()=>setSelected(null)}>{selected.name}<X size={13}/></button>:<span className={s.recordCount}>{count(visible.length)} Records</span>}>
+   {!visible.length?<div className={s.noRecords}><h3>No Matching Records</h3><p>{rows.length?'No records meet this report’s criteria for the selected population.':'Change the filters to include another population.'}</p>{selected&&<Button variant="outline" onClick={()=>setSelected(null)}>Clear Chart Selection</Button>}</div>:<PaginatedTable rows={visible} scope={`${id}:${selected?.name||''}`} label={report.tableTitle} headers={<><th scope="col">{report.table==='score'?'Member':'Encounter / Member'}</th><th scope="col">{report.table==='quality'?'Finding':report.table==='lifecycle'?'Record / Action':report.table==='score'?'Local Score':'Diagnosis Code'}</th><th scope="col">{report.table==='score'?'Reconciled Score':report.table==='diagnosis'?'Model Mapping':'Health Network'}</th><th scope="col">{report.table==='score'?'Score Gap':report.table==='lifecycle'?'Parent ICN':'Service Date'}</th><th scope="col">{report.table==='diagnosis'?'Support':report.table==='score'?'Model':'CMS Processing'}</th><th scope="col">{report.table==='diagnosis'?'MAO-004 Eligibility':report.table==='lifecycle'?'Linkage / State':'Result'}</th><th scope="col"><span className="sr-only">Details</span></th></>}>
+    {r=>{const score=recordScores.find(m=>m.memberId===r.memberId);return <tr key={r.id}><td><button className={s.recordLink} onClick={()=>setRecord(r)}>{r.memberName}</button>{report.table!=='score'&&<small className={s.cellNote}>{r.id}</small>}</td><td>{report.table==='quality'?recordQualityIssue(r,id):report.table==='lifecycle'?`${r.recordType} · ${r.action}`:report.table==='score'?score?.local.toFixed(3):<>{r.icd}<small className={s.cellNote}>{r.condition}</small></>}</td><td>{report.table==='score'?score?.cms.toFixed(3):report.table==='diagnosis'?(filters.program==='Part C'?(r.hcc?`HCC-${r.hcc}`:'Not Mapped'):(r.rxhcc?`RxHCC-${r.rxhcc}`:'Not Mapped')):r.network}</td><td>{report.table==='score'?score?.gap.toFixed(3):report.table==='lifecycle'?r.parentIcn||'Unlinked':r.serviceDate}</td><td>{report.table==='diagnosis'?(r.supported?'Supported':r.supportReviewed?'Insufficient Support':'Not Reviewed'):report.table==='score'?filters.program==='Part C'?'CMS-HCC V28':'RxHCC':processing(r)}</td><td>{report.table==='diagnosis'?r.final:report.table==='lifecycle'?r.lifecycleIssue||(r.exception?'Member-Switch Exception':r.unlinked?'Unlinked':'Linked'):report.table==='score'?(score?.gap?'Reconciliation Difference':'Reconciled'):r.issue}</td><td><button className={s.openRecord} onClick={()=>setRecord(r)} aria-label={`Inspect ${r.id}`}><ArrowUpRight size={17}/></button></td></tr>;}}
+   </PaginatedTable>}
+  </Panel><RecordDrawer record={record} filters={filters} onClose={()=>setRecord(null)} canOpenMember={user.screens.includes('members')}/>
+ </div>;
+}
+function processing(r:EdsRecord){return ['Source Only','837 Submitted','999 Passed','277CA Accepted','MAO-002 Accepted'][r.stage];}
+function RecordDrawer({record:r,filters,onClose,canOpenMember}:{record:EdsRecord|null;filters:EdsFilters;onClose:()=>void;canOpenMember:boolean}) {
+ const versions=modelVersions(filters);
+ return <Drawer open={!!r} onOpenChange={open=>{if(!open)onClose();}} title="Encounter Evidence & Lineage" description={r?`${r.memberName} · ${r.id}`:''} className={s.drawer}>{r&&<div className={s.lineage}>
+  <div className={s.memberHeading}><div><h2>{r.memberName}</h2><span>{r.contract} / PBP {r.pbp} · {r.provider}</span></div>{r.profile&&canOpenMember&&<Link href={`/member360?member=${r.memberId}&tab=risk`} aria-label={`Open Member 360 for ${r.memberName}`}><ArrowUpRight size={19}/></Link>}</div>
+  <section><h3>Source Encounter</h3><dl className={s.facts}>{[['Data Source',r.profile?'Member 360 · Risk Adjustment':r.source],['Service Date',r.serviceDate],['Source Ready',r.sourceReady],['Record Type',`${r.recordType} · ${r.type}`],['Diagnosis Code',`${r.icd} · ${r.condition}`],['Documentation Support',r.supported?'Supported':r.supportReviewed?'Insufficient Support':'Not Reviewed']].map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl></section>
+  <section><h3>Submission Processing</h3><ol className={s.timeline}>{[
+   ['Source Encounter','Available',r.sourceReady],['837 Transmission',r.stage>0?'Submitted':'Not Submitted',r.submittedAt],['999 Transaction',r.stage>=2?'Passed':r.stage===1?'Not Accepted':'Not Reached',r.stage>=2?r.ackAt:null],['277CA / ICN',r.stage>=3?'Accepted · ICN Assigned':'Not Reached',r.stage>=3?r.ackAt:null],['MAO-002',r.stage===4?'Encounter Accepted':r.stage===3?'Rejected / Pending Correction':'Not Reached',r.acceptedAt],['MAO-004',r.final,r.finalAt],
+  ].map(([stage,state,date])=><li key={stage}><span className={s.timelineMarker}/><div><strong>{stage}</strong><span>{state}</span></div><time>{date||'—'}</time></li>)}</ol></section>
+  <section><h3>Diagnosis Eligibility</h3><dl className={s.facts}><div><dt>MAO-002 Preliminary</dt><dd>{r.preliminary}</dd></div><div><dt>MAO-004 Final</dt><dd>{r.final}</dd></div><div><dt>Final Eligibility Reason</dt><dd>{r.finalReason}</dd></div><div><dt>Clinical Support</dt><dd>{r.supported?'Established':'Not Established'}</dd></div></dl><p className={s.contextNote}>Final MAO-004 eligibility takes precedence. Technical acceptance does not establish medical-record support.</p></section>
+  <section><h3>Submission References</h3><dl className={s.facts}>{[['Source Encounter',r.id],['File / CLM01',`${r.file} / ${r.id}`],['CMS ICN',r.icn||'Not Assigned'],['Parent ICN',r.parentIcn||'No Parent Link'],['CRR Action',r.recordType==='CRR'?r.action:'Not Applicable'],['CMS Edit',r.edit||'No Edit'],['Lineage Status',r.lifecycleIssue||r.issue]].map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>{r.parentIcn&&<div className={s.parentChain}><span>Accepted Parent<br/>{r.parentIcn}</span><ChevronRight size={16}/><span>{r.action}<br/>{r.icn||'Pending ICN'}</span></div>}</section>
+  <section><h3>Model & Source Basis</h3><dl className={s.facts}>{[['Service Year',versions.serviceYear],['Payment Year',versions.paymentYear],['Model',versions.model],['ICD Mapping',versions.mapping],['Eligibility Filter',versions.filter],['Coefficients',versions.coefficient]].map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl><p className={s.contextNote}>{EDS_SOURCE_NOTE}</p><a className={s.referenceLink} href="https://www.cms.gov/newsroom/press-releases/cms-finalizes-2027-medicare-advantage-part-d-payment-policies-strengthen-accountability-long-term" target="_blank" rel="noreferrer">CMS 2027 Policy Reference <ArrowUpRight size={14}/></a></section>
+ </div>}</Drawer>;
+}
