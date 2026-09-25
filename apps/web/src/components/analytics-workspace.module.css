@@ -140,12 +140,13 @@
 .registryTable td:first-child input { margin:3px 0 0; vertical-align:top; }
 .registryTable .memberLink { min-height:calc(var(--table-font-size) * var(--body-leading)); font-weight:400; }
 .registryTable th:nth-child(1) { width:4%; }
-.registryTable th:nth-child(2) { width:24%; }
-.registryTable th:nth-child(3) { width:12%; }
+.registryTable th:nth-child(2) { width:21%; }
+.registryTable th:nth-child(3) { width:11%; }
 .registryTable th:nth-child(4) { width:12%; }
-.registryTable th:nth-child(5) { width:29%; }
+.registryTable th:nth-child(5) { width:25%; }
 .registryTable th:nth-child(6) { width:11%; }
 .registryTable th:nth-child(7) { width:8%; }
+.registryTable th:nth-child(8) { width:8%; }
 .discoveryCondition { overflow-wrap:break-word; }
 .discoveryCondition button { line-height:inherit; font-weight:400; }
 .discoveryKind { font-weight:400; }

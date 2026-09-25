@@ -17,7 +17,9 @@ def test_directory_migration_preserves_sources_scoring_and_access():
     assert len(state['members']) == 10000
     assert state['documents'] == original['documents']
     assert state['opportunities'] == original['opportunities']
-    assert state['members'][:7] == [dict(m, county=state['members'][i]['county'], city=state['members'][i]['city'], state='FL') for i, m in enumerate(original['members'][:7])]
+    assert state['members'][:7] == [dict(m, county=state['members'][i]['county'], city=state['members'][i]['city'], state='FL', plan='Medicare Advantage') for i, m in enumerate(original['members'][:7])]
+    # Display-only plan relabel for the MA Part C story; scoring inputs are asserted unchanged below.
+    assert {m['plan'] for m in state['members']} == {'Medicare Advantage'}
     assert [risk_inputs.member_input(m) for m in state['members']] == original_inputs
     assert len({m['name'] for m in state['members']}) > 9900
     assert {m['state'] for m in state['members']} == {'FL'}
@@ -36,6 +38,7 @@ def test_account_labels_migrate_without_password_scope_or_session_changes():
         conn.execute('UPDATE users SET name=? WHERE id=?', ('Coder demo', 'coder'))
         conn.execute('UPDATE users SET name=? WHERE id=?', ('Practice 2 provider', 'provider_2'))
         conn.execute('UPDATE users SET name=? WHERE id=?', ('Dr. Custom Name', 'provider_3'))
+        conn.execute('UPDATE users SET name=? WHERE id=?', ('Avery Morgan', 'superuser'))
         sessions = [dict(s) for s in conn.execute('SELECT * FROM sessions ORDER BY token')]
     try:
         main.initialize()
@@ -45,6 +48,7 @@ def test_account_labels_migrate_without_password_scope_or_session_changes():
             assert [dict(s) for s in conn.execute('SELECT * FROM sessions ORDER BY token')] == sessions
             for before in original:
                 assert {k: v for k, v in actual[before['id']].items() if k != 'name'} == {k: v for k, v in before.items() if k != 'name'}
+            assert actual['superuser']['name'] == 'Albert Riera'
             assert actual['coder']['name'] == 'Alex Chen'
             assert actual['provider_2']['name'] == 'Dr. Daniel Reyes'
             assert actual['provider_3']['name'] == 'Dr. Custom Name'

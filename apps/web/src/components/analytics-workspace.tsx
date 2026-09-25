@@ -20,6 +20,7 @@ import { ArrowAction, ChartInfo } from './analytics-controls';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './ui/dialog';
 import { scoreBasisLabel } from '@/lib/analytics-labels';
 import { CHART_LIMITS } from '@/lib/chart-limits';
+import { suspectPriorityScore, SUSPECT_PRIORITY_DESCRIPTION } from '@/lib/suspect-priority';
 import { SuspectEvidenceDrawer } from './suspect-evidence';
 import { DEFAULT_PAGE_SIZE, TablePagination } from './table-pagination';
 import styles from './analytics-workspace.module.css';
@@ -312,7 +313,7 @@ function CaseConfidence({finding:c}:{finding:SuspectCase}) {
 function CaseTable({report,selected,toggle,focus,limit,discoveryView=false}:{report:AnalysisReport;selected:string[];toggle:(id:string)=>void;focus:(c:SuspectCase)=>void;limit?:number;discoveryView?:boolean}) {if(discoveryView)return <DiscoveryCaseTable report={report} selected={selected} toggle={toggle} focus={focus}/>;return <Paged rows={limit?report.cases.slice(0,limit):report.cases} scope={report.filter_hash} label="Suspected condition list" headers={<><th>Select</th><th>Condition / member</th><th>Category</th><th>Evidence</th><th>Confidence / Confirmation Chance</th><th>Score Impact</th><th>Analysis date</th></>} render={c=><tr key={c.id}><td><input type="checkbox" aria-label={`Select ${c.id}`} checked={selected.includes(c.id)} onChange={()=>toggle(c.id)}/></td><td><button onClick={()=>focus(c)}>{c.condition}</button><CaseMember finding={c}/><CaseSource finding={c}/></td><td>{c.profile_reference?.category||plainLabel(c.category_label)}<small>{c.direction==='remove'?'Potential correction':c.direction==='data'?'Data issue':'Potential addition'}</small></td><td>{c.profile_reference?c.profile_reference.evidence:<>{c.evidence}<small>{c.source_available?'Document available':'Case details'}</small></>}</td><td><CaseConfidence finding={c}/></td><td><CaseImpact finding={c}/></td><td>{c.analysis_date}<small>{c.stale?'Older estimate':'Current analysis'}</small></td></tr>}/>;}
 function DiscoveryCaseTable({report,selected,toggle,focus}:{report:AnalysisReport;selected:string[];toggle:(id:string)=>void;focus:(c:SuspectCase)=>void}) {
  return <Paged rows={report.cases} scope={report.filter_hash} label="Clinical context conditions list" tableClassName={styles.registryTable}
-  headers={<><th>Select</th><th>HCC</th><th>Member</th><th>Gap Type</th><th>Clinical Signal</th><th>Confidence / Evidence</th><th>Score Impact</th></>}
+  headers={<><th>Select</th><th>HCC</th><th>Member</th><th>Gap Type</th><th>Clinical Signal</th><th>Confidence / Evidence</th><th className={styles.number} title={SUSPECT_PRIORITY_DESCRIPTION}>Priority Score</th><th>Score Impact</th></>}
   render={c=><tr key={c.id}>
    <td><input type="checkbox" aria-label={`Select ${c.id}`} checked={selected.includes(c.id)} onChange={()=>toggle(c.id)}/></td>
    <td className={styles.discoveryCondition}><button onClick={()=>focus(c)}>{c.profile_reference?(c.profile_reference.hcc?`HCC-${c.profile_reference.hcc}: `:''):c.hcc.startsWith('HCC ')?`${c.hcc.replace('HCC ','HCC-')}: `:''}{c.condition}</button></td>
@@ -320,6 +321,7 @@ function DiscoveryCaseTable({report,selected,toggle,focus}:{report:AnalysisRepor
    <td className={styles.discoveryKind}>{c.profile_reference?.category||c.discovery?.label||'Standard signal'}{!c.profile_reference&&<small>{plainLabel(c.category_label)}</small>}</td>
    <td className={styles.discoverySignal}><span>{c.discovery?.signal||analysisText(c.summary)}</span></td>
    <td><div className={styles.confidenceValue}>{c.profile_reference?<CaseConfidence finding={c}/>:<span title={c.probability.base===null?'No confirmation percentage available':'Confirmation likelihood'}>{c.probability.base===null?'—':pct(c.probability.base,0)}</span>}<ArrowAction className={styles.discoveryLink} label={`Inspect evidence for ${c.condition}, ${c.member_name||c.member_id}`} onClick={()=>focus(c)}/></div></td>
+   <td className={styles.number} title={suspectPriorityScore(c)===null?'Evidence strength and RAF impact are needed to calculate priority.':SUSPECT_PRIORITY_DESCRIPTION}>{suspectPriorityScore(c)??'—'}</td>
    <td className={styles.number}><CaseImpact finding={c}/></td>
   </tr>}/>;
 }

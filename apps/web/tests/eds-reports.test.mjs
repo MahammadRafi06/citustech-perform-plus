@@ -68,9 +68,9 @@ test('all reports handle an empty filtered cohort without fabricated data or inv
  for(const r of EDS_REPORTS){const report=buildEdsReport(r.id,[],f);assert.equal(report.records.length,0);assert.ok(!JSON.stringify(report).includes('NaN'));for(const c of report.charts)assert.ok(c.points.every(p=>p.value===0));}
 });
 
-test('Part D leakage excludes diagnoses without an RxHCC mapping',()=>{
+test('Part D eligibility gaps identify diagnosis codes without an RxHCC mapping',()=>{
  const report=buildEdsReport('yield',rows,{...f,program:'Part D'});
- const unmapped=report.charts[1].points.find(p=>p.name==='Unmapped Diagnosis');
+ const unmapped=report.charts[1].points.find(p=>p.name==='No Matching RxHCC');
  assert.equal(unmapped.value,rows.filter(r=>!r.rxhcc).length);
  for(const id of report.charts[0].points.at(-1).ids)assert.ok(rows.find(r=>r.id===id).rxhcc);
 });

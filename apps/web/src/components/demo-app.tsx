@@ -286,7 +286,15 @@ function Application() {
         <div className="topbar">
           <div className="topbar-left">
             <Link aria-label="CitiusTech Perform+ workspace" href={user.screens.includes("overview") ? "/overview" : user.screens.includes("members") ? "/member360" : `/${user.screens.find(screen => !hiddenByScope(screen)) || "overview"}`}>
-              <Brand full />
+              <span className="workspace-brand">
+                <svg className="workspace-brand-mark" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                  <rect x="0" y="0" width="6" height="6" /><rect x="9" y="0" width="6" height="6" /><rect x="18" y="0" width="6" height="6" />
+                  <rect x="0" y="9" width="6" height="6" /><rect x="9" y="9" width="6" height="6" /><rect x="18" y="9" width="6" height="6" />
+                  <rect x="0" y="18" width="6" height="6" /><rect x="9" y="18" width="6" height="6" /><rect x="18" y="18" width="6" height="6" />
+                </svg>
+                <span className="workspace-brand-product">PERFORM+</span>
+                <span className="workspace-brand-module">Risk Adjustment Module</span>
+              </span>
             </Link>
           </div>
           <div className="topbar-right">

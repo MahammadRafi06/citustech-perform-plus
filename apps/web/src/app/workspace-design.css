@@ -75,6 +75,38 @@
   font-weight: 700;
 }
 
+/* Compact product lockup used in the shared CitiusTech application header. */
+.workspace-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.workspace-brand-mark {
+  display: block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  color: #22438b;
+}
+
+.workspace-brand-product {
+  color: #1e8a9a;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.workspace-brand-module {
+  margin-left: 2px;
+  color: #7d8793;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
 /* Desktop navigation: white canvas, restrained brand accents, consistent rhythm. */
 
 .main-shell {
