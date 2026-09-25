@@ -16,12 +16,13 @@ const COLORS = ['var(--sapphire)', 'var(--royal)', 'var(--green)', 'var(--regent
 export function DashboardFocus({categories,onSelect}:{categories:CountRow[];onSelect:(category:string)=>void}) {
   const count = (name:string) => categories.find(row=>row.name===name)?.count || 0;
   const additions = ADDITIONS.map(row=>({...row,count:count(row.source)})).sort((a,b)=>b.count-a.count);
+  const visibleAdditions = additions.filter(row=>row.id !== 'ST');
   const total = categories.reduce((sum,row)=>sum+row.count,0);
   const additionCount = additions.reduce((sum,row)=>sum+row.count,0);
   const codingCount = count('Potential overcapture');
   const dataCount = count('Data representation');
   const otherCount = total-additionCount-codingCount-dataCount;
-  const largest = Math.max(...additions.map(row=>row.count), 1);
+  const largest = Math.max(...visibleAdditions.map(row=>row.count), 1);
   const share = (value:number) => total ? `${(value/total*100).toFixed(1)}%` : '0%';
 
   return <div className={styles.focus}>
@@ -33,7 +34,7 @@ export function DashboardFocus({categories,onSelect}:{categories:CountRow[];onSe
     <div className={styles.layout}>
       <div className={styles.opportunities}>
         {additionCount ? <div className={styles.chart} role="group" aria-label="Suspect opportunities by category">
-          {additions.map((row,index)=><button key={row.id} className={styles.category} disabled={!row.count}
+          {visibleAdditions.map((row,index)=><button key={row.id} className={styles.category} disabled={!row.count}
             style={{'--series-color':COLORS[index], '--bar-size':`${row.count/largest*100}%`} as CSSProperties}
             aria-label={`${row.label}: ${num(row.count)} suspects, ${share(row.count)} of all findings`} onClick={()=>onSelect(row.id)}>
             <span className={styles.categoryLabel}>{row.label}</span>

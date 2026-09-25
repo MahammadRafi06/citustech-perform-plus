@@ -1,8 +1,8 @@
 export const OPPORTUNITY_QUADRANTS = [
-  {id:'high_value',label:'High value · lower chance',title:'High value Suspects',x1:0,x2:.65,y1:.14,y2:.3},
-  {id:'priority',label:'High value · high chance',title:'High value Suspects',x1:.65,x2:1,y1:.14,y2:.3},
-  {id:'lower_priority',label:'Lower value · lower chance',title:'Lower value Suspects',x1:0,x2:.65,y1:0,y2:.14},
-  {id:'likely_to_close',label:'Lower value · high chance',title:'Lower value Suspects',x1:.65,x2:1,y1:0,y2:.14},
+  {id:'high_value',label:'Big Bet',title:'Big Bet',x1:0,x2:.65,y1:.14,y2:.3},
+  {id:'priority',label:'Quick Win',title:'Quick Win',x1:.65,x2:1,y1:.14,y2:.3},
+  {id:'lower_priority',label:'Watchlist',title:'Watchlist',x1:0,x2:.65,y1:0,y2:.14},
+  {id:'likely_to_close',label:'Easy Gain',title:'Easy Gain',x1:.65,x2:1,y1:0,y2:.14},
 ] as const;
 
 export type OpportunityQuadrant = typeof OPPORTUNITY_QUADRANTS[number]['id'];

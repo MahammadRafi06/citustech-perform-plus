@@ -276,3 +276,41 @@ def test_authored_capture_cohort_has_stable_scope_and_no_invented_evidence(state
     expected={c['id'] for c in full['cases'] if c['provider_id']==scoped_members[0]['provider_id']}
     assert {c['id'] for c in scoped['cases']}==expected
     assert all(not c['source_available'] for c in full['cases'] if c['aliases'][0].startswith('CAPTURE-'))
+
+
+def test_financial_reconciliation_changes_timing_without_changing_value():
+    forecast = a.finance([case(e=.2, p=.8)], dict(start='2027-01', months=12))
+    months = forecast['scenarios'][1]['monthly']
+    # 0.2 RAF * $1,000 * 75% reviewed * 80% supported * 90% paid = $108 earned/month.
+    assert [m['net'] for m in months[:3]] == pytest.approx([86.4, 86.4, 151.2])
+    assert [m['reconciliation'] for m in months[:3]] == pytest.approx([0, 0, 64.8])
+    assert [m['deferred'] for m in months[:3]] == pytest.approx([21.6, 43.2, 0])
+    assert forecast['net'] == pytest.approx(1296)
+    assert forecast['curve'][2]['Base'] == pytest.approx(324)
+    assert forecast['curve'][-1]['Base'] == pytest.approx(forecast['net'])
+
+
+@pytest.mark.parametrize('start,months,recognition',[
+    ('2027-02',5,2), ('2027-11',5,1), ('2027-01',24,7), ('2027-05',1,1), ('2027-05',5,5)])
+def test_financial_timing_respects_start_delay_window_and_signed_corrections(start,months,recognition):
+    f = a.finance([case(), case('D','D',-.05,None,'OC')],
+                  dict(start=start, months=months, recognition=recognition))
+    for scenario in f['scenarios']:
+        paid = earned = corrections = 0
+        for i, period in enumerate(scenario['monthly']):
+            paid += period['realized']; earned += period['earned']; corrections += period['corrections']
+            assert paid + period['deferred'] == pytest.approx(earned)
+            assert period['corrections'] == -50
+            assert period['net'] == pytest.approx(period['realized'] - 50)
+            assert period['deferred'] >= 0
+            if i+1 < recognition:
+                assert period['earned'] == period['realized'] == period['deferred'] == 0
+            if int(period['month'][5:]) % 3 == 0 or i == months-1:
+                assert period['deferred'] == 0
+            else:
+                assert period['reconciliation'] == 0
+            assert f['curve'][i][scenario['name']] == pytest.approx(paid + corrections)
+        assert paid == pytest.approx(earned)
+        assert scenario['corrections'] == -50 * months
+        assert scenario['net'] == pytest.approx(paid + corrections)
+    assert f['realized'] == pytest.approx(108*(months-recognition+1))

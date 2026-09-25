@@ -21,6 +21,7 @@
 .opportunityAction { margin-top:22px; }
 .opportunitySelection { font-size:12px; line-height:1.6; color:var(--sapphire); }
 .quadrant { cursor:pointer; outline:none; }
+.quadrantLabel { font-family:inherit; font-size:13px; font-weight:600; paint-order:stroke; stroke:white; stroke-width:4px; stroke-linejoin:round; pointer-events:none; user-select:none; }
 .quadrant:hover .quadrantFill { fill:var(--selected); fill-opacity:1; }
 .quadrant:focus-visible .quadrantFill { stroke:var(--sapphire); stroke-width:3px; }
 .groupPicker { display:flex; align-items:center; justify-content:space-between; gap:16px; }

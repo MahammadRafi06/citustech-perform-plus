@@ -11,3 +11,6 @@ export function cumulativeOutcomes(providers:Pick<LandingAnalytics['providers'][
   return {month,identified,closed,open:identified-closed,added};
  });
 }
+
+const outcomeAxisFormat = new Intl.NumberFormat('en-US', {notation:'compact',maximumFractionDigits:1});
+export const outcomeAxisLabel = (value:number) => outcomeAxisFormat.format(value);

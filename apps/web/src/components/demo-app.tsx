@@ -91,7 +91,8 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
     group: "Analytics",
     items: [
       ["overview", "Dashboard", LayoutDashboard],
-      ["analytics", "Risk analytics", ChartNoAxesCombined],
+      ["analytics", "Risk Analytics", ChartNoAxesCombined],
+      ["suspects", "Suspect Analytics", ScanLine],
       ["reports", "Reports", FileSearch],
       ["eds", "EDS", Database],
     ],
@@ -99,7 +100,6 @@ const routes: { group: string; items: [string, string, LucideIcon][] }[] = [
   {
     group: "Conditions",
     items: [
-      ["suspects", "Suspected conditions", ScanLine],
       ...(WORKFLOW_ENABLED
         ? ([
             ["reviews", "Chart review", ClipboardCheck],

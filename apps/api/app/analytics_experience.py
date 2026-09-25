@@ -19,7 +19,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.19'
+VERSION = 'analytics-population-2026.20'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -328,14 +328,27 @@ def finance(cases, settings=None, visible_ids=None):
             p = c['probability'][pkey]
             terms.append((c['delta'], p))
         monthly = []
+        # Forecast cash timing, not an official CMS payment calendar: 80% of
+        # earned value is recognized monthly, with 20% deferred to quarter-end.
+        # Settle the remaining balance at the end of the chosen window so this
+        # changes timing only, not the full-period valuation or scenario rates.
+        recurring_gross = sum(e*benchmark for e, p in terms)
+        recurring_support = sum(r*p*e*benchmark for e, p in terms)
+        correction = sum(correction_by_member.values())*benchmark
+        deferred = 0
         for offset in range(months):
-            label = f'{year+(month-1+offset)//12}-{(month-1+offset)%12+1:02}'
+            calendar_month = (month-1+offset) % 12 + 1
+            label = f'{year+(month-1+offset)//12}-{calendar_month:02}'
             active = offset+1 >= recognition
-            gross = sum(e*benchmark for e, p in terms) if active else 0
-            support = sum(r*p*e*benchmark for e, p in terms) if active else 0
-            realized = support*z
-            correction = sum(correction_by_member.values())*benchmark
-            monthly.append(dict(month=label, gross=gross, support=support, realized=realized,
+            gross = recurring_gross if active else 0
+            support = recurring_support if active else 0
+            earned = support*z
+            deferred += earned*.20
+            release = deferred if calendar_month % 3 == 0 or offset == months-1 else 0
+            realized = earned*.80 + release
+            deferred -= release
+            monthly.append(dict(month=label, gross=gross, support=support, earned=earned,
+                                reconciliation=release, deferred=deferred, realized=realized,
                                 corrections=correction, net=realized+correction))
         totals = {key: sum(row[key] for row in monthly) for key in ['gross','support','realized','corrections','net']}
         scenarios.append(dict(name=name, reach=r, realization=z, probability=pkey, **totals, monthly=monthly))
@@ -351,12 +364,15 @@ def finance(cases, settings=None, visible_ids=None):
     return dict(**{k: base[k] for k in ['gross','support','realized','corrections','net']}, scenarios=scenarios, curve=curve,
         waterfall=waterfall, selected_ids=[c['id'] for c in winners], excluded_ids=excluded,
         selection_hash=digest([c['id'] for c in winners]), selected_count=len(winners), excluded_count=len(excluded),
-        unvalued_corrections=missing, partial=missing > 0, method='ILLUSTRATIVE_MA_SUPPORT90_V1',
+        unvalued_corrections=missing, partial=missing > 0, method='ILLUSTRATIVE_MA_SUPPORT90_V2',
         assumptions=dict(reach=reach, realization=realization, benchmark=benchmark, months=months, recognition=recognition,
                          start=start, eligibility='Authored continuation of coverage for the chosen future window',
                          corrections='Authored validated-correction scenario; independent immediate effective schedule',
                          impact='Authored adjusted-score-equivalent increments after the assumed correction',
-                         origin='authored_synthetic_assumption', probability_method=METHOD))
+                         origin='authored_synthetic_assumption', probability_method=METHOD,
+                         payment_timing='quarterly_reconciliation_v1', monthly_payment_share=.80,
+                         deferred_payment_share=.20,
+                         settlement='Calendar quarter-end and final forecast month; no balance carried beyond the window'))
 
 
 def selected_conditions(context):

@@ -7,7 +7,7 @@ import type { AnalysisReport, LandingAnalytics } from '@/lib/analytics-types';
 import { OPPORTUNITY_LEVELS, OPPORTUNITY_QUADRANTS, opportunityLevel, opportunityLevelLabel, type OpportunityLevel, type OpportunityQuadrant } from '@/lib/opportunity-matrix';
 import s from './landing-analytics.module.css';
 import { ArrowAction, ChartInfo, ConditionSelect } from './analytics-controls';
-import { cumulativeOutcomes } from '@/lib/suspect-outcomes';
+import { cumulativeOutcomes, outcomeAxisLabel } from '@/lib/suspect-outcomes';
 import { scoreBasisLabel } from '@/lib/analytics-labels';
 import { CHART_LIMITS } from '@/lib/chart-limits';
 
@@ -76,6 +76,7 @@ function Opportunity({data,go,scoreName,initialQuadrant,initialDomains,initialCl
       {OPPORTUNITY_QUADRANTS.map(q=><ReferenceArea key={q.id} x1={q.x1} x2={q.x2} y1={q.y1} y2={q.y2} shape={({x=0,y=0,width=0,height=0}:{x?:number;y?:number;width?:number;height?:number})=><g role="button" tabIndex={0} aria-label={`Select quadrant: ${q.label}`} aria-pressed={quadrant===q.id} className={s.quadrant} onClick={()=>chooseQuadrant(q.id)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();chooseQuadrant(q.id);}}}>
        <rect className={s.quadrantFill} x={x+1} y={y+1} width={Math.max(0,width-2)} height={Math.max(0,height-2)} fill={quadrant===q.id?'var(--selected)':'var(--rowalt)'} fillOpacity={quadrant===q.id?1:.4} stroke="none" strokeWidth={0}/>
       </g>}/>)}
+      {OPPORTUNITY_QUADRANTS.map(q=><ReferenceArea key={`${q.id}-label`} x1={q.x1} x2={q.x2} y1={q.y1} y2={q.y2} zIndex={2000} pointerEvents="none" shape={({x=0,y=0}:{x?:number;y?:number})=><text x={x+12} y={y+22} className={s.quadrantLabel} fill={opportunityColors[q.id]} aria-hidden="true">{q.label}</text>}/>)}
       <ReferenceLine x={.65} stroke="#bac6d7" strokeDasharray="4 5" pointerEvents="none"/>
       <ReferenceLine y={.14} stroke="#bac6d7" strokeDasharray="4 5" pointerEvents="none"/>
       <Tooltip contentStyle={tip} cursor={false} labelFormatter={(_,p)=>p?.[0]?.payload?.name||'Condition group'} formatter={(v,n)=>n==='Chance of closure'?opportunityLevelLabel(opportunityLevel(Number(v))):n==='Members'?count(Number(v)):Number(v).toFixed(3)}/>
@@ -167,10 +168,10 @@ function NetworkOutcomes({data,program}:{data:LandingAnalytics;program:string}) 
  const series=cumulativeOutcomes(selected,data.recapture.months);
  const totals=series.at(-1)||{identified:0,closed:0,open:0,added:0};
  const hcc=program==='MA'?'HCC':'Condition';
- return <Card title="Cumulative Suspect Outcomes">
+ return <Card title="Cumulative Suspect Identification & Closure">
   <div className={s.filters}><label>Health Network<select aria-label="Outcome health network" value={network} onChange={e=>setNetwork(e.target.value)}><option value="">All Networks</option>{options.map(n=><option key={n.id} value={n.id}>{n.name}</option>)}</select></label></div>
   <div className={s.outcomeStats}><div><strong>{count(totals.identified)}</strong><span>Total Identified</span></div><div><strong>{count(totals.closed)}</strong><span>Total Closed</span></div><div title="Included in Total Closed. Each confirmed condition is counted once per member."><strong>{count(totals.added)}</strong><span>Closed — {hcc} Confirmed</span></div><div><strong>{count(totals.open)}</strong><span>Still Open</span></div></div>
-  {selected.length?<Chart height={230} label="Cumulative total identified and total closed suspects through each month"><ComposedChart data={series} margin={{left:0,right:15,top:10,bottom:0}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis {...axis} dataKey="month"/><YAxis {...axis} width={48} allowDecimals={false}/><Tooltip contentStyle={tip} labelFormatter={month=>`Cumulative Through ${month}`} formatter={v=>count(Number(v))}/><Line dataKey="identified" name="Total Identified" stroke={blue} strokeWidth={2.5} dot={{r:3}} type="linear" isAnimationActive={false}/><Line dataKey="closed" name="Total Closed" stroke={teal} strokeWidth={2.5} dot={{r:3}} type="linear" isAnimationActive={false}/></ComposedChart></Chart>:<NoData/>}
+  {selected.length?<Chart height={230} label="Cumulative total identified and total closed suspects through each month"><ComposedChart data={series} margin={{left:0,right:15,top:10,bottom:0}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis {...axis} dataKey="month"/><YAxis {...axis} width={48} allowDecimals={false} tickFormatter={outcomeAxisLabel}/><Tooltip contentStyle={tip} labelFormatter={month=>`Cumulative Through ${month}`} formatter={v=>count(Number(v))}/><Line dataKey="identified" name="Total Identified" stroke={blue} strokeWidth={2.5} dot={{r:3}} type="linear" isAnimationActive={false}/><Line dataKey="closed" name="Total Closed" stroke={teal} strokeWidth={2.5} dot={{r:3}} type="linear" isAnimationActive={false}/></ComposedChart></Chart>:<NoData/>}
   <Legend items={[["Total Identified",blue],["Total Closed",teal]]}/>
  </Card>;
 }
@@ -194,6 +195,12 @@ function SocialNeeds({data,report,update,go,frozen}:{data:LandingAnalytics;repor
  const maxScore=available.length?Math.max(...available.map(p=>p.score)):1;
  const padding=Math.max(maxScore-minScore,.12)*.22;
  const scoreDomain:[number,number]=[Math.max(0,Math.floor((minScore-padding)*100)/100),Math.ceil((maxScore+padding)*100)/100];
+ const socialQuadrants=[
+  {title:'Social Vulnerability',x1:scoreDomain[0],x2:scoreMid,y1:shareMid,y2:1},
+  {title:'Complex Care Needs',x1:scoreMid,x2:scoreDomain[1],y1:shareMid,y2:1},
+  {title:'Lower Complexity',x1:scoreDomain[0],x2:scoreMid,y1:0,y2:shareMid},
+  {title:'Clinical Complexity',x1:scoreMid,x2:scoreDomain[1],y1:0,y2:shareMid},
+ ];
  const withheld=data.social.filter(p=>p.suppressed).length;
  const unavailable=data.social.length-available.length-withheld;
  const needFilter=report.context.social_need;
@@ -213,6 +220,7 @@ function SocialNeeds({data,report,update,go,frozen}:{data:LandingAnalytics;repor
        <YAxis {...axis} tick={{fontSize:13,fill:'var(--comment)'}} type="number" dataKey="share" domain={[0,1]} ticks={[0,.25,.5,.75,1]} tickFormatter={percent} width={50} name="With social needs"/>
        <ZAxis dataKey="members" range={[180,1050]} name="Members"/>
        {canCompare&&<><ReferenceArea x1={scoreMid} x2={scoreDomain[1]} y1={shareMid} y2={1} fill="var(--selected)" fillOpacity={1}/><ReferenceLine x={scoreMid} stroke="var(--regent)" strokeDasharray="5 5"/><ReferenceLine y={shareMid} stroke="var(--regent)" strokeDasharray="5 5"/></>}
+       {canCompare&&socialQuadrants.map(q=><ReferenceArea key={q.title} x1={q.x1} x2={q.x2} y1={q.y1} y2={q.y2} zIndex={2000} pointerEvents="none" shape={({x=0,y=0}:{x?:number;y?:number})=><text x={x+12} y={y+22} className={s.quadrantLabel} fill="var(--sapphire)">{q.title}</text>}/>)}
        <Tooltip cursor={false} isAnimationActive={false} content={({active,payload})=>{const p=payload?.[0]?.payload as County|undefined;return active&&p?<div className={s.socialTooltip}><strong>{p.name}</strong><dl><div><dt>{scoreLabel}</dt><dd>{p.score.toFixed(3)}</dd></div><div><dt>With social needs</dt><dd>{percent(p.share)}</dd></div><div><dt>Members with needs</dt><dd>{count(p.needs)} / {count(p.members)}</dd></div></dl><small>Select to compare this county</small></div>:null;}}/>
        <Scatter data={[...points.filter(p=>p.id!==picked.id),picked]} isAnimationActive={false} shape={(props:unknown)=>{
         const {cx,cy,size,payload:p}=props as {cx?:number;cy?:number;size?:number;payload?:County};

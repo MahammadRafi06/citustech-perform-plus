@@ -81,7 +81,7 @@ export interface LandingAnalytics {
   recapture: {prior:number;confirmed:number;missing:number;months:string[];practices:{id:string;name:string}[];networks?:{id:string;name:string}[];
     heat:{condition:string;dimension:string;key:string;name:string;members:number|null;confirmed:number|null;rate:number|null;suppressed:boolean}[]};
   providers:{id:string;name:string;practice:string;specialty:string;members:number|null;suppressed:boolean;
-    series:{month:string;rules:number;closed:number;added:number;rate:number;identified_to_date?:number;closed_to_date?:number;open_to_date?:number;confirmed_to_date?:number}[]|null}[];
+    series:{month:string;rules:number;closed:number;added:number;rate:number;opening_open:number;available:number;identified_to_date?:number;closed_to_date?:number;open_to_date?:number;confirmed_to_date?:number}[]|null}[];
   networks?: {id:string;name:string;members:number|null;suppressed:boolean;series:LandingAnalytics['providers'][number]['series']}[];
   social:{id:string;name:string;members:number|null;needs:number|null;share:number|null;score:number|null;suppressed:boolean}[];
   social_options:Record<string,string[]>;

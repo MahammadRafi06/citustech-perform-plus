@@ -150,18 +150,53 @@ def continuing_member_comparison(rows, context, *, program='MA'):
                 method='Same member IDs, enrolled in both years, with the same reporting-month weights. 2026 baseline scores use the selected program with a fixed 2026 final-year configuration. Prior-year enrollment, model scores and capture changes are authored fixtures, not official CMS model calculations. For MA, the same prior-year clinical profile is scored under V24 and V28: 2025 is 33% V24 plus 67% V28, and the model impact moves that blend to 100% V28 before capture changes. Open opportunities are prior-year conditions not recaptured; no unconfirmed score gain is added. Missing scores and reference-only member profiles are excluded from both years.')
 
 
+# A retained Jan-Sep history: larger identification batches at the start of
+# each quarter, with smaller intervening runs. Dates are stable per member/HCC
+# and never reallocated when a reporting month or provider filter changes.
+IDENTIFICATION_WEIGHTS = (20, 9, 7, 14, 8, 6, 16, 11, 9)
+CLOSURE_LAG_WEIGHTS = (12, 42, 30, 16)  # Same month, then 1-3 months later.
+OUTCOME_TIMING_VERSION = 'authored_suspect_event_calendar_v1'
+
+
+def weighted_period(key, weights):
+    position = seed(key) % sum(weights)
+    for index, weight in enumerate(weights):
+        if position < weight:
+            return index
+        position -= weight
+    raise ValueError('A timing profile must have positive weights.')
+
+
+def suspect_outcome(member, condition, provider_seed):
+    key = f'{member}:{condition}'
+    identified = 1 + weighted_period(key + ':outcome-month', IDENTIFICATION_WEIGHTS)
+    closed = seed(key + ':closed') % 100 < 58 + provider_seed % 25
+    # The retained terminal disposition stays unchanged. For cases known to be
+    # closed by September, sample only valid delays within that observed window;
+    # do not clamp future closures into the final month or close unresolved cases.
+    delays = CLOSURE_LAG_WEIGHTS[:len(IDENTIFICATION_WEIGHTS) - identified + 1]
+    closed_month = identified + weighted_period(key + ':closure-lag', delays) if closed else None
+    return dict(member=member, hcc=condition, month=identified, closed_month=closed_month,
+                closed=closed, confirmed=seed(key + ':confirmation') % 100 < 76)
+
+
 def outcome_series(outcomes, months):
     series = []
     identified_to_date = closed_to_date = confirmed_to_date = 0
     for month, label in enumerate(months, 1):
-        subset = [o for o in outcomes if o['month'] == month]
-        closed = sum(o['closed'] for o in subset)
-        added = sum(o['closed'] and o['confirmed'] for o in subset)
-        identified_to_date += len(subset)
+        identified = sum(o['month'] == month for o in outcomes)
+        resolved = [o for o in outcomes if o['closed_month'] == month]
+        closed = len(resolved)
+        added = sum(o['confirmed'] for o in resolved)
+        opening_open = identified_to_date - closed_to_date
+        available = opening_open + identified
+        identified_to_date += identified
         closed_to_date += closed
         confirmed_to_date += added
-        series.append(dict(month=label, rules=len(subset), closed=closed, added=added,
-            rate=closed/len(subset) if subset else 0, identified_to_date=identified_to_date,
+        series.append(dict(month=label, rules=identified, closed=closed, added=added,
+            opening_open=opening_open, available=available,
+            # Monthly closure rate includes the carried-forward open backlog.
+            rate=closed/available if available else 0, identified_to_date=identified_to_date,
             closed_to_date=closed_to_date, open_to_date=identified_to_date-closed_to_date,
             confirmed_to_date=confirmed_to_date))
     return series
@@ -240,10 +275,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
         pindex = seed(pid + ':physician')
         specialty = ['Family medicine','Internal medicine','Geriatrics'][pindex % 3]
         group = by_provider[pid]
-        outcomes = [dict(member=r['id'], hcc=c, month=1+seed(f"{r['id']}:{c}:outcome-month") % 9,
-                         closed=seed(f"{r['id']}:{c}:closed") % 100 < 58+pindex%25,
-                         confirmed=seed(f"{r['id']}:{c}:confirmation") % 100 < 76)
-                    for r in group for c in r['conditions']]
+        outcomes = [suspect_outcome(r['id'], c, pindex) for r in group for c in r['conditions']]
         series = outcome_series(outcomes, months)
         for outcome in outcomes:
             network_outcomes[member_network[outcome['member']]].append(outcome)
@@ -279,7 +311,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     changes = [('Metabolic', -.037, [0,5]), ('Cardiovascular', .046, [1,6]), ('Kidney', -.018, [2]),
                ('Respiratory', .023, [3]), ('Other conditions', .014, [4,7,8,9])]
     bridge = [dict(name=name, change=round(delta*(.8+sum(any(i in r['conditions'] for i in indices) for r in eligible)/max(1,len(eligible))),4)) for name,delta,indices in changes]
-    return dict(origin='authored_sample_analytics', matrix=protect(matrix), quadrants=quadrants, quadrant_conditions=quadrant_conditions, closure_bands=closure_bands,
+    return dict(origin='authored_sample_analytics', outcome_timing=OUTCOME_TIMING_VERSION, matrix=protect(matrix), quadrants=quadrants, quadrant_conditions=quadrant_conditions, closure_bands=closure_bands,
                 priority_members=len({c['member_id'] for c in priority}), priority_cases=len(priority),
                 recapture=dict(prior=prior, confirmed=confirmed, missing=prior-confirmed, heat=protected_heat,
                     networks=[dict(id=n,name=n) for n in networks if any(member_network[r['id']]==n and r['conditions'] for r in eligible)],

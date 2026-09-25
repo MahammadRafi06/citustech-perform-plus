@@ -1,3 +1,9 @@
+## Planned increment — production performance
+
+See [Production performance plan and TODOs](docs/PRODUCTION_PERFORMANCE_PLAN.md) for PERF-01 through PERF-08: request timing, independent page loading, report reuse, faster calculations, smaller responses, frontend responsiveness, regression checks and production rollout. Based on measured production loading times at the current 110,005-member population. **Planning only; implementation has not started.** A separate approved [production resource trial](docs/PRODUCTION_RESOURCE_TUNING.md) increased the UI CPU ceiling; it did not resolve report latency.
+
+---
+
 ## Current delivery — analytics and suspecting
 
 See [Analytics and suspecting TODOs](docs/ANALYTICS_SUSPECTING_TODO.md), based on the complete [new requirements](CitiusTech_Perform_Plus_Analytics_and_Suspecting_Full_Requirements.md) and the current working tree. The plan contains 18 P0 work packages, four P1 enhancements and two P2 items, with dependencies and acceptance checks. **The user-approved fixture-backed analytics increment is implemented locally.** See the [implementation receipt and native-data boundary](docs/ANALYTICS_SUSPECTING_IMPLEMENTATION.md).

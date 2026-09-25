@@ -173,8 +173,9 @@ def test_provider_outcomes_are_coherent_and_do_not_close_real_cases(state,report
     for p in providers:
         if p['suppressed']: continue
         for month in p['series']:
-            assert 0<=month['added']<=month['closed']<=month['rules']
-            assert month['rate']==pytest.approx(month['closed']/month['rules'] if month['rules'] else 0)
+            assert 0<=month['added']<=month['closed']<=month['available']
+            assert month['available']==month['opening_open']+month['rules']
+            assert month['rate']==pytest.approx(month['closed']/month['available'] if month['available'] else 0)
     first=providers[0]
     scoped=a.build(state,state['members'],CFG,{'practices':[first['id']]})
     assert scoped['landing']['providers'][0]['name']==first['name']
@@ -374,3 +375,46 @@ def test_network_recapture_and_cumulative_outcomes_reconcile(state, report):
 def test_plan_display_cleanup_preserves_source_evidence(state):
     assert not any(m.get('plan') in ('Northstar Health','Meridian Care') for m in state['members'])
     assert not any('Northstar' in label or 'Meridian' in label for _,label in a.CONTRACTS)
+
+
+def test_closures_resolve_existing_backlog_in_the_actual_closure_month():
+    outcomes = [dict(month=1, closed_month=3, confirmed=True),
+                dict(month=1, closed_month=2, confirmed=False),
+                dict(month=2, closed_month=None, confirmed=False)]
+    series = landing.outcome_series(outcomes, ['Jan', 'Feb', 'Mar'])
+    assert [r['rules'] for r in series] == [2, 1, 0]
+    assert [r['closed'] for r in series] == [0, 1, 1]
+    assert [r['added'] for r in series] == [0, 0, 1]
+    assert [r['open_to_date'] for r in series] == [2, 2, 1]
+    assert series[2]['closed'] > series[2]['rules']  # Valid: resolving earlier suspects.
+    assert series[2]['rate'] == .5
+    assert landing.outcome_series(outcomes, ['Jan', 'Feb']) == series[:2]
+
+
+def test_suspect_event_dates_preserve_terminal_dispositions_and_delay_closure():
+    outcomes = [landing.suspect_outcome(f'M-{i}', i % 10, 15) for i in range(5000)]
+    assert outcomes == [landing.suspect_outcome(f'M-{i}', i % 10, 15) for i in range(5000)]
+    for outcome in outcomes:
+        key = f"{outcome['member']}:{outcome['hcc']}"
+        assert outcome['closed'] == (landing.seed(key + ':closed') % 100 < 73)
+        assert outcome['confirmed'] == (landing.seed(key + ':confirmation') % 100 < 76)
+        assert 1 <= outcome['month'] <= 9
+        if outcome['closed']:
+            assert outcome['month'] <= outcome['closed_month'] <= min(9, outcome['month'] + 3)
+        else:
+            assert outcome['closed_month'] is None
+    assert sum(o['closed'] and o['closed_month'] > o['month'] for o in outcomes) > 2000
+    series = landing.outcome_series(outcomes, ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'])
+    assert max(p['rules'] for p in series) > 2 * min(p['rules'] for p in series)
+    assert len({round(p['closed']/p['rules'], 2) for p in series}) >= 6
+    assert series[-1]['identified_to_date'] == len(outcomes)
+    assert series[-1]['closed_to_date'] == sum(o['closed'] for o in outcomes)
+    assert series[-1]['confirmed_to_date'] == sum(o['closed'] and o['confirmed'] for o in outcomes)
+
+
+def test_reporting_month_truncates_history_without_rescheduling_events(state, report):
+    july = a.build(state, state['members'], CFG, {'run_month':'07'})
+    expected = {p['id']:p['series'][:7] for p in report['landing']['providers'] if not p['suppressed']}
+    for provider in july['landing']['providers']:
+        if not provider['suppressed']:
+            assert provider['series'] == expected[provider['id']]

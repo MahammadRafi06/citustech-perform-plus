@@ -35,6 +35,14 @@ patches:
             secretKeyRef:
               name: perform-plus-secrets
               key: CT_SUPERUSER_PASSWORD
+  # Allow UI request/serialization bursts to use spare capacity on the existing worker.
+  - target:
+      kind: Deployment
+      name: ui
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: "2"
   - target:
       kind: StatefulSet
       name: db

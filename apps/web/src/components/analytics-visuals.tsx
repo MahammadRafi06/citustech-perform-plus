@@ -6,7 +6,7 @@ import type { AnalysisReport } from '@/lib/analytics-types';
 import s from './analytics-visuals.module.css';
 import { ChartInfo } from './analytics-controls';
 import { scoreBasisLabel } from '@/lib/analytics-labels';
-import { cumulativeOutcomes } from '@/lib/suspect-outcomes';
+import { cumulativeOutcomes, outcomeAxisLabel } from '@/lib/suspect-outcomes';
 import { CHART_LIMITS } from '@/lib/chart-limits';
 
 const palette=['var(--sapphire)','var(--green)','var(--royal)','var(--yellow)','var(--regent)','var(--chart-6)'];
@@ -91,9 +91,9 @@ export function ProviderVisuals({report,chooseProvider}:{report:AnalysisReport;c
   <Card title="Provider Capture & Recapture Rates">
    <ComparisonPlot rows={providers.map(r=>({id:r.id,name:r.name,a:r.capture_rate||0,b:r.recapture_rate||0}))} first="Suspect capture" second="Chronic Condition Recapture" label="Suspect capture and chronic recapture rates by provider" onSelect={chooseProvider}/>
   </Card>
-  <Card title="Cumulative Suspect Outcomes">
+  <Card title="Cumulative Suspect Identification & Closure">
    <Legend items={[["Total Identified",blue],["Total Closed",teal]]}/>
-   {months.length?<Plot label="Cumulative total identified and total closed suspects through each month" height={295}><AreaChart data={months} margin={{left:0,right:12,top:15,bottom:0}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis {...axis} dataKey="month"/><YAxis {...axis} width={48} allowDecimals={false}/><Tooltip contentStyle={tip} labelFormatter={month=>`Cumulative Through ${month}`} formatter={v=>count(Number(v))}/><Area dataKey="identified" name="Total Identified" type="linear" stroke={blue} strokeWidth={2.5} fill={blue} fillOpacity={.08} isAnimationActive={false}/><Area dataKey="closed" name="Total Closed" type="linear" stroke={teal} strokeWidth={2.5} fill={teal} fillOpacity={.12} isAnimationActive={false}/></AreaChart></Plot>:<NoData/>}
+   {months.length?<Plot label="Cumulative total identified and total closed suspects through each month" height={295}><AreaChart data={months} margin={{left:0,right:12,top:15,bottom:0}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis {...axis} dataKey="month"/><YAxis {...axis} width={48} allowDecimals={false} tickFormatter={outcomeAxisLabel}/><Tooltip contentStyle={tip} labelFormatter={month=>`Cumulative Through ${month}`} formatter={v=>count(Number(v))}/><Area dataKey="identified" name="Total Identified" type="linear" stroke={blue} strokeWidth={2.5} fill={blue} fillOpacity={.08} isAnimationActive={false}/><Area dataKey="closed" name="Total Closed" type="linear" stroke={teal} strokeWidth={2.5} fill={teal} fillOpacity={.12} isAnimationActive={false}/></AreaChart></Plot>:<NoData/>}
   </Card>
  </div>;
 }

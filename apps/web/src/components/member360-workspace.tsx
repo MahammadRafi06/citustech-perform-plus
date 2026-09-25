@@ -138,7 +138,7 @@ function Member360ProfileWorkspace({ user }: { user: User }) {
   const router = useRouter();
   const risk = useRiskContext();
   const returnScreen = ["suspects", "overview", "analytics"].find(screen => user.screens.includes(screen));
-  const backLabel = returnScreen === "suspects" ? "Suspected Conditions" : returnScreen === "analytics" ? "Risk Analytics" : "Dashboard";
+  const backLabel = returnScreen === "suspects" ? "Suspect Analytics" : returnScreen === "analytics" ? "Risk Analytics" : "Dashboard";
   const back = returnScreen ? () => router.push(risk.href(returnScreen === "suspects" ? "/suspects?view=registry" : `/${returnScreen}`)) : undefined;
   const selectedId = search?.get("member") || "";
   const activeTab = tabs.some(([id]) => id === search?.get("tab")) ? search?.get("tab")! : "summary";
