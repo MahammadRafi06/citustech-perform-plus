@@ -19,7 +19,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.20'
+VERSION = 'analytics-population-2026.21'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -301,78 +301,134 @@ def frozen_selection(cases):
     return [v[1] for v in winners.values()], sorted(excluded)
 
 
-def finance(cases, settings=None, visible_ids=None):
+def finance(cases, settings=None, visible_ids=None, payment_year=2027):
+    """Prospective incremental RA value; never a cash calendar or validated net payment.
+
+    A single positive candidate per eligible member stays fixed across scenarios.
+    Possible overcoding is a separate exposure and cannot become a booked deduction.
+    """
     settings = settings or {}
     reach = float(settings.get('reach', .75)); realization = float(settings.get('realization', .90))
-    benchmark = float(settings.get('benchmark', 1000)); months = int(settings.get('months', 12))
-    recognition = int(settings.get('recognition', 1)); start = settings.get('start', '2027-01')
-    if not (0 <= reach <= 1 and 0 <= realization <= 1 and math.isfinite(benchmark) and 0 < benchmark <= 100000 and 1 <= months <= 24 and 1 <= recognition <= months):
-        raise ValueError('Choose valid reach/realization, a positive sensitivity basis, and a 1–24 month payment window.')
-    year, month = map(int, start.split('-'))
-    if not (2024 <= year <= 2040 and 1 <= month <= 12): raise ValueError('Choose a valid payment start month.')
-    winners, excluded = frozen_selection(cases)
-    corrections = [c for c in cases if c['category'] == 'OC' and c['status'] == 'open']
-    if visible_ids is not None:
-        winners = [c for c in winners if c['id'] in visible_ids]
-        corrections = [c for c in corrections if c['id'] in visible_ids]
-    # Authored corrections in this presentation are assumed validated for valuation,
-    # not clinically approved. Native execution remains a different calculation mode.
-    correction_by_member = defaultdict(float)
+    retention = float(settings.get('retention', 1)); benchmark = float(settings.get('benchmark', 1000))
+    def whole(key, default):
+        value = float(settings.get(key, default))
+        if not math.isfinite(value) or not value.is_integer():
+            raise ValueError('Forecast periods must be whole months.')
+        return int(value)
+    months = whole('months', 12); recognition = whole('recognition', 1); ramp = whole('ramp', 3)
+    start = settings.get('start', f'{payment_year}-01')
+    if not (0 <= reach <= 1 and 0 <= realization <= 1 and 0 <= retention <= 1
+            and math.isfinite(benchmark) and 0 < benchmark <= 100000
+            and 1 <= months <= 12 and 1 <= recognition <= months and ramp in (1, 3)):
+        raise ValueError('Use percentages from 0 to 100, a positive dollar basis, and a 1–12 month forecast.')
+    try:
+        year, month = map(int, start.split('-'))
+    except (ValueError, TypeError, AttributeError):
+        raise ValueError('Choose a valid forecast start month.') from None
+    if year != payment_year or not 1 <= month <= 12 or month + months > 13:
+        raise ValueError('Keep the forecast within the selected payment year.')
+
+    def mapping_unavailable(c):
+        return c.get('hcc') in ('Model mapping pending', 'Mapping unresolved')
+    eligible_cases = [c for c in cases if c.get('qualified') and not c.get('stale') and not mapping_unavailable(c)]
+    winners, excluded = frozen_selection(eligible_cases)
+    visible = lambda c: visible_ids is None or c['id'] in visible_ids
+    winners = [c for c in winners if visible(c)]
+    excluded = [cid for cid in excluded if visible_ids is None or cid in visible_ids]
+    selected_ids = {c['id'] for c in winners}
+    other_ids = set(excluded)
+    omitted = Counter()
+    for c in cases:
+        if not visible(c) or c['status'] != 'open' or c['category'] in ('OC', 'DR', 'Unknown'): continue
+        if c['id'] in selected_ids or c['id'] in other_ids: continue
+        reason = ('Member not eligible' if not c.get('qualified') else
+                  'Evidence needs updating' if c.get('stale') else
+                  'Score impact unavailable' if c['delta'] is None or c['delta'] <= 0 else
+                  'HCC mapping unavailable' if mapping_unavailable(c) else
+                  'Confirmation probability unavailable')
+        omitted[reason] += 1
+
+    # Resolve joint member effects before placing multiple or mixed corrections
+    # into any exposure subtotal. Child filters must not hide these conflicts.
+    addition_members = {c['member_id'] for c in cases
+                        if c.get('qualified') and not c.get('stale') and c['status'] == 'open' and c['category'] not in ('OC', 'DR', 'Unknown')}
+    correction_counts = Counter(c['member_id'] for c in cases
+                                if c.get('qualified') and not c.get('stale') and c['category'] == 'OC' and c['status'] == 'open')
+    corrections = [c for c in cases if visible(c) and c['category'] == 'OC' and c['status'] == 'open']
+    exposure_cases = []; exposure_reasons = Counter()
     for c in corrections:
-        if c['delta'] is not None: correction_by_member[c['member_id']] += c['delta']
+        reason = ('Member not eligible' if not c.get('qualified') else
+                  'Evidence needs updating' if c.get('stale') else
+                  'Score impact unavailable' if c['delta'] is None or c['delta'] >= 0 else
+                  'HCC mapping unavailable' if mapping_unavailable(c) else
+                  'Joint member calculation required' if c['member_id'] in addition_members or correction_counts[c['member_id']] > 1 else None)
+        if reason: exposure_reasons[reason] += 1
+        else: exposure_cases.append(c)
+
+    active_months = months - recognition + 1
+    phase_months = sum(min(1, (i-recognition+2)/ramp) for i in range(recognition-1, months))
+    exposure = sum(-c['delta'] for c in exposure_cases) * benchmark * retention * active_months
+    weighted_probability = (sum(c['delta']*c['probability']['base'] for c in winners)
+                            / sum(c['delta'] for c in winners)) if winners else None
     scenarios = []
-    curve = []
-    for name, r, z, pkey in [('Conservative', .50, .70, 'low'), ('Base', reach, realization, 'base'), ('Optimistic', .90, 1., 'high')]:
-        terms = []
-        for c in winners:
-            p = c['probability'][pkey]
-            terms.append((c['delta'], p))
+    # Bounds move with the edited expected case. Relative coverage and bounded
+    # realization assumptions preserve ordering, including 0% and 100% inputs.
+    specifications = [('Conservative', reach*2/3, realization*7/9, 'low'),
+                      ('Base', reach, realization, 'base'),
+                      ('Optimistic', min(1, reach*1.2), min(1, realization/0.9), 'high')]
+    for name, r, z, pkey in specifications:
+        recurring_gross = sum(c['delta'] for c in winners)*benchmark*retention
+        recurring_support = sum(r*c['probability'][pkey]*c['delta'] for c in winners)*benchmark*retention
         monthly = []
-        # Forecast cash timing, not an official CMS payment calendar: 80% of
-        # earned value is recognized monthly, with 20% deferred to quarter-end.
-        # Settle the remaining balance at the end of the chosen window so this
-        # changes timing only, not the full-period valuation or scenario rates.
-        recurring_gross = sum(e*benchmark for e, p in terms)
-        recurring_support = sum(r*p*e*benchmark for e, p in terms)
-        correction = sum(correction_by_member.values())*benchmark
-        deferred = 0
         for offset in range(months):
-            calendar_month = (month-1+offset) % 12 + 1
-            label = f'{year+(month-1+offset)//12}-{calendar_month:02}'
             active = offset+1 >= recognition
+            phase = min(1, (offset-recognition+2)/ramp) if active else 0
             gross = recurring_gross if active else 0
-            support = recurring_support if active else 0
-            earned = support*z
-            deferred += earned*.20
-            release = deferred if calendar_month % 3 == 0 or offset == months-1 else 0
-            realized = earned*.80 + release
-            deferred -= release
-            monthly.append(dict(month=label, gross=gross, support=support, earned=earned,
-                                reconciliation=release, deferred=deferred, realized=realized,
-                                corrections=correction, net=realized+correction))
-        totals = {key: sum(row[key] for row in monthly) for key in ['gross','support','realized','corrections','net']}
-        scenarios.append(dict(name=name, reach=r, realization=z, probability=pkey, **totals, monthly=monthly))
+            phased = gross*phase
+            support = recurring_support*phase
+            realized = support*z
+            monthly.append(dict(month=f'{year}-{month+offset:02}', gross=gross, phased=phased,
+                                support=support, realized=realized, corrections=0, net=realized,
+                                phase_share=phase))
+        totals = {key: sum(row[key] for row in monthly) for key in ['gross','phased','support','realized','corrections','net']}
+        scenarios.append(dict(name=name, reach=r, realization=z, probability=pkey,
+                              support_probability=(sum(c['delta']*c['probability'][pkey] for c in winners)
+                                                   / sum(c['delta'] for c in winners)) if winners else None,
+                              **totals, monthly=monthly))
+    curve = []; cumulative = {s['name']: 0 for s in scenarios}
     for index in range(months):
-        curve.append({'month': scenarios[1]['monthly'][index]['month'], **{s['name']: sum(m['net'] for m in s['monthly'][:index+1]) for s in scenarios}})
-    missing = sum(c['delta'] is None for c in corrections)
+        for s in scenarios: cumulative[s['name']] += s['monthly'][index]['realized']
+        curve.append(dict(month=scenarios[1]['monthly'][index]['month'], **cumulative))
     base = scenarios[1]
-    waterfall = [dict(name='Gross potential', start=0, end=base['gross']),
-        dict(name='Reach & support', start=base['support'], end=base['gross']),
-        dict(name='Recognition', start=base['realized'], end=base['support']),
-        dict(name='Corrections', start=base['net'], end=base['realized']),
-        dict(name='Modeled net', start=0, end=base['net'])]
-    return dict(**{k: base[k] for k in ['gross','support','realized','corrections','net']}, scenarios=scenarios, curve=curve,
+    waterfall = [dict(name='Potential Revenue', start=0, end=base['gross']),
+                 dict(name='Phase-In Reduction', start=base['gross'], end=base['phased']),
+                 dict(name='Review / Evidence Reduction', start=base['phased'], end=base['support']),
+                 dict(name='Realization Reduction', start=base['support'], end=base['realized']),
+                 dict(name='Expected Revenue', start=0, end=base['realized'])]
+    contributions = defaultdict(lambda: dict(count=0, value=0))
+    for c in winners:
+        row = contributions[c.get('domain') or c.get('condition') or 'Unclassified HCC']
+        row['count'] += 1
+        row['value'] += c['delta']*benchmark*retention*phase_months*reach*c['probability']['base']*realization
+    return dict(**{k: base[k] for k in ['gross','phased','support','realized','corrections','net']}, scenarios=scenarios, curve=curve,
         waterfall=waterfall, selected_ids=[c['id'] for c in winners], excluded_ids=excluded,
         selection_hash=digest([c['id'] for c in winners]), selected_count=len(winners), excluded_count=len(excluded),
-        unvalued_corrections=missing, partial=missing > 0, method='ILLUSTRATIVE_MA_SUPPORT90_V2',
-        assumptions=dict(reach=reach, realization=realization, benchmark=benchmark, months=months, recognition=recognition,
-                         start=start, eligibility='Authored continuation of coverage for the chosen future window',
-                         corrections='Authored validated-correction scenario; independent immediate effective schedule',
-                         impact='Authored adjusted-score-equivalent increments after the assumed correction',
+        unvalued_corrections=exposure_reasons['Score impact unavailable'], partial=bool(exposure_reasons),
+        method='MA_PROSPECTIVE_VALUE_V3', potential_exposure=exposure,
+        exposure_count=len(exposure_cases), correction_count=len(corrections),
+        exposure_exclusions=[dict(reason=k, count=v) for k,v in sorted(exposure_reasons.items()) if v],
+        addition_exclusions=[dict(reason=k, count=v) for k,v in sorted(omitted.items())],
+        eligible_member_months=len(winners)*retention*active_months,
+        weighted_support_probability=weighted_probability,
+        contributions=sorted([dict(name=k, **v) for k,v in contributions.items()], key=lambda r:(-r['value'],r['name'])),
+        assumptions=dict(reach=reach, realization=realization, retention=retention, benchmark=benchmark,
+                         months=months, recognition=recognition, ramp=ramp, start=start,
+                         eligible_start=f'{year}-{month+recognition-1:02}', active_months=active_months,
+                         eligibility='Constant projected covered-member share across eligible forecast months',
+                         corrections='Potential overcoding exposure is separate; no unconfirmed deductions in revenue',
+                         impact='Authored adjusted-score-equivalent increments; one eligible addition per member',
                          origin='authored_synthetic_assumption', probability_method=METHOD,
-                         payment_timing='quarterly_reconciliation_v1', monthly_payment_share=.80,
-                         deferred_payment_share=.20,
-                         settlement='Calendar quarter-end and final forecast month; no balance carried beyond the window'))
+                         value_timing='Equal prospective phase-in cohorts; no cash schedule or retroactive settlement'))
 
 
 def selected_conditions(context):
@@ -497,7 +553,7 @@ def build(state, members, config, context, *, include_evidence=True):
     bands = [dict(name=b, count=sum(c['probability']['band']==b for c in cases)) for b in ['High','Medium','Low','Unknown','Not applicable']]
     matrix = [dict(evidence=e, **{b:sum(c['evidence']==e and c['probability']['band']==b for c in cases) for b in ['High','Medium','Low','Unknown','Not applicable']}) for e in ['Strong','Moderate','Limited','Unknown']]
     cond_expected = sum(c['probability']['base'] or 0 for c in cases)
-    financial = finance(root_cases, ctx.get('financial'), {c['id'] for c in cases})
+    financial = finance(root_cases, ctx.get('financial'), {c['id'] for c in cases}, payment_year=config['year'])
     financial['dollars_available'] = config['program']=='MA'
     financial['program_note'] = 'Illustrative MA payment sensitivity; not actual reimbursement' if config['program']=='MA' else f'{config["program"]} score opportunities are available; dollar estimation requires its separately approved program method.'
     last_month = int(ctx['run_month']) if ctx.get('run_month', 'all') != 'all' else date.fromisoformat(ctx['snapshot']).month

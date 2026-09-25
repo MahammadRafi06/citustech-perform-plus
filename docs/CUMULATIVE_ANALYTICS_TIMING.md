@@ -18,12 +18,16 @@ At each month:
 
 Changing a reporting month truncates the fixed history; changing a network/provider filter selects the same dated events. Neither operation redistributes dates. Monthly new/closed counts feed both cumulative charts. No clinical finding status or evidence is changed.
 
-## Revenue forecast
+## Financial value forecast
 
-The full-period value, selected findings, scenario probabilities, review/payment rates, per-RAF benchmark, and signed coding deductions are preserved. The change is an explicit cash-timing assumption: 80% of each active month’s earned value is recognized that month; 20% is held for calendar quarter-end reconciliation. Any remaining balance settles at the final forecast month. This is not an official CMS payment schedule.
+The Financial tab estimates prospective incremental RA revenue, not cash receipts. The earlier 80% monthly / 20% quarter-end settlement assumption has been removed. Changing the report horizon no longer releases a balance or changes earlier months.
 
-Positive earned value starts at the selected payment-start offset. Coding deductions remain effective from the first forecast month. A zero-review scenario may correctly be negative; the chart never forces it positive. Gross and likely opportunity remain accrued monthly values. Realized value includes releases of earlier deferred payments, so a reconciliation month can exceed that month’s earned value.
+The forecast stays within the selected model's payment year. Its first eligible month controls when prospective value starts; moving it later reduces eligible exposure and does not represent delayed or retroactive payment. The covered-member share is an explicit constant continuation assumption applied to eligible member-months.
 
-At each month, cumulative realized value + deferred balance = cumulative earned value. Final deferred balance is zero. Net = realized value + signed coding deductions. Every cumulative curve ends at its scenario-table total, including partial-year, delayed-start and 24-month forecasts.
+Value phase-in is separately editable: Immediate, or equal thirds becoming effective over the first three eligible months. The latter is an authored sensitivity assumption, not observed confirmation timing or a CMS payment rule. In a three-month phase-in, the monthly value fractions are 1/3, 2/3, then 1. A forecast that ends before phase-in completes does not accelerate the remaining value. Constant later monthly value is deliberately retained rather than adding artificial fluctuation.
 
-Timing details are available through the chart information icons. Source metadata retains the authored origin and timing version. This does not establish actual CMS receipts or a clinical outcome history.
+All scenarios keep the same eligible positive selection (one candidate per member), dates, coverage share, phase-in and dollar basis. Conservative/Optimistic review and realization rates are derived around the edited Expected case, and use the lower/upper support estimates. Thus Conservative ≤ Expected ≤ Optimistic holds for every cumulative month, including zero-input cases.
+
+Possible overcoding is an independent exposure, never an automatically confirmed deduction. Noneligible, stale and unpriced findings are excluded from valuation with reasons. Members with both an addition and correction, or multiple corrections, require joint member-level recalculation before their correction exposure is priced. Positive revenue remains a single-addition estimate; it is not labeled net revenue. The separate potential exposure uses the same eligible months and covered-member share.
+
+See `FINANCIAL_BUSINESS_REVIEW.md` for the historical issues and `FINANCIAL_CORRECTIONS.md` for the implemented definitions and verification.

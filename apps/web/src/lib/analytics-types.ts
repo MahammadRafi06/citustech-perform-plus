@@ -3,7 +3,7 @@ import type { OpportunityLevel, OpportunityQuadrant } from './opportunity-matrix
 export type AnalysisBasis = 'captured_baseline' | 'potential' | 'submitted' | 'accepted';
 export type AnalysisView = 'risk' | 'geography' | 'provider' | 'suspecting' | 'raf' | 'financial' | 'ai' | 'coverage';
 export interface CountRow { name: string; count: number; members?: number }
-export interface FinancialSettings { reach: number; realization: number; benchmark: number; months: number; recognition: number; start: string }
+export interface FinancialSettings { reach: number; realization: number; benchmark: number; months: number; recognition: number; start: string; retention: number; ramp: number }
 export interface AnalysisContext {
   snapshot: string; stage: string; basis: AnalysisBasis; run_month: string; contract: string;
   counties: string[]; practices: string[]; category: string; condition: string; evidence: string; band: string;
@@ -42,14 +42,18 @@ export interface PrevalenceRow {
   name: string; hcc: string; members: number; denominator: number; prevalence: number | null;
   prior: number; recaptured: number; gap: number; recapture: number | null;
 }
-export interface MoneyTotals { gross: number; support: number; realized: number; corrections: number; net: number }
+export interface MoneyTotals { gross: number; phased: number; support: number; realized: number; corrections: number; net: number }
 export interface FinancialResult extends MoneyTotals {
-  scenarios: (MoneyTotals & {name: string; reach: number; realization: number; probability: string; monthly: (MoneyTotals & {month: string})[]})[];
+  scenarios: (MoneyTotals & {name: string; reach: number; realization: number; probability: string; support_probability: number|null; monthly: (MoneyTotals & {month: string})[]})[];
   curve: {month: string; Conservative: number; Base: number; Optimistic: number}[];
   waterfall: {name: string; start: number; end: number}[];
   selected_ids: string[]; excluded_ids: string[]; selection_hash: string; selected_count: number; excluded_count: number;
   unvalued_corrections: number; partial: boolean; method: string; dollars_available: boolean; program_note: string;
-  assumptions: FinancialSettings & {eligibility: string; corrections: string; impact: string; origin: string; probability_method: string};
+  potential_exposure: number; exposure_count: number; correction_count: number;
+  exposure_exclusions: {reason:string;count:number}[]; addition_exclusions: {reason:string;count:number}[];
+  eligible_member_months: number; weighted_support_probability: number|null;
+  contributions: {name:string;count:number;value:number}[];
+  assumptions: FinancialSettings & {eligible_start:string; active_months:number; eligibility: string; corrections: string; impact: string; origin: string; probability_method: string};
 }
 export interface AnalysisReport {
   discovery_groups?: {id:string;name:string;description:string;count:number}[];

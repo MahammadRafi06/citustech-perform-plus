@@ -173,3 +173,16 @@
 .modelList>div {display:flex;justify-content:space-between;gap:24px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;}
 .modelList dt {font-weight:600;}
 .modelList dd {color:var(--comment);text-align:right;}
+
+.forecastButtons {display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.financialTable th {white-space:normal;line-height:1.4;}
+.financialTable td {font-variant-numeric:tabular-nums;}
+.financialTable th:first-child {width:14%;}
+.expectedScenario {background:var(--ice, #f2f8fc);}
+.expectedScenario td:last-child {color:var(--sapphire);font-weight:600;}
+.financialDetails {width:800px;max-width:800px!important;}
+.financialExplanation {font-size:14px;line-height:1.6;color:var(--comment);margin:12px 0;}
+.financialSubheading {font-size:15px;font-weight:600;color:var(--sapphire);margin:16px 0 4px;}
+.financialDetails tfoot td {border-top:1px solid var(--line);font-weight:600;}
+
+.forecastDialog .assumptions small {font-weight:400;}

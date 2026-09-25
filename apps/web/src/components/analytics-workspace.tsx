@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, BarChart3, BookOpen, Check, Clock3, FileBarChart2, GitBranch, Layers3, LoaderCircle, MapPin, RefreshCw, Save, Search, ShieldCheck, SlidersHorizontal, Sparkles, X } from 'lucide-react';
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line, Pie, PieChart, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, LabelList, Line, Pie, PieChart, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
 import { toast } from 'sonner';
 import { analysisText, calculationText, plainLabel, reportCopy, metricNames, calculationNotes } from '@/lib/analytics-language';
 import { api, num } from '@/lib/api';
@@ -37,8 +37,14 @@ const BASES: {id:AnalysisBasis;label:string;note:string}[]=[{id:'captured_baseli
 const CATEGORIES: Record<string,string>={CG:'Coding gap',RC:'Recapture',NC:'New condition',SP:'Specificity',ST:'Persistent status',OC:'Potential overcapture',DR:'Data representation'};
 const HEALTH_NETWORK_OPTIONS=['Central MA Network','Northside Medical','Harbor Primary Care','Dr. A. Carter'];
 const matchesHealthNetwork=(row:NonNullable<AnalysisReport['options']['hierarchy']>[number],value:string)=>!value||[row.network,row.group,row.provider].includes(value);
-const financialInputs=({reach,realization,benchmark,months,recognition,start}:FinancialSettings):FinancialSettings=>({reach,realization,benchmark,months,recognition,start});
-const DEFAULT_MONEY:FinancialSettings={reach:.75,realization:.90,benchmark:1000,months:12,recognition:1,start:'2027-01'};
+const defaultMoney=(year:number):FinancialSettings=>({reach:.75,realization:.90,benchmark:1000,months:12,recognition:1,start:`${year}-01`,retention:1,ramp:3});
+const financialInputs=({reach,realization,benchmark,months,recognition,start,retention=1,ramp=3}:FinancialSettings):FinancialSettings=>({reach,realization,benchmark,months,recognition,start,retention,ramp});
+// Carry assumptions across model selections, but always rebase the calendar to its payment year.
+const alignMoney=(input:FinancialSettings,year:number):FinancialSettings=>{
+ const month=Math.max(1,Math.min(12,Number(input.start?.slice(5))||1));
+ const months=Math.max(1,Math.min(input.months,13-month));
+ return {...defaultMoney(year),...input,start:`${year}-${String(month).padStart(2,'0')}`,months,recognition:Math.min(input.recognition,months)};
+};
 const score=(n:number|null|undefined,d=3)=>n==null?'Not available':n.toFixed(d);
 const pct=(n:number|null|undefined,d=1)=>n==null?'Not available':`${(n*100).toFixed(d)}%`;
 const usd=(n:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
@@ -154,7 +160,9 @@ export function AnalyticsWorkspace({user,route}:{user:User;route:string}) {
  const [search,setSearch]=useUrlState('grid_q','');const [freshness,setFreshness]=useUrlState('freshness','fresh');
  const [closure]=useUrlState('closure','');const [quadrant]=useUrlState('quadrant','');
  const [age_band]=useUrlState('age_band','');const [gender]=useUrlState('gender','');const [race]=useUrlState('race','');const [zip]=useUrlState('zip','');const [social_need]=useUrlState('social_need','');
- const [money,setMoney]=useUrlState<FinancialSettings>('financial',DEFAULT_MONEY);
+ const paymentYear=Number(risk.configuration?.year)||2027;
+ const [storedMoney,setMoney]=useUrlState<FinancialSettings>('financial',defaultMoney(paymentYear));
+ const money=alignMoney(storedMoney,paymentYear);
  const [selected,setSelected]=useUrlState<string[]>('selection',[]);const [focused,setFocused]=useState<SuspectCase|null>(null);
  const [busy,setBusy]=useState(false);const format='zip';
  const [scenario,setScenario]=useState<ScenarioOutput|null>(null);const [scenarioError,setScenarioError]=useState('');const [scenarioMode,setScenarioMode]=useState('illustrative');const [operation,setOperation]=useState('combined');
@@ -333,44 +341,71 @@ function DiscoveryCaseTable({report,selected,toggle,focus}:{report:AnalysisRepor
 function Financial({report,onApply,frozen=false}:{report:AnalysisReport;onApply:(s:FinancialSettings)=>void;frozen?:boolean}) {
  const f=report.financial;const [draft,setDraft]=useState<FinancialSettings>(()=>financialInputs(f.assumptions));
  useEffect(()=>setDraft(financialInputs(f.assumptions)),[f.assumptions]);
- const [editing,setEditing]=useState(false);
+ const [editing,setEditing]=useState(false);const [details,setDetails]=useState(false);
  const openEditor=()=>{setDraft(financialInputs(f.assumptions));setEditing(true);};
- const change=(key:keyof FinancialSettings,value:number|string)=>setDraft(d=>({...d,[key]:value}));
- if(!f.dollars_available)return <><div className={styles.banner}><BookOpen size={18}/>A revenue estimate is not set up for {report.config.program}. You can still explore risk scores and suspected conditions.</div><Stats items={[{label:'Members with flagged conditions',value:num(report.summary.qualified_members),note:'Members in the selected group'},{label:'Possible additions',value:num(f.selected_count),note:'One selected finding per member'},{label:'Expected confirmations',value:report.summary.conditional_support.toFixed(1),note:'If every case is reviewed'},{label:'Program',value:report.config.program,note:'Requires its own payment calculation'}]}/><Panel title="Suspected conditions"><Rank rows={report.conditions.map(c=>({name:c.name,value:c.count}))}/></Panel></>;
+ const change=(key:keyof FinancialSettings,value:number|string)=>setDraft(d=>alignMoney({...d,[key]:value},report.config.year));
+ if(!f.dollars_available)return <><div className={styles.banner}><BookOpen size={18}/>A revenue estimate is not set up for {report.config.program}. You can still explore risk scores and suspected conditions.</div><Stats items={[{label:'Members With Flagged Conditions',value:num(report.summary.qualified_members),note:'Members in the selected group'},{label:'Possible Additions',value:num(f.selected_count),note:'One selected finding per member'},{label:'Expected Confirmations',value:report.summary.conditional_support.toFixed(1),note:'If every case is reviewed'},{label:'Program',value:report.config.program,note:'Requires its own payment calculation'}]}/><Panel title="Suspected HCCs"><Rank rows={report.conditions.map(c=>({name:c.name,value:c.count}))}/></Panel></>;
  const scenarioName=(name:string)=>name==='Base'?'Expected':name;
- const supportName=(range:string)=>range==='low'?'Lower chance of confirmation':range==='high'?'Higher chance of confirmation':'Standard chance of confirmation';
+ const headline=(n:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',notation:Math.abs(n)>=1e6?'compact':'standard',maximumFractionDigits:Math.abs(n)>=1e6?2:0}).format(n);
+ const monthLabel=(value:string)=>new Date(`${value}-01T12:00:00`).toLocaleDateString('en-US',{month:'short',year:'numeric'});
+ const endMonth=f.curve.at(-1)?.month||f.assumptions.start;
+ const omittedExposure=f.exposure_exclusions?.reduce((sum,row)=>sum+row.count,0)||0;
+ const phaseLabel=f.assumptions.ramp===1?'Immediate value':'3-month value phase-in';
  return <>
   <Stats items={[
-   {label:'Total opportunity',value:usd(f.gross),note:`If all ${num(f.selected_count)} selected findings are confirmed and paid`},
-   {label:'Likely opportunity',value:usd(f.support),note:'Allows for review rates and supporting evidence'},
-   {label:'Coding deductions',value:usd(f.corrections),note:'Estimated reduction from correcting overcoding'},
-   {label:f.partial?'Net revenue · incomplete':'Estimated net revenue',value:usd(f.net),note:f.partial?`${f.unvalued_corrections} corrections still need an estimate`:'Additional revenue after deductions, before costs'},
+   {label:'Potential RA Revenue',value:headline(f.gross),note:`${num(f.selected_count)} selected opportunities · before adjustments`},
+   {label:'Evidence-Adjusted Revenue',value:headline(f.support),note:'After value phase-in, review coverage and evidence support'},
+   {label:'Expected RA Revenue',value:headline(f.realized),note:`${pct(f.assumptions.realization,0)} payment realization · before costs`},
+   {label:'Potential Overcoding Exposure',value:!f.exposure_count&&omittedExposure?'Not Valued':headline(f.potential_exposure||0),note:`${num(f.exposure_count||0)} valued suspects${omittedExposure?` · ${num(omittedExposure)} not valued`:''} · separate from revenue`},
   ]}/>
+  <div className={`ct-card ${styles.forecastSummary}`}>
+   <div><strong>Payment Year {report.config.year} · {monthLabel(f.assumptions.start)} – {monthLabel(endMonth)}</strong><span>{pct(f.assumptions.reach,0)} review coverage · {pct(f.assumptions.realization,0)} realization · {usd(f.assumptions.benchmark)} / RAF point / month</span><span>Eligible from {monthLabel(f.assumptions.eligible_start||f.assumptions.start)} · {f.assumptions.active_months||f.assumptions.months} months · {phaseLabel} · {pct(f.assumptions.retention??1,0)} covered-member share</span></div>
+   <div className={styles.forecastButtons}><Button variant="ghost" onClick={()=>setDetails(true)}>Calculation Details</Button><Button variant="outline" onClick={openEditor} disabled={frozen}><SlidersHorizontal size={14}/>Edit Forecast</Button></div>
+  </div>
   <div className={styles.equalGrid}>
    <Panel title="Risk-Adjusted Revenue Bridge">
-    <Chart label="Total opportunity to estimated net revenue" height={285}><BarChart data={f.waterfall.map((r,i)=>({...r,name:plainLabel(r.name),range:[Math.min(r.start,r.end),Math.max(r.start,r.end)]}))} margin={{left:5,right:5,top:10,bottom:25}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis dataKey="name" {...axis} interval={0} angle={-12} textAnchor="end" height={50}/><YAxis {...axis} tickFormatter={v=>`$${compact(Number(v))}`} width={58}/><Tooltip contentStyle={tooltipStyle} formatter={(_v,_n,p)=>usd(Math.abs(Number(p.payload.end)-Number(p.payload.start)))}/><ReferenceLine y={0} stroke="#ced7e5"/><Bar dataKey="range" name="Amount" isAnimationActive={false} radius={[3,3,0,0]} maxBarSize={55}>{f.waterfall.map((r,i)=><Cell key={r.name} fill={i===0?COLORS[0]:i===4?COLORS[1]:'#b9c6db'}/>)}</Bar></BarChart></Chart>
-
+    <Chart label="Potential RA revenue reduced by value phase-in, review and evidence, and payment realization" height={285}>
+     <BarChart data={f.waterfall.map(r=>({...r,range:[Math.min(r.start,r.end),Math.max(r.start,r.end)],change:r.end-r.start}))} margin={{left:8,right:12,top:12,bottom:18}}>
+      <CartesianGrid vertical={false} stroke="var(--line)"/><XAxis dataKey="name" {...axis} interval={0} height={50} tick={({x,y,payload})=><text x={x} y={Number(y)+16} textAnchor="middle" fill="var(--regent)" fontSize={12}>{String(payload.value).split(/ (?=[^ ]+$)/).map((line,i)=><tspan key={i} x={x} dy={i?16:0}>{line}</tspan>)}</text>}/><YAxis {...axis} tickFormatter={v=>`$${compact(Number(v))}`} width={66}/>
+      <Tooltip contentStyle={tooltipStyle} formatter={(_v,_n,p)=>[usd(Number(p.payload.change)),Number(p.payload.change)<0?'Reduction':'Revenue']}/><ReferenceLine y={0} stroke="#ced7e5"/>
+      <Bar dataKey="range" name="Amount" isAnimationActive={false} radius={[3,3,0,0]} maxBarSize={62}>{f.waterfall.map((r,i)=><Cell key={r.name} fill={i===0?COLORS[0]:i===f.waterfall.length-1?COLORS[1]:'#91a4bc'}/>)}<LabelList dataKey="change" position="top" formatter={value=>headline(Number(value))} style={{fontSize:12,fill:'var(--comment)'}}/></Bar>
+     </BarChart>
+    </Chart>
    </Panel>
-   <Panel title="Cumulative Net Revenue Forecast">
+   <Panel title="Cumulative RA Revenue Forecast">
     <div className={styles.legend}>{['Conservative','Base','Optimistic'].map((name,i)=><span key={name}><i style={{background:COLORS[i]}}/>{scenarioName(name)}</span>)}</div>
-    <Chart label="Conservative expected and optimistic revenue forecasts" height={260}><AreaChart data={f.curve} margin={{left:5,right:12,top:12,bottom:8}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis dataKey="month" {...axis} tickFormatter={v=>new Date(`${v}-01T12:00:00`).toLocaleDateString('en-US',{month:'short'})} minTickGap={20}/><YAxis {...axis} width={58} tickFormatter={v=>`$${compact(Number(v))}`}/><Tooltip contentStyle={tooltipStyle} formatter={v=>usd(Number(v))}/>{['Conservative','Base','Optimistic'].map((name,i)=><Area key={name} name={scenarioName(name)} type="linear" dataKey={name} fill={i===1?COLORS[1]:'transparent'} fillOpacity={.08} stroke={COLORS[i]} strokeWidth={i===1?2.5:1.5} strokeDasharray={i===1?undefined:'4 4'} isAnimationActive={false}/>)}</AreaChart></Chart>
+    <Chart label="Cumulative estimated incremental RA revenue by scenario" height={260}><AreaChart data={f.curve} margin={{left:8,right:12,top:12,bottom:8}}><CartesianGrid vertical={false} stroke="var(--line)"/><XAxis dataKey="month" {...axis} tickFormatter={monthLabel} interval="preserveStartEnd" minTickGap={24}/><YAxis {...axis} width={66} tickFormatter={v=>`$${compact(Number(v))}`}/><Tooltip labelFormatter={v=>monthLabel(String(v))} contentStyle={tooltipStyle} formatter={v=>usd(Number(v))}/>{['Conservative','Base','Optimistic'].map((name,i)=><Area key={name} name={scenarioName(name)} type="linear" dataKey={name} fill={i===1?COLORS[1]:'transparent'} fillOpacity={.08} stroke={COLORS[i]} strokeWidth={i===1?2.5:1.5} strokeDasharray={i===1?undefined:'4 4'} isAnimationActive={false}/>)}</AreaChart></Chart>
    </Panel>
   </div>
-  <div className={`ct-card ${styles.forecastSummary}`}><div><strong>Forecast assumptions</strong><span>{pct(f.assumptions.reach,0)} reviewed · {pct(f.assumptions.realization,0)} payment rate · {usd(f.assumptions.benchmark)} per RAF point / month · {f.assumptions.months} months from {f.assumptions.start}</span></div><Button variant="outline" onClick={openEditor} disabled={frozen}><SlidersHorizontal size={14}/>Edit forecast</Button></div>
-  <Dialog open={editing} onOpenChange={setEditing}><DialogContent className={styles.forecastDialog}><DialogHeader><div className={styles.panelTools}><DialogTitle>Edit forecast</DialogTitle><ChartInfo title="Forecast assumptions" description="Change review and payment rates to adjust the Expected forecast. The dollar amount, dates and payment timing apply to all three forecasts. The forecast pays 80% monthly and reconciles 20% at calendar quarter-end or the end of the forecast. Coding deductions start in the first month, and members are assumed to stay covered throughout. Evidence support estimates whether a condition will be confirmed within 90 days when reviewed within 30 days. Results are estimated revenue, not actual CMS payments, and do not include costs."/></div><DialogDescription>Adjust the Expected forecast. Apply changes to update the charts and comparison.</DialogDescription></DialogHeader>
-   <form onSubmit={e=>{e.preventDefault();onApply(draft);setEditing(false);}}><fieldset disabled={frozen} style={{border:0,padding:0,margin:0}}><div className={styles.assumptions}>
-    <label>Cases reviewed (%)<input aria-label="Cases reviewed percentage" required type="number" min="0" max="100" value={Math.round(draft.reach*100)} onChange={e=>change('reach',Number(e.target.value)/100)}/><small>Share reviewed within 30 days</small></label>
-    <label>Expected payment rate (%)<input aria-label="Expected payment rate percentage" required type="number" min="0" max="100" value={Math.round(draft.realization*100)} onChange={e=>change('realization',Number(e.target.value)/100)}/><small>Share of likely value expected to be paid</small></label>
-    <label>$ per RAF point / month<input aria-label="Dollars per RAF point per month" required type="number" min="1" max="100000" value={draft.benchmark} onChange={e=>change('benchmark',Number(e.target.value))}/><small>Per member; a planning estimate</small></label>
-    <label>Forecast starts<input aria-label="Forecast starts" required type="month" value={draft.start} onChange={e=>change('start',e.target.value)}/><small>First month shown in the forecast</small></label>
-    <label>Forecast length (months)<input aria-label="Forecast length in months" required type="number" min="1" max="24" value={draft.months} onChange={e=>change('months',Number(e.target.value))}/><small>How many months to include</small></label>
-    <label>Payments start in month<input aria-label="Payments start in month" required type="number" min="1" max={draft.months} value={draft.recognition} onChange={e=>change('recognition',Number(e.target.value))}/><small>1 means the first forecast month</small></label>
-
-   </div></fieldset><DialogFooter className={styles.forecastActions}><Button type="button" variant="ghost" onClick={()=>setDraft({...DEFAULT_MONEY,start:`${report.config.year}-01`})}>Reset defaults</Button><Button type="button" variant="outline" onClick={()=>setEditing(false)}>Cancel</Button><Button type="submit">Apply forecast</Button></DialogFooter></form>
-  </DialogContent></Dialog>
   <Panel title="Revenue Scenario Comparison">
-   <Paged rows={f.scenarios} label="Revenue forecast comparison" headers={<><th>Forecast</th><th>Cases reviewed</th><th>Payment rate</th><th>Total opportunity</th><th>Likely opportunity</th><th>Coding deductions</th><th>Net revenue</th></>} render={row=><tr key={row.name}><td><strong>{scenarioName(row.name)}</strong><small>{supportName(row.probability)}</small></td><td>{pct(row.reach,0)}</td><td>{pct(row.realization,0)}</td><td>{usd(row.gross)}</td><td>{usd(row.support)}</td><td>{usd(row.corrections)}</td><td><strong>{usd(row.net)}</strong></td></tr>}/>
+   <div className={styles.tableWrap}><SortableTable className={`${styles.table} ${styles.financialTable}`} aria-label="Revenue forecast comparison"><thead><tr><th>Scenario</th><th>Review Coverage</th><th>Evidence Support</th><th>Payment Realization</th><th>Potential Revenue</th><th>Evidence-Adjusted Revenue</th><th>Expected RA Revenue</th></tr></thead><tbody>{f.scenarios.map(row=><tr key={row.name} className={row.name==='Base'?styles.expectedScenario:undefined}><td>{scenarioName(row.name)}</td><td>{pct(row.reach,1)}</td><td>{pct(row.support_probability,1)}</td><td>{pct(row.realization,1)}</td><td data-sort-value={row.gross}>{usd(row.gross)}</td><td data-sort-value={row.support}>{usd(row.support)}</td><td data-sort-value={row.realized}>{usd(row.realized)}</td></tr>)}</tbody></SortableTable></div>
   </Panel>
+  <Dialog open={editing} onOpenChange={setEditing}><DialogContent className={styles.forecastDialog}><DialogHeader><div className={styles.panelTools}><DialogTitle>Edit Forecast</DialogTitle><ChartInfo title="Forecast Assumptions" description="Review coverage is the share assessed within 30 days. Evidence support estimates confirmation within 90 days for reviewed findings. Value phase-in is a separate forecast assumption: immediate value, or equal thirds becoming effective over three months. It is not a measured confirmation schedule. Covered-member share estimates continued coverage throughout the eligible period. The dollar basis is an entered assumption per adjusted RAF point; payment realization is the share of supported value expected to contribute to revenue. No retroactive settlement, cash receipt dates, operating costs or unconfirmed overcoding deductions are included."/></div><DialogDescription>Set the Expected scenario for payment year {report.config.year}. Conservative and Optimistic adjust around these assumptions.</DialogDescription></DialogHeader>
+   <form onSubmit={e=>{e.preventDefault();onApply(draft);setEditing(false);}}><fieldset disabled={frozen} style={{border:0,padding:0,margin:0}}><div className={styles.assumptions}>
+    <label>Review Coverage (%)<input aria-label="Review coverage percentage" required type="number" min="0" max="100" value={Math.round(draft.reach*100)} onChange={e=>change('reach',Number(e.target.value)/100)}/><small>Share assessed within 30 days</small></label>
+    <label>Payment Realization (%)<input aria-label="Payment realization percentage" required type="number" min="0" max="100" value={Math.round(draft.realization*100)} onChange={e=>change('realization',Number(e.target.value)/100)}/><small>Share of supported value expected as revenue</small></label>
+    <label>$ per Adjusted RAF Point / Month<input aria-label="Dollars per adjusted RAF point per month" required type="number" min="1" max="100000" value={draft.benchmark} onChange={e=>change('benchmark',Number(e.target.value))}/><small>Entered dollar basis per covered member</small></label>
+    <label>Covered-Member Share (%)<input aria-label="Covered-member share percentage" required type="number" min="0" max="100" value={Math.round(draft.retention*100)} onChange={e=>change('retention',Number(e.target.value)/100)}/><small>Projected coverage throughout eligible months</small></label>
+    <label>Forecast Starts<input aria-label="Forecast starts" required type="month" min={`${report.config.year}-01`} max={`${report.config.year}-12`} value={draft.start} onChange={e=>change('start',e.target.value)}/><small>Within the selected payment year</small></label>
+    <label>Forecast Length (Months)<input aria-label="Forecast length in months" required type="number" min="1" max={13-Number(draft.start.slice(5))} value={draft.months} onChange={e=>change('months',Number(e.target.value))}/><small>Ends no later than December {report.config.year}</small></label>
+    <label>First Eligible Month<select aria-label="First eligible month" value={draft.recognition} onChange={e=>change('recognition',Number(e.target.value))}>{Array.from({length:draft.months},(_,i)=><option key={i} value={i+1}>{monthLabel(`${report.config.year}-${String(Number(draft.start.slice(5))+i).padStart(2,'0')}`)}</option>)}</select><small>Later eligibility reduces the forecast value</small></label>
+    <label>Value Phase-In<select aria-label="Value phase-in" value={draft.ramp} onChange={e=>change('ramp',Number(e.target.value))}><option value={3}>Over 3 Months</option><option value={1}>Immediate</option></select><small>Prospective value timing, not payment delay</small></label>
+   </div></fieldset><DialogFooter className={styles.forecastActions}><Button type="button" variant="ghost" onClick={()=>setDraft(defaultMoney(report.config.year))}>Reset Defaults</Button><Button type="button" variant="outline" onClick={()=>setEditing(false)}>Cancel</Button><Button type="submit">Apply Forecast</Button></DialogFooter></form>
+  </DialogContent></Dialog>
+  <Dialog open={details} onOpenChange={setDetails}><DialogContent className={`${styles.forecastDialog} ${styles.financialDetails}`}><DialogHeader><DialogTitle>Financial Calculation Details</DialogTitle><DialogDescription>Estimated incremental RA revenue for the selected population. Possible overcoding remains a separate exposure.</DialogDescription></DialogHeader>
+   <dl className={styles.modelList}>
+    <div><dt>Valued Opportunities</dt><dd>{num(f.selected_count)} · one per member</dd></div>
+    <div><dt>Additional Findings Excluded</dt><dd>{num(f.excluded_count)} · avoid stacking individual impacts</dd></div>
+    <div><dt>Projected Covered Member-Months</dt><dd>{num(f.eligible_member_months||0)}</dd></div>
+    <div><dt>Impact-Weighted Evidence Support</dt><dd>{pct(f.weighted_support_probability)}</dd></div>
+    <div><dt>Expected Revenue Calculation</dt><dd>{usd(f.support)} × {pct(f.assumptions.realization,0)} = {usd(f.realized)}</dd></div>
+   </dl>
+   <p className={styles.financialExplanation}>The selected opportunity has the largest evidence-weighted score impact for each member. Potential revenue uses the eligible months and covered-member share. Evidence-adjusted revenue also applies value phase-in, review coverage and confirmation likelihood. Score impacts are estimates on an adjusted basis; normalization and coding adjustments are not applied again. This is additional RA value, not total plan revenue or a cash-payment schedule.</p>
+   {!!f.addition_exclusions?.length&&<div><h3 className={styles.financialSubheading}>Unvalued Additions</h3><dl className={styles.modelList}>{f.addition_exclusions.map(row=><div key={row.reason}><dt>{row.reason}</dt><dd>{num(row.count)}</dd></div>)}</dl></div>}
+   <div><h3 className={styles.financialSubheading}>Potential Overcoding Exposure</h3><dl className={styles.modelList}><div><dt>Valued Suspects</dt><dd>{num(f.exposure_count||0)} · {usd(f.potential_exposure||0)}</dd></div>{f.exposure_exclusions?.map(row=><div key={row.reason}><dt>{row.reason}</dt><dd>{num(row.count)}</dd></div>)}</dl><p className={styles.financialExplanation}>Exposure assumes each valued overcoding finding is confirmed, over the same eligible months and covered-member share. It is not a confirmed recovery or a deduction from expected revenue. Members with additions and corrections, or multiple corrections, need a combined member-level calculation before their correction exposure can be valued. Missing impacts remain unvalued.</p></div>
+   <div><h3 className={styles.financialSubheading}>Expected Revenue by Disease Family</h3><div className={styles.tableWrap}><SortableTable className={styles.table} aria-label="Expected revenue by disease family"><thead><tr><th>Disease Family</th><th>Opportunities</th><th>Expected RA Revenue</th></tr></thead><tbody>{f.contributions?.map(row=><tr key={row.name}><td>{row.name}</td><td>{num(row.count)}</td><td data-sort-value={row.value}>{usd(row.value)}</td></tr>)}</tbody><tfoot><tr><td>Total</td><td>{num(f.selected_count)}</td><td>{usd(f.realized)}</td></tr></tfoot></SortableTable></div></div>
+   <DialogFooter><Button variant="outline" onClick={()=>setDetails(false)}>Close</Button></DialogFooter>
+  </DialogContent></Dialog>
  </>;
 }
 

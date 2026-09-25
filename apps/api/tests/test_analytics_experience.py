@@ -17,7 +17,7 @@ def state():
 
 
 def case(mid='A',cid='A',e=.2,p=.8,category='CG'):
-    return dict(id=cid,member_id=mid,delta=e,evidence='Strong',category=category,status='open',
+    return dict(id=cid,member_id=mid,delta=e,evidence='Strong',category=category,status='open',qualified=True,stale=False,
         probability=dict(base=p,low=max(0,p-.1) if p is not None else None,high=min(1,p+.1) if p is not None else None))
 
 
@@ -54,7 +54,7 @@ def test_t04_aliases_and_distinct_hcc_questions(state):
 def test_t07_financial_golden():
     rows=[case(e=.20,p=.8),case('B','B',.10,.5),case('C','C',.15,.2),case('D','D',-.05,None,'OC')]
     f=a.finance(rows)
-    for key,value in dict(gross=5400,support=2160,realized=1944,corrections=-600,net=1344).items():
+    for key,value in dict(gross=5400,phased=4950,support=1980,realized=1782,corrections=0,net=1782,potential_exposure=600).items():
         assert f[key]==pytest.approx(value)
     assert f['curve'][-1]['Base']==pytest.approx(f['net'])
     assert sum(m['net'] for m in f['scenarios'][1]['monthly'])==pytest.approx(f['net'])
@@ -62,10 +62,11 @@ def test_t07_financial_golden():
 
 def test_t08_schedule_and_recognition_separation():
     f=a.finance([case()],dict(months=12,recognition=7))
-    assert f['realized']==pytest.approx(648)
+    assert f['realized']==pytest.approx(540)
     assert all(m['realized']==0 for m in f['scenarios'][1]['monthly'][:6])
     correction=a.finance([case(),case('D','D',-.05,None,'OC')],dict(reach=0,realization=0))
-    assert correction['realized']==0 and correction['corrections']==-600
+    assert correction['realized']==correction['corrections']==0
+    assert correction['potential_exposure']==600
 
 
 def test_t12_frozen_winner_and_child_filter():
@@ -244,15 +245,15 @@ def test_populated_default_financial_outlooks_are_positive_and_reconcile(state, 
     f=report['financial']
     assert f['scenarios'][0]['net'] < f['net'] < f['scenarios'][2]['net']
     for scenario in f['scenarios']:
-        assert scenario['net'] > 0 and scenario['corrections'] < 0
+        assert scenario['net'] > 0 and scenario['corrections'] == 0
         assert scenario['net']==pytest.approx(scenario['realized']+scenario['corrections'])
         assert scenario['net']==pytest.approx(sum(m['net'] for m in scenario['monthly']))
         assert all(point[scenario['name']]>0 for point in f['curve'])
-    # Negative results remain legitimate when positive opportunities are not reached.
+    # Open overcoding is exposure, never a confirmed loss or negative positive-revenue estimate.
     zero=a.finance(report['cases'],{'reach':0})
-    assert zero['net']==zero['corrections'] < 0
+    assert zero['net']==zero['corrections']==0 and zero['potential_exposure'] > 0
     corrections=a.finance([c for c in report['cases'] if c['category']=='OC'])
-    assert corrections['net'] < 0 and corrections['selected_count']==0
+    assert corrections['net']==0 and corrections['potential_exposure']>0 and corrections['selected_count']==0
 
 
 def test_default_geography_practice_and_contract_outlooks_are_positive(state):
@@ -278,39 +279,103 @@ def test_authored_capture_cohort_has_stable_scope_and_no_invented_evidence(state
     assert all(not c['source_available'] for c in full['cases'] if c['aliases'][0].startswith('CAPTURE-'))
 
 
-def test_financial_reconciliation_changes_timing_without_changing_value():
-    forecast = a.finance([case(e=.2, p=.8)], dict(start='2027-01', months=12))
+def test_financial_phase_in_is_prospective_value_not_cash_reconciliation():
+    forecast = a.finance([case(e=.2, p=.8)])
     months = forecast['scenarios'][1]['monthly']
-    # 0.2 RAF * $1,000 * 75% reviewed * 80% supported * 90% paid = $108 earned/month.
-    assert [m['net'] for m in months[:3]] == pytest.approx([86.4, 86.4, 151.2])
-    assert [m['reconciliation'] for m in months[:3]] == pytest.approx([0, 0, 64.8])
-    assert [m['deferred'] for m in months[:3]] == pytest.approx([21.6, 43.2, 0])
-    assert forecast['net'] == pytest.approx(1296)
-    assert forecast['curve'][2]['Base'] == pytest.approx(324)
-    assert forecast['curve'][-1]['Base'] == pytest.approx(forecast['net'])
+    # $108 expected monthly value, phased in as three equal cohorts: $36, $72, $108.
+    assert [m['realized'] for m in months[:4]] == pytest.approx([36, 72, 108, 108])
+    assert forecast['realized'] == pytest.approx(1188)
+    assert forecast['curve'][2]['Base'] == pytest.approx(216)
+    assert all('deferred' not in m and 'reconciliation' not in m for m in months)
+    immediate = a.finance([case()], {'ramp':1})
+    assert immediate['realized'] == pytest.approx(1296)
 
 
 @pytest.mark.parametrize('start,months,recognition',[
-    ('2027-02',5,2), ('2027-11',5,1), ('2027-01',24,7), ('2027-05',1,1), ('2027-05',5,5)])
-def test_financial_timing_respects_start_delay_window_and_signed_corrections(start,months,recognition):
+    ('2027-02',5,2), ('2027-11',2,1), ('2027-01',12,7), ('2027-05',1,1), ('2027-05',5,5)])
+def test_financial_dates_scope_and_separate_exposure_reconcile(start,months,recognition):
     f = a.finance([case(), case('D','D',-.05,None,'OC')],
                   dict(start=start, months=months, recognition=recognition))
     for scenario in f['scenarios']:
-        paid = earned = corrections = 0
+        running = 0
         for i, period in enumerate(scenario['monthly']):
-            paid += period['realized']; earned += period['earned']; corrections += period['corrections']
-            assert paid + period['deferred'] == pytest.approx(earned)
-            assert period['corrections'] == -50
-            assert period['net'] == pytest.approx(period['realized'] - 50)
-            assert period['deferred'] >= 0
-            if i+1 < recognition:
-                assert period['earned'] == period['realized'] == period['deferred'] == 0
-            if int(period['month'][5:]) % 3 == 0 or i == months-1:
-                assert period['deferred'] == 0
-            else:
-                assert period['reconciliation'] == 0
-            assert f['curve'][i][scenario['name']] == pytest.approx(paid + corrections)
-        assert paid == pytest.approx(earned)
-        assert scenario['corrections'] == -50 * months
-        assert scenario['net'] == pytest.approx(paid + corrections)
-    assert f['realized'] == pytest.approx(108*(months-recognition+1))
+            running += period['realized']
+            assert period['corrections'] == 0
+            assert period['net'] == period['realized']
+            assert 0 <= period['realized'] <= period['support'] <= period['phased'] <= period['gross']
+            if i+1 < recognition: assert period['gross'] == period['realized'] == 0
+            assert f['curve'][i][scenario['name']] == pytest.approx(running)
+        assert scenario['realized'] == pytest.approx(running)
+    assert f['potential_exposure'] == 50*(months-recognition+1)
+    assert sum(r['value'] for r in f['contributions']) == pytest.approx(f['realized'])
+    # Every reduction is signed, and the bridge reconciles without double-counting totals.
+    assert all(r['end'] <= r['start'] for r in f['waterfall'][1:-1])
+    assert f['waterfall'][0]['end'] + sum(r['end']-r['start'] for r in f['waterfall'][1:-1]) == pytest.approx(f['realized'])
+
+
+def test_shorter_forecast_never_rewrites_earlier_values():
+    long = a.finance([case()])
+    short = a.finance([case()], {'months':5})
+    assert short['curve'] == long['curve'][:5]
+    assert short['scenarios'][1]['monthly'] == long['scenarios'][1]['monthly'][:5]
+
+
+@pytest.mark.parametrize('reach,realization',[(.25,.9),(0,.9),(1,1),(.75,0),(.99,.99)])
+def test_scenarios_remain_ordered_around_edited_expected(reach,realization):
+    f=a.finance([case(),case('B','B',.1,.2)],{'reach':reach,'realization':realization})
+    for point in f['curve']:
+        assert point['Conservative'] <= point['Base'] <= point['Optimistic']
+    assert len({r['gross'] for r in f['scenarios']})==1
+
+
+def test_exposure_eligibility_unknowns_and_mixed_member_effects():
+    rows=[case(), case('A','mixed',-.05,None,'OC'),
+          {**case('B','ineligible',-.05,None,'OC'),'qualified':False},
+          {**case('C','stale',-.05,None,'OC'),'stale':True},
+          case('D','missing',None,None,'OC'),case('E','single',-.05,None,'OC'),
+          case('F','f1',-.05,None,'OC'),case('F','f2',-.1,None,'OC')]
+    f=a.finance(rows)
+    assert f['potential_exposure']==600 and f['exposure_count']==1
+    assert f['corrections']==0 and f['net']==f['realized']
+    assert {r['reason']:r['count'] for r in f['exposure_exclusions']} == {
+        'Member not eligible':1,'Evidence needs updating':1,'Score impact unavailable':1,
+        'Joint member calculation required':3}
+    assert f['partial'] and f['unvalued_corrections']==1
+    hidden_addition=a.finance(rows,visible_ids={'mixed'})
+    assert hidden_addition['potential_exposure']==0
+    assert hidden_addition['exposure_exclusions']==[{'reason':'Joint member calculation required','count':1}]
+
+
+def test_noneligible_additions_are_never_valued():
+    f=a.finance([{**case(),'qualified':False},{**case('B','B'),'stale':True},case('C','C',None)])
+    assert f['gross']==f['realized']==0 and f['selected_count']==0
+    assert sum(r['count'] for r in f['addition_exclusions'])==3
+
+
+def test_projected_coverage_applies_to_value_exposure_and_member_months():
+    rows=[case(),case('B','B',-.05,None,'OC')]
+    f=a.finance(rows, {'retention':.5})
+    full=a.finance(rows)
+    for key in ['gross','support','realized','potential_exposure','eligible_member_months']:
+        assert f[key]==pytest.approx(full[key]/2)
+
+
+@pytest.mark.parametrize('settings',[{'start':'2026-01'},{'start':'2027-11','months':3},
+    {'months':24},{'retention':1.1},{'ramp':2},{'months':1.5}])
+def test_invalid_or_cross_year_forecasts_are_rejected(settings):
+    with pytest.raises(ValueError): a.finance([case()],settings,payment_year=2027)
+
+
+def test_financial_default_tracks_payment_year_and_program_boundary(state):
+    ma=a.build(state,state['members'],{**CFG,'year':2026},{})['financial']
+    assert ma['assumptions']['start']=='2026-01' and ma['curve'][-1]['month']=='2026-12'
+    other=a.build(state,state['members'],{**CFG,'year':2026,'program':'ACA'},{})['financial']
+    assert not other['dollars_available']
+
+
+def test_unresolved_hcc_mapping_is_not_priced_as_ready():
+    f=a.finance([{**case(),'hcc':'Mapping unresolved'},
+                 {**case('B','B',-.05,None,'OC'),'hcc':'Model mapping pending'}])
+    assert f['gross']==f['potential_exposure']==0
+    assert f['addition_exclusions']==[{'reason':'HCC mapping unavailable','count':1}]
+    assert f['exposure_exclusions']==[{'reason':'HCC mapping unavailable','count':1}]
