@@ -1,3 +1,4 @@
+import { EDS_POPULATION } from './eds-population';
 /** Authored local reporting fixtures. No CMS connection or official model execution.
  * Model outputs are paired member-level scenario results, not sums of HCC coefficients.
  * Keep encounter acceptance, final diagnosis eligibility and clinical support separate.
@@ -29,8 +30,6 @@ const conditions = [
  ['Heart Failure','I50.32','226','130'],['COPD','J44.9','280','160'],['Morbid Obesity','E66.01','48',''],
  ['Major Depressive Disorder','F33.2','155','133'],['HIV','B20','1','1'],['Vascular Disease','I73.9','108',''],
 ];
-const given = ['Alexander','Morgan','Olivia','Daniel','Sofia','Thomas','Isabella','David','Grace','Michael','Victoria','Joseph','Camila','Henry','Amelia','Samuel'];
-const family = ['Ortiz','Reed','Martinez','Wilson','Garcia','Johnson','Rivera','Thompson','Hernandez','Davis','Lopez','Robinson','Perez','Walker','Bennett','Morgan'];
 const canonical = [
  ['M-104829','Maria Santos','Dr. A. Carter','Northside Medical','PR-001','Diabetes With Complications','E11.22','37',1.38,1.14],
  ['M-318820','Ellen Brooks','Dr. M. Owusu','Northside Medical','PR-003','Diabetes Without Complication','E11.9','18',.98,.92],
@@ -43,8 +42,9 @@ const addDays = (date:string,days:number) => new Date(Date.parse(date+'T12:00:00
 const round = (n:number) => Math.round(n*1000)/1000;
 function makeRecords():EdsRecord[] {
  const records:EdsRecord[]=[];
- for (const year of [2024,2025,2026]) for(let i=0;i<1440;i++) {
-  const member=i%240, visit=Math.floor(i/240), n=(i*37+year*11)%997, network=member%4;
+ for (const year of [2024,2025,2026]) for(let i=0;i<EDS_POPULATION.length*6;i++) {
+  const member=i%EDS_POPULATION.length, visit=Math.floor(i/EDS_POPULATION.length), n=(i*37+year*11)%997;
+  const roster=EDS_POPULATION[member];
   const bucket=(member*17)%100;
   const conditionIndex=[26,46,64,78,86,92,94,100].findIndex(limit=>bucket<limit);
   const c=conditions[conditionIndex], profile=member<5&&visit===0&&year===2026;
@@ -59,7 +59,6 @@ function makeRecords():EdsRecord[] {
   const preliminary=stage<4?'Pending':n%17===0?'Disallowed':'Allowed';
   // Final eligibility is independent of preliminary eligibility; unsupported may still be allowed.
   const final=stage<4||n%13===0?'Pending':!serviceEligible||n%29===0?'Disallowed':'Allowed';
-  const providerIndex=member%EDS_PROVIDERS.length;
   const local=round(.76+(member%19)*.046), gap=round(.008+(member%7)*.009);
   const rxLocal=round(.72+(member%13)*.028), rxGap=round(.006+(member%5)*.004);
   const edit=stage===0?'Not Submitted':stage===1?'999':stage===2?'277CA':stage===3?['98325','00265','00760','Member Identity','Provider NPI'][n%5]:'';
@@ -72,8 +71,8 @@ function makeRecords():EdsRecord[] {
   const conformanceIssue=stage===1?['Control Number Mismatch','Transaction Count Mismatch','Required Segment Missing'][n%3]:'';
   const lifecycleIssue=recordType==='CRR'&&unlinked&&n%41===0?'Unlinked Delete':edit==='00760'?'Parent Already Adjusted':edit==='00265'?'Parent Disposition Pending':'';
   const id=`ENC-${year}-${String(i+1).padStart(6,'0')}`;
-  records.push({id,memberId:p?p[0]:`EDS-M-${String(member+1).padStart(5,'0')}`,memberName:p?p[1]:`${given[member%16]} ${family[Math.floor(member/16)%16]}`,profile,
-   contract:p?'H1234':EDS_CONTRACTS[network][0],pbp:['001','002','003'][member%3],network:p?'Central MA Network':EDS_NETWORKS[network],group:p?p[3]:EDS_GROUPS[network],provider:p?p[2]:EDS_PROVIDERS[providerIndex],providerId:p?p[4]:`PR-${String(providerIndex+1).padStart(3,'0')}`,
+  records.push({id,memberId:p?p[0]:roster.id,memberName:p?p[1]:roster.name,profile,
+   contract:p?'H1234':roster.contract,pbp:['001','002','003'][member%3],network:p?'Central MA Network':roster.network,group:p?p[3]:roster.group,provider:p?p[2]:roster.provider,providerId:p?p[4]:roster.providerId,
    year,month,serviceDate:date,sourceReady:addDays(date,2),submittedAt:stage>0?addDays(date,4):null,acceptedAt:stage===4?addDays(date,lag+2):null,ackAt:stage>=2?addDays(date,5):null,finalAt:final!=='Pending'?addDays(date,lag+11):null,
    type,source,recordType,submitter:n%2?'Perform+ EDI':'Network Exchange',environment:n%17===0?'Test':'Production',stage,edit,issue:edit|| (final==='Disallowed'?'RA Eligibility':final==='Pending'?'Awaiting MAO-004':'Reconciled'),
    file:stage>0?`837-${year}-${month}-${stage}-${member%3}-${n%2}-${n%17===0?'T':'P'}`:'Not Submitted',icn:stage>=3?`${year}10${String(i+1).padStart(7,'0')}`:null,

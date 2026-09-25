@@ -124,7 +124,7 @@ def test_superuser_full_workspace_and_action_access():
     account=client.get('/api/v1/auth/session').json()
     assert set(account['screens'])==set(main.ALL_SCREENS)
     assert set(account['permissions'])=={a for name,role in main.ROLES.items() if name!='superuser' for a in role['actions']}
-    assert client.get('/api/v1/bootstrap').json()['population_count']==10000
+    assert client.get('/api/v1/bootstrap').json()['population_count']==110000
     assert client.get('/api/v1/members/MB-001500').status_code==200
     assert client.get('/api/v1/admin/users').status_code==200
     assert action(client,'campaign',name='Superuser cohort',member_ids=['MB-000001'],owner='coder').status_code==200

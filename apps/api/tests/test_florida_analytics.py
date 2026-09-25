@@ -31,14 +31,15 @@ def test_directory_migration_preserves_sources_scoring_and_access():
     assert state == once
 
 
-def test_account_labels_migrate_without_password_scope_or_session_changes():
+@pytest.mark.parametrize('previous_name', ['Avery Morgan', 'Albert Riera'])
+def test_account_labels_migrate_without_password_scope_or_session_changes(previous_name):
     client = login('superuser')
     with main.db() as conn:
         original = [dict(u) for u in conn.execute('SELECT * FROM users ORDER BY id')]
         conn.execute('UPDATE users SET name=? WHERE id=?', ('Coder demo', 'coder'))
         conn.execute('UPDATE users SET name=? WHERE id=?', ('Practice 2 provider', 'provider_2'))
         conn.execute('UPDATE users SET name=? WHERE id=?', ('Dr. Custom Name', 'provider_3'))
-        conn.execute('UPDATE users SET name=? WHERE id=?', ('Avery Morgan', 'superuser'))
+        conn.execute('UPDATE users SET name=? WHERE id=?', (previous_name, 'superuser'))
         sessions = [dict(s) for s in conn.execute('SELECT * FROM sessions ORDER BY token')]
     try:
         main.initialize()
@@ -48,7 +49,7 @@ def test_account_labels_migrate_without_password_scope_or_session_changes():
             assert [dict(s) for s in conn.execute('SELECT * FROM sessions ORDER BY token')] == sessions
             for before in original:
                 assert {k: v for k, v in actual[before['id']].items() if k != 'name'} == {k: v for k, v in before.items() if k != 'name'}
-            assert actual['superuser']['name'] == 'Albert Riera'
+            assert actual['superuser']['name'] == 'Albert, R'
             assert actual['coder']['name'] == 'Alex Chen'
             assert actual['provider_2']['name'] == 'Dr. Daniel Reyes'
             assert actual['provider_3']['name'] == 'Dr. Custom Name'
@@ -89,16 +90,16 @@ def test_geography_weighting_intersection_pagination_and_scope():
     client = login('superuser')
     url = '/api/v1/risk/analytics/geography'
     result = client.get(url).json()
-    assert result['summary']['members'] == 10000
+    assert result['summary']['members'] == 110000
     assert result['summary']['value'] == 1.25  # 5 / 4, not average of member or group averages.
     assert result['summary']['denominator'] == 4
     assert result['summary']['scored_members'] == 3
-    assert result['summary']['unscored_members'] == 9997
+    assert result['summary']['unscored_members'] == 109997
     assert result['summary']['stale_members'] == 1
     for grouping in ['counties', 'providers', 'matrix']:
         assert sum(g['numerator'] for g in result[grouping]) == 5
         assert sum(g['denominator'] for g in result[grouping]) == 4
-        assert sum(g['members'] for g in result[grouping]) == 10000
+        assert sum(g['members'] for g in result[grouping]) == 110000
     assert len(result['members_page']['items']) == 10
     filtered = client.get(url, params={'county': 'Miami-Dade County', 'provider_id': 'PR-002', 'dimension': 'county_provider'}).json()
     assert filtered['summary']['value'] == 3

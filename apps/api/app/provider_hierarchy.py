@@ -26,6 +26,8 @@ def identity(member):
 
 
 def matches(member, context):
+    if not any(context.get(key) for key in ('health_network','provider_group','provider')):
+        return True
     row = identity(member)
     entity = context.get('health_network')
     return (not entity or entity == row['network']) and all(

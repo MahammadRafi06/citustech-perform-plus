@@ -215,15 +215,16 @@ def fixtures(members):
     available = sorted((m for m in members if m.get('synthetic') is True), key=lambda m: m['id'])
     used = set(); findings = []; documents = []
     for rank, (variant, item) in enumerate((variant, item) for variant in range(MEMBERS_PER_STORY) for item in STORIES):
-        candidates = [m for m in available if m['id'] not in used and item['match'] in m.get('condition', '').lower()]
-        # Amputation belongs to the persistent-status family in some seed versions.
-        if not candidates and item['match'] == 'amput':
-            candidates = [m for m in available if m['id'] not in used and 'status' in m.get('condition', '').lower()]
-        if not candidates:
-            candidates = [m for m in available if m['id'] not in used]
-        if not candidates:
+        member = next((m for m in available if m['id'] not in used and item['match'] in m.get('condition', '').lower()), None)
+        # Only the first eligible record is needed; do not scan the full roster
+        # once a match is found. Selection order and evidence identities are unchanged.
+        if member is None and item['match'] == 'amput':
+            member = next((m for m in available if m['id'] not in used and 'status' in m.get('condition', '').lower()), None)
+        if member is None:
+            member = next((m for m in available if m['id'] not in used), None)
+        if member is None:
             continue
-        member = candidates[0]; used.add(member['id'])
+        used.add(member['id'])
         key = 'DISC-' + item['key'].upper() + (f'-{variant+1:02}' if variant else ''); ids = []
         for index, (record_date, title, section, text) in enumerate(item['records']):
             doc_id = f'{key}-DOC-{index+1}'; ids.append(doc_id)

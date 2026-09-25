@@ -5,6 +5,8 @@ scores and additional stories are authored fixtures, not native model output.
 Original findings and retained source excerpts keep their identities/provenance.
 """
 from __future__ import annotations
+from . import raf_trend
+from functools import lru_cache
 
 from . import analytics_landing, suspect_discovery, member360_analytics, member360_evidence, provider_hierarchy
 from collections import Counter, defaultdict
@@ -17,7 +19,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.17'
+VERSION = 'analytics-population-2026.18'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -197,7 +199,7 @@ def capture_questions(members, findings, as_of):
     represented = {f['member_id'] for f in findings}
     candidates = sorted((m for m in members if m['id'] not in represented
                          and concept(m.get('condition', '')) is not None),
-                        key=lambda m: (number(m['id'] + ':capture-cohort'), m['id']))[:1200]
+                        key=lambda m: (number(m['id'] + ':capture-cohort'), m['id']))[:max(1200, round(len(members)*.27)-len(represented))]
     output = []
     for member in candidates:
         n = number(member['id'] + ':capture-question')
@@ -224,14 +226,33 @@ def weighted(rows, key='score'):
     return sum(r[key]*r['weight'] for r in valid)/denominator if denominator else None
 
 
+@lru_cache(maxsize=131072)
+def population_traits(member_id, condition):
+    """Stable member traits shared by reporting months and model scenarios."""
+    n = number(member_id + ':population')
+    thresholds = [1300, 850, 1100, 900, 750, 1300, 650, 65, 180, 420]
+    conditions = {i for i, threshold in enumerate(thresholds)
+                  if number(member_id+':condition:'+str(i)) % 10000 < threshold}
+    primary = concept(condition)
+    if primary is not None:
+        conditions.add(primary)
+    # Authored higher-acuity MA cohort. Calibrate member scores, not display medians.
+    raw = .40 + (n % 800)/1000 + len(conditions)*.19 + (1.1 if n % 19 == 0 else 0)
+    return n, tuple(sorted(conditions)), raw
+
+
+def population_multiplier(config):
+    value = {'MA': 1, 'Part D': .72, 'ACA': 1.35, 'Medicaid': .88}.get(config['program'], 1)
+    value *= {2024:.975, 2025:.988, 2026:1, 2027:1.015}.get(config['year'], 1)
+    return value * (1.008 if config.get('run_type') == 'forecast' else .993 if config.get('run_type') == 'initial' else 1)
+
+
 def population(members, config, context):
     result = []
     snap = context.get('snapshot', AS_OF)
     stage = context.get('stage', 'adjusted')
     # These are declared presentation assumptions, never native normalization.
-    multiplier = {'MA': 1, 'Part D': .72, 'ACA': 1.35, 'Medicaid': .88}.get(config['program'], 1)
-    multiplier *= {2024:.975, 2025:.988, 2026:1, 2027:1.015}.get(config['year'], 1)
-    multiplier *= 1.008 if config.get('run_type') == 'forecast' else .993 if config.get('run_type') == 'initial' else 1
+    multiplier = population_multiplier(config)
     for m in members:
         if m.get('profile_reference'):
             # No validated baseline or current-model condition map was supplied.
@@ -240,16 +261,10 @@ def population(members, config, context):
                 county=m['county'], contract=contract_for(m), eligible=True, stale=False,
                 score=None, raw=None, weight=12, conditions=[], recaptured=False))
             continue
-        n = number(m['id'] + ':population')
-        # Intentionally varied authored condition mix, not an estimate of Florida prevalence.
-        thresholds = [1300, 850, 1100, 900, 750, 1300, 650, 65, 180, 420]
-        condition_ids = {i for i,threshold in enumerate(thresholds) if number(m['id']+':condition:'+str(i)) % 10000 < threshold}
-        primary_concept = concept(m.get('condition', ''))
-        if primary_concept is not None: condition_ids.add(primary_concept)
-        raw = .22 + (n % 800)/1000 + len(condition_ids)*.19 + (1.1 if n % 19 == 0 else 0)
+        n, condition_ids, raw = population_traits(m['id'], m.get('condition', ''))
         raw *= multiplier * (.91 + (number(m.get('county','Unknown')) % 24)/100)
         month = int(context.get('run_month', 'all')) if context.get('run_month', 'all') != 'all' else 9
-        score = raw * (1 if stage == 'raw' else .965) * (1 + (month-9)*.004)
+        score = raw * (1 if stage == 'raw' else .965) * raf_trend.baseline_factor(month)
         score *= {'2026-07-15': .963, '2026-08-15': .981, AS_OF: 1}.get(snap, 1)
         eligible = n % 149 != 0
         stale = n % 151 == 0
@@ -258,53 +273,17 @@ def population(members, config, context):
         result.append(dict(id=m['id'], provider_id=m['provider_id'], provider=m.get('provider', 'Assigned practice'),
             county=m.get('county') or 'Unknown', contract=contract_for(m), eligible=eligible,
             stale=stale, score=score if eligible and not missing and (not stale or context.get('freshness') == 'last_available') else None,
-            raw=raw, weight=weight, conditions=sorted(condition_ids), recaptured=n % 5 != 0 and 1+analytics_landing.seed(m['id']+':confirmed-month') % 9 <= min(month, int(snap[5:7]))))
+            raw=raw, weight=weight, conditions=list(condition_ids), recaptured=n % 5 != 0 and 1+analytics_landing.seed(m['id']+':confirmed-month') % 9 <= min(month, int(snap[5:7]))))
     return result
 
 
-def score_bases(baseline, positive_uplift):
-    """Presentation stages: baseline < accepted <= submitted < potential.
-
-    The user requested populated illustrative stages even when the retained data
-    has no receiver stages. A disclosed six-thousandths minimum opportunity
-    keeps the ordering visible at three decimals. Never used by the native engine.
-    """
-    if baseline is None:
-        return dict(captured_baseline=None, potential=None, submitted=None, accepted=None)
-    uplift = max(float(positive_uplift), .006)
-    return dict(captured_baseline=baseline, potential=baseline+uplift,
-                submitted=baseline+uplift*.62, accepted=baseline+uplift*.54)
+def score_bases(baseline, positive_uplift, month=9):
+    """Local estimated score sets; no native score or CMS disposition is asserted."""
+    return raf_trend.score_sets(baseline, positive_uplift, month)
 
 
 def score_trend(bases, last_month):
-    """Authored monthly variation, anchored to the selected population's tiles.
-
-    The baseline and each score-set gap move independently across the period.
-    These are deterministic presentation observations, not receiver events or
-    native scoring history; the final point always uses the current score sets.
-    """
-    baseline = bases['captured_baseline']
-    if baseline is None:
-        return []
-    uplift = bases['potential'] - baseline
-    month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    movements = [
-        (.975, 1.55, .33, .76),
-        (.993, 1.25, .36, .69),
-        (.982, 1.65, .32, .74),
-        (1.004, 1.40, .35, .78),
-        (.992, 1.60, .37, .71),
-        (1.000, 1.00, .54, .62),
-    ]
-    points = []
-    for i, (base_factor, gap_factor, accepted_share, submitted_share) in enumerate(movements):
-        base, gap = baseline * base_factor, uplift * gap_factor
-        points.append(dict(month=month_names[(last_month-6+i) % 12], baseline=base,
-            accepted=base+gap*accepted_share, submitted=base+gap*submitted_share,
-            potential=base+gap))
-    points[-1].update(baseline=baseline, accepted=bases['accepted'],
-                      submitted=bases['submitted'], potential=bases['potential'])
-    return points
+    return raf_trend.series(bases, last_month)
 
 
 def frozen_selection(cases):
@@ -461,7 +440,8 @@ def build(state, members, config, context, *, include_evidence=True):
     row_map = {r['id']:r for r in scores}
     delta_sum = sum(c['delta']*row_map[c['member_id']]['weight'] for c in winners if c['member_id'] in row_map)
     opportunity_delta = delta_sum/weight if weight else 0
-    bases = score_bases(mean, opportunity_delta)
+    reporting_month = int(ctx['run_month']) if ctx.get('run_month', 'all') != 'all' else date.fromisoformat(ctx['snapshot']).month
+    bases = score_bases(mean, opportunity_delta, reporting_month)
     factor = (bases[ctx['basis']]/mean) if mean else 1
     values = [r['score']*factor for r in scores]
     bounds = [(0,.5),(.5,1),(1,1.5),(1.5,2),(2,3),(3,math.inf)]
@@ -508,10 +488,10 @@ def build(state, members, config, context, *, include_evidence=True):
     trend = score_trend(bases, last_month)
     snapshot_rows = []
     for snapshot_date in SNAPSHOTS:
-        retained = [r for r in population(root, config, {**ctx, 'snapshot': snapshot_date}) if r['id'] in current_ids]
-        value = weighted(retained)
+        snapshot_factors = {'2026-07-15': .963, '2026-08-15': .981, AS_OF: 1}
+        value = mean * snapshot_factors[snapshot_date]/snapshot_factors[ctx['snapshot']] if mean is not None else None
         snapshot_rows.append(dict(id=snapshot_date, name=date.fromisoformat(snapshot_date).strftime('%B %Y'),
-            origin='Authored presentation snapshot', baseline=value, scored=sum(r['score'] is not None for r in retained)))
+            origin='Authored presentation snapshot', baseline=value, scored=len(scores)))
     capture = {c['member_id'] for c in cases if c['qualified'] and c['category'] not in ('OC','DR')}
     result = dict(version=VERSION, context=ctx, config=dict(id=config['id'], name=config['name'], program=config['program'], year=config['year'], run_type=config.get('run_type'), model_version=config.get('model_version')),
         origin='authored_synthetic_fixture', origin_label='Illustrative analysis', as_of=ctx['snapshot'],
@@ -531,21 +511,22 @@ def build(state, members, config, context, *, include_evidence=True):
         ai=deepcopy(state['comparison']), reports=[dict(id=i,title=t,question=q,view=v) for i,t,q,v in REPORTS],
         method=dict(id=VERSION, probability=METHOD, landing='Authored sample closure chances, provider coding outcomes, demographic attributes and counterfactual model bridge. Provider closures count supported and unsupported rule outcomes; added conditions are distinct member-condition pairs. No workflow or clinical events are created. V24/V28 bridge increments are not model coefficients. Social-needs and race attributes are independently authored, never inferred from identity or geography.', source_count='Retained source documents and authored metadata are counted separately; source copies are aliases, not independent corroboration.', score='Authored synthetic population; program, payment-year and initial/forecast presentation multipliers produce distinct views. Raw/adjusted values and snapshot progression are presentation assumptions, not CMS model calculations.',
             headline_order='Baseline < accepted <= submitted < potential, including at three displayed decimals. Populated presentation cohorts use at least 0.006 authored opportunity to keep all score stages visible; this floor is never a native model result or a financial input.',
-            submitted='Authored scenario assumes 62% of positive score-equivalent opportunity is represented in the submitted set and 54% in the accepted set; no receiver event is asserted.',
+            submitted='Calendar-specific authored submission and acceptance shares; September remains 62% submitted and 54% accepted. No receiver event is asserted.',
             weighting='Eligible member-months; missing and stale results excluded unless Last available is explicitly selected.',
             qualification='Distinct eligible members with an open, mapped rule candidate; not clinically confirmed diagnoses.',
-            capture_cohort='Up to 1,200 globally selected synthetic members without retained questions receive a metadata-only capture planning question. Stable selection, evidence grades and score-equivalent impacts are authored assumptions; no chart evidence or CMS acceptance is created.',
+            capture_cohort='Globally selected synthetic members without retained questions receive metadata-only planning questions, targeting 27% roster coverage including retained findings. Stable selection, evidence grades and score-equivalent impacts are authored assumptions; no chart evidence or CMS acceptance is created.',
             attribution='Authored fixed residence and assigned practice at the snapshot date; contract membership is deterministic synthetic data.',
             probability_target='Support by day 90, conditional on review reached by day 30; not calibrated.',
             suppression='Cells with fewer than 20 distinct members and complementary cells are suppressed; not a de-identification certification.',
-            time_series='Retained deterministic authored population snapshots and authored intra-period trend; not native execution history.'))
+            time_series='Calendar-year monthly population estimates, anchored to the selected score sets. Restrained cohort changes, submission lag and a midyear acceptance update are authored assumptions informed by CMS CY2026 guidance, not observed CMS monthly history. See docs/POPULATION_AND_RAF_TRENDS.md.'))
     result['metrics'] = {'M01':metric(len(rows),len(rows),None,'members',ctx), 'M02':metric(eligible,eligible,len(rows),'members',ctx),
         'M05':metric(safe_ratio(len(scores),eligible),len(scores),eligible,'ratio',ctx),
         'M07':metric(bases[ctx['basis']],sum(r['score']*r['weight'] for r in scores)*factor,weight,'score',ctx),
         'M21':metric(len(cases),len(cases),None,'canonical_cases',ctx), 'M22':metric(len(capture),len(capture),eligible,'members',ctx),
         'M27':metric(cond_expected,cond_expected,result['summary']['applicable'],'expected_cases',ctx)}
     result['landing'] = analytics_landing.build(rows, cases, root, ctx, CATALOG, mean, score_factor=factor)
-    annual_rows = population([m for m in root if m['id'] in current_ids], {**config, 'year':2026, 'run_type':'final'}, ctx)
+    annual_factor = population_multiplier({**config, 'year':2026, 'run_type':'final'}) / population_multiplier(config)
+    annual_rows = [{**r, 'score':r['score']*annual_factor if r['score'] is not None else None} for r in rows]
     result['landing']['continuing_members'] = analytics_landing.continuing_member_comparison(annual_rows, ctx)
     result['method']['continuing_members'] = result['landing']['continuing_members']['method']
     result['providers'] = [{k:v for k,v in provider.items() if k!='series'} for provider in result['landing']['providers']]

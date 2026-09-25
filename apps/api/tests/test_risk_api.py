@@ -259,7 +259,7 @@ def test_external_feed_partitions_and_raw_import_provenance():
 def test_paged_directory_never_invents_zero_for_unscored_members():
     client = login(); calculated = calculate(client)
     page = client.get('/api/v1/risk/members?page=1&page_size=2').json()
-    assert page['total'] == 10000 and len(page['items']) == 2
+    assert page['total'] == 110000 and len(page['items']) == 2
     assert page['items'][0]['run_id'] == calculated['id']
     assert page['items'][1]['status'] == 'not_calculated' and page['items'][1]['raw_score'] is None
     overview = client.get('/api/v1/risk/overview').json()

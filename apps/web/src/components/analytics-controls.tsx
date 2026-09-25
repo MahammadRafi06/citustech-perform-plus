@@ -38,7 +38,7 @@ const notes:Record<string,string>={
 };
 
 export function ChartInfo({title,description,context}:{title:string;description?:string;context?:string}) {
- const copy=description||notes[title]||(/trend$/i.test(title)?'Follow average RAF month by month for the selected population. Averages give more weight to members with more months of coverage and leave out missing scores. The latest values match the score tiles. Each line uses its own set of baseline, accepted, submitted or potential conditions.':undefined);
+ const copy=description||notes[title]||(/trend$/i.test(title)?'Monthly RAF estimates for the selected population, from January through the reporting month. The latest points match the score tiles. Submitted and accepted sets reflect different timing; potential includes remaining suspected HCCs. The monthly profile is modeled using published risk-adjustment guidance, rather than imported plan or CMS payment history.':undefined);
  if(!copy)return null;
  return <Popover.Root><Popover.Trigger asChild><button type="button" className={s.info} aria-label={`About ${title}`}><Info size={16}/></button></Popover.Trigger><Popover.Portal><Popover.Content className={s.popover} sideOffset={8} align="end" collisionPadding={18}><strong>{title}</strong>{context&&<p>{context}</p>}<p>{copy}</p><Popover.Close className={s.close}>Close</Popover.Close><Popover.Arrow fill="white"/></Popover.Content></Popover.Portal></Popover.Root>;
 }

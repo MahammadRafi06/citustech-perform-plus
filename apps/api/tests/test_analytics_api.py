@@ -94,3 +94,20 @@ def test_linked_profiles_are_first_exportable_and_not_native_score_inputs():
         assert client.post(BASE+'/scenario',json={'ids':ids,'mode':mode}).status_code==409
     aca=client.get(BASE+'/experience',params={'config_id':'hhs_v08_by2026'}).json()
     assert not any(c.get('profile_reference') for c in aca['cases'])
+
+
+def test_aggregate_response_retains_full_population_counts_without_registry_payload():
+    client=login('superuser')
+    small=client.get(BASE+'/experience',params={'include_cases':'false'})
+    assert small.status_code==200
+    report=small.json()
+    assert report['cases']==[]
+    assert report['summary']['enrolled']==110005
+    assert report['summary']['cases']>25000
+    assert report['percentiles']['median']>1
+    assert sum(c['members'] or 0 for c in report['counties'])==110005
+    # A separate detail request must still receive all authorized cases.
+    complete=client.get(BASE+'/experience').json()
+    assert len(complete['cases'])==report['summary']['cases']
+    assert complete['summary']==report['summary']
+    assert complete['snapshot_hash']==report['snapshot_hash']

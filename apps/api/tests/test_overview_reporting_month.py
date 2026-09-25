@@ -65,8 +65,8 @@ def test_aca_monthly_coverage_respects_authored_enrollment_window():
     path = '/api/v1/risk/overview'
     september = client.get(path, params={'config_id': 'hhs_v08_by2026', 'run_month': '2026-09'}).json()
     october = client.get(path, params={'config_id': 'hhs_v08_by2026', 'run_month': '2026-10'}).json()
-    assert september['coverage']['expected_scoreable'] == 10000
-    assert september['coverage']['enrolled_member_months'] == 10000
+    assert september['coverage']['expected_scoreable'] == 110000
+    assert september['coverage']['enrolled_member_months'] == 110000
     assert october['coverage']['expected_scoreable'] == 0
     assert october['coverage']['enrolled_member_months'] == 0
 

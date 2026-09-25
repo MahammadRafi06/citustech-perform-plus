@@ -1,6 +1,6 @@
 """Local-only Perform+ demo: protected fixtures, PostgreSQL state, real local RBAC."""
 from __future__ import annotations
-from . import display, assessment, risk_store, risk_workflow, risk_inputs, people, florida_population
+from . import display, assessment, risk_store, risk_workflow, risk_inputs, people, florida_population, population_expansion
 from .table_sorting import sort_records
 from copy import deepcopy
 import csv
@@ -23,6 +23,7 @@ from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError, InvalidHashError
 from fastapi import FastAPI, Depends, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
+from starlette.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel, ConfigDict, Field
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -78,6 +79,7 @@ def get_state(conn, lock=False):
     people.refresh_owners(conn,state)
     grouped={}
     for finding in state['opportunities']:grouped.setdefault(finding['member_id'],[]).append(finding)
+    population_expansion.expand(state)
     for m in state['members']:
         m.update(assessment.member_summary(state,m['id'],grouped.get(m['id'],[])))
     return state
@@ -85,7 +87,7 @@ def save_state(conn, state):
     assessment.upgrade(state)
     florida_population.migrate(state)
     people.refresh_owners(conn,state)
-    conn.execute('UPDATE state SET body=? WHERE id=1',(json.dumps(state),))
+    conn.execute('UPDATE state SET body=? WHERE id=1',(json.dumps(population_expansion.compact(state)),))
 
 def ensure_superuser(conn):
     # Never overwrite an existing account, password, or intentional access change.
@@ -154,6 +156,7 @@ def initialize():
 
 
 app=FastAPI(title='CitusTech Perform+ local demo',version='0.1.0',docs_url='/api/docs',openapi_url='/api/openapi.json')
+app.add_middleware(GZipMiddleware, minimum_size=2000, compresslevel=3)
 
 @app.on_event('startup')
 def startup(): initialize()

@@ -76,13 +76,13 @@ function Ring({rows:rawRows,label}:{rows:CountRow[];label:string}) {const rows=r
 function Trend({report}:{report:AnalysisReport}) {
  if(!report.trend.length)return <div className={styles.empty}><strong>No calculated scores for this selection</strong>Choose a population with calculated scores to compare monthly trends.</div>;
  return <><div className={styles.legend}>{['captured_baseline','potential','submitted','accepted'].map(key=>scoreBasisLabel(key,report.config.program)).map((n,i)=><span key={n}><i style={{background:COLORS[i]}}/>{n}</span>)}</div>
-  <Chart label="Risk score trend across six reporting months" height={260}>
+  <Chart label="Year-to-date population RAF trend" height={280}>
    <ComposedChart data={report.trend} margin={{left:0,right:14,top:12,bottom:0}}>
     <CartesianGrid vertical={false} stroke="var(--line)" strokeDasharray="3 4"/>
     <XAxis dataKey="month" {...axis} dy={7}/>
-    <YAxis {...axis} domain={[(value:number)=>Math.floor((value-.006)*1000)/1000,(value:number)=>Math.ceil((value+.006)*1000)/1000]} width={44} tickCount={6} tickFormatter={v=>Number(v).toFixed(2)}/>
+    <YAxis {...axis} domain={[(value:number)=>Math.floor((value-.006)*1000)/1000,(value:number)=>Math.ceil((value+.006)*1000)/1000]} width={44} tickCount={5} tickFormatter={v=>Number(v).toFixed(3)}/>
     <Tooltip contentStyle={tooltipStyle} formatter={v=>score(Number(v))}/>
-    {(['baseline','potential','submitted','accepted'] as const).map((key,i)=><Line key={key} type="monotone" dataKey={key} name={['captured_baseline','potential','submitted','accepted'].map(key=>scoreBasisLabel(key,report.config.program))[i]} stroke={COLORS[i]} strokeWidth={2.5} strokeDasharray={key==='potential'?'6 4':undefined} dot={{r:3.5,fill:'white',strokeWidth:2,strokeDasharray:'none'}} activeDot={{r:5,stroke:'white',strokeWidth:2,strokeDasharray:'none'}} isAnimationActive={false}/>)}
+    {(['baseline','potential','submitted','accepted'] as const).map((key,i)=><Line key={key} type={key==='accepted'?'stepAfter':'linear'} dataKey={key} name={['captured_baseline','potential','submitted','accepted'].map(key=>scoreBasisLabel(key,report.config.program))[i]} stroke={COLORS[i]} strokeWidth={2.5} strokeDasharray={key==='potential'?'6 4':undefined} dot={{r:2.5,fill:'white',strokeWidth:2,strokeDasharray:'none'}} activeDot={{r:5,stroke:'white',strokeWidth:2,strokeDasharray:'none'}} isAnimationActive={false}/>)}
    </ComposedChart>
   </Chart></>;
 }
@@ -160,7 +160,7 @@ export function AnalyticsWorkspace({user,route}:{user:User;route:string}) {
  const basis=BASES.some(b=>b.id===risk.basis)?risk.basis as AnalysisBasis:'captured_baseline';
  const ctx:AnalysisContext={discovery:route==='suspects'?discovery:'',hcc_only:route==='suspects'&&risk.configuration?.program==='MA',snapshot,stage,basis,run_month:risk.reportMonth,contract,health_network:healthNetwork,provider_group:providerGroup,provider,counties,practices,category,condition,conditions,evidence,band,rule,source,disposition,q:search,freshness,financial:money,closure,quadrant,age_band,gender,race,zip,social_need};
  const contextKey=JSON.stringify(ctx);
- const query=useQuery({queryKey:['analytics-experience',user.id,risk.configId,contextKey],queryFn:()=>api<AnalysisReport>(`/analytics/experience?${new URLSearchParams({config_id:risk.configId,context:contextKey})}`),enabled:!!risk.configId&&!savedId,staleTime:30000,
+ const query=useQuery({queryKey:['analytics-experience',user.id,risk.configId,contextKey,route==='suspects'],queryFn:()=>api<AnalysisReport>(`/analytics/experience?${new URLSearchParams({config_id:risk.configId,context:contextKey,include_cases:String(route==='suspects')})}`),enabled:!!risk.configId&&!savedId,staleTime:30000,
   // Preserve the dashboard's height while filters load; never reuse another user's or model's results.
   placeholderData:(previous,previousQuery)=>route==='overview'&&previousQuery?.queryKey[1]===user.id&&previousQuery?.queryKey[2]===risk.configId?previous:undefined,
  });

@@ -6,9 +6,9 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 const temp=mkdtempSync(join(tmpdir(),'perform-eds-'));
-for(const name of ['eds-data','eds-reports']) {
+for(const name of ['eds-population','eds-data','eds-reports']) {
  const source=readFileSync(new URL(`../src/lib/${name}.ts`,import.meta.url),'utf8');
- const js=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText.replace("'./eds-data'","'./eds-data.mjs'");
+ const js=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText.replace("'./eds-data'","'./eds-data.mjs'").replace("'./eds-population'","'./eds-population.mjs'");
  writeFileSync(join(temp,`${name}.mjs`),js);
 }
 const {EDS_RECORDS,DEFAULT_EDS_FILTERS,filterEdsRecords,finalEligibility,localCandidate,memberScores}=await import(pathToFileURL(join(temp,'eds-data.mjs')));
@@ -79,4 +79,21 @@ test('audit exposure is based only on reviewed diagnoses in the reporting popula
  const exposure=memberScores(reviewed,'Part C',2027).reduce((sum,m)=>sum+m.audit*12000,0);
  const formatted=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(exposure);
  assert.equal(buildEdsReport('audit',rows,f).metrics[3].value,formatted);
+});
+
+test('EDS encounter counts come from the expanded roster cohort', async()=>{
+ const {EDS_POPULATION,EDS_POPULATION_SIZE}=await import(pathToFileURL(join(temp,'eds-population.mjs')));
+ assert.equal(EDS_POPULATION_SIZE,110000);
+ assert.equal(EDS_POPULATION.length,2640);
+ const identities=new Map(EDS_POPULATION.map(m=>[m.id,m]));
+ assert.equal(identities.size,EDS_POPULATION.length);
+ assert.equal(EDS_RECORDS.length,2640*6*3);
+ for(const row of EDS_RECORDS){
+  if(row.profile)continue;
+  const member=identities.get(row.memberId);assert.ok(member);
+  assert.equal(row.memberName,member.name);
+  assert.equal(row.contract,member.contract);
+  assert.equal(row.providerId,member.providerId);
+  assert.equal(row.network,member.network);
+ }
 });

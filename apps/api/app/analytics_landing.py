@@ -1,6 +1,7 @@
 """Deterministic sample dashboard dimensions; never alter clinical or workflow state."""
 from collections import defaultdict
 from hashlib import sha256
+from functools import lru_cache
 from .provider_hierarchy import identity
 
 
@@ -43,14 +44,19 @@ def member_matches(member, context):
     return all(not context.get(key) or context[key] == values[key] for key in SOCIAL_KEYS)
 
 
-def opportunity(case):
-    # Authored access assumptions, separate from evidence-based support probability.
-    impact = (case.get('delta') or 0) * (case['probability'].get('base') or 0)
-    cohort = seed(case['member_id'] + ':closure') % 4
+@lru_cache(maxsize=65536)
+def opportunity_values(member_id, domain, delta, probability):
+    # Stable values can be reused by chart bubbles, bands and quadrant totals.
+    impact = delta * probability
+    cohort = seed(member_id + ':closure') % 4
     low, high = [(.09, .32), (.37, .62), (.67, .80), (.84, .96)][cohort]
-    position = seed(f"{case.get('domain', '')}:{impact >= .14}:{cohort}:closure-position") % 1000 / 999
-    chance = round(low + (high - low) * position, 3)
-    return chance, impact
+    position = seed(f"{domain}:{impact >= .14}:{cohort}:closure-position") % 1000 / 999
+    return round(low + (high-low)*position, 3), impact
+
+
+def opportunity(case):
+    return opportunity_values(case['member_id'], case.get('domain', ''),
+                              case.get('delta') or 0, case['probability'].get('base') or 0)
 
 
 def opportunity_quadrant(case):
@@ -179,9 +185,19 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     snapshot_month = int(context.get('snapshot', '2026-09-15')[5:7])
     last = min(int(context.get('run_month', 'all')), snapshot_month) if context.get('run_month', 'all') != 'all' else snapshot_month
     months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][:last]
+    by_provider = defaultdict(list)
+    by_condition = defaultdict(list)
+    by_county = defaultdict(list)
+    confirmed_month = {}
+    for row in eligible:
+        by_provider[row['provider_id']].append(row)
+        by_county[row['county']].append(row)
+        confirmed_month[row['id']] = 1+seed(row['id']+':confirmed-month') % 9
+        for condition in row['conditions']:
+            by_condition[condition].append(row)
     heat = []
     for index, (condition, _, _) in enumerate(catalog):
-        cohort = [r for r in eligible if index in r['conditions']]
+        cohort = by_condition[index]
         for pid, name in practices:
             group = [r for r in cohort if r['provider_id'] == pid]
             if not group: continue
@@ -193,7 +209,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
             confirmed = sum(r['recaptured'] for r in group)
             heat.append(dict(condition=condition, dimension='network', key=network, name=network, members=len(group), confirmed=confirmed, rate=confirmed/len(group)))
         for month, name in enumerate(months, 1):
-            confirmed = sum(r['recaptured'] and 1+seed(r['id']+':confirmed-month') % 9 <= month for r in cohort)
+            confirmed = sum(r['recaptured'] and confirmed_month[r['id']] <= month for r in cohort)
             if cohort: heat.append(dict(condition=condition, dimension='month', key=str(month), name=name, members=len(cohort), confirmed=confirmed, rate=confirmed/len(cohort)))
     protected_heat = []
     for condition, _, _ in catalog:
@@ -205,7 +221,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     for i, (pid, name) in enumerate(practices):
         pindex = seed(pid + ':physician')
         specialty = ['Family medicine','Internal medicine','Geriatrics'][pindex % 3]
-        group = [r for r in eligible if r['provider_id'] == pid]
+        group = by_provider[pid]
         outcomes = [dict(member=r['id'], hcc=c, month=1+seed(f"{r['id']}:{c}:outcome-month") % 9,
                          closed=seed(f"{r['id']}:{c}:closed") % 100 < 58+pindex%25,
                          confirmed=seed(f"{r['id']}:{c}:confirmation") % 100 < 76)
@@ -233,7 +249,7 @@ def build(rows, cases, members, context, catalog, baseline, *, score_factor=1):
     # Broad county clusters, with all demographic filtering applied before aggregation.
     social = []
     for county in sorted({r['county'] for r in eligible}):
-        cohort = [r for r in eligible if r['county'] == county]
+        cohort = by_county[county]
         need = sum(demographics(mmap[r['id']])['social_need'] in {'food', 'transport', 'housing'} for r in cohort)
         scored = [r for r in cohort if r['score'] is not None]
         social.append(dict(id=county, name=county.replace(' County',''), members=len(cohort), needs=need,

@@ -20,7 +20,7 @@ assert request('/health')[0]==200
 _,account=request('/api/v1/auth/login',{'email':'analyst.demo@example.test','password':env['CT_ACCEPTANCE_PASSWORD']})
 csrf=account['csrf_token']
 _,state=request('/api/v1/bootstrap')
-assert state['population_count']==10000
+assert state['population_count']==110000
 _,result=request('/api/v1/actions',{'action':'analyze','member_ids':['MB-000001']})
 assert result['ok']
 assert request('/api/v1/auth/session')[1]['role']=='risk_analyst'

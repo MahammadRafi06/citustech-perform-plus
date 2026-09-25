@@ -2,10 +2,11 @@
 from collections import OrderedDict
 from copy import deepcopy
 import json
+import zlib
 from threading import RLock
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from fastapi.responses import Response
+from fastapi.responses import Response, JSONResponse
 from pydantic import BaseModel, Field
 
 from . import analytics_experience as model, risk_service, risk_store, member360_analytics
@@ -55,12 +56,12 @@ def register(app, *, db, user, get_state, allowed_members, permit, roles):
             cached=_CACHE.get(key)
             if cached:
                 _CACHE.move_to_end(key)
-                return deepcopy(cached),members
+                return json.loads(zlib.decompress(cached)),members
         try: report=model.build(state,members,config,context,include_evidence='open_evidence' in roles[u['role']]['actions'])
         except (ValueError,TypeError,KeyError) as e: fail(str(e))
         with _LOCK:
-            _CACHE[key]=deepcopy(report)
-            while len(_CACHE)>16: _CACHE.popitem(last=False)
+            _CACHE[key]=zlib.compress(json.dumps(report).encode(), level=1)
+            while len(_CACHE)>4: _CACHE.popitem(last=False)
         return report,members
 
     def saved(conn,u,sid):
@@ -76,13 +77,16 @@ def register(app, *, db, user, get_state, allowed_members, permit, roles):
         return value
 
     @router.get('/experience')
-    def experience(config_id: str='ma_v28_py2027_forecast', context: str='{}', u=Depends(user)):
+    def experience(config_id: str='ma_v28_py2027_forecast', context: str='{}', include_cases: bool=True, u=Depends(user)):
         try:
             ctx=json.loads(context)
             if not isinstance(ctx,dict): raise ValueError()
         except (ValueError,TypeError): fail('Invalid analysis context.')
         with db() as conn:
-            return make(conn,u,config_id,ctx)[0]
+            report = make(conn,u,config_id,ctx)[0]
+            # Aggregate pages do not render the registry; keep their payload small.
+            # Counts and hashes remain those of the complete authorized report.
+            return JSONResponse(report if include_cases else {**report, 'cases': []})
 
     @router.get('/reports')
     def reports(u=Depends(user)):

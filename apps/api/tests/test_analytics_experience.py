@@ -162,19 +162,27 @@ def test_score_order_does_not_invent_an_empty_population():
     assert all(value is None for value in a.score_bases(None,0).values())
 
 
-def test_monthly_trend_varies_and_ends_at_current_score_sets():
+def test_monthly_trend_is_calendar_aligned_and_reconciles_to_score_sets():
     bases = a.score_bases(1.014, .042)
-    points = a.score_trend(bases, 2)
-    assert [point['month'] for point in points] == ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb']
+    points = a.score_trend(bases, 9)
+    assert [p['month'] for p in points] == ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep']
+    assert [p['month'] for p in a.score_trend(a.score_bases(1,.04,2),2)] == ['Jan','Feb']
     for series, basis in [('baseline', 'captured_baseline'), ('accepted', 'accepted'),
                           ('submitted', 'submitted'), ('potential', 'potential')]:
-        values = [point[series] for point in points]
-        changes = [right-left for left, right in zip(values, values[1:])]
-        assert min(changes) < 0 < max(changes)
-        assert values[-1] == bases[basis]
+        assert points[-1][series] == bases[basis]
+        assert max(abs(b[series]-a[series])/a[series] for a,b in zip(points,points[1:])) < .04
     for point in points:
         assert point['baseline'] < point['accepted'] <= point['submitted'] < point['potential']
-    assert min(point['submitted']-point['accepted'] for point in points[:-1]) > .015
+    # Acceptance update is concentrated at midyear, not an alternating monthly wave.
+    increments=[b['accepted']-a['accepted'] for a,b in zip(points,points[1:])]
+    assert increments.index(max(increments)) == 5
+    from apps.api.app import raf_trend
+    for month in range(1,10):
+        earlier=a.score_trend(a.score_bases(1.014*raf_trend.baseline_factor(month),.042,month),month)
+        for before,after in zip(earlier,points[:month]):
+            assert before['month']==after['month']
+            for key in ['baseline','potential','submitted','accepted']:
+                assert before[key]==pytest.approx(after[key])
 
 
 def test_monthly_trend_does_not_fabricate_scores_for_unscored_members():
