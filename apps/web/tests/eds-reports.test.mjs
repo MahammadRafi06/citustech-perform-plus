@@ -6,9 +6,9 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 const temp=mkdtempSync(join(tmpdir(),'perform-eds-'));
-for(const name of ['eds-population','eds-data','eds-reports']) {
+for(const name of ['eds-population','eds-data','eds-selection','eds-reports']) {
  const source=readFileSync(new URL(`../src/lib/${name}.ts`,import.meta.url),'utf8');
- const js=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText.replace("'./eds-data'","'./eds-data.mjs'").replace("'./eds-population'","'./eds-population.mjs'");
+ const js=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText.replace("'./eds-selection'","'./eds-selection.mjs'").replace("'./eds-data'","'./eds-data.mjs'").replace("'./eds-population'","'./eds-population.mjs'");
  writeFileSync(join(temp,`${name}.mjs`),js);
 }
 const {EDS_RECORDS,DEFAULT_EDS_FILTERS,filterEdsRecords,finalEligibility,localCandidate,memberScores}=await import(pathToFileURL(join(temp,'eds-data.mjs')));

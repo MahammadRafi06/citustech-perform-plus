@@ -98,7 +98,7 @@ export function modelVersions(filters:EdsFilters) {
  return {serviceYear:filters.serviceYear,paymentYear:filters.paymentYear,model:filters.program==='Part C'?'CMS-HCC V28':'RxHCC',mapping:`ICD-10 ${filters.paymentYear}`,filter:`EDS ${filters.paymentYear}`,coefficient:`${filters.program==='Part C'?'CMS-HCC':'RxHCC'} ${filters.paymentYear}`,origin:'Authored local model-output scenarios'};
 }
 export function memberScores(rows:EdsRecord[], program:EdsProgram, year:number) {
- const members=new Map<string,EdsRecord[]>(); for(const r of rows) members.set(r.memberId,[...(members.get(r.memberId)||[]),r]);
+ const members=new Map<string,EdsRecord[]>(); for(const r of rows){const records=members.get(r.memberId);if(records)records.push(r);else members.set(r.memberId,[r]);}
  return [...members.values()].map(records=>{
   const r=records[0], eligible=records.some(x=>x.unlinked&&!x.exception&&x.final==='Allowed'&&(program==='Part C'?!!x.hcc:!!x.rxhcc));
   const local=program==='Part C'?r.localScore:r.rxLocalScore, cms=program==='Part C'?r.cmsScore:r.rxCmsScore;

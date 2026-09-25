@@ -1,7 +1,8 @@
 "use client";
 
+import { sortTableRows, type TableSort, type TableSortValue } from '@/lib/table-sorting';
 import { SortableTable } from './sortable-table';
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { num } from "@/lib/api";
@@ -47,6 +48,7 @@ type PaginatedTableProps<T> = {
   headers: ReactNode;
   children: (row: T, index: number) => ReactNode;
   scope?: string;
+  sortValue?: (row: T, column: number) => TableSortValue;
   noun?: string;
 };
 
@@ -55,16 +57,21 @@ export function PaginatedTable<T>(props: PaginatedTableProps<T>) {
   return <PaginatedTableBody key={props.scope} {...props} />;
 }
 
-function PaginatedTableBody<T>({ rows, label, headers, children, noun }: PaginatedTableProps<T>) {
+function PaginatedTableBody<T>({ rows, label, headers, children, noun, sortValue }: PaginatedTableProps<T>) {
   const [requestedPage, setPage] = useState(0);
+  const [sort, setSort] = useState<TableSort | null>(null);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const page = Math.min(requestedPage, Math.max(0, Math.ceil(rows.length / pageSize) - 1));
   const start = page * pageSize;
+  // Data-backed tables sort the complete dataset, then create only the visible
+  // React rows. Legacy tables retain their existing rendered-cell sorting.
+  const ordered=useMemo(()=>sortValue&&sort?sortTableRows(rows,row=>sortValue(row,sort.column),sort.direction):rows,[rows,sort,sortValue]);
+  const visible=sortValue?ordered.slice(start,start+pageSize):rows;
   return <>
     <div className="table-scroll">
-      <SortableTable className="risk-table" aria-label={label} pageStart={start} pageSize={pageSize} onSortChange={()=>setPage(0)}>
+      <SortableTable className="risk-table" aria-label={label} pageStart={sortValue?0:start} pageSize={pageSize} manualSorting={!!sortValue} sort={sortValue?sort:undefined} onSortChange={next=>{if(sortValue)setSort(next);setPage(0);}}>
         <thead><tr>{headers}</tr></thead>
-        <tbody>{rows.map((row, index) => children(row, index))}</tbody>
+        <tbody>{visible.map((row, index) => children(row, sortValue?start+index:index))}</tbody>
       </SortableTable>
     </div>
     <TablePagination label={label} noun={noun} totalRows={rows.length} pageIndex={page} pageSize={pageSize} onPageChange={setPage} onPageSizeChange={(size) => { setPageSize(size); setPage(0); }} />
