@@ -107,9 +107,37 @@ def test_continuing_members_compare_the_same_paired_cohort(state, report):
         assert comparison[key]==pytest.approx(sum(r[f'score_{year}']*r['weight'] for r in records)/comparison['member_months'])
     assert comparison['end']-comparison['start']==pytest.approx(comparison['delta'])
     assert sum(c['change'] for c in comparison['changes'])==pytest.approx(comparison['delta'])
-    assert comparison['delta']>0
+    assert comparison['delta']<0
     assert comparison['percent_change']==pytest.approx(comparison['delta']/comparison['start'])
-    assert comparison['origin']=='authored_paired_annual_risk_v1'
+    assert comparison['origin']=='authored_paired_annual_risk_v2'
+
+
+def test_continuing_member_model_effect_uses_matched_profiles_and_payment_year_blend(state, report):
+    rows=a.population(state['members'],{**CFG,'year':2026,'run_type':'final'},{'run_month':'all'})
+    records=landing.continuing_member_records(rows,{'run_month':'all'})
+    for row in records:
+        assert row['prior_v24'] > row['prior_v28'] > 0
+        assert row['score_2025'] == pytest.approx(.33*row['prior_v24']+.67*row['prior_v28'])
+        assert row['model'] == pytest.approx(row['prior_v28']-row['score_2025'])
+        assert row['model'] < 0
+        assert row['score_2025']+row['model']+row['added']+row['unconfirmed'] == pytest.approx(row['score_2026'])
+    comparison=report['landing']['continuing_members']
+    model=comparison['model_comparison']
+    assert model['v24']>model['v28']
+    assert comparison['start']==pytest.approx(.33*model['v24']+.67*model['v28'])
+    assert comparison['changes'][0]['name']=='Model Impact'
+    assert comparison['changes'][0]['change']==pytest.approx(model['v28']-comparison['start'])
+    assert [c['name'] for c in comparison['changes']]==['Model Impact','Captured Conditions','Open Opportunities']
+
+
+@pytest.mark.parametrize('program',['Part D','ACA'])
+def test_continuing_member_non_ma_comparisons_do_not_claim_v24_transition(state, program):
+    rows=a.population(state['members'],{**CFG,'program':program,'year':2026,'run_type':'final'},{})
+    comparison=landing.continuing_member_comparison(rows,{},program=program)
+    assert comparison['model_comparison'] is None
+    assert comparison['start_label']=='2025' and comparison['end_label']=='2026'
+    assert comparison['changes'][0]['name']=='Coding Changes'
+    assert sum(c['change'] for c in comparison['changes'])==pytest.approx(comparison['delta'])
 
 
 def test_continuing_comparison_respects_scope_and_fixed_comparison_years(state, report):

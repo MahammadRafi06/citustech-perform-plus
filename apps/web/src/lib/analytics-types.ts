@@ -87,6 +87,7 @@ export interface LandingAnalytics {
   social_options:Record<string,string[]>;
   model:{start:number|null;changes:{name:string;change:number}[];benchmark:number;months:number;members:number};
   continuing_members?: {start_year:number;end_year:number;members:number;member_months:number;start:number|null;end:number|null;delta:number|null;percent_change:number|null;
+    start_label?:string;end_label?:string;model_comparison?:{v24:number|null;v28:number|null;start_weights:{v24:number;v28:number};end_weights:{v24:number;v28:number}}|null;
     changes:{name:string;change:number|null}[];cohort_hash:string;score_basis:string;origin:string;method:string};
 }
 export interface SavedAnalysis { id: string; name: string; report_id: string; created_at: string; available: boolean; snapshot_hash: string | null }

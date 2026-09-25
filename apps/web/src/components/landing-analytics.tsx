@@ -119,8 +119,8 @@ function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}
  const comparison=data.continuing_members;
  const scoreName=program==='MA'?'RAF':'risk score';
  if(!comparison||comparison.start===null||comparison.end===null||comparison.delta===null)return <Card title="Continuing Member Risk Score Change"><div className={s.noData}>No continuing members with scores in both years match these filters.</div></Card>;
- const changeLabels:Record<string,string>={'Coding updates':'Model Lift','Added conditions':'Captured Conditions','Not yet confirmed':'Open Opportunities'};
- const changeOrder=['Model Lift','Captured Conditions','Open Opportunities'];
+ const changeLabels:Record<string,string>={'Coding updates':'Coding Changes','Added conditions':'Captured Conditions','Not yet confirmed':'Open Opportunities'};
+ const changeOrder=['Model Impact','Coding Changes','Captured Conditions','Open Opportunities'];
  const changes=comparison.changes.filter((c):c is {name:string;change:number}=>c.change!==null)
   .map(c=>({...c,name:changeLabels[c.name]||c.name}))
   .sort((a,b)=>changeOrder.indexOf(a.name)-changeOrder.indexOf(b.name));
@@ -131,11 +131,13 @@ function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}
  const ceiling=Math.ceil((Math.max(...levels)+.04)*20)/20;
  const signed=(value:number)=>`${value>=0?'+':''}${value.toFixed(3)}`;
  const bars=[
-  {name:String(comparison.start_year),range:[floor,comparison.start],value:comparison.start,label:comparison.start.toFixed(3),total:true},
+  {name:comparison.start_label||String(comparison.start_year),range:[floor,comparison.start],value:comparison.start,label:comparison.start.toFixed(3),total:true},
   ...steps.map(c=>({name:c.name,range:[Math.min(c.from,c.to),Math.max(c.from,c.to)],value:c.change,label:signed(c.change),total:false})),
-  {name:String(comparison.end_year),range:[floor,comparison.end],value:comparison.end,label:comparison.end.toFixed(3),total:true},
+  {name:comparison.end_label||String(comparison.end_year),range:[floor,comparison.end],value:comparison.end,label:comparison.end.toFixed(3),total:true},
  ];
- return <Card title="Continuing Member Risk Score Change">
+ const model=comparison.model_comparison;
+ const modelContext=model?`2025: 33% V24 / 67% V28. 2026: 100% V28. For the same prior-year clinical profile, average V24 RAF is ${model.v24?.toFixed(3)??'—'} and V28 RAF is ${model.v28?.toFixed(3)??'—'}.`:undefined;
+ return <Card title="Continuing Member Risk Score Change" infoContext={modelContext}>
   <div className={s.miniStats}>
    <div><span>Continuing members</span><strong>{count(comparison.members)}</strong></div>
    <div><span>{program==='MA'?'RAF':'Score'} change</span><strong>{signed(comparison.delta)}</strong></div>
@@ -144,7 +146,7 @@ function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}
   <Chart label={`2025 to 2026 ${scoreName} change for ${count(comparison.members)} continuing members`} height={280}>
    <ComposedChart data={bars} margin={{left:-10,right:12,top:24,bottom:12}}>
     <CartesianGrid vertical={false} stroke="var(--line)"/>
-    <XAxis {...axis} dataKey="name" interval={0} height={46} tick={({x=0,y=0,payload})=>{const label=String(payload?.value||'');const lines=label==='Captured Conditions'?['Captured','Conditions']:label==='Open Opportunities'?['Open','Opportunities']:[label];return <text x={x} y={Number(y)+14} textAnchor="middle" fill="var(--comment)" fontSize={12}>{lines.map((line,i)=><tspan key={i} x={x} dy={i?15:0}>{line}</tspan>)}</text>;}}/>
+    <XAxis {...axis} dataKey="name" interval={0} height={46} tick={({x=0,y=0,payload})=>{const label=String(payload?.value||'');const lines=label==='Captured Conditions'?['Captured','Conditions']:label==='Open Opportunities'?['Open','Opportunities']:label==='2025 Blend'?['2025','V24 / V28']:label==='2026 V28'?['2026','V28']:label==='Model Impact'?['Model','Impact']:[label];return <text x={x} y={Number(y)+14} textAnchor="middle" fill="var(--comment)" fontSize={12}>{lines.map((line,i)=><tspan key={i} x={x} dy={i?15:0}>{line}</tspan>)}</text>;}}/>
     <YAxis {...axis} tickFormatter={v=>Number(v).toFixed(2)} domain={[floor,ceiling]} allowDataOverflow width={45}/>
     <Tooltip contentStyle={tip} formatter={(_v,_n,p)=>[p.payload.total?Number(p.payload.value).toFixed(3):signed(Number(p.payload.value)),p.payload.total?`Average ${scoreName}`:`${scoreName} change`]}/>
     <Bar dataKey="range" maxBarSize={56} isAnimationActive={false} radius={[3,3,0,0]}>

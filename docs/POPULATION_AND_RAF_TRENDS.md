@@ -78,3 +78,26 @@ medians or national payment growth rates.
   covering all 20 reports, TypeScript validation and four deployment checks passed.
 - Browser inspection: populated Dashboard, Risk Analytics financial forecast and
   EDS acceptance reports. The default distribution shows median 1.100.
+
+## Continuing-member model transition correction
+
+The 2025-to-2026 waterfall now separates model impact from newly captured conditions.
+For each paired MA member, the same prior-year clinical profile has authored V24
+and V28 scores. The 2025 endpoint is 33% V24 / 67% V28; Model Impact replaces the
+remaining V24 share with V28. Captured Conditions and the loss of unrecaptured
+prior-year conditions then reconcile exactly to the member's 2026 baseline.
+
+- The prior V24 score is 8%–14% higher than V28 in this authored cohort. This is a
+  cohort assumption, not an official coefficient or a rule for every member.
+- Newly captured conditions contribute 1.2%–3.6% of the current score when present;
+  unrecaptured prior conditions remove 1.8%–4.2% when applicable. Source member
+  diagnoses, evidence, score tiles and clinical calculations are not changed.
+- The information control exposes the like-for-like V24 and V28 averages. The
+  endpoints identify the 2025 blend and 2026 V28 so a payment year is not mistaken
+  for a pure model version. Part D and ACA retain their separate annual comparison.
+- [CMS CY2025 Rate Announcement](https://www.cms.gov/newsroom/fact-sheets/2025-medicare-advantage-part-d-rate-announcement)
+  confirms the 33% / 67% blend; the CY2026 announcement above confirms 100% V28.
+  Its -3.01% combines model revision and FFS normalization and is not used as an
+  isolated model coefficient here.
+- Tests verify paired clinical profiles, blend arithmetic, negative model impact,
+  exact waterfall reconciliation, scoped cohorts and non-MA separation.

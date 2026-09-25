@@ -19,7 +19,7 @@ import json
 import math
 import zipfile
 
-VERSION = 'analytics-population-2026.18'
+VERSION = 'analytics-population-2026.19'
 METHOD = 'SYN_SUPPORT90_V1'
 AS_OF = '2026-09-15'
 SNAPSHOTS = ['2026-07-15', '2026-08-15', AS_OF]
@@ -526,8 +526,8 @@ def build(state, members, config, context, *, include_evidence=True):
         'M27':metric(cond_expected,cond_expected,result['summary']['applicable'],'expected_cases',ctx)}
     result['landing'] = analytics_landing.build(rows, cases, root, ctx, CATALOG, mean, score_factor=factor)
     annual_factor = population_multiplier({**config, 'year':2026, 'run_type':'final'}) / population_multiplier(config)
-    annual_rows = [{**r, 'score':r['score']*annual_factor if r['score'] is not None else None} for r in rows]
-    result['landing']['continuing_members'] = analytics_landing.continuing_member_comparison(annual_rows, ctx)
+    annual_rows = [{**r, 'score':round(r['score']*annual_factor, 12) if r['score'] is not None else None} for r in rows]
+    result['landing']['continuing_members'] = analytics_landing.continuing_member_comparison(annual_rows, ctx, program=config['program'])
     result['method']['continuing_members'] = result['landing']['continuing_members']['method']
     result['providers'] = [{k:v for k,v in provider.items() if k!='series'} for provider in result['landing']['providers']]
     result['method']['provider_capture'] = 'Confirmed member-condition-rule outcomes divided by identified member-condition-rule outcomes through the reporting month. Reuses the provider outcome series; not chart transmission or operational activity. Open suspects include all current open flags in the conditions list, including data issues, separate from the historical outcome cohort.'

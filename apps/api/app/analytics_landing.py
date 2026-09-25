@@ -99,37 +99,55 @@ def protect(groups, count='members'):
             for g in groups]
 
 
-def continuing_member_records(rows, context):
+def continuing_member_records(rows, context, *, program='MA'):
     """Paired annual fixtures, never inferred enrollment or clinical events."""
     month = int(context.get('snapshot', '2026-09-15')[5:7]) if context.get('run_month', 'all') == 'all' else int(context['run_month'])
     records = []
     for row in rows:
-        # The authored prior-year enrollment flag is stable across population filters.
-        # Reference profiles without a validated score remain excluded in both years.
+        # The same cohort and clinical inputs underpin both model scores.
         enrolled_2025 = seed(row['id'] + ':enrolled-2025') % 10 != 0
         if not enrolled_2025 or not row['eligible'] or row['score'] is None:
             continue
         n = seed(row['id'] + ':annual-risk-change')
-        added = (.035 + n % 65 / 1000) if row['conditions'] else .012
-        unconfirmed = -(.025 + n % 55 / 1000) if row['conditions'] and not row['recaptured'] else 0
-        coding = ((n // 100) % 31 - 12) / 1000
-        changes = dict(added=added, unconfirmed=unconfirmed, coding=coding)
-        records.append(dict(id=row['id'], weight=month, score_2025=row['score']-sum(changes.values()), score_2026=row['score'], **changes))
+        if program == 'MA':
+            # Authored cohort assumptions, not official CMS coefficients or a
+            # universal assertion that every member scores higher under V24.
+            added = row['score'] * (.012 + n % 25 / 1000) if row['conditions'] else 0
+            unconfirmed = -row['score'] * (.018 + n % 25 / 1000) if row['conditions'] and not row['recaptured'] else 0
+            prior_v28 = row['score'] - added - unconfirmed
+            prior_v24 = prior_v28 * (1.08 + (n // 100) % 61 / 1000)
+            prior_blend = .33 * prior_v24 + .67 * prior_v28
+            model = prior_v28 - prior_blend
+            changes = dict(model=model, added=added, unconfirmed=unconfirmed)
+            model_scores = dict(prior_v24=prior_v24, prior_v28=prior_v28)
+        else:
+            # Do not apply the Part C V24/V28 transition to Part D or ACA.
+            added = (.035 + n % 65 / 1000) if row['conditions'] else .012
+            unconfirmed = -(.025 + n % 55 / 1000) if row['conditions'] and not row['recaptured'] else 0
+            coding = ((n // 100) % 31 - 12) / 1000
+            changes = dict(coding=coding, added=added, unconfirmed=unconfirmed)
+            model_scores = {}
+        records.append(dict(id=row['id'], weight=month, score_2025=row['score']-sum(changes.values()), score_2026=row['score'], **changes, **model_scores))
     return records
 
 
-def continuing_member_comparison(rows, context):
-    records = continuing_member_records(rows, context)
+def continuing_member_comparison(rows, context, *, program='MA'):
+    records = continuing_member_records(rows, context, program=program)
     denominator = sum(row['weight'] for row in records)
     average = lambda key: sum(row[key]*row['weight'] for row in records)/denominator if denominator else None
     start, end = average('score_2025'), average('score_2026')
     delta = end-start if start is not None else None
+    components = [('model','Model Impact')] if program == 'MA' else [('coding','Coding Changes')]
+    components += [('added','Captured Conditions'),('unconfirmed','Open Opportunities')]
+    model_comparison = dict(v24=average('prior_v24'), v28=average('prior_v28'),
+                            start_weights=dict(v24=.33, v28=.67), end_weights=dict(v24=0, v28=1)) if program == 'MA' else None
     return dict(start_year=2025, end_year=2026, members=len(records), member_months=denominator,
                 start=start, end=end, delta=delta, percent_change=delta/start if start else None,
-                changes=[dict(name=name, change=average(key)) for key,name in [('added','Added conditions'),('unconfirmed','Not yet confirmed'),('coding','Coding updates')]],
+                start_label='2025 Blend' if program == 'MA' else '2025', end_label='2026 V28' if program == 'MA' else '2026',
+                changes=[dict(name=name, change=average(key)) for key,name in components], model_comparison=model_comparison,
                 cohort_hash=sha256('|'.join(sorted(r['id'] for r in records)).encode()).hexdigest(),
-                score_basis='captured_baseline', origin='authored_paired_annual_risk_v1',
-                method='Same member IDs, enrolled in both years, with the same reporting-month weights. 2026 baseline scores use the selected program with a fixed 2026 final-year configuration. Prior-year enrollment and component changes are authored fixtures, not CMS model-transition calculations. Missing scores and reference-only member profiles are excluded from both years.')
+                score_basis='captured_baseline', origin='authored_paired_annual_risk_v2',
+                method='Same member IDs, enrolled in both years, with the same reporting-month weights. 2026 baseline scores use the selected program with a fixed 2026 final-year configuration. Prior-year enrollment, model scores and capture changes are authored fixtures, not official CMS model calculations. For MA, the same prior-year clinical profile is scored under V24 and V28: 2025 is 33% V24 plus 67% V28, and the model impact moves that blend to 100% V28 before capture changes. Open opportunities are prior-year conditions not recaptured; no unconfirmed score gain is added. Missing scores and reference-only member profiles are excluded from both years.')
 
 
 def outcome_series(outcomes, months):
