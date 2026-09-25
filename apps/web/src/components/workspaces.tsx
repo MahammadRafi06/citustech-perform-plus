@@ -1,4 +1,6 @@
 "use client";
+import { SortableTable } from './sortable-table';
+import type { TableSort } from '@/lib/table-sorting';
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -296,8 +298,8 @@ function Registry({ data, user, route, act }: WorkspaceProps) {
       header: "Status",
       cell: ({ getValue }) => <Status value={String(getValue())} />,
     },
-    { id: "probability", header: "Closure estimate", cell: ({ row }) => { const plan = suspectPlanning(row.original); return <span title={plan.reason}>{plan.probability == null ? "—" : `${Math.round(plan.probability * 100)}%`}<small>{plan.eligible ? "Modeled assumption" : "Closed / deferred"}</small></span>; } },
-    { id: "marginal", header: "Score exposure", cell: ({ row }) => { const value = marginal.data?.items.find((item) => item.finding_id === row.original.id); const plan = suspectPlanning(row.original); const calculated = value?.delta != null; return <span>{formatRiskScore(calculated ? value.delta : plan.exposure, 3, true)}<small>{calculated ? value.stale ? "Stale model result" : "Calculated scenario" : plan.exposure == null ? "Readiness only" : "Planning assumption"}</small></span>; } },
+    { id: "probability", header: "Closure estimate", accessorFn: row => suspectPlanning(row).probability ?? undefined, cell: ({ row }) => { const plan = suspectPlanning(row.original); return <span title={plan.reason}>{plan.probability == null ? "—" : `${Math.round(plan.probability * 100)}%`}<small>{plan.eligible ? "Modeled assumption" : "Closed / deferred"}</small></span>; } },
+    { id: "marginal", header: "Score exposure", accessorFn: row => marginal.data?.items.find(item=>item.finding_id===row.id)?.delta ?? suspectPlanning(row).exposure ?? undefined, cell: ({ row }) => { const value = marginal.data?.items.find((item) => item.finding_id === row.original.id); const plan = suspectPlanning(row.original); const calculated = value?.delta != null; return <span>{formatRiskScore(calculated ? value.delta : plan.exposure, 3, true)}<small>{calculated ? value.stale ? "Stale model result" : "Calculated scenario" : plan.exposure == null ? "Readiness only" : "Planning assumption"}</small></span>; } },
     {
       accessorKey: "due_date",
       header: "Due date",
@@ -849,11 +851,13 @@ function MemberDirectory({ data, user }: WorkspaceProps) {
   const [q, setQ] = useUrlState("q", "");
   const [page, setPage] = useUrlState("page", 1);
   const [provider, setProvider] = useUrlState("provider", "");
+  const [directorySort, setDirectorySort] = useState<TableSort | null>(null);
+  const sortField = directorySort ? ['name', 'provider', 'county', 'condition', 'status', 'next_visit'][directorySort.column] : '';
   const result = useQuery({
-    queryKey: ["members", user.id, q, page, provider],
+    queryKey: ["members", user.id, q, page, provider, directorySort],
     queryFn: () =>
       api<{ items: Member[]; total: number }>(
-        `/members?q=${encodeURIComponent(q)}&page=${page}&provider=${provider}`,
+        `/members?q=${encodeURIComponent(q)}&page=${page}&provider=${provider}&sort_field=${sortField}&sort_direction=${directorySort?.direction||"asc"}`,
       ),
   });
   return (
@@ -917,7 +921,7 @@ function MemberDirectory({ data, user }: WorkspaceProps) {
           />
         </div>
         <div className="table-scroll">
-          <table>
+          <SortableTable manualSorting sort={directorySort} onSortChange={next=>{setDirectorySort(next);setPage(1);}}>
             <thead>
               <tr>
                 <th>Member</th>
@@ -968,7 +972,7 @@ function MemberDirectory({ data, user }: WorkspaceProps) {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </SortableTable>
         </div>
         {result.isPending && (
           <div className="inline-loading">
@@ -1506,8 +1510,8 @@ function MemberWorkspace({
               columns={[
                 { accessorKey: "title", header: "Task" },
                 { accessorKey: "type", header: "Type", cell: ({ getValue }) => label(String(getValue())) },
-                { id: "closure", header: "Disposition", cell: ({ row }) => row.original.closure_reason ? <span>{label(row.original.closure_disposition || "closed")}<small>{row.original.closure_reason}</small></span> : user.permissions.includes("close_task") && !row.original.completion?.complete && (["query", "request_evidence"].includes(row.original.type) || ["pre_visit", "source_remediation"].includes(row.original.intervention || "")) ? <Button variant="ghost" size="sm" onClick={() => setClosingTask(row.original)}>Close with reason</Button> : "—" },
-                { id: "completion", header: "Completion basis", cell: ({ row }) => row.original.completion?.reason || "Awaiting workflow outcome" },
+                { id: "closure", header: "Disposition", accessorFn: row => row.closure_reason ? label(row.closure_disposition || "closed") : undefined, cell: ({ row }) => row.original.closure_reason ? <span>{label(row.original.closure_disposition || "closed")}<small>{row.original.closure_reason}</small></span> : user.permissions.includes("close_task") && !row.original.completion?.complete && (["query", "request_evidence"].includes(row.original.type) || ["pre_visit", "source_remediation"].includes(row.original.intervention || "")) ? <Button variant="ghost" size="sm" onClick={() => setClosingTask(row.original)}>Close with reason</Button> : "—" },
+                { id: "completion", header: "Completion basis", accessorFn: row => row.completion?.reason || "Awaiting workflow outcome", cell: ({ row }) => row.original.completion?.reason || "Awaiting workflow outcome" },
                 {
                   accessorKey: "status",
                   header: "Status",
@@ -1861,13 +1865,13 @@ function Scenarios({ data, user }: WorkspaceProps) {
         <Metric label="Payment result" value="—" note="No financial estimate or reconciliation" icon={<ShieldCheck size={18} />} />
       </div>
       <Panel title={`${member?.name || "Casey"} · baseline and combined inputs`} subtitle={`${scenario.id} · ${scenario.basis}`}>
-        <div className="table-scroll"><table className="assessment-inputs"><thead><tr><th>Input</th><th>Baseline</th><th>Combined scenario</th></tr></thead><tbody>
+        <div className="table-scroll"><SortableTable className="assessment-inputs"><thead><tr><th>Input</th><th>Baseline</th><th>Combined scenario</th></tr></thead><tbody>
           <tr><td>Retained condition set</td><td><ul>{scenario.baseline_inputs.map((input) => <li key={input}>{input}</li>)}</ul></td><td><ul>{scenario.combined_inputs.map((input) => <li key={input}>{input}</li>)}</ul></td></tr>
           <tr><td>Demographic context</td><td>{scenario.demographics.age} years · {scenario.demographics.sex}</td><td>Unchanged</td></tr>
           <tr><td>Program / years</td><td>{scenario.program}<br />Service {scenario.service_year} / payment {scenario.payment_year}</td><td>Unchanged</td></tr>
           <tr><td>Model / segment assumption</td><td>{scenario.model}<br />{scenario.segment}</td><td>Same assumed model and segment</td></tr>
           <tr><td>Protected evidence</td><td colSpan={2}>{scenario.source_ids.map((documentId) => <Link key={documentId} href={`/members/${id}?tab=Evidence+%26+documents&document=${documentId}`}>{documentId} · inspect original source<ArrowUpRight size={13} /></Link>)}</td></tr>
-        </tbody></table></div>
+        </tbody></SortableTable></div>
       </Panel>
       <Panel title="How the comparison would be resolved" subtitle="Input comparison, with no inferred code details or numeric effect.">
         <div className="assessment-history">{scenario.steps.map((step, index) => <article key={step.label}><header><strong>{index + 1}. {step.label}</strong></header><p>{step.detail}</p></article>)}</div>
@@ -1951,7 +1955,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
         </Panel>}
         <Panel title="Data sources" subtitle="Connected sources">
           <div className="table-scroll">
-            <table>
+            <SortableTable>
               <thead>
                 <tr>
                   <th>Source</th>
@@ -1984,7 +1988,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </SortableTable>
           </div>
         </Panel>
         <Panel
@@ -2084,7 +2088,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
           subtitle="Manage roles and account access. Changes sign the account out of active sessions."
         >
           <div className="table-scroll">
-            <table>
+            <SortableTable>
               <thead>
                 <tr>
                   <th>User</th>
@@ -2183,7 +2187,7 @@ function Operations({ data, user, route, act, refresh }: WorkspaceProps) {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </SortableTable>
           </div>
         </Panel>
       ) : tab === "Workspace settings" ? (

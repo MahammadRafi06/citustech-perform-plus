@@ -15,6 +15,7 @@ from pydantic import BaseModel, Field
 
 from . import risk_inputs as inputs, risk_service as service, risk_store as store
 from .risk_exports import projection
+from .table_sorting import sort_records
 
 _workers = ThreadPoolExecutor(max_workers=1, thread_name_prefix='risk-batch')
 _running = set()
@@ -352,7 +353,10 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
 
     @router.get('/members')
     def directory(config_id: str = inputs.DEFAULT_CONFIG, basis: str = 'captured_baseline', q: str = '',
-                  provider: str = '', status: str = '', page: int = 1, page_size: int = 25, u=Depends(user)):
+                  provider: str = '', status: str = '', page: int = 1, page_size: int = 25,
+                  sort_field: str = '', sort_direction: str = 'asc', u=Depends(user)):
+        if sort_field not in ('', 'name', 'county', 'raw_score', 'adjusted_score', 'selected_segment', 'score_ready', 'status') or sort_direction not in ('asc', 'desc'):
+            bad('Choose a supported sort column and direction.')
         if page < 1 or not 1 <= page_size <= 100:
             bad('Choose a positive page and a page size between 1 and 100.')
         if status not in ('', 'completed', 'failed', 'unavailable', 'not_calculated', 'unscored', 'stale') or basis not in inputs.BASES:
@@ -379,7 +383,7 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
                         (not status or (status == 'unscored' and calculation_status(m['id']) != 'completed') or
                          (status == 'stale' and current.get(m['id'], {}).get('stale')) or calculation_status(m['id']) == status)]
             items = []
-            for m in selected[(page-1)*page_size:page*page_size]:
+            for m in selected:
                 run = current.get(m['id'])
                 items.append({'member_id': m['id'], 'name': m['name'], 'provider_id': m['provider_id'], 'provider': m['provider'],
                   'county': m.get('county'), 'city': m.get('city'), 'state': m.get('state'),
@@ -388,7 +392,8 @@ def register(app, *, db, user, get_state, save_state, member, allowed_members, p
                   'status': calculation_status(m['id']), 'run_id': run['id'] if run else latest.get(m['id'], {}).get('id'),
                   'score_ready': cfg.get('status') in ('validated', 'validated for declared scope', 'active') and not (config_id == 'ma_v28_py2026' and int(m.get('age', 70)) == 65), 'review_ready': bool(m.get('showcase')),
                   'stale': run.get('stale', False) if run else False, 'score_basis': basis})
-            return {'items': items, 'total': len(selected), 'page': page, 'page_size': page_size, 'config_id': config_id, 'score_basis': basis, 'status': status}
+            items = sort_records(items, sort_field, sort_direction)
+            return {'items': items[(page-1)*page_size:page*page_size], 'total': len(selected), 'page': page, 'page_size': page_size, 'config_id': config_id, 'score_basis': basis, 'status': status}
 
     @router.get('/mappings')
     def mappings(config_id: str = inputs.DEFAULT_CONFIG, q: str = '', u=Depends(user)):

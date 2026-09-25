@@ -1,5 +1,6 @@
 "use client";
 
+import { SortableTable } from './sortable-table';
 import { useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Button } from "./ui/button";
@@ -61,10 +62,10 @@ function PaginatedTableBody<T>({ rows, label, headers, children, noun }: Paginat
   const start = page * pageSize;
   return <>
     <div className="table-scroll">
-      <table className="risk-table" aria-label={label}>
+      <SortableTable className="risk-table" aria-label={label} pageStart={start} pageSize={pageSize} onSortChange={()=>setPage(0)}>
         <thead><tr>{headers}</tr></thead>
-        <tbody>{rows.slice(start, start + pageSize).map((row, index) => children(row, start + index))}</tbody>
-      </table>
+        <tbody>{rows.map((row, index) => children(row, index))}</tbody>
+      </SortableTable>
     </div>
     <TablePagination label={label} noun={noun} totalRows={rows.length} pageIndex={page} pageSize={pageSize} onPageChange={setPage} onPageSizeChange={(size) => { setPageSize(size); setPage(0); }} />
   </>;

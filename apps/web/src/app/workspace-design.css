@@ -2144,3 +2144,30 @@ input[data-slot="input"]:focus-visible { outline:var(--reference-focus); outline
 h1, h2, h3, h4, h5, h6, [role="heading"],
 [data-slot="dialog-title"], [data-slot="sheet-title"],
 .workspace-nav-link, [role="tab"] { text-transform:capitalize; }
+
+/* Shared sorting controls retain each table's existing header typography. */
+table thead th .column-sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+table thead th .column-sort-button:hover { color: var(--sapphire); }
+table thead th .column-sort-button:focus-visible { outline: 2px solid var(--royal); outline-offset: 4px; }
+table thead th .column-sort-arrows { flex: none; overflow: visible; }
+table thead th .column-sort-arrows path { fill: none; stroke: var(--regent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .65; }
+table thead th .column-sort-arrows path.active { stroke: var(--sapphire); stroke-width: 2; opacity: 1; }
+table[data-sortable-table] th, table[data-sortable-table] td { overflow-wrap: anywhere; }
+table thead th .column-sort-button > span { min-width: 0; white-space: normal; }

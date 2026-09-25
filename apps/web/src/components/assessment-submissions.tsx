@@ -1,5 +1,6 @@
 "use client";
 
+import { SortableTable } from './sortable-table';
 import { useState } from "react";
 import Link from "next/link";
 import { useQueries, useQuery } from "@tanstack/react-query";
@@ -109,7 +110,7 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
       <DataGrid<Submission> rows={records} onRow={(record) => setDetailId(record.id)} toolbar={<SelectField label="Submission member" value={memberFilter} onChange={setMemberFilter} options={[{ value: "", label: "All members" }, ...cases.map((member) => ({ value: member.id, label: member.name }))]} />} exportAction={(filtered) => exportRecords("submissions", filtered.map((record) => record.id))} columns={[
         { accessorKey: "id", header: "Record", cell: ({ getValue }) => <span className="whitespace-nowrap">{String(getValue())}</span> },
         { accessorKey: "member_id", header: "Member", cell: ({ getValue }) => data.members.find((member) => member.id === getValue())?.name || String(getValue()) },
-        { id: "operation", header: "Operation", cell: ({ row }) => label(row.original.operation || row.original.type) },
+        { id: "operation", header: "Operation", accessorFn: row => label(row.operation || row.type), cell: ({ row }) => label(row.original.operation || row.original.type) },
         { accessorKey: "status", header: "Receiver status", cell: ({ getValue }) => <Status value={String(getValue())} /> },
         { accessorKey: "decision_id", header: "Approved decision", cell: ({ getValue }) => getValue() ? String(getValue()) : "Original prepared record" },
         { accessorKey: "original_id", header: "Original record", cell: ({ getValue }) => getValue() ? String(getValue()) : "—" },
@@ -157,11 +158,11 @@ export function AssessmentSubmissions({ data, user, route, act }: WorkspaceProps
         {detail.report_comparison && <div className="assessment-context">
           <strong>{detail.report_comparison.name}</strong>
           <p>{detail.report_comparison.basis}</p>
-          <div className="table-scroll"><table className="assessment-inputs"><thead><tr><th>Record field</th><th>Expected</th><th>Prepared report</th></tr></thead><tbody>
+          <div className="table-scroll"><SortableTable className="assessment-inputs"><thead><tr><th>Record field</th><th>Expected</th><th>Prepared report</th></tr></thead><tbody>
             <tr><td>Code</td><td>{detail.report_comparison.expected.code}</td><td>{detail.report_comparison.reported.code}</td></tr>
             <tr><td>Record presence</td><td>{label(detail.report_comparison.expected.record_presence)}</td><td>{label(detail.report_comparison.reported.record_presence)}</td></tr>
             <tr><td>Intended operation</td><td>{label(detail.report_comparison.expected.operation)}</td><td>Compared using record presence</td></tr>
-          </tbody></table></div>
+          </tbody></SortableTable></div>
           <p>{detail.report_comparison.explanation}</p>
           <div className="assessment-trace"><div><small>Retained reference</small><strong>{detail.report_comparison.report_fixture_id}</strong><small>{detail.report_comparison.id} · {new Date(detail.report_comparison.at).toLocaleString()}</small></div><div><small>Linked record / approved decision</small><strong>{detail.report_comparison.submission_id} · {detail.report_comparison.decision_id}</strong><small>Independent QA {detail.report_comparison.qa_id} · {detail.report_comparison.member_id}</small></div></div>
           <p>Diagnosis eligibility: {label(detail.report_comparison.diagnosis_eligibility).toLowerCase()}. Payment: {label(detail.report_comparison.payment_reconciliation).toLowerCase()}.</p>

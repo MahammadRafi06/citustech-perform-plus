@@ -39,6 +39,7 @@ import {
 import { label, num } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { TablePagination } from "./table-pagination";
+import { ColumnSortButton } from "./sortable-table";
 
 export function Status({ value }: { value: string }) {
   if (
@@ -331,10 +332,12 @@ export function DataGrid<T extends { id: string }>({
     },
     autoResetPageIndex: false,
     onGlobalFilterChange: setGlobalFilter,
-    onSortingChange: setSorting,
+    enableSortingRemoval: false,
+    onSortingChange: (update) => { setSorting(update); setPageIndex(0); },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    defaultColumn: { sortUndefined: "last" },
     getPaginationRowModel: getPaginationRowModel(),
     initialState: { pagination: { pageSize } },
   });
@@ -400,24 +403,19 @@ export function DataGrid<T extends { id: string }>({
         aria-label={searchLabel.replace(/[…\.]+$/, "") + " table"}
         tabIndex={0}
       >
-        <table>
+        <table data-sortable-table style={{width:"100%",tableLayout:"fixed"}}>
           <thead>
             {table.getHeaderGroups().map((g) => (
               <tr key={g.id}>
                 {g.headers.map((h) => (
-                  <th key={h.id}>
+                  <th key={h.id} scope="col" aria-sort={h.column.getCanSort() ? h.column.getIsSorted() === "asc" ? "ascending" : h.column.getIsSorted() === "desc" ? "descending" : "none" : undefined}>
                     {h.column.getCanSort() ? (
-                      <button
-                        onClick={h.column.getToggleSortingHandler()}
-                        className={h.column.getCanSort() ? "sortable" : ""}
+                      <ColumnSortButton
+                        direction={h.column.getIsSorted()}
+                        onClick={() => h.column.toggleSorting(h.column.getIsSorted() === "asc")}
                       >
                         {flexRender(h.column.columnDef.header, h.getContext())}
-                        {h.column.getIsSorted() === "asc"
-                          ? " ↑"
-                          : h.column.getIsSorted() === "desc"
-                            ? " ↓"
-                            : ""}
-                      </button>
+                      </ColumnSortButton>
                     ) : (
                       flexRender(h.column.columnDef.header, h.getContext())
                     )}

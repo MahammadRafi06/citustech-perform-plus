@@ -12,3 +12,11 @@
 @media(min-width:1200px) and (max-width:1500px){.filters{grid-template-columns:minmax(160px,1.4fr) 95px 95px minmax(160px,1.2fr) repeat(3,minmax(115px,1fr));gap:10px}.funnelRow{grid-template-columns:150px 1fr 55px 43px;gap:8px;font-size:12px}.gap{margin-left:158px}.donut{gap:8px;grid-template-columns:minmax(180px,.85fr) minmax(170px,1fr)}.heatRow,.chainRow{grid-template-columns:minmax(170px,1.5fr) minmax(40px,1fr) 54px 12px;gap:8px}}
 
 .srChartLinks{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.srChartLinks:focus-within{position:static;width:auto;height:auto;margin:10px 0 0;clip-path:none;white-space:normal;display:flex;flex-wrap:wrap;gap:12px}.srChartLinks button{background:none;border:0;color:var(--sapphire);font-size:12px;cursor:pointer}
+/* Predictable report columns: sorting never recalculates widths from row content. */
+.panel :global(.risk-table th:nth-child(1)){width:21%}
+.panel :global(.risk-table th:nth-child(2)){width:17%}
+.panel :global(.risk-table th:nth-child(3)){width:14%}
+.panel :global(.risk-table th:nth-child(4)){width:12%}
+.panel :global(.risk-table th:nth-child(5)){width:17%}
+.panel :global(.risk-table th:nth-child(6)){width:15%}
+.panel :global(.risk-table th:nth-child(7)){width:4%}

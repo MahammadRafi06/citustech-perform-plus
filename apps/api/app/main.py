@@ -1,6 +1,7 @@
 """Local-only Perform+ demo: protected fixtures, PostgreSQL state, real local RBAC."""
 from __future__ import annotations
 from . import display, assessment, risk_store, risk_workflow, risk_inputs, people, florida_population
+from .table_sorting import sort_records
 from copy import deepcopy
 import csv
 import io
@@ -418,12 +419,15 @@ def bootstrap(u=Depends(user)):
         return data
 
 @app.get('/api/v1/members')
-def members(q:str='',provider:str='',status:str='',page:int=1,size:int=25,u=Depends(user)):
+def members(q:str='',provider:str='',status:str='',page:int=1,size:int=25,sort_field:str='',sort_direction:str='asc',u=Depends(user)):
+    if sort_field not in ('', 'name', 'provider', 'county', 'condition', 'status', 'next_visit') or sort_direction not in ('asc', 'desc'):
+        raise HTTPException(400, 'Choose a supported sort column and direction.')
     with db() as conn:
         state=get_state(conn);ms=allowed_members(state,u)
         if q: ms=[m for m in ms if q.lower() in json.dumps(m).lower()]
         if provider: ms=[m for m in ms if m['provider_id']==provider]
         if status: ms=[m for m in ms if m['status']==status]
+        ms=sort_records(ms,sort_field,sort_direction)
         size=max(1,min(size,100)); page=max(page,1)
         return {'items':[display.member(m)|{'eligibility':scoped_eligibility(state,u,m['id'])} for m in ms[(page-1)*size:page*size]],'total':len(ms),'page':page}
 

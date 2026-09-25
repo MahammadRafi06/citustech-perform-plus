@@ -3,12 +3,13 @@
 import { createElement, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDown, ArrowLeft, ArrowUp, Search } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { api } from "@/lib/api";
 import type { User } from "@/lib/types";
 import { useUrlState } from "@/hooks/workspace-state";
 import { useRiskContext } from "./risk-ui";
 import "./member360-workspace.css";
+import { ColumnSortButton, SortableTable } from "./sortable-table";
 
 type SourceNode = string | {
   tag: string;
@@ -49,7 +50,9 @@ function SourceContent({ nodes, history, reveal }: { nodes: SourceNode[]; histor
     const visible = row && (history[tableId] || 0) >= tier;
     const safeProps = { className: `${attrs.className || ""}${visible ? " show" : ""}`.trim() || undefined,
       id: attrs.id, colSpan: attrs.colSpan, scope: attrs.scope, style: attrs.style };
-    return createElement(node.tag, { ...safeProps, key }, ...node.children.map((child, i) => render(child, `${key}-${i}`, tableId)));
+    const children = node.children.map((child, i) => render(child, `${key}-${i}`, tableId));
+    if (node.tag === "table") return <SortableTable key={key} className={safeProps.className} id={safeProps.id} style={safeProps.style}>{children}</SortableTable>;
+    return createElement(node.tag, { ...safeProps, key }, ...children);
   }
   return <>{nodes.map((node, index) => render(node, String(index)))}</>;
 }
@@ -155,7 +158,7 @@ function Member360ProfileWorkspace({ user }: { user: User }) {
   const filtered = members.filter(member => (!contract || member.contract === contract) && (!plan || member.plan === plan)
     && (!safeEntities.length || safeEntities.includes(member[hierarchyKey]))
     && [member.name, member.id, member.provider, member.conditions].join(" ").toLowerCase().includes(query.trim().toLowerCase()));
-  const sortKey = ["name", "age", "composite", "quality", "risk", "stars", "closure"].includes(sort) ? sort as "name" | "age" | "composite" | "quality" | "risk" | "stars" | "closure" : "composite";
+  const sortKey = ["name", "age", "conditions", "composite", "quality", "risk", "stars", "closure"].includes(sort) ? sort as "name" | "age" | "conditions" | "composite" | "quality" | "risk" | "stars" | "closure" : "composite";
   const sorted = [...filtered].sort((a, b) => {
     const av = a[sortKey], bv = b[sortKey];
     return (typeof av === "number" && typeof bv === "number" ? av - bv : String(av).localeCompare(String(bv))) * (direction === "asc" ? 1 : -1);
@@ -197,8 +200,8 @@ function Member360ProfileWorkspace({ user }: { user: User }) {
       </div>
       <div className="card">
         <div className="m360-list-tools"><h2>Member list <span className="m360-count">{filtered.length}</span></h2><div className="m360-search"><Search size={16} /><input aria-label="Search members" placeholder="Search name, ID, condition or provider" value={query} onChange={e => { setQuery(e.target.value); setPage("1"); }} /></div>{hasFilters && <button className="m360-text-button" onClick={reset}>Clear filters</button>}</div>
-        <div className="tablewrap"><table aria-label="Member list"><thead><tr>
-          {[["name", "Member"], ["age", "Age"], ["", "Chronic Conditions"], ["composite", "Composite Impact"], ["quality", "Quality Impact"], ["risk", "Risk Impact"], ["stars", "Stars Impact"], ["closure", "Closure Probability"]].map(([key, title]) => <th key={title} scope="col" aria-sort={key ? sortKey === key ? direction === "asc" ? "ascending" : "descending" : "none" : undefined}>{key ? <button className="m360-sort" onClick={() => { setSort(key); setDirection(sortKey === key && direction === "desc" ? "asc" : "desc"); }}>{title}{sortKey === key && (direction === "asc" ? <ArrowUp size={12} /> : <ArrowDown size={12} />)}</button> : title}</th>)}<th scope="col">Action</th>
+        <div className="tablewrap"><table aria-label="Member list" data-sortable-table style={{width:"100%",tableLayout:"fixed"}}><thead><tr>
+          {[["name", "Member"], ["age", "Age"], ["conditions", "Chronic Conditions"], ["composite", "Composite Impact"], ["quality", "Quality Impact"], ["risk", "Risk Impact"], ["stars", "Stars Impact"], ["closure", "Closure Probability"]].map(([key, title]) => <th key={title} scope="col" aria-sort={key ? sortKey === key ? direction === "asc" ? "ascending" : "descending" : "none" : undefined}>{key ? <ColumnSortButton direction={sortKey === key ? direction === "asc" ? "asc" : "desc" : undefined} onClick={() => { setSort(key); setDirection(sortKey === key && direction === "asc" ? "desc" : "asc"); setPage("1"); }}>{title}</ColumnSortButton> : title}</th>)}<th scope="col">Action</th>
         </tr></thead><tbody>{sorted.slice((page - 1) * size, page * size).map(member => <tr key={member.id}>
           <td><button className="link m360-member-link" onClick={() => navigate(member.id)}>{member.name}</button><div className="muted m360-member-id">{member.id}</div></td><td>{member.age}</td><td className="m360-condition">{member.conditions}</td><td><b>{member.composite}</b></td><td>{member.quality}</td><td>{member.risk}</td><td>{member.stars}</td><td>{member.closure}%</td><td><button className="btn m360-open" onClick={() => navigate(member.id)} aria-label={`Open Member 360 for ${member.name}`}>Open Member 360</button></td>
         </tr>)}{!sorted.length && <tr><td colSpan={9}><div className="m360-empty"><h3>{members.length ? "No members match these filters" : "No members in your access scope"}</h3><p>{members.length ? "Try another name, condition, health plan or provider." : "There are no reference profiles assigned to your provider."}</p>{hasFilters && <button className="btn alt" onClick={reset}>Clear filters</button>}</div></td></tr>}</tbody></table></div>

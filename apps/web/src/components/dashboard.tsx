@@ -1,4 +1,5 @@
 "use client";
+import { SortableTable } from './sortable-table';
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
@@ -218,7 +219,7 @@ export function Dashboard({
                 aria-label="Attention worklist"
                 tabIndex={0}
               >
-                <table>
+                <SortableTable>
                   <thead>
                     <tr>
                       <th>Member and finding</th>
@@ -261,7 +262,7 @@ export function Dashboard({
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </SortableTable>
               </div>
             </Panel>
             <Panel
@@ -318,7 +319,7 @@ export function Dashboard({
           </div>
           <Panel title="Final review outcomes" subtitle="Human-confirmed results · independent reference labels">
               <div className="table-scroll">
-                <table className="comparison-table">
+                <SortableTable className="comparison-table">
                   <thead>
                     <tr>
                       <th>Measure</th>
@@ -354,7 +355,7 @@ export function Dashboard({
                       <td>{pct("assisted_precision")}</td>
                     </tr>
                   </tbody>
-                </table>
+                </SortableTable>
               </div>
           </Panel>
           <Panel
