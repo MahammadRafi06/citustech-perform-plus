@@ -118,7 +118,8 @@ function Recapture({data,go}:{data:LandingAnalytics;go:Nav}) {
 function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}) {
  const comparison=data.continuing_members;
  const scoreName=program==='MA'?'RAF':'risk score';
- if(!comparison||comparison.start===null||comparison.end===null||comparison.delta===null)return <Card title="Continuing Member Risk Score Change"><div className={s.noData}>No continuing members with scores in both years match these filters.</div></Card>;
+ const title=program==='MA'?'Year-over-Year RAF Change':'Year-over-Year Risk Score Change';
+ if(!comparison||comparison.start===null||comparison.end===null||comparison.delta===null)return <Card title={title}><div className={s.noData}>No continuing members with scores in both years match these filters.</div></Card>;
  const changeLabels:Record<string,string>={'Coding updates':'Coding Changes','Added conditions':'Captured Conditions','Not yet confirmed':'Open Opportunities'};
  const changeOrder=['Model Impact','Coding Changes','Captured Conditions','Open Opportunities'];
  const changes=comparison.changes.filter((c):c is {name:string;change:number}=>c.change!==null)
@@ -137,7 +138,7 @@ function ContinuingMembers({data,program}:{data:LandingAnalytics;program:string}
  ];
  const model=comparison.model_comparison;
  const modelContext=model?`2025: 33% V24 / 67% V28. 2026: 100% V28. For the same prior-year clinical profile, average V24 RAF is ${model.v24?.toFixed(3)??'—'} and V28 RAF is ${model.v28?.toFixed(3)??'—'}.`:undefined;
- return <Card title="Continuing Member Risk Score Change" infoContext={modelContext}>
+ return <Card title={title} infoContext={modelContext}>
   <div className={s.miniStats}>
    <div><span>Continuing members</span><strong>{count(comparison.members)}</strong></div>
    <div><span>{program==='MA'?'RAF':'Score'} change</span><strong>{signed(comparison.delta)}</strong></div>
