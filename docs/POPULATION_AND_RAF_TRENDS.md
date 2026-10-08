@@ -1,6 +1,6 @@
-# Population and RAF trend update
+# Population and RAF trend methods
 
-The local roster grows from 10,000 to 110,000 unique members. The five linked
+The synthetic roster contains 110,000 unique members. The five linked
 Member 360 reference profiles remain separate, unscored references: the MA
 analytics enrollment total is consequently 110,005, while the native roster is
 110,000. Eligibility, available scores, distinct suspect members and condition
@@ -54,30 +54,12 @@ values when the same cohort and weighting are used. The final point always equal
 the selected score tile. Baseline < Accepted <= Submitted < Potential is preserved.
 
 The higher-acuity member-score distribution is calibrated at the member level;
-the median is never hardcoded in the UI. On the default 2027 forecast baseline,
-the browser displays median **1.100**, 90th percentile **1.589**, baseline **1.143**,
-accepted **1.172**, submitted **1.176**, and potential **1.197**.
+the median is never hardcoded in the UI.
 
 Native model calculations, clinical evidence gates, official coefficients and
 receiver events are unchanged. Current financial forecasts continue to use their
 existing suspect-impact and probability definitions rather than population RAF
 medians or national payment growth rates.
-
-## Verification
-
-- Reconcile county/provider totals to enrollment; histogram to scored population;
-  network totals to eligibility; prevalence denominators; recaptured plus missing;
-  cumulative identified equals closed plus open; financial monthly totals.
-- Check unique IDs, idempotent expansion, compact persistence, edited-row roundtrip,
-  provider isolation, reporting-month score ordering and latest tile alignment.
-- EDS tests cover all 20 reports, stage subsets, member-level financial arithmetic,
-  filtering, final eligibility and shared-roster identity consistency.
-- Aggregate pages omit the unused registry payload. Report cache entries are
-  compressed and bounded; population traits and cohort scans are reused.
-- Validation: 84 analytics tests, 10 isolated API checks, 12 EDS/report tests
-  covering all 20 reports, TypeScript validation and four deployment checks passed.
-- Browser inspection: populated Dashboard, Risk Analytics financial forecast and
-  EDS acceptance reports. The default distribution shows median 1.100.
 
 ## Continuing-member model transition correction
 

@@ -1,4 +1,4 @@
-# Financial page corrections
+# Financial opportunity calculation
 
 ## Definition
 
@@ -31,22 +31,9 @@ Original source findings, clinical gates, Member 360 evidence and clinical recor
 
 Four compact monetary tiles, a signed revenue waterfall, cumulative scenario chart and three-row sortable comparison. The scenario table has fixed widths and no unnecessary pagination. Year-aware dates, visible eligibility/coverage assumptions, an eight-field editor, and Calculation Details support reconciliation without a member list. Potential exposure is clearly separate from revenue.
 
-## Verification
-
-- 110 tests passed across the Financial/analytics experience and landing analytics suites, including independent golden arithmetic, low/zero/full rates, later eligibility, shortened horizons, coverage share, child filters, unmapped HCCs, mixed-member corrections, missing impacts, year boundaries and non-MA isolation.
-- TypeScript and optimized Next.js production build passed.
-- Reconstructed all 110,005 fixture members independently and reconciled the selected opportunity totals, disease contributions, exposure counts and scenario endpoints.
-- Local browser checks: 25% review coverage preserves scenario order; July eligibility shows six eligible months; switching to the 2026 model updates the full calendar; ACA remains score-only. Additional browser checks verified Immediate value with 50% covered-member share, network-scoped totals, the eight-field forecast editor, and the detailed exclusion/disease-family panel. Rendered chart/table screenshots were inspected at 1910 × 932. Sorting retained identical column widths and no horizontal page overflow; the three-row comparison has no pagination. The preview is restored to all networks, 2027 and default assumptions. The final waterfall shows signed reductions ($5.89M phase-in, $31.34M review/evidence, $3.35M realization), ending at $30.11M.
-
-Default corrected valuation: 28,796 opportunities, 48 overlapping candidates excluded, 345,552 projected covered member-months. Potential $70,687,440.00 → phased $64,796,820.00 → evidence-adjusted $33,457,252.125 → expected $30,111,526.9125. Potential exposure $300,720 across 129 suspects. Of 151 total open overcoding findings, 16 need joint member calculations and 6 lack a score impact. Five positive findings have unresolved HCC mappings and are not valued; where appropriate, a different eligible candidate for that member is selected. These counts and reasons appear in Calculation Details.
-
-The default Expected total differs from the reviewed release because the former unconfirmed deduction is separated and the prospective phase-in reduces eligible value. No arbitrary cash settlement is used.
-
 ## Primary references
 
 - [CMS MA payment and supported-diagnosis overview](https://www.cms.gov/newsroom/fact-sheets/medicare-advantage-risk-adjustment-data-validation-final-rule-cms-4185-f2-fact-sheet)
 - [CMS 2027 beneficiary-level risk score guidance](https://www.cms.gov/files/document/incoming-files-cms-beneficiary-level-file-support-2027-part-c-bids-erd-risk-scores-g-pdf.pdf)
 
 These establish the payment/score context; they do not validate the authored dollar basis, support probabilities or prospective phase-in assumptions used by this application.
-
-Local availability note: the first cold full-population report after the final API restart hit the existing 30-second proxy timeout. Retrying completed with HTTP 200 in about 1.6 seconds, and the final page rendered correctly. No performance settings, proxy timeouts or production resources were changed; the separate performance task remains paused.

@@ -1,6 +1,6 @@
-# Run the V2 worktree
+# Run an isolated local preview
 
-This increment lives on `codex/business-requirements-v2` in `.local/worktrees/business-requirements-v2`. Its current preview is [localhost:3005](http://localhost:3005), proxying the separate API on port 8004. The original previews use other ports and remain unchanged.
+`scripts/v2_dev.py` starts an optional local preview with a separate API and data directory. Its default UI port is 3005 and API port is 8004. Run the commands below from the checkout you intend to preview, with a dedicated PostgreSQL database and unused ports.
 
 Use the repository's locked API dependencies in a Python 3.13 environment and install the web workspace from its lockfile. The model packages run in isolated subprocesses using that same Python environment; no separately managed model service is required.
 
@@ -17,18 +17,18 @@ The installer downloads the official public archives named in `apps/api/app/risk
 .venv/bin/python scripts/model_assets.py verify
 ```
 
-Set `DATABASE_URL` to a dedicated PostgreSQL database, or place its connection string in ignored `.local/database-url`. The current worktree uses `perform_plus_v2`; tests create and remove their own randomly named schemas. Do not point tests or this new preview at another project's database. Local account setup and password maintenance follow the existing [application instructions](../README.md); account files and credentials stay ignored.
+Set `DATABASE_URL` to a dedicated PostgreSQL database, or place its connection string in ignored `.local/database-url`. Tests create and remove their own randomly named schemas. Do not point tests or this preview at another project's database. Local account setup and password maintenance follow the [application instructions](../README.md); account files and credentials stay ignored.
 
-For this V2 preview, generated accounts are recorded in `.local/v2-runtime/demo-accounts.json` and `.local/v2-runtime/superuser-account.json` inside the V2 worktree. These belong to its separate database; credentials from another preview may differ. Browser cookies are shared across localhost ports, so use a separate browser profile when keeping two previews signed in simultaneously.
+The launcher defaults `CT_DATA_DIR` to `.local/v2-runtime`; generated account files are `demo-accounts.json` and `superuser-account.json` under that directory. Existing environment values override the launcher's defaults. Accounts belong to the configured database; credentials from another preview may differ. Browser cookies are shared across localhost ports, so use a separate browser profile when keeping two previews signed in simultaneously.
 
-Start these in separate terminals from the V2 worktree:
+Start these in separate terminals from the checkout:
 
 ```bash
 .venv/bin/python scripts/v2_dev.py api
 .venv/bin/python scripts/v2_dev.py ui
 ```
 
-The launcher selects the worktree's private data directory and model assets, checks the database setting, and connects the UI proxy to its API. Optional `--api-port` and `--ui-port` arguments must match between the two launches. It does not reset records or stop another preview.
+The launcher selects the checkout's local data directory and model assets, checks the database setting, and connects the UI proxy to its API. Optional `--api-port` and `--ui-port` arguments must match between the two launches. It does not reset records or stop another preview.
 
 ## Separate images and Kubernetes components
 
@@ -39,7 +39,7 @@ docker build -f apps/web/Dockerfile -t perform-plus-ui:v2-local .
 
 The API build includes checksum-verified official model packages at `/app/models`, locked Python dependencies and retained synthetic source/import fixtures. Scoring writes temporary execution files separately from those package trees. The UI remains a separate image. PostgreSQL remains its own component and persistent store.
 
-Existing [Kubernetes manifests](../deploy/k8s/) and [deployment instructions](KUBERNETES.md) retain the UI/API/database split. Set the image references to your published images before applying them. This increment's evidence covers local images and local runtime; it does not record a cluster deployment.
+The [Kubernetes manifests](../deploy/k8s/) and [deployment instructions](KUBERNETES.md) retain the UI/API/database split. Set the image references to your published images before applying them.
 
 ## State, provenance and validation
 
@@ -54,4 +54,4 @@ CT_MODEL_ASSETS="$PWD/.local/model-assets" CT_MODEL_PYTHON="$PWD/.venv/bin/pytho
 npm run build --prefix apps/web
 ```
 
-[V2 verification](V2_VERIFICATION.md), the [TODO checkpoint](../TODO.md) and the [requirement matrix](V2_REQUIREMENTS_MATRIX.json) distinguish completed evidence from open acceptance gates. Historical V24 reference validation, full AI-origin contribution attribution and broader comparison/recapture acceptance remain open.
+See [model runtime documentation](../apps/api/app/risk_models/README.md) for model configuration and validation boundaries, and [retained AI provenance](references/v2-ai-replay-provenance.md) for the replay artifact's scope and limitations.

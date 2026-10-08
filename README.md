@@ -1,14 +1,10 @@
-# CitusTech Perform+
+# CitiusTech Perform+
 
-A desktop analytics and suspecting platform for population risk, evidence-backed opportunities, RAF scenarios and financial sensitivity. Local authentication and role-based access are preserved. All member data is synthetic; authored analytics are visibly identified and kept separate from native score calculations.
-
-The current local increment provides Risk overview, six analytic tabs, Suspect registry and a Reports library. Workflow operations, Member analysis and agent administration are hidden from the core journey. See the [implementation and verification handoff](docs/ANALYTICS_SUSPECTING_IMPLEMENTATION.md) and [screenshots](screenshots/analytics-suspecting/README.md).
-
-On this workstation the active container application is **http://localhost:3000**, Compose project `perform-local`. It has its own retained database and accounts; it is not the host development API on port 8000. The older run guides and workflow records below document retained capabilities and earlier increments.
+A desktop application for population risk analytics, suspected HCCs, financial forecasts, Member 360 profiles and EDS reporting. It uses a Next.js UI, FastAPI API and PostgreSQL, with local authentication and role-based access. The repository includes synthetic data, model adapters, tests and deployment tooling.
 
 ## Run locally
 
-Requirements: Node.js 24+, Python 3.13, `uv`, and PostgreSQL 18. This workstation already has the dependencies and an isolated database initialized.
+Prerequisites: Node.js 24+, Python 3.13, `uv`, and PostgreSQL 18. Install the dependencies below; local data and generated credentials stay under ignored `.local/`.
 
 ```bash
 make setup
@@ -53,7 +49,7 @@ The example container runtime directory is temporary. Save the generated superus
 
 ## Stack and layout
 
-- **UI:** Next.js App Router, React, strict TypeScript, Tailwind CSS, shadcn/ui, TanStack Query/Table, Recharts, Lucide, Sonner, locally bundled IBM Plex Sans. The workspace is designed for desktop use.
+- **UI:** Next.js App Router, React, strict TypeScript, Tailwind CSS, shadcn/ui, TanStack Query/Table, Recharts, Lucide and Sonner. Shared typography and colors are defined in the application stylesheets. The workspace is designed for desktop use.
 - **API:** FastAPI, Argon2 password hashes, opaque expiring cookie sessions, CSRF/origin checks, protected fixtures/actions/downloads.
 - **Database:** PostgreSQL. Users, sessions, event history and mutable demo state persist here. The operational dataset is a single locked JSON state row to keep this demonstration small.
 
@@ -71,10 +67,10 @@ Locally, Next.js forwards `/api/*` using the server-only `API_INTERNAL_URL` envi
 | `apps/api/app/assessment.py` | Additive case catalog, named source transitions, completion rules and retained trace assembly |
 | `seed/demo.json` | Server-only synthetic roster, six detailed cases and frozen comparison |
 | `deploy/k8s` | Separate UI/API Deployments, PostgreSQL StatefulSet/PVC, Services, config and ingress example |
-| `docs/PRESENTER_GUIDE.md` | Opening route and five connected stories across six cases |
-| `docs/DEMO_ASSESSMENT_PLAN.md`, `TODO.md` | Assessment requirements, execution checklist and deferred scope |
-| `docs/ASSESSMENT_VERIFICATION.md` | Observed checks, limits and current screenshot evidence |
-| `docs/references` | Retained prepared code references and the scoring fallback boundary |
+| `deploy/aws-small` | Standalone EKS infrastructure and release instructions |
+| `scripts` | Local launchers, fixture importers, model installer and deployment tooling |
+| `docs` | Developer guides, calculation methods and source provenance |
+| `PERFORMplus_MemberListApp_Member360_v14.html` | Source input for the Member 360 data and shared CSS importers; generated runtime outputs are committed |
 
 ## Verify
 
@@ -89,32 +85,12 @@ API tests create a randomly named temporary schema in the configured local datab
 
 ## Kubernetes
 
-See [deployment instructions](docs/KUBERNETES.md). UI and API have separate Dockerfiles and images. PostgreSQL has its own persistent volume. This repository prepares the deployment; it does not assume a cluster, ingress domain or registry.
+UI and API have separate Dockerfiles and images. PostgreSQL has its own persistent volume. Use the [standalone EKS guide](deploy/aws-small/README.md) for the current infrastructure layout, or the [generic Kubernetes guide](docs/KUBERNETES.md) for another environment. The legacy shared-cluster deployment remains disabled; its guard and restoration templates are retained.
 
-## Retained assessment workflows (outside the visible analytics scope)
+## Developer references
 
-The 10,000-member directory remains available for population browsing. Six explicit cases support complete actions. Both review surfaces receive the same server-derived eligibility; a historical mention, indirect signal or unsigned source cannot become supported coding simply because another signed document exists. Prepared Jordan/Taylor code outputs retain their release and source references.
+- [Isolated local preview](docs/V2_LOCAL_RUN.md) and [official model installation](apps/api/app/risk_models/README.md).
+- [Shared design](docs/shared-design.md), [Member 360 integration](docs/member360.md) and [suspect fixture boundaries](docs/suspect-discovery.md).
+- [Financial forecast calculations](docs/FINANCIAL_CORRECTIONS.md), [cumulative analytics](docs/CUMULATIVE_ANALYTICS_TIMING.md) and [population and RAF trends](docs/POPULATION_AND_RAF_TRENDS.md).
 
-Campaigns select those actionable cases, an eligible local account and a due date. The exact preview checks account access, current work revisions and existing coverage before activation. Existing larger campaigns retain their population membership; their actionable subset and completion denominator are shown separately. Coding/integrity work completes only after a terminal review and independent QA. Source remediation uses source usability; receipt alone is insufficient. A provider response is its own milestone and never approves coding.
-
-Reviews and QA retain actor, reason, time, recommendation and exact source passages. Rework requires an entered explanation. The same reviewer cannot approve their own decision, including when using the superuser. A relevant published source updates the prepared finding, retains earlier snapshots and requires fresh review/QA; unchanged evidence does not manufacture a new recommendation version.
-
-Morgan's September 18 encounter, Riley's signed replacement and mismatch, and Jordan's later clarification are named authored transitions. Receiving a staged document does not make it support-eligible: it must pass member/signature checks and publication. Original source text remains available. Avery has no qualifying authored later encounter, so a response leaves the assessment signal unsupported.
-
-After QA, the submission specialist explicitly prepares Jordan's addition or Taylor's deletion from that exact current approval. A rejected attempt can produce a retry with the same intended operation and retained history. Transport acknowledgement, receiver acceptance, diagnosis eligibility, prepared report comparison and payment reconciliation remain distinct. The named synthetic report checks presence of an added record or absence of a deleted record; it does not reconcile payment.
-
-Ask Perform+ uses current prepared findings, exact page/section citations and stable explained cohort rankings. Displayed answers become stale when their evidence or work context changes. Audit exports include readable and machine-readable source → recommendation → review → QA → submission chains, with unavailable stages explicitly identified. Data Operations shows received, matched, quarantined and published document counts for a named prepared batch.
-
-Follow the [presenter guide](docs/PRESENTER_GUIDE.md) for the five rehearsed story routes. The increment passes 28 focused API tests and production builds; [assessment verification](docs/ASSESSMENT_VERIFICATION.md) records browser results, preserved preview accounts and the additional runtime-reset approval boundary. Before/after captures are in [screenshots/assessment](screenshots/assessment/). [Earlier verification](docs/VERIFICATION.md) and [redesign QA](docs/UI_QA.md) remain historical evidence for earlier increments. The container registry push and target Kubernetes rollout remain pending environment details.
-
-## Original assessment boundaries (historical)
-
-The following describes the original assessment increment, before V2 native scoring and the current analytics presentation. Current capabilities and limits are in the [analytics handoff](docs/ANALYTICS_SUSPECTING_IMPLEMENTATION.md).
-
-Six cases within the 10,000-member roster have a prepared workflow; population-only records cannot be assigned or reviewed as complete cases. The configured story is MA Part C, service year 2026/payment year 2027. Other programs are unconfigured.
-
-Casey's comparison delivers the assessment's **nonnumeric fallback**: retained demographics and documented diabetes/CKD input sets, with the explanation of what a configured full-member model would need. It does not infer diabetes type, kidney stage, particular hierarchy effects, coefficients or revenue. Official numeric scoring and model/year switching remain deferred because independently checked reference outputs are unavailable.
-
-Intake can preview local TXT/PDF files and validate prepared sources; it does not upload arbitrary files, perform OCR or run a general ingestion pipeline. Provider responses and receiver operations remain local. No live AI, outbound clinical messages, payer integration or payment reconciliation is configured. The frozen 200-chart AI comparison and its metric definitions remain separate from mutable workflow activity. Scenario dates are staged; saved actions retain their actual timestamps.
-
-A broader domain database model, live integrations, general document ingestion, live AI and enterprise auth are follow-on work. The original [product specification](CitusTech_Perform_Plus_Coding_Spec.md) is preserved unchanged.
+Requirements, planning notes, client specifications, review screenshots and scratch outputs are kept outside the tracked source. Runtime assets, fixture data, dependency manifests and source provenance remain included.

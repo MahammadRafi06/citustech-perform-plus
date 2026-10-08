@@ -25,5 +25,3 @@ Prototype-only selectors, such as the member profile layouts and history expansi
 | Focus | 3px #FFBF47 outline |
 
 Clinical values, analytics definitions, evidence provenance, authentication and review gates are unaffected by this styling migration. Source-derived Member 360 profiles retain their separate data boundary.
-
-Validation artifacts are kept in `.local/shared-html-style/`: before/after desktop screenshots, computed-style comparisons and the browser verification record. Actual screenshot dimensions are recorded in `verification.json`. These are local checks, not a public deployment.

@@ -1,6 +1,6 @@
 # Financial sensitivity methods
 
-Verified 12 September 2026. These are conditional financial scenarios, separate
+These are conditional financial scenarios, separate
 from saved model outputs, clinical decisions and imported actual payments.
 
 **MA.** The bounded method sums saved, matched monthly raw or adjusted scores,

@@ -24,3 +24,35 @@ acceptance.env
 /outputs/
 /screenshots/
 /mapd-plan-communications-user-guide-*.pdf
+
+# Keep only maintained developer guides and source provenance in docs.
+/docs/*
+!/docs/CUMULATIVE_ANALYTICS_TIMING.md
+!/docs/FINANCIAL_CORRECTIONS.md
+!/docs/KUBERNETES.md
+!/docs/POPULATION_AND_RAF_TRENDS.md
+!/docs/V2_LOCAL_RUN.md
+!/docs/member360.md
+!/docs/shared-design.md
+!/docs/suspect-discovery.md
+!/docs/references/
+/docs/references/*
+!/docs/references/README.md
+!/docs/references/prepared-codes.json
+!/docs/references/v2-ai-replay-provenance.md
+!/docs/references/v2-financial-methods.md
+
+# Local product briefs, planning inputs and duplicate design references
+/CT Logo with text.png
+/CT Logo.jpeg
+/CitiusTech_Perform_Plus_Analytics_and_Suspecting_Full_Requirements.md
+/CitusTech_Perform_Plus_Agent_Model_Configuration_Requirements.md
+/CitusTech_Perform_Plus_Business_Requirements_v2.md
+/CitusTech_Perform_Plus_Coding_Spec.md
+/EDS.md
+/IMPLEMENTATION_PLAN.md
+/Perform_Plus_Demo_Assessment.md
+/TODO.md
+/apps/web/public/branding/northstar-meridian-mark.md
+/deploy/DEPLOYMENT_TODO.md
+/CT CSS/

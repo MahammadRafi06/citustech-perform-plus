@@ -1,6 +1,6 @@
 # Prepared example references
 
-Checked 12 September 2026. These references establish the limited basis of the authored examples; they do not certify real diagnosis eligibility, receiver acceptance or scoring.
+These references establish the limited basis of the authored examples; they do not certify real diagnosis eligibility, receiver acceptance or scoring.
 
 ## Code descriptions
 
@@ -11,10 +11,10 @@ Checked 12 September 2026. These references establish the limited basis of the a
 
 The reference describes codes only. No HCC mapping, general coding engine, official source-eligibility engine or financial calculation is implied.
 
-## Scoring decision
+## Prepared source limits
 
 The [CMS 2027 final announcement fact sheet](https://www.cms.gov/newsroom/fact-sheets/2027-medicare-advantage-part-d-rate-announcement) confirms continuation of the 2024 MA model. The [official 2027 model/software index](https://www.cms.gov/medicare/payment/medicare-advantage-rates-statistics/risk-adjustment/2027-model-software-icd-10-mappings) was also inspected. Availability of official software does not establish an independently checked output for this application's Casey fixture.
 
-Casey's DOC-0008 gives broad diabetes and kidney-disease context and explicitly states that reviewed mappings and model outputs are unavailable. It does not provide the complete coding detail or an independently verified full-member reference output. This increment therefore uses the assessment's permitted **nonnumeric hierarchy illustration**: inspect baseline versus combined input sets, explain the full-member evaluation steps, and retain blank numeric totals/delta. Any segment assumption is identified as illustrative. No particular hierarchy suppression, interaction factor or revenue amount is asserted for these unspecified conditions.
+Casey's DOC-0008 gives broad diabetes and kidney-disease context and explicitly states that reviewed mappings and model outputs are unavailable. It does not provide the complete coding detail or an independently verified full-member reference output. The prepared **nonnumeric hierarchy illustration** compares baseline and combined input sets without deriving numeric totals or delta from those broad source statements. Any segment assumption is identified as illustrative. No particular hierarchy suppression, interaction factor or revenue amount is established by these unspecified conditions.
 
-Official numeric scoring and a model/year-switch calculation remain deferred. Adding numeric results later requires complete reviewed inputs, the applicable official configuration, retained expected output and an independent reproduction check.
+The source-description reference is separate from the application's [model runtime](../../apps/api/app/risk_models/README.md), which documents configured scoring and validation boundaries.

@@ -11,7 +11,7 @@ docker build -f apps/web/Dockerfile -t perform-plus-ui:0.1.0 .
 docker build -f apps/api/Dockerfile -t perform-plus-api:0.1.0 .
 ```
 
-Push these images to your registry, then set `newName` and the desired immutable image tag/digest under `images` in `deploy/k8s/kustomization.yaml`. For a local cluster, load both images using that cluster's image-loading command. Both images have been built and validated in a local three-container environment. They have not been pushed to a registry or rolled out in a target Kubernetes cluster.
+Push these images to your registry, then set `newName` and the desired immutable image tag/digest under `images` in `deploy/k8s/kustomization.yaml`. For a local cluster, load both images using that cluster's image-loading command. For the AWS deployment, use [the dedicated deployment guide](../deploy/aws-small/README.md).
 
 The UI Dockerfile packages Next's standalone server and static assets. The API image includes the protected synthetic seed. PostgreSQL 18 mounts its volume at `/var/lib/postgresql`; the PVC requests 10 GiB from the cluster's default StorageClass. Set a StorageClass explicitly if your cluster has no default.
 
@@ -69,12 +69,6 @@ docker compose --env-file .local/acceptance.env -p ct-acceptance -f deploy/compo
 python3 scripts/container_acceptance.py
 ```
 
-The acceptance script exercises the public UI proxy, health, real cookie login/CSRF, scoped records, saved analysis and logout. The runtime mount deliberately resembles a root-owned Kubernetes `emptyDir` writable through GID 10001. The API creates its private state directory at `/app/runtime/state`; database records live in PostgreSQL. Restart persistence was checked independently for API and database.
+The acceptance script exercises the public UI proxy, health, real cookie login/CSRF, scoped records, saved analysis and logout. The runtime mount deliberately resembles a root-owned Kubernetes `emptyDir` writable through GID 10001. The API creates its private state directory at `/app/runtime/state`; database records live in PostgreSQL.
 
-The current workstation acceptance project is `ct-acceptance-20260912142859`; reuse that exact project name to inspect or stop only that stack. Its database volume is intentionally preserved. Local development on port 3000 uses a separate database and account file.
-
-## Validation status
-
-Kustomize rendering and isolated Docker Compose validation pass. A disposable local k3d attempt failed while creating an fsnotify watcher (`too many open files`); raising the container file-descriptor limit did not resolve the host watcher exhaustion. Both failed attempts were rolled back. Existing Kubernetes configuration and host sysctls were preserved.
-
-The actual registry, Kubernetes context/namespace, ingress host, TLS secret and StorageClass still need to be chosen. Target-cluster rollout, ingress/TLS and PVC checks remain pending; local container success is not Kubernetes deployment proof.
+Use the chosen Compose project name for subsequent inspection or shutdown, and preserve its database volume when retaining state. Local container checks do not verify target-cluster rollout, ingress/TLS or PVC behavior; check those in the selected environment.

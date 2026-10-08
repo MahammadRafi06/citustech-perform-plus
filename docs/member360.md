@@ -23,6 +23,4 @@ The app shell replaces the prototype's duplicate header, navigation and entry-po
 
 Run `npm run typecheck --prefix apps/web` and `.venv/bin/python -m pytest apps/api/tests/test_member360.py apps/api/tests/test_member360_analytics.py apps/api/tests/test_analytics_api.py -q`. Tests cover all 35 panes, source integrity, inert markup, history targets, API authentication and member permission, provider payload isolation, read-only behavior, clinical/financial disclosures, linked ordering and scenario boundaries.
 
-The September 16 visual and data audit is in `screenshots/app-audit-2026-09-16/`, with a screenshot gallery and a findings report.
-
-Browser evidence and screenshots are saved under `.local/member360/` and `.local/shared-html-style/` during local validation. Public releases follow [the deployment instructions](../deploy/README.md); source, image digests, rollout status and public browser evidence are recorded under the corresponding ignored `.local/aws-deploy/release-*` folder.
+Public releases follow [the deployment instructions](../deploy/README.md).

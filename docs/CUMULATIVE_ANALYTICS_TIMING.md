@@ -30,4 +30,4 @@ All scenarios keep the same eligible positive selection (one candidate per membe
 
 Possible overcoding is an independent exposure, never an automatically confirmed deduction. Noneligible, stale and unpriced findings are excluded from valuation with reasons. Members with both an addition and correction, or multiple corrections, require joint member-level recalculation before their correction exposure is priced. Positive revenue remains a single-addition estimate; it is not labeled net revenue. The separate potential exposure uses the same eligible months and covered-member share.
 
-See `FINANCIAL_BUSINESS_REVIEW.md` for the historical issues and `FINANCIAL_CORRECTIONS.md` for the implemented definitions and verification.
+See [financial calculation definitions](FINANCIAL_CORRECTIONS.md) for the formulas and forecast controls.
