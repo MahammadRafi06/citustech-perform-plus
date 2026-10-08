@@ -2,6 +2,7 @@ node_modules/
 apps/web/dist/
 .venv/
 .local/
+/.aws
 __pycache__/
 .pytest_cache/
 *.pyc
@@ -16,3 +17,10 @@ acceptance.env
 *.tfstate
 *.tfstate.*
 *.tfplan
+
+# Local requirements, generated documents, and review artifacts
+/docs/specifications/
+/downloads/
+/outputs/
+/screenshots/
+/mapd-plan-communications-user-guide-*.pdf

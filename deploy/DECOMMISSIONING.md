@@ -1,42 +1,57 @@
-# Perform+ AWS decommissioning — September 15, 2026
+# Perform+ AWS Decommissioning — September 26, 2026
 
-Requested scope: take Perform+ offline, delete its load balancer, and stop ongoing app-specific AWS resource charges. Account `703671901662`, region `us-west-2`; preserve the shared EKS cluster and other applications.
+This is the historical record for the retired shared-cluster deployment. Perform+ was subsequently restored on its dedicated cluster; use [the current deployment guide](aws-small/README.md) for operations.
 
-## Removed and verified
+Requested scope: remove Perform+ infrastructure while preserving the shared EKS cluster and unrelated applications. Account `703671901662`, region `us-west-2`.
 
-| Component | Exact resource |
+## Status at Completion on September 26
+
+Completed and verified. Terraform destroyed all 27 managed app resources. The final private network interfaces and release security group were removed after AWS released their attachments (21 minutes 19 seconds). Direct AWS inventories show no dedicated Perform+ resources remaining. Terraform state is empty and the final plan reports no changes.
+
+## Removed and Verified
+
+| Component | Resource |
 |---|---|
-| Application namespace and ingress/controller | `perform-plus`, Helm release `perform-plus-ingress` |
-| Public ALB | `k8s-performp-performp-7284016460` / `5b718554a72c27cc` |
-| ALB target group and security groups | `k8s-performp-ui-4cacb0f504`; `sg-07242d2e23f6292ce`, `sg-0b0047f84edba8952` |
-| Dedicated node group / instance | `perform-plus` / `i-0447364cd0e93b416` |
-| Node root disk | `vol-08a42a9ef41847b01` |
-| Database disk and retained PV | `vol-057073dbb557e3193` / `pvc-997b9ce5-a7db-48d0-8d7e-3f0f25412a48` |
-| Container images and repositories | `perform-plus/api`, `perform-plus/ui`; six image digests removed from each |
+| App workload and ingress controller | Namespace `perform-plus`; Helm release `perform-plus-ingress` |
+| Public load balancer and target group | `k8s-performp-performp-7284016460` / `07a95dbe1fa68b97`; `k8s-performp-ui-994b9b3f5f` |
+| Dedicated worker | Node group `perform-plus`; instance `i-06596a82078531b55` terminated |
+| App disks | Database `vol-010502127d369da80`; worker root `vol-0434be0218d2a5586` |
+| Database PV | `pvc-24308620-7581-47a5-9aa1-333c50f3bb80` |
+| App-only storage node plugin | `kube-system/ebs-csi-node-perform-plus` |
+| Container repositories and images | `perform-plus/api`, `perform-plus/ui` |
+| Release networking | Security group `sg-0212d9e636fcd23d3` and all four private Lambda interfaces |
 | Release function and logs | `perform-plus-release`, `/aws/lambda/perform-plus-release` |
-| Release network interfaces and security group | All four private Lambda interfaces; `sg-01a24e732d9b038bc` |
-| App DNS / certificate | `performplus.idaibhealth.com` alias and its ACM validation record; certificate `9afacb4f-6463-43f5-b95e-38024f8306cd` |
-| App release access | GitHub OIDC role, EKS release access entry, node and ingress roles/policies, launch template and release-specific cluster security-group rules |
+| Public hosts and TLS certificates | `performplus.idaibhealth.com`, `performplus.citiustech.online`; their aliases, validation records, and dedicated certificates |
+| Release access and worker configuration | GitHub, release, node and ingress roles/policies; release EKS access entry; launch template; release-specific cluster security rules |
 
-No app disk snapshots or reserved public IP remain. The database archive is local only, 7,606,044 bytes, SHA-256 `70f7fb81ed60b0af6f09ccd1176227b304cd3874e13f3ce02010655bfebdaa51`.
+No app EBS snapshots or reserved public IPs remain.
 
-## Shared resources preserved
+## Shared Infrastructure Preserved
 
-- EKS `meshalloc-control-plane`, VPC/subnets/network, Route 53 hosted zone `Z03332101O8QU3MC8I65G`, existing `system` and `iftah-e2e-central` node groups.
-- All three pre-existing non-Perform+ PVs retained their exact original volume handles. All 26 non-system/non-Perform+ pods retained their original UIDs and readiness count.
-- `aws-ebs-csi-driver`, role `perform-plus-ebs-csi` and its existing `AmazonEBSCSIDriverPolicy` attachment. The driver was already being used by other apps, so removing it would have broken shared storage.
-- The controller and managed node plugin moved to existing `system` capacity. Its existing service-account role binding was explicitly restored and persisted in EKS addon configuration; no extra IAM policy or node was added. The driver is ACTIVE, controller 6/6, node plugin 3/3, and the separate staging plugin remains 3/3.
+- EKS `meshalloc-control-plane`, shared VPC/subnets, hosted zones, existing shared worker, and unrelated applications.
+- The shared EBS CSI addon and `perform-plus-ebs-csi` IAM role are intentionally retained because other workloads use them.
+- All three non-app persistent-volume handles remain unchanged. The 19 unrelated application/job pods preserved their original UIDs. Seven unrelated pods were already Pending before teardown; this work did not resolve those pre-existing scheduling conditions.
 
-The reviewed Terraform plan completed **23 deletions and 3 forget-without-destroy operations**, with no creations or updates. A subsequent Terraform plan returned **No changes** (exit 0). The three shared storage resources use [Terraform's documented `removed` / `destroy=false` behavior](https://developer.hashicorp.com/terraform/language/block/removed). The active root contains no resource-creation blocks.
+Five cert-manager/Kyverno service pods had been placed on the Perform+ worker. The user explicitly approved adding one smaller shared worker, migrating those services, and removing the Perform+ worker. The `system` node group was scaled from desired/max 1 to 2; minimum remains 1. The replacement is `t3.medium` instance `i-0bc35fd52360d29a3`. All five services rolled out successfully and were healthy on the new shared worker before the old one was deleted. Both remaining shared workers were Ready.
 
-## Final AWS network cleanup
+The system node group is managed outside this repository's Terraform root. Its approved capacity change is recorded in the private teardown receipt; future changes to its owning infrastructure should preserve the needed shared-service capacity.
 
-AWS released all four private Lambda interfaces, and Terraform deleted the release security group (`sg-01a24e732d9b038bc`) after waiting 22 minutes 10 seconds for its dependencies. The saved apply completed successfully: **0 added, 0 changed, 23 destroyed**. Final provider queries return no remaining app Lambda interfaces or security groups.
+## Backup and Redeployment Prevention
 
-[AWS documents delayed Lambda interface cleanup](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#configuration-vpc-enis). Final provider results are recorded in `.local/aws-deploy/teardown-20260915/verification.json`. No app network cleanup remains pending.
+A private local database archive, Kubernetes configuration/secrets, pre-removal Terraform state, original provisioning files, and provider inventories are stored under `.local/aws-deploy/teardown-20260926/`. Do not commit or include those private files in the screenshot handoff.
 
-## Verification boundaries
+The database dump is 28,706,179 bytes, with SHA-256 `dbfcdb07d7627fb68b8ef52f3bdd04b85d621dd905dcf23b42a149010749ffa9`. `pg_restore --list` validated its archive structure. This is not a full restore rehearsal.
 
-Provider inventories verify removal of all identified dedicated compute, load-balancer, EBS, ECR, log and DNS resources. The app is no longer generating workload traffic or releases. This does not erase previously accrued AWS usage, and the preserved shared cluster/network continue to incur their own charges. AWS billing can report earlier usage after resource deletion; see [AWS billing guidance](https://repost.aws/knowledge-center/ec2-billing-terminated).
+At teardown completion, the GitHub release workflow was disabled, `PERFORM_PLUS_DEPLOY_ENABLED=false`, `deploy/DECOMMISSIONED` was present, and the legacy Terraform root contained no resources to provision. Restoration templates are preserved in `deploy/aws/restore-templates/`, with exact original files in the private teardown directory. The marker still protects the legacy bootstrap path; the separate `aws-small/` root owns the restored environment.
 
-Deployment prevention is enforced by the disabled GitHub workflow, false deployment variable, publishing/deployment job guards, the bootstrap decommission marker, and the empty Terraform provisioning configuration. Source/data needed for a future explicitly approved re-provisioning are preserved locally and in Git history.
+The temporary workstation API CIDR was removed. The original EKS allowlist is restored to `142.112.212.125/32` and the AWS update completed successfully.
+
+## Billing Boundary
+
+Identified app compute, load-balancing, storage, images, and log resources have been removed. Previously accrued charges can still appear on the bill. The shared cluster, its two workers, shared networking/storage, domains, and hosted zones remain and continue to incur their own charges.
+
+## Verification Evidence
+
+Private receipts include `database-backup.json`, `reviewed-plan.json`, `terraform-plan-final.json`, `terraform-apply.txt`, `kubernetes-verification.json`, `aws-verification.json`, and `access-restore-status.json`.
+
+The reviewed Terraform apply completed with 27 deletions, 0 creations and 0 updates. Post-removal Terraform plan exit code is 0, and the state contains no resources. `completion.json` records the final assertions. Both public hosts no longer resolve. AWS documents the network-interface cleanup delay here: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html

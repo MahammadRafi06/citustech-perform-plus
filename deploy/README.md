@@ -1,3 +1,11 @@
+# Current Perform+ hosting
+
+Restored October 4, 2026 on the dedicated **`perform-plus-small`** EKS cluster in `us-west-2`. Both https://performplus.idaibhealth.com and https://performplus.citiustech.online serve the restored application and database. See [the active standalone deployment guide](aws-small/README.md) for provisioning, release, private state and verification details.
+
+The old shared cluster no longer exists. The `aws/` root and its automatic deployment path remain suspended; use `aws-small/` for the current environment. The older instructions below are retained as historical reference only.
+
+---
+
 # Perform+ hosting
 
 Addresses: https://performplus.idaibhealth.com and https://performplus.citiustech.online share the existing `meshalloc-control-plane` EKS deployment in AWS account `703671901662`, region `us-west-2`. Both use the same app, accounts and database; each hostname has its own sign-in cookie.
